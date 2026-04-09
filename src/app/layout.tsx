@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import TermsGate from "@/components/TermsGate";
 import SnapseWidget from "@/components/SnapseWidget";
 import ThemeProvider from "@/components/ThemeProvider";
@@ -35,13 +36,16 @@ export default function RootLayout({
       </head>
       <body>
         <AlertToastProvider>
-          <ThemeProvider />
-          <Navbar />
-          <TermsGate />
-          <div className="container">
-            {children}
+          <div className="app-root">
+            <ThemeProvider />
+            <Navbar />
+            <TermsGate />
+            <div className="app-main">
+              <div className="container app-main-inner">{children}</div>
+              <Footer />
+            </div>
+            <SnapseWidget />
           </div>
-          <SnapseWidget />
         </AlertToastProvider>
       </body>
     </html>

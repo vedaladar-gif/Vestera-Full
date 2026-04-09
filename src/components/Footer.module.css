@@ -1,0 +1,43 @@
+.footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid var(--vt-border2);
+    background: var(--vt-bg);
+}
+
+.inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 24px 28px;
+    text-align: center;
+}
+
+.text {
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    color: var(--vt-text2);
+    font-family: Inter, system-ui, sans-serif;
+}
+
+.link {
+    color: var(--vt-vblue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.15s;
+}
+
+.link:hover {
+    opacity: 0.85;
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .inner {
+        padding: 16px 12px 24px;
+    }
+
+    .text {
+        font-size: 0.75rem;
+    }
+}

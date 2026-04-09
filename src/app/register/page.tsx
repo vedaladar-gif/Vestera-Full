@@ -81,8 +81,8 @@ export default function RegisterPage() {
             const data = await res.json();
             if (data.success) {
                 const q = new URLSearchParams({ registered: '1' });
-                if (data.emailConfirmationRequired) q.set('verify', '1');
-                router.replace(`/login?${q.toString()}`);
+                if (data.emailConfirmationRequired) q.set('pending', '1');
+                router.replace(`/check-email?${q.toString()}`);
                 return;
             }
             setError(data.error || 'Registration failed');

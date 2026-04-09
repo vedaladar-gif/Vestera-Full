@@ -77,6 +77,25 @@ body {
   transition: background 0.25s, color 0.25s;
 }
 
+/* Full-height shell: pushes global footer to bottom on short pages */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.app-main-inner {
+  flex: 1;
+  width: 100%;
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(79, 110, 247, 0.25); border-radius: 3px; }

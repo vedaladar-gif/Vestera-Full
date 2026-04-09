@@ -1,0 +1,110 @@
+.wrap {
+    min-height: 100vh;
+    background: var(--vt-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Inter, system-ui, sans-serif;
+    margin: -48px -24px 0;
+    padding: 24px;
+}
+
+.card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 20px;
+    padding: 40px 36px 36px;
+}
+
+.brand {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #4f6ef7, #9b5de5);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin: 0 0 12px;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+.body {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--vt-text2);
+    margin: 0 0 14px;
+    text-align: center;
+}
+
+.hint {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--vt-text3);
+    margin: 0 0 28px;
+    text-align: center;
+}
+
+.loginBox {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #4f6ef7 0%, #5b7cff 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 14px rgba(79, 110, 247, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s;
+}
+
+.loginBox:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79, 110, 247, 0.45);
+}
+
+.secondary {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--vt-text2);
+}
+
+.secondary a {
+    color: var(--vt-vblue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.secondary a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 32px 24px 28px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+}
