@@ -1,0 +1,94 @@
+.page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+}
+
+@media (min-width: 640px) {
+    .page {
+        padding: 40px 24px 96px;
+    }
+}
+
+.header {
+    text-align: center;
+    max-width: 36rem;
+    margin: 0 auto 40px;
+}
+
+@media (min-width: 768px) {
+    .header {
+        margin-bottom: 48px;
+    }
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--vt-text3);
+    margin-bottom: 14px;
+}
+
+.eyebrowDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4f6ef7;
+    box-shadow: 0 0 10px rgba(79, 110, 247, 0.5);
+}
+
+.title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.75rem, 4.5vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--vt-text);
+    line-height: 1.15;
+    margin: 0 0 12px;
+}
+
+.subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--vt-text2);
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr;
+    position: relative;
+    z-index: 4;
+}
+
+@media (min-width: 640px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Center the third card when 2-column (tablet) */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .grid > :last-child:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+}

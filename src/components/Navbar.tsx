@@ -77,6 +77,7 @@ export default function Navbar() {
                         <Link href="/trade">Trade</Link>
                         <Link href="/stats">Stats</Link>
                         <Link href="/learn">Learn</Link>
+                        <Link href="/founders">Founders</Link>
                         <Link href="/settings" style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 10px 5px 6px', borderRadius: 10 }}>
                             <div style={avatarStyle} title={`@${username}`}>{initials}</div>
                             <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--vt-text2)' }}>Settings</span>
@@ -97,6 +98,7 @@ export default function Navbar() {
                         <Link href="/restricted">Trade</Link>
                         <Link href="/restricted">Stats</Link>
                         <Link href="/learn">Learn</Link>
+                        <Link href="/founders">Founders</Link>
                         <Link href="/login">Login</Link>
                         <Link href="/register">Register</Link>
                     </>

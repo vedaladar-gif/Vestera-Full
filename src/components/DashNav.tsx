@@ -104,6 +104,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                     { href: previewMode ? '/restricted' : '/trade', label: 'Trade', activePath: '/trade' },
                     { href: previewMode ? '/restricted' : '/stats', label: 'Stats', activePath: '/stats' },
                     { href: '/learn', label: 'Learn', activePath: '/learn' },
+                    { href: '/founders', label: 'Founders', activePath: '/founders' },
                 ].map(({ href, label, activePath }) => (
                     <Link
                         key={label}

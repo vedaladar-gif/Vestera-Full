@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.99.1",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.6.2",
+    "framer-motion": "^11.18.2",
     "groq-sdk": "^1.1.1",
     "iron-session": "^8.0.4",
     "lightweight-charts": "^5.1.0",
