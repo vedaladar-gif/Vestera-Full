@@ -1,0 +1,98 @@
+.root {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    background: var(--vt-bg);
+    font-family: Inter, -apple-system, sans-serif;
+}
+
+.card {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 24px 80px var(--vt-shadow);
+}
+
+.iconWrap {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(79, 110, 247, 0.2), rgba(155, 93, 229, 0.12));
+    border: 1px solid var(--vt-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin: 0 0 10px;
+    letter-spacing: -0.4px;
+}
+
+.message {
+    font-size: 14px;
+    color: var(--vt-text2);
+    line-height: 1.6;
+    margin: 0 0 28px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.btnPrimary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    background: #4f6ef7;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.btnPrimary:hover {
+    background: #3d5ce8;
+}
+
+.btnGhost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    background: transparent;
+    color: var(--vt-text2);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--vt-border);
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btnGhost:hover {
+    background: var(--vt-hover);
+    color: var(--vt-text);
+}

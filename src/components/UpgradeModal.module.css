@@ -1,0 +1,103 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.dialog {
+    width: 100%;
+    max-width: 420px;
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 18px;
+    padding: 28px 26px 22px;
+    box-shadow: 0 24px 80px var(--vt-shadow);
+    font-family: Inter, -apple-system, sans-serif;
+    animation: pop 0.22s ease;
+}
+
+@keyframes pop {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin: 0 0 10px;
+    letter-spacing: -0.3px;
+}
+
+.message {
+    font-size: 14px;
+    color: var(--vt-text2);
+    line-height: 1.55;
+    margin: 0 0 22px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btnPrimary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    background: #4f6ef7;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btnPrimary:hover {
+    background: #3d5ce8;
+}
+
+.btnClose {
+    padding: 10px;
+    background: none;
+    border: none;
+    color: var(--vt-text2);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    border-radius: 8px;
+}
+
+.btnClose:hover {
+    color: var(--vt-text);
+    background: var(--vt-hover);
+}

@@ -7,6 +7,7 @@ import styles from './page.module.css';
 import VLogo from '@/components/VLogo';
 import NonProfitSection from '@/components/NonProfitSection';
 import { useMarketStatus } from '@/hooks/useMarketStatus';
+import { enterGuestMode } from '@/lib/guestMode';
 
 /* ── display helpers ─────────────────────────────────────── */
 interface NvdaData {
@@ -219,9 +220,19 @@ export default function Home() {
             Practice with real market data, AI-powered insights, and a $100K virtual portfolio. Learn the markets before you risk real money.
           </p>
           <div className={styles.heroBtns}>
-            <Link href="/trade" className={styles.btnPrimary}>Launch Dashboard</Link>
+            <Link href={authenticated ? '/trade' : '/restricted'} className={styles.btnPrimary}>Launch Dashboard</Link>
             <Link href="/learn" className={styles.btnGhost}>Browse Lessons →</Link>
           </div>
+          <button
+            type="button"
+            className={styles.heroGuestLink}
+            onClick={() => {
+              enterGuestMode();
+              router.push('/learn');
+            }}
+          >
+            Continue without account →
+          </button>
           <div className={styles.heroStats}>
             <div className={styles.heroStat}>
               <strong>77+</strong>
@@ -310,7 +321,7 @@ export default function Home() {
             </div>
             <button
               className={styles.mockBuyBtn}
-              onClick={() => router.push('/trade?ticker=NVDA')}
+              onClick={() => router.push(authenticated ? '/trade?ticker=NVDA' : '/restricted')}
             >
               Buy NVDA — Paper Trade
             </button>
@@ -378,6 +389,17 @@ export default function Home() {
               <Link href="/register" className={styles.btnPrimary}>Create Free Account</Link>
               <Link href="/login"    className={styles.btnGhost}>Sign In →</Link>
             </div>
+            <button
+              type="button"
+              className={styles.heroGuestLink}
+              style={{ marginTop: 16, marginBottom: 0 }}
+              onClick={() => {
+                enterGuestMode();
+                router.push('/learn');
+              }}
+            >
+              Continue without account →
+            </button>
           </div>
         </section>
       )}

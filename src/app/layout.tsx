@@ -6,6 +6,7 @@ import TermsGate from "@/components/TermsGate";
 import SnapseWidget from "@/components/SnapseWidget";
 import ThemeProvider from "@/components/ThemeProvider";
 import { AlertToastProvider } from "@/components/AlertToastProvider";
+import GuestModeSync from "@/components/GuestModeSync";
 
 export const metadata: Metadata = {
   title: "Vestera - Professional Paper Trading",
@@ -38,6 +39,7 @@ export default function RootLayout({
         <AlertToastProvider>
           <div className="app-root">
             <ThemeProvider />
+            <GuestModeSync />
             <Navbar />
             <TermsGate />
             <div className="app-main">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { clearGuestMode } from '@/lib/guestMode';
 
 export default function LoginPage() {
     const [username, setUsername] = useState('');
@@ -44,6 +45,7 @@ export default function LoginPage() {
                 return;
             }
             if (data.success === true) {
+                clearGuestMode();
                 // Full navigation so the iron-session cookie is always attached before
                 // middleware + RSC run (avoids client-transition race / “log in twice”).
                 const target = data.needsUsername ? '/setup-username' : '/trade';

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from './stats.module.css';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 import PortfolioChart, { type HistoryPoint } from '@/components/PortfolioChart';
+import GuestGuard from '@/components/GuestGuard';
 
 type Tab = 'portfolio' | 'leaderboard';
 
@@ -45,7 +46,7 @@ const RANK_META: Record<number, { label: string; color: string; glow: string; bo
     3: { label: '3rd Place', color: '#cd7c2f', glow: 'rgba(180,83,9,0.15)', borderColor: 'rgba(180,83,9,0.4)', icon: '🥉' },
 };
 
-export default function StatsPage() {
+function StatsPage() {
     const [tab, setTab] = useState<Tab>('portfolio');
     const [cash, setCash] = useState(0);
     const [portfolioValue, setPortfolioValue] = useState(0);
@@ -66,15 +67,15 @@ export default function StatsPage() {
                 const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
                 if (cancelled) return;
                 if (!res.ok) {
-                    router.replace('/login');
+                    router.replace('/restricted');
                     return;
                 }
                 const data = await res.json();
                 if (cancelled) return;
                 if (data.authenticated === true) setAuthChecked(true);
-                else router.replace('/login');
+                else router.replace('/restricted');
             } catch {
-                if (!cancelled) router.replace('/login');
+                if (!cancelled) router.replace('/restricted');
             }
         })();
         return () => { cancelled = true; };
@@ -674,5 +675,13 @@ export default function StatsPage() {
 
             </div>
         </div>
+    );
+}
+
+export default function StatsRoute() {
+    return (
+        <GuestGuard>
+            <StatsPage />
+        </GuestGuard>
     );
 }

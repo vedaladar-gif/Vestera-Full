@@ -43,6 +43,11 @@ export default function Navbar() {
     const handleLogout = async () => {
         await fetch('/api/auth/logout', { method: 'POST' });
         setAuthenticated(false);
+        try {
+            localStorage.removeItem('vestera_learn_progress');
+        } catch {
+            /* ignore */
+        }
         router.push('/');
     };
 
@@ -89,6 +94,9 @@ export default function Navbar() {
                     </>
                 ) : (
                     <>
+                        <Link href="/restricted">Trade</Link>
+                        <Link href="/restricted">Stats</Link>
+                        <Link href="/learn">Learn</Link>
                         <Link href="/login">Login</Link>
                         <Link href="/register">Register</Link>
                     </>

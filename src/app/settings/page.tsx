@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
 import { AVATAR_COLOR_KEYS, getAvatarGradient, getInitials, USERNAME_REGEX } from '@/lib/avatarColors';
 import { applyTheme } from '@/components/ThemeProvider';
+import GuestGuard from '@/components/GuestGuard';
 
 type Tab = 'profile' | 'appearance' | 'account';
 
@@ -32,7 +33,7 @@ function Spinner() {
     return <span className={styles.spinner} />;
 }
 
-export default function SettingsPage() {
+function SettingsPage() {
     const [authChecked, setAuthChecked] = useState(false);
     const [tab, setTab] = useState<Tab>('profile');
     const [profile, setProfile] = useState<Profile>({ username: '', displayName: null, avatarColor: 'blue', theme: 'dark' });
@@ -74,13 +75,13 @@ export default function SettingsPage() {
                 const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
                 if (cancelled) return;
                 if (!res.ok) {
-                    router.replace('/login');
+                    router.replace('/restricted');
                     return;
                 }
                 const data = await res.json();
                 if (cancelled) return;
                 if (data.authenticated !== true) {
-                    router.replace('/login');
+                    router.replace('/restricted');
                     return;
                 }
                 setUserId(data.userId);
@@ -96,7 +97,7 @@ export default function SettingsPage() {
                 setEditAvatarColor(p.avatarColor);
                 setAuthChecked(true);
             } catch {
-                if (!cancelled) router.replace('/login');
+                if (!cancelled) router.replace('/restricted');
             }
         })();
         return () => { cancelled = true; };
@@ -396,5 +397,13 @@ export default function SettingsPage() {
             {/* Toast */}
             <div className={`${styles.toast} ${toastVisible ? styles.show : ''}`}>{toastMsg}</div>
         </div>
+    );
+}
+
+export default function SettingsRoute() {
+    return (
+        <GuestGuard>
+            <SettingsPage />
+        </GuestGuard>
     );
 }

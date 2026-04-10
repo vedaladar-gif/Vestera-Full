@@ -7,6 +7,7 @@ import { buildChartOptions, getChartColors, isThemeDark } from '@/lib/chartTheme
 import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { isMarketOpen, MARKET_CLOSED_TRADE_MESSAGE } from '@/lib/marketStatus';
 import DashNav from '@/components/DashNav';
+import GuestGuard from '@/components/GuestGuard';
 import { useStockQuote } from '@/hooks/useStockQuote';
 import {
     type TradeChartTimeframe,
@@ -79,7 +80,7 @@ const WATCHLIST_BASE: WatchItem[] = [
 
 // ── Component ──────────────────────────────────────────────────────────────
 
-export default function TradingDashboard() {
+function TradingDashboard() {
     const [ticker, setTicker] = useState('AAPL');
     const [quantity, setQuantity] = useState(1);
     const [cash, setCash] = useState(0);
@@ -148,15 +149,15 @@ export default function TradingDashboard() {
                 const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
                 if (cancelled) return;
                 if (!res.ok) {
-                    router.replace('/login');
+                    router.replace('/restricted');
                     return;
                 }
                 const data = await res.json();
                 if (cancelled) return;
                 if (data.authenticated === true) setAuthChecked(true);
-                else router.replace('/login');
+                else router.replace('/restricted');
             } catch {
-                if (!cancelled) router.replace('/login');
+                if (!cancelled) router.replace('/restricted');
             }
         })();
         return () => { cancelled = true; };
@@ -1080,5 +1081,13 @@ export default function TradingDashboard() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function TradePage() {
+    return (
+        <GuestGuard>
+            <TradingDashboard />
+        </GuestGuard>
     );
 }

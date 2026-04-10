@@ -1,10 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LEVELS, type LessonUnit, type Level } from '@/lib/learningContent';
 import styles from './learn.module.css';
 import DashNav from '@/components/DashNav';
+import UpgradeModal from '@/components/UpgradeModal';
+import { useAuthState } from '@/hooks/useAuthState';
+import { useGuestMode } from '@/hooks/useGuestMode';
+import { useLearnProgress } from '@/hooks/useLearnProgress';
 import {
     LessonHeader,
     LessonTabs,
@@ -13,10 +17,6 @@ import {
     LessonContentWrapper,
     type LessonViewTab,
 } from './LessonViewTabs';
-
-interface Progress {
-    [key: string]: { completed: boolean; quizScore?: number; quizPassed?: boolean };
-}
 
 // Total lesson count across all levels
 const TOTAL_LESSONS = LEVELS.reduce((s, l) => s + l.units.length, 0);
@@ -46,19 +46,20 @@ export default function LearningDashboard() {
     const [showQuiz, setShowQuiz] = useState(false);
     const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
     const [quizResult, setQuizResult] = useState<{ score: number; total: number; passed: boolean } | null>(null);
-    const [progress, setProgress] = useState<Progress>({});
     const [lessonTab, setLessonTab] = useState<LessonViewTab>('concepts');
+    const [upgradeOpen, setUpgradeOpen] = useState(false);
     const router = useRouter();
+    const { authenticated, userId, loading: authLoading } = useAuthState();
+    const { isGuest, clearGuestMode } = useGuestMode();
+    const { progressForUi: progress, updateProgress } = useLearnProgress(authenticated, authLoading, userId);
+
+    const learnPreviewOnly = authLoading || !authenticated;
 
     useEffect(() => {
-        const saved = localStorage.getItem('vestera_learn_progress');
-        if (saved) setProgress(JSON.parse(saved));
-    }, []);
-
-    const saveProgress = useCallback((p: Progress) => {
-        setProgress(p);
-        localStorage.setItem('vestera_learn_progress', JSON.stringify(p));
-    }, []);
+        if (learnPreviewOnly && lessonTab === 'video') {
+            setLessonTab('concepts');
+        }
+    }, [learnPreviewOnly, lessonTab]);
 
     const level = LEVELS.find(l => l.id === activeLevel)!;
 
@@ -75,11 +76,30 @@ export default function LearningDashboard() {
         setQuizResult(null);
         setQuizAnswers({});
         const key = `${levelId}-${unit.id}`;
-        const newProgress = { ...progress, [key]: { ...progress[key], completed: true } };
-        saveProgress(newProgress);
+        // Logged-in only: guests never persist completion (updateProgress is a no-op when logged out)
+        updateProgress(prev => ({
+            ...prev,
+            [key]: { ...prev[key], completed: true },
+        }));
     };
 
-    const startQuiz = () => { setShowQuiz(true); setQuizResult(null); setQuizAnswers({}); };
+    const startQuiz = () => {
+        if (learnPreviewOnly) {
+            setUpgradeOpen(true);
+            return;
+        }
+        setShowQuiz(true);
+        setQuizResult(null);
+        setQuizAnswers({});
+    };
+
+    const handleLessonTabChange = (t: LessonViewTab) => {
+        if (learnPreviewOnly && t === 'video') {
+            setUpgradeOpen(true);
+            return;
+        }
+        setLessonTab(t);
+    };
 
     const submitQuiz = () => {
         if (!activeUnit) return;
@@ -90,7 +110,10 @@ export default function LearningDashboard() {
         setQuizResult({ score: correct, total, passed });
         if (passed) {
             const key = `${activeUnitLevel}-${activeUnit.id}`;
-            saveProgress({ ...progress, [key]: { ...progress[key], completed: true, quizScore: correct, quizPassed: true } });
+            updateProgress(prev => ({
+                ...prev,
+                [key]: { ...prev[key], completed: true, quizScore: correct, quizPassed: true },
+            }));
         }
     };
 
@@ -101,7 +124,19 @@ export default function LearningDashboard() {
 
     return (
         <div className={styles.learnWrap}>
-            <DashNav onLogout={() => router.push('/')} />
+            <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
+            <DashNav
+                onLogout={() => router.push('/')}
+                previewMode={!authenticated}
+                onExitPreview={
+                    isGuest
+                        ? () => {
+                              clearGuestMode();
+                              router.push('/');
+                          }
+                        : undefined
+                }
+            />
 
             <div className={styles.content}>
 
@@ -214,7 +249,7 @@ export default function LearningDashboard() {
                                 />
                                 <LessonTabs
                                     active={lessonTab}
-                                    onChange={setLessonTab}
+                                    onChange={handleLessonTabChange}
                                     accentColor={activeUnitLevelObj.color}
                                 />
                                 <LessonContentWrapper>

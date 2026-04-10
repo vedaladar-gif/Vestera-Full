@@ -248,9 +248,27 @@
 }
 .heroBtns {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
+  margin-bottom: 14px;
+}
+.heroGuestLink {
+  display: inline-block;
   margin-bottom: 56px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vt-text3);
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.heroGuestLink:hover {
+  color: var(--vt-vblue);
 }
 .btnPrimary {
   text-decoration: none;
