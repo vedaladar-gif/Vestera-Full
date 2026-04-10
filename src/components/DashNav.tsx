@@ -81,21 +81,26 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
             flexShrink: 0,
         }}>
             {/* Brand */}
-            <Link href="/" style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 17,
-                fontWeight: 800,
-                color: 'var(--vt-text)',
-                textDecoration: 'none',
-                letterSpacing: '-0.5px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                lineHeight: 1,
-                transition: 'opacity 0.2s',
-            }}>
-                <VLogo size={30} />
-                Vestera
+            <Link
+                href="/"
+                className="brand-link"
+                style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 17,
+                    fontWeight: 800,
+                    color: 'var(--vt-text)',
+                    textDecoration: 'none',
+                    letterSpacing: '-0.5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    lineHeight: 1,
+                }}
+            >
+                <span className="logo-glow">
+                    <VLogo size={30} />
+                </span>
+                <span className="nav-brand-word">Vestera</span>
             </Link>
 
             {/* Links — preview users go straight to /restricted for locked areas (no /login hop) */}

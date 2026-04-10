@@ -20,8 +20,8 @@ export default function VLogo({ size = 32, style }: VLogoProps) {
                 height: size,
                 borderRadius: radius,
                 background: 'linear-gradient(135deg, #4f6ef7 0%, #9b5de5 100%)',
-                boxShadow:
-                    '0 0 0 1px rgba(79,110,247,0.4), 0 0 14px rgba(79,110,247,0.35)',
+                /* Edge definition only; outer glow comes from .logo-glow drop-shadow */
+                boxShadow: '0 0 0 1px rgba(79,110,247,0.35)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',

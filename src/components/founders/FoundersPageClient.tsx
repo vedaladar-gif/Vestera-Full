@@ -9,14 +9,15 @@ import pageStyles from '@/app/founders/founders.module.css';
 import introStyles from '@/components/founders/foundersIntro.module.css';
 import cardStyles from '@/components/founders/FounderCard.module.css';
 
-const SESSION_KEY = 'vestera_founders_intro_v1';
-
 type Step = 'image' | 'name' | 'role' | 'bio' | 'frame';
 
+/**
+ * Intro sequence runs from initial state on every mount (each visit to /founders,
+ * including return navigation and refresh). No sessionStorage / localStorage.
+ * `useReducedMotion` still skips motion for accessibility.
+ */
 export default function FoundersPageClient() {
     const reduceMotion = useReducedMotion();
-    const [ready, setReady] = useState(false);
-    const [skipIntro, setSkipIntro] = useState(false);
     const [done, setDone] = useState(false);
     const [fi, setFi] = useState(0);
     const [step, setStep] = useState<Step>('image');
@@ -24,24 +25,21 @@ export default function FoundersPageClient() {
     const [exitStage, setExitStage] = useState(false);
     const [stageOpen, setStageOpen] = useState(true);
     const imageDoneRef = useRef(false);
+    const mountedRef = useRef(true);
 
     useEffect(() => {
-        try {
-            if (sessionStorage.getItem(SESSION_KEY) === '1') setSkipIntro(true);
-        } catch {
-            /* private mode */
-        }
-        setReady(true);
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+        };
     }, []);
 
     useEffect(() => {
-        if (!ready) return;
-        if (reduceMotion || skipIntro) {
-            setSettled([true, true, true]);
-            setDone(true);
-            setStageOpen(false);
-        }
-    }, [ready, reduceMotion, skipIntro]);
+        if (!reduceMotion) return;
+        setSettled([true, true, true]);
+        setDone(true);
+        setStageOpen(false);
+    }, [reduceMotion]);
 
     useEffect(() => {
         imageDoneRef.current = false;
@@ -51,6 +49,7 @@ export default function FoundersPageClient() {
     }, [fi]);
 
     const onFlyDone = useCallback(() => {
+        if (!mountedRef.current) return;
         setExitStage(false);
         setSettled(prev => {
             const n: [boolean, boolean, boolean] = [...prev];
@@ -60,11 +59,6 @@ export default function FoundersPageClient() {
         if (fi >= 2) {
             setDone(true);
             setStageOpen(false);
-            try {
-                sessionStorage.setItem(SESSION_KEY, '1');
-            } catch {
-                /* ignore */
-            }
         } else {
             setFi(f => f + 1);
         }
@@ -77,32 +71,16 @@ export default function FoundersPageClient() {
     }, [exitStage, onFlyDone]);
 
     useEffect(() => {
-        if (step !== 'frame' || skipIntro || reduceMotion || done || !ready) return;
-        const t = window.setTimeout(() => setExitStage(true), 700);
+        if (step !== 'frame' || reduceMotion || done) return;
+        const t = window.setTimeout(() => {
+            if (mountedRef.current) setExitStage(true);
+        }, 700);
         return () => window.clearTimeout(t);
-    }, [step, skipIntro, reduceMotion, done, fi, ready]);
+    }, [step, reduceMotion, done, fi]);
 
     const founder = FOUNDERS_DATA[fi];
-    const runIntro = ready && !skipIntro && !reduceMotion && !done;
+    const runIntro = !reduceMotion && !done;
     const dimBackdrop = runIntro;
-
-    if (!ready) {
-        return (
-            <main className={`${pageStyles.page} ${introStyles.pageWrap}`} aria-busy="true">
-                <header className={pageStyles.header}>
-                    <div className={pageStyles.eyebrow}>
-                        <span className={pageStyles.eyebrowDot} aria-hidden />
-                        Team
-                    </div>
-                    <h1 className={pageStyles.title}>Meet the Founders</h1>
-                    <p className={pageStyles.subtitle}>
-                        The team behind the vision, product, and mission of Vestera.
-                    </p>
-                </header>
-                <div className={pageStyles.grid} style={{ minHeight: 320 }} />
-            </main>
-        );
-    }
 
     const showStage = runIntro && stageOpen && !settled[fi] && founder;
 
@@ -112,8 +90,8 @@ export default function FoundersPageClient() {
                 className={pageStyles.header}
                 initial={false}
                 animate={{
-                    opacity: done || skipIntro || reduceMotion ? 1 : 0.45,
-                    filter: done || skipIntro || reduceMotion ? 'blur(0px)' : 'blur(0.55px)',
+                    opacity: done || reduceMotion ? 1 : 0.45,
+                    filter: done || reduceMotion ? 'blur(0px)' : 'blur(0.55px)',
                 }}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
@@ -225,7 +203,9 @@ export default function FoundersPageClient() {
                                         as="h2"
                                         text={founder.name}
                                         className={cardStyles.name}
-                                        msPerChar={26}
+                                        minIntervalMs={20}
+                                        maxIntervalMs={35}
+                                        pauseAfterMs={140}
                                         active={step === 'name'}
                                         onComplete={() => setStep('role')}
                                     />
@@ -233,7 +213,9 @@ export default function FoundersPageClient() {
                                         key={`${fi}-role`}
                                         text={founder.role}
                                         className={cardStyles.role}
-                                        msPerChar={22}
+                                        minIntervalMs={20}
+                                        maxIntervalMs={35}
+                                        pauseAfterMs={120}
                                         active={step === 'role'}
                                         onComplete={() => setStep('bio')}
                                     />
@@ -241,7 +223,9 @@ export default function FoundersPageClient() {
                                         key={`${fi}-bio`}
                                         text={founder.bio}
                                         className={cardStyles.bio}
-                                        msPerChar={11}
+                                        minIntervalMs={20}
+                                        maxIntervalMs={35}
+                                        pauseAfterMs={160}
                                         active={step === 'bio'}
                                         onComplete={() => setStep('frame')}
                                     />

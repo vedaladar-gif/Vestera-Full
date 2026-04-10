@@ -68,8 +68,10 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <Link href="/" className="nav-brand">
-                <VLogo size={30} />
-                Vestera
+                <span className="logo-glow">
+                    <VLogo size={30} />
+                </span>
+                <span className="nav-brand-word">Vestera</span>
             </Link>
             <div className="nav-links">
                 {authenticated ? (

@@ -4,7 +4,7 @@
     margin-left: 1px;
     font-weight: 300;
     color: #4f6ef7;
-    animation: foundersCursorBlink 0.85s step-end infinite;
+    animation: foundersCursorBlink 1.1s step-end infinite;
 }
 
 @keyframes foundersCursorBlink {

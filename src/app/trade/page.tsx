@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './trade.module.css';
 import { buildChartOptions, getChartColors, isThemeDark } from '@/lib/chartTheme';
@@ -16,6 +16,13 @@ import {
     historyQueryForTimeframe,
     isIntradayTimeframe,
 } from '@/lib/chartRanges';
+import {
+    formatPositionPnL,
+    hasUsablePrice,
+    isPnLNonNegative,
+    positionGainLossDollars,
+    positionMarketValue,
+} from '@/lib/holdingDisplay';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -30,8 +37,12 @@ interface TradeEntry {
 interface HoldingEntry {
     stock: string;
     shares: number;
+    /** Weighted average cost per share from trade history */
+    buy_price: number;
     current_price: number;
     value: number;
+    gain_loss: number;
+    gain_loss_pct?: number;
 }
 
 interface PriceAlert {
@@ -539,8 +550,11 @@ function TradingDashboard() {
         if (watchlistIntervalRef.current) clearInterval(watchlistIntervalRef.current);
         watchlistIntervalRef.current = setInterval(fetchWatchlistPrices, 60_000);
 
+        const holdingsPoll = window.setInterval(fetchHoldings, 20_000);
+
         return () => {
             if (watchlistIntervalRef.current) clearInterval(watchlistIntervalRef.current);
+            window.clearInterval(holdingsPoll);
         };
     }, [authChecked, ticker, fetchHoldings, fetchAlerts, fetchWatchlistPrices]);
 
@@ -669,7 +683,33 @@ function TradingDashboard() {
         setOhlcLocked(false);
     };
 
-    const portfolioValue = holdings.reduce((s, h) => s + h.value, 0);
+    const displayHoldings = useMemo(() => {
+        const t = ticker.toUpperCase();
+        return holdings.map(h => {
+            const sym = h.stock.toUpperCase();
+            const useLive =
+                !!stockQuote &&
+                hasUsablePrice(stockQuote.price) &&
+                sym === t &&
+                stockQuote.sym.toUpperCase() === sym;
+            const price = useLive ? stockQuote.price : h.current_price;
+            const hasQuote = hasUsablePrice(price);
+            const avg = h.buy_price;
+            const value = hasQuote ? positionMarketValue(h.shares, price) : h.value;
+            const gainLoss = hasQuote ? positionGainLossDollars(h.shares, avg, price) : null;
+            return {
+                stock: h.stock,
+                shares: h.shares,
+                buy_price: avg,
+                value,
+                gainLoss,
+                hasQuote,
+                displayName: WATCHLIST_BASE.find(w => w.sym === h.stock)?.name,
+            };
+        });
+    }, [holdings, ticker, stockQuote]);
+
+    const portfolioValue = displayHoldings.reduce((s, h) => s + h.value, 0);
     const tickerAlerts = alerts.filter(a => a.ticker === ticker);
 
     if (!authChecked) {
@@ -1029,20 +1069,58 @@ function TradingDashboard() {
                     </div>
 
                     {/* Holdings */}
-                    {holdings.length > 0 && (
-                        <div className={styles.sideCard}>
-                            <h3>Holdings</h3>
+                    <div className={styles.sideCard}>
+                        <h3>Holdings</h3>
+                        {displayHoldings.length === 0 ? (
+                            <p className={styles.holdingsEmpty}>No holdings yet</p>
+                        ) : (
                             <div className={styles.holdingsList}>
-                                {holdings.map(h => (
-                                    <div key={h.stock} className={styles.holdingRow} onClick={() => selectStock(h.stock)}>
-                                        <span className={styles.holdingTicker}>{h.stock}</span>
-                                        <span>{h.shares} shares</span>
-                                        <span className={styles.holdingValue}>${h.value?.toFixed(2)}</span>
-                                    </div>
+                                {displayHoldings.map(h => (
+                                    <button
+                                        key={h.stock}
+                                        type="button"
+                                        className={styles.holdingRow}
+                                        onClick={() => selectStock(h.stock)}
+                                    >
+                                        <div className={styles.holdingRowInner}>
+                                            <div className={styles.holdingRowTop}>
+                                                <div className={styles.holdingTitleCol}>
+                                                    <span className={styles.holdingTicker}>{h.stock}</span>
+                                                    {h.displayName ? (
+                                                        <span className={styles.holdingName}>{h.displayName}</span>
+                                                    ) : null}
+                                                </div>
+                                                {h.hasQuote && h.gainLoss !== null ? (
+                                                    <span
+                                                        className={
+                                                            isPnLNonNegative(h.gainLoss)
+                                                                ? styles.holdingPnLPos
+                                                                : styles.holdingPnLNeg
+                                                        }
+                                                    >
+                                                        {formatPositionPnL(h.gainLoss)}
+                                                    </span>
+                                                ) : (
+                                                    <span className={styles.holdingPnLMuted} title="Quote unavailable">
+                                                        —
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className={styles.holdingRowBottom}>
+                                                <span>
+                                                    {h.shares} {h.shares === 1 ? 'share' : 'shares'}
+                                                </span>
+                                                <span className={styles.holdingMetaSep} aria-hidden>
+                                                    •
+                                                </span>
+                                                <span>Avg cost ${h.buy_price.toFixed(2)}</span>
+                                            </div>
+                                        </div>
+                                    </button>
                                 ))}
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
 
                     {/* Recent trades */}
                     {recentTrades.length > 0 && (
@@ -1050,7 +1128,7 @@ function TradingDashboard() {
                             <h3>Recent Trades</h3>
                             <div className={styles.holdingsList}>
                                 {recentTrades.slice(0, 5).map((t, i) => (
-                                    <div key={i} className={styles.holdingRow}>
+                                    <div key={i} className={styles.recentTradeRow}>
                                         <span className={t.action === 'BUY' ? styles.tradeBuy : styles.tradeSell}>{t.action}</span>
                                         <span>{t.shares} {t.stock}</span>
                                         <span className={styles.holdingValue}>${t.price.toFixed(2)}</span>

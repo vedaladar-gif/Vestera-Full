@@ -4,8 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 
 interface TypingTextProps {
     text: string;
-    /** Milliseconds per character (lower = faster). */
+    /** Fixed ms between characters when `minIntervalMs` / `maxIntervalMs` are not both set. */
     msPerChar?: number;
+    /** Inclusive range (ms) for a more natural per-character delay; overrides fixed `msPerChar` when both are set. */
+    minIntervalMs?: number;
+    maxIntervalMs?: number;
+    /** Wait after the last character before calling `onComplete` (pause between sections). */
+    pauseAfterMs?: number;
     onComplete?: () => void;
     className?: string;
     as?: 'p' | 'h2' | 'span';
@@ -14,9 +19,27 @@ interface TypingTextProps {
     active?: boolean;
 }
 
+function nextDelayMs(
+    msPerChar: number,
+    minIntervalMs: number | undefined,
+    maxIntervalMs: number | undefined,
+): number {
+    if (
+        minIntervalMs != null &&
+        maxIntervalMs != null &&
+        minIntervalMs <= maxIntervalMs
+    ) {
+        return minIntervalMs + Math.random() * (maxIntervalMs - minIntervalMs);
+    }
+    return msPerChar;
+}
+
 export default function TypingText({
     text,
     msPerChar = 22,
+    minIntervalMs,
+    maxIntervalMs,
+    pauseAfterMs = 0,
     onComplete,
     className,
     as: Tag = 'p',
@@ -49,19 +72,52 @@ export default function TypingText({
             onCompleteRef.current?.();
             return;
         }
-        let i = 0;
-        const id = window.setInterval(() => {
-            i += 1;
-            setShown(text.slice(0, i));
-            if (i >= text.length) {
-                window.clearInterval(id);
-                setDone(true);
-                completedRef.current = true;
+
+        let cancelled = false;
+        const timeoutIds: number[] = [];
+
+        const clearPending = () => {
+            timeoutIds.forEach(id => window.clearTimeout(id));
+            timeoutIds.length = 0;
+        };
+
+        const finish = () => {
+            if (cancelled) return;
+            setDone(true);
+            completedRef.current = true;
+            const pause = pauseAfterMs > 0 ? pauseAfterMs : 0;
+            if (pause > 0) {
+                const id = window.setTimeout(() => {
+                    if (!cancelled) onCompleteRef.current?.();
+                }, pause);
+                timeoutIds.push(id);
+            } else {
                 onCompleteRef.current?.();
             }
-        }, msPerChar);
-        return () => window.clearInterval(id);
-    }, [text, msPerChar, active]);
+        };
+
+        const step = (index: number) => {
+            if (cancelled) return;
+            const next = index + 1;
+            setShown(text.slice(0, next));
+            if (next >= text.length) {
+                finish();
+                return;
+            }
+            const delay = nextDelayMs(msPerChar, minIntervalMs, maxIntervalMs);
+            const id = window.setTimeout(() => step(next), delay);
+            timeoutIds.push(id);
+        };
+
+        const firstDelay = nextDelayMs(msPerChar, minIntervalMs, maxIntervalMs);
+        const startId = window.setTimeout(() => step(0), firstDelay);
+        timeoutIds.push(startId);
+
+        return () => {
+            cancelled = true;
+            clearPending();
+        };
+    }, [text, msPerChar, minIntervalMs, maxIntervalMs, pauseAfterMs, active]);
 
     return (
         <Tag className={className}>

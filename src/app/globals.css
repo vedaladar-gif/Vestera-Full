@@ -134,7 +134,53 @@ body {
   gap: 10px;
   line-height: 1;
 }
-.nav-brand:hover { opacity: 0.8; }
+.nav-brand:hover {
+  opacity: 1;
+}
+.nav-brand:hover .nav-brand-word,
+.brand-link:hover .nav-brand-word {
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+/* Premium purple glow — V mark (Navbar, DashNav; wraps VLogo) */
+.logo-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.6))
+    drop-shadow(0 0 12px rgba(168, 85, 247, 0.3));
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
+}
+
+.logo-glow:hover,
+.nav-brand:hover .logo-glow,
+.brand-link:hover .logo-glow {
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8))
+    drop-shadow(0 0 16px rgba(168, 85, 247, 0.4));
+  transform: scale(1.05);
+}
+
+[data-theme='light'] .logo-glow {
+  filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.4))
+    drop-shadow(0 0 8px rgba(168, 85, 247, 0.18));
+}
+
+[data-theme='light'] .logo-glow:hover,
+[data-theme='light'] .nav-brand:hover .logo-glow,
+[data-theme='light'] .brand-link:hover .logo-glow {
+  filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.55))
+    drop-shadow(0 0 12px rgba(168, 85, 247, 0.22));
+  transform: scale(1.05);
+}
+
+.nav-brand-word {
+  transition: opacity 0.2s ease;
+}
 
 .nav-links {
   display: flex;
