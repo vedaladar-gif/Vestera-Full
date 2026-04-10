@@ -42,7 +42,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: `Insufficient shares. You have ${userShares}` }, { status: 400 });
         }
         const newCash = currentCash + tradeCost;
-        await addTrade(userId, ticker, quantity, price, action);
+        const recorded = await addTrade(userId, ticker, quantity, price, action);
+        if (!recorded) {
+            return NextResponse.json({ error: 'Failed to record trade' }, { status: 500 });
+        }
         await updateUserCash(userId, newCash);
         return NextResponse.json({
             success: true, action, ticker, quantity, price,
@@ -53,7 +56,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: `Insufficient cash. You have $${currentCash.toFixed(2)}` }, { status: 400 });
         }
         const newCash = currentCash - tradeCost;
-        await addTrade(userId, ticker, quantity, price, action);
+        const recorded = await addTrade(userId, ticker, quantity, price, action);
+        if (!recorded) {
+            return NextResponse.json({ error: 'Failed to record trade' }, { status: 500 });
+        }
         await updateUserCash(userId, newCash);
         return NextResponse.json({
             success: true, action, ticker, quantity, price,

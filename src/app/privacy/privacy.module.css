@@ -1,0 +1,129 @@
+.page {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 28px 16px 64px;
+}
+
+@media (min-width: 640px) {
+    .page {
+        padding: 40px 24px 80px;
+    }
+}
+
+.card {
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 16px;
+    padding: 28px 22px 36px;
+    box-shadow: 0 12px 40px var(--vt-shadow);
+}
+
+@media (min-width: 640px) {
+    .card {
+        padding: 40px 40px 48px;
+    }
+}
+
+.title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 1.875rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--vt-text);
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.lastUpdated {
+    font-size: 14px;
+    color: var(--vt-text2);
+    margin-bottom: 28px;
+}
+
+.rule {
+    border: none;
+    height: 1px;
+    background: var(--vt-border2);
+    margin: 28px 0;
+}
+
+.section {
+    margin-top: 28px;
+}
+
+.section:first-of-type {
+    margin-top: 0;
+}
+
+.h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--vt-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--vt-border2);
+}
+
+.h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--vt-text);
+    margin-bottom: 14px;
+}
+
+.p:last-child {
+    margin-bottom: 0;
+}
+
+.list {
+    margin: 12px 0 16px;
+    padding-left: 1.35rem;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--vt-text);
+}
+
+.list li {
+    margin-bottom: 8px;
+}
+
+.list li:last-child {
+    margin-bottom: 0;
+}
+
+.contactBlock {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--vt-text);
+    margin-top: 8px;
+}
+
+.contactBlock a {
+    color: var(--vt-vblue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contactBlock a:hover {
+    text-decoration: underline;
+}
+
+.footerNote {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--vt-border2);
+    font-size: 13px;
+    color: var(--vt-text2);
+    text-align: center;
+}

@@ -128,7 +128,7 @@ export async function deleteUserAccount(userId: string): Promise<boolean> {
 // Trade / Portfolio Functions
 // ==========================================
 
-export async function addTrade(userId: string, stock: string, shares: number, price: number, action: string): Promise<void> {
+export async function addTrade(userId: string, stock: string, shares: number, price: number, action: string): Promise<boolean> {
     const { error } = await supabase.from('portfolio').insert({
         user_id: userId,
         stock,
@@ -138,7 +138,40 @@ export async function addTrade(userId: string, stock: string, shares: number, pr
     });
     if (error) {
         console.error('addTrade error:', error);
+        return false;
     }
+    return true;
+}
+
+export type PortfolioRow = {
+    user_id: string;
+    stock: string;
+    shares: number;
+    price: number;
+    action: string;
+    created_at: string;
+};
+
+/** All trade rows for many users (for leaderboard batch valuation). */
+export async function getPortfolioRowsForUsers(userIds: string[]): Promise<PortfolioRow[]> {
+    if (userIds.length === 0) return [];
+    const CHUNK = 120;
+    const out: PortfolioRow[] = [];
+    for (let i = 0; i < userIds.length; i += CHUNK) {
+        const chunk = userIds.slice(i, i + CHUNK);
+        const { data, error } = await supabase
+            .from('portfolio')
+            .select('user_id, stock, shares, price, action, created_at')
+            .in('user_id', chunk);
+        if (error) {
+            console.error('getPortfolioRowsForUsers error:', error);
+            continue;
+        }
+        for (const row of data || []) {
+            out.push(row as PortfolioRow);
+        }
+    }
+    return out;
 }
 
 export async function getUserTrades(userId: string): Promise<Trade[]> {
@@ -149,6 +182,20 @@ export async function getUserTrades(userId: string): Promise<Trade[]> {
         .order('created_at', { ascending: false });
     if (error) {
         console.error('getUserTrades error:', error);
+        return [];
+    }
+    return (data as Trade[]) ?? [];
+}
+
+/** Chronological order for average-cost and P/L math. */
+export async function getUserTradesAscending(userId: string): Promise<Trade[]> {
+    const { data, error } = await supabase
+        .from('portfolio')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: true });
+    if (error) {
+        console.error('getUserTradesAscending error:', error);
         return [];
     }
     return (data as Trade[]) ?? [];

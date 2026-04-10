@@ -17,7 +17,8 @@ interface QuoteData {
 }
 
 const quoteCache = new Map<string, { data: QuoteData; ts: number }>();
-const CACHE_TTL = 30_000; // 30 seconds
+/** Align with client trade page poll (15s) so header, chart, and trade panel stay in sync. */
+const CACHE_TTL = 15_000;
 
 export async function GET(
     _req: Request,

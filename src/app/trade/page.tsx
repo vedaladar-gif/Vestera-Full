@@ -7,6 +7,14 @@ import { buildChartOptions, getChartColors, isThemeDark } from '@/lib/chartTheme
 import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { isMarketOpen, MARKET_CLOSED_TRADE_MESSAGE } from '@/lib/marketStatus';
 import DashNav from '@/components/DashNav';
+import { useStockQuote } from '@/hooks/useStockQuote';
+import {
+    type TradeChartTimeframe,
+    TRADE_CHART_TIMEFRAMES,
+    barChartTime,
+    historyQueryForTimeframe,
+    isIntradayTimeframe,
+} from '@/lib/chartRanges';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -73,8 +81,6 @@ const WATCHLIST_BASE: WatchItem[] = [
 
 export default function TradingDashboard() {
     const [ticker, setTicker] = useState('AAPL');
-    const [price, setPrice] = useState(0);
-    const [priceChange, setPriceChange] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [cash, setCash] = useState(0);
     const [holdings, setHoldings] = useState<HoldingEntry[]>([]);
@@ -83,10 +89,13 @@ export default function TradingDashboard() {
     const [searchResults, setSearchResults] = useState<string[]>([]);
     const [showSearch, setShowSearch] = useState(false);
     const [chartType, setChartType] = useState<'candlestick' | 'area' | 'line'>('area');
-    const [timeframe, setTimeframe] = useState('1M');
+    const [timeframe, setTimeframe] = useState<TradeChartTimeframe>('1M');
+    const timeframeRef = useRef<TradeChartTimeframe>(timeframe);
+    timeframeRef.current = timeframe;
     const [statusMsg, setStatusMsg] = useState('');
     const [statusType, setStatusType] = useState<'success' | 'error'>('success');
     const [chartReady, setChartReady] = useState(false);
+    const [chartEmptyReason, setChartEmptyReason] = useState<string | null>(null);
     const [authChecked, setAuthChecked] = useState(false);
 
     // OHLC tooltip state
@@ -111,15 +120,25 @@ export default function TradingDashboard() {
     const chartRef = useRef<HTMLDivElement>(null);
     const chartInstanceRef = useRef<ReturnType<typeof import('lightweight-charts').createChart> | null>(null);
     const seriesRef = useRef<unknown>(null);
-    const prevPriceRef = useRef(0);
+    /** Bars from `/api/history` (daily or intraday); last bar merged with live quote when polling. */
+    const chartHistoryRef = useRef<
+        { date: string; timeUtc?: number; open: number; high: number; low: number; close: number }[]
+    >([]);
     const lcRef = useRef<typeof import('lightweight-charts') | null>(null);
     const themeObserverRef = useRef<MutationObserver | null>(null);
+    const chartResizeObserverRef = useRef<ResizeObserver | null>(null);
 
     const router = useRouter();
-    const priceIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const watchlistIntervalRef = useRef<NodeJS.Timeout | null>(null);
     // Live market status — re-evaluates every 60 s via the hook
     const marketStatus = useMarketStatus();
+
+    /** Single source of truth for the active ticker: price, day change, poll every 15s */
+    const { quote: stockQuote, loading: quoteLoading, error: quoteError } = useStockQuote(ticker, {
+        enabled: authChecked,
+        pollIntervalMs: 15_000,
+    });
+    const displayPrice = stockQuote?.price ?? 0;
 
     // ── 1. Auth gate (wait for /me; only redirect when definitively unauthenticated) ─
     useEffect(() => {
@@ -150,20 +169,7 @@ export default function TradingDashboard() {
         if (t) setTicker(t.toUpperCase());
     }, []);
 
-    // ── 3. Fetch price for active ticker ─────────────────────────────────────
-    const fetchPrice = useCallback(async (sym: string) => {
-        try {
-            const res = await fetch(`/api/price/${sym}`);
-            const data = await res.json();
-            if (data.price) {
-                setPriceChange(data.price - prevPriceRef.current);
-                prevPriceRef.current = data.price;
-                setPrice(data.price);
-            }
-        } catch { /* ignore */ }
-    }, []);
-
-    // ── 4. Fetch holdings ─────────────────────────────────────────────────────
+    // ── 3. Fetch holdings ─────────────────────────────────────────────────────
     const fetchHoldings = useCallback(async () => {
         try {
             const res = await fetch('/api/holdings');
@@ -174,7 +180,7 @@ export default function TradingDashboard() {
         } catch { /* ignore */ }
     }, []);
 
-    // ── 5. Fetch alerts ───────────────────────────────────────────────────────
+    // ── 4. Fetch alerts ───────────────────────────────────────────────────────
     const fetchAlerts = useCallback(async () => {
         try {
             const res = await fetch('/api/alerts');
@@ -184,7 +190,7 @@ export default function TradingDashboard() {
         } catch { /* ignore */ }
     }, []);
 
-    // ── 6. Fetch watchlist prices (parallel /api/quote for each ticker) ───────
+    // ── 5. Fetch watchlist prices (parallel /api/quote for each ticker) ───────
     const fetchWatchlistPrices = useCallback(async () => {
         const results = await Promise.allSettled(
             WATCHLIST_BASE.map(async item => {
@@ -210,13 +216,32 @@ export default function TradingDashboard() {
         setWatchlistLoading(false);
     }, []);
 
-    // ── 7. Chart initialisation ───────────────────────────────────────────────
-    // IMPORTANT: depends on authChecked — the chartRef div is not in the DOM
-    // until authChecked=true (spinner is shown before that).
+    // ── 6. Chart initialisation (single instance; full teardown on cleanup) ─
+    // Without teardown, React Strict Mode / remounts can leave a second chart
+    // inside the same container (stacked canvases — looks like a duplicate graph).
     useEffect(() => {
         if (!authChecked) return;
 
         let mounted = true;
+
+        const disposeChart = () => {
+            chartResizeObserverRef.current?.disconnect();
+            chartResizeObserverRef.current = null;
+            themeObserverRef.current?.disconnect();
+            themeObserverRef.current = null;
+            try {
+                chartInstanceRef.current?.remove();
+            } catch {
+                /* chart may already be disposed */
+            }
+            chartInstanceRef.current = null;
+            seriesRef.current = null;
+            lcRef.current = null;
+            if (chartRef.current) {
+                chartRef.current.replaceChildren();
+            }
+            setChartReady(false);
+        };
 
         const initChart = async () => {
             await new Promise(resolve => setTimeout(resolve, 80));
@@ -225,12 +250,10 @@ export default function TradingDashboard() {
             const lc = await import('lightweight-charts');
             if (!mounted || !chartRef.current) return;
 
-            lcRef.current = lc;
+            disposeChart();
+            if (!mounted || !chartRef.current) return;
 
-            if (chartInstanceRef.current) {
-                chartInstanceRef.current.remove();
-                chartInstanceRef.current = null;
-            }
+            lcRef.current = lc;
 
             const dark = isThemeDark();
             const colors = getChartColors(dark);
@@ -258,7 +281,6 @@ export default function TradingDashboard() {
 
             chartInstanceRef.current = chart;
 
-            // Responsive resize
             const ro = new ResizeObserver(() => {
                 if (chartRef.current && chartInstanceRef.current) {
                     chartInstanceRef.current.applyOptions({
@@ -267,8 +289,8 @@ export default function TradingDashboard() {
                 }
             });
             ro.observe(chartRef.current);
+            chartResizeObserverRef.current = ro;
 
-            // Live theme updates
             const themeObserver = new MutationObserver(() => {
                 if (!chartInstanceRef.current) return;
                 chartInstanceRef.current.applyOptions(buildChartOptions(isThemeDark()));
@@ -287,6 +309,18 @@ export default function TradingDashboard() {
                 seriesData: Map<object, Record<string, number>>;
             };
 
+            const formatCrosshairTimeLabel = (t: unknown): string => {
+                if (typeof t === 'number') {
+                    return new Date(t * 1000).toLocaleString(undefined, {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    });
+                }
+                return String(t);
+            };
+
             chart.subscribeCrosshairMove((param) => {
                 const p = param as unknown as LcParam;
                 if (!p.time) {
@@ -297,8 +331,13 @@ export default function TradingDashboard() {
                 if (!seriesRef.current) return;
                 const data = p.seriesData?.get(seriesRef.current as object);
                 if (!data) return;
+                const rawTime = p.time;
+                const timeLabel =
+                    typeof rawTime === 'number' || timeframeRef.current === '1D'
+                        ? formatCrosshairTimeLabel(rawTime)
+                        : String(rawTime);
                 setOhlcBar({
-                    time: String(p.time),
+                    time: timeLabel,
                     open:  typeof data.open  === 'number' ? data.open  : undefined,
                     high:  typeof data.high  === 'number' ? data.high  : undefined,
                     low:   typeof data.low   === 'number' ? data.low   : undefined,
@@ -317,8 +356,13 @@ export default function TradingDashboard() {
                 if (newLocked && seriesRef.current) {
                     const data = p.seriesData?.get(seriesRef.current as object);
                     if (data) {
+                        const rawTime = p.time;
+                        const timeLabel =
+                            typeof rawTime === 'number' || timeframeRef.current === '1D'
+                                ? formatCrosshairTimeLabel(rawTime)
+                                : String(rawTime);
                         setOhlcBar({
-                            time: String(p.time),
+                            time: timeLabel,
                             open:  typeof data.open  === 'number' ? data.open  : undefined,
                             high:  typeof data.high  === 'number' ? data.high  : undefined,
                             low:   typeof data.low   === 'number' ? data.low   : undefined,
@@ -329,19 +373,18 @@ export default function TradingDashboard() {
                 }
             });
 
-            setChartReady(true);
+            if (mounted) setChartReady(true);
         };
 
-        initChart();
+        void initChart();
 
         return () => {
             mounted = false;
-            themeObserverRef.current?.disconnect();
-            themeObserverRef.current = null;
+            disposeChart();
         };
     }, [authChecked]);
 
-    // ── 8. Load chart data ────────────────────────────────────────────────────
+    // ── 7. Load chart data ────────────────────────────────────────────────────
     useEffect(() => {
         if (!chartReady || !chartInstanceRef.current || !lcRef.current) return;
         const chart = chartInstanceRef.current;
@@ -355,15 +398,46 @@ export default function TradingDashboard() {
         ohlcLockedRef.current = false;
         setOhlcLocked(false);
         setOhlcBar(null);
+        setChartEmptyReason(null);
 
-        const days = timeframe === '1W' ? 7 : timeframe === '1M' ? 30 : timeframe === '3M' ? 90 : 365;
         const colors = getChartColors(isThemeDark());
+        const intraday = isIntradayTimeframe(timeframe);
+        const q = historyQueryForTimeframe(timeframe);
 
-        fetch(`/api/history/${ticker}?days=${days}`)
-            .then(r => r.json())
-            .then(data => {
-                if (!data.history?.length || !chartInstanceRef.current) return;
-                const bars = data.history as { date: string; open: number; high: number; low: number; close: number }[];
+        fetch(`/api/history/${encodeURIComponent(ticker)}?${q}`)
+            .then(async r => {
+                const data = await r.json().catch(() => ({}));
+                if (!chartInstanceRef.current) return;
+                if (!r.ok) {
+                    chartHistoryRef.current = [];
+                    setChartEmptyReason(
+                        timeframe === '1D'
+                            ? 'Intraday data could not be loaded. Try again or pick another range.'
+                            : null
+                    );
+                    return;
+                }
+                const bars = data.history as {
+                    date: string;
+                    timeUtc?: number;
+                    open: number;
+                    high: number;
+                    low: number;
+                    close: number;
+                }[];
+                if (!bars?.length) {
+                    chartHistoryRef.current = [];
+                    setChartEmptyReason(
+                        timeframe === '1D'
+                            ? 'No intraday data for this symbol right now (market closed or data unavailable).'
+                            : null
+                    );
+                    return;
+                }
+                setChartEmptyReason(null);
+                chartHistoryRef.current = bars;
+
+                const t = (b: (typeof bars)[number]) => barChartTime(b, intraday);
 
                 if (chartType === 'candlestick') {
                     const s = chart.addSeries(lc.CandlestickSeries, {
@@ -371,9 +445,15 @@ export default function TradingDashboard() {
                         borderUpColor: '#4ade80', borderDownColor: '#f87171',
                         wickUpColor: '#4ade80', wickDownColor: '#f87171',
                     });
-                    s.setData(bars.map(b => ({
-                        time: b.date, open: b.open, high: b.high, low: b.low, close: b.close,
-                    })) as Parameters<typeof s.setData>[0]);
+                    s.setData(
+                        bars.map(b => ({
+                            time: t(b),
+                            open: b.open,
+                            high: b.high,
+                            low: b.low,
+                            close: b.close,
+                        })) as Parameters<typeof s.setData>[0]
+                    );
                     seriesRef.current = s;
                 } else if (chartType === 'area') {
                     const s = chart.addSeries(lc.AreaSeries, {
@@ -382,39 +462,86 @@ export default function TradingDashboard() {
                         lineColor:   colors.lineColor,
                         lineWidth:   2,
                     });
-                    s.setData(bars.map(b => ({ time: b.date, value: b.close })) as Parameters<typeof s.setData>[0]);
+                    s.setData(
+                        bars.map(b => ({ time: t(b), value: b.close })) as Parameters<typeof s.setData>[0]
+                    );
                     seriesRef.current = s;
                 } else {
                     const s = chart.addSeries(lc.LineSeries, { color: '#9b5de5', lineWidth: 2 });
-                    s.setData(bars.map(b => ({ time: b.date, value: b.close })) as Parameters<typeof s.setData>[0]);
+                    s.setData(
+                        bars.map(b => ({ time: t(b), value: b.close })) as Parameters<typeof s.setData>[0]
+                    );
                     seriesRef.current = s;
                 }
 
                 chart.timeScale().fitContent();
             })
-            .catch(e => console.error('Chart data error:', e));
+            .catch(e => {
+                console.error('Chart data error:', e);
+                chartHistoryRef.current = [];
+                if (timeframe === '1D') {
+                    setChartEmptyReason('Could not load intraday chart. Check your connection and try again.');
+                }
+            });
     }, [ticker, chartType, timeframe, chartReady]);
 
-    // ── 9. Data fetch after auth confirmed ────────────────────────────────────
+    // ── 8. Keep last chart bar aligned with the same live quote as the header ─
+    useEffect(() => {
+        const live = stockQuote?.price;
+        const sym = stockQuote?.sym?.toUpperCase();
+        if (!chartReady || !live || sym !== ticker.toUpperCase()) return;
+        const base = chartHistoryRef.current;
+        if (!base.length) return;
+        const chart = chartInstanceRef.current;
+        const series = seriesRef.current;
+        if (!chart || !series) return;
+
+        const last = base[base.length - 1];
+        const mergedLast = {
+            ...last,
+            close: live,
+            high: Math.max(last.high, live),
+            low: Math.min(last.low, live),
+        };
+        const displayBars = [...base.slice(0, -1), mergedLast];
+        const intraday = isIntradayTimeframe(timeframe);
+        const bt = (b: (typeof base)[number]) => barChartTime(b, intraday);
+
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const s = series as { setData: (d: any) => void };
+            if (chartType === 'candlestick') {
+                s.setData(
+                    displayBars.map(b => ({
+                        time: bt(b),
+                        open: b.open,
+                        high: b.high,
+                        low: b.low,
+                        close: b.close,
+                    }))
+                );
+            } else {
+                s.setData(displayBars.map(b => ({ time: bt(b), value: b.close })));
+            }
+        } catch {
+            /* series replaced mid-update */
+        }
+    }, [chartReady, chartType, timeframe, ticker, stockQuote?.price, stockQuote?.sym, stockQuote?.updatedAt]);
+
+    // ── 9. Holdings / alerts / watchlist (watchlist on its own cadence) ──────
     useEffect(() => {
         if (!authChecked) return;
-        fetchPrice(ticker);
         fetchHoldings();
         fetchAlerts();
         fetchWatchlistPrices();
 
-        if (priceIntervalRef.current) clearInterval(priceIntervalRef.current);
-        priceIntervalRef.current = setInterval(() => fetchPrice(ticker), 30_000);
-
-        // Refresh watchlist every 60s (less aggressive than ticker price)
         if (watchlistIntervalRef.current) clearInterval(watchlistIntervalRef.current);
         watchlistIntervalRef.current = setInterval(fetchWatchlistPrices, 60_000);
 
         return () => {
-            if (priceIntervalRef.current) clearInterval(priceIntervalRef.current);
             if (watchlistIntervalRef.current) clearInterval(watchlistIntervalRef.current);
         };
-    }, [authChecked, ticker, fetchPrice, fetchHoldings, fetchAlerts, fetchWatchlistPrices]);
+    }, [authChecked, ticker, fetchHoldings, fetchAlerts, fetchWatchlistPrices]);
 
     // ── 10. Stock search ──────────────────────────────────────────────────────
     useEffect(() => {
@@ -433,7 +560,6 @@ export default function TradingDashboard() {
         setTicker(sym);
         setSearchQuery('');
         setShowSearch(false);
-        setPrice(0);
     };
 
     const showMarketClosedToast = useCallback(() => {
@@ -458,7 +584,7 @@ export default function TradingDashboard() {
     }, []);
 
     const executeTrade = async (action: 'BUY' | 'SELL') => {
-        if (!price || quantity <= 0) return;
+        if (!displayPrice || quantity <= 0) return;
         // Client check (instant feedback); server re-checks on every POST.
         if (!isMarketOpen()) {
             showMarketClosedToast();
@@ -469,7 +595,7 @@ export default function TradingDashboard() {
             const res = await fetch('/api/trade', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ticker, quantity, price, action }),
+                body: JSON.stringify({ ticker, quantity, price: displayPrice, action }),
                 credentials: 'same-origin',
             });
             const data = await res.json().catch(() => ({}));
@@ -478,12 +604,12 @@ export default function TradingDashboard() {
                 return;
             }
             if (data.success) {
-                setStatusMsg(`${action} ${quantity} ${ticker} @ $${price.toFixed(2)}`);
+                setStatusMsg(`${action} ${quantity} ${ticker} @ $${displayPrice.toFixed(2)}`);
                 setStatusType('success');
                 setCash(data.cash_after);
-                fetchHoldings();
+                await fetchHoldings();
                 setRecentTrades(prev => [{
-                    stock: ticker, action, shares: quantity, price,
+                    stock: ticker, action, shares: quantity, price: displayPrice,
                     created_at: new Date().toISOString(),
                 }, ...prev].slice(0, 10));
             } else {
@@ -635,11 +761,26 @@ export default function TradingDashboard() {
                             </div>
                             <h2>{ticker}</h2>
                             <span className={styles.priceDisplay}>
-                                ${price.toFixed(2)}
-                                <span className={priceChange >= 0 ? styles.up : styles.down}>
-                                    {priceChange >= 0 ? '▲' : '▼'} {Math.abs(priceChange).toFixed(2)}
-                                </span>
+                                {stockQuote ? (
+                                    <>
+                                        ${stockQuote.price.toFixed(2)}
+                                        <span className={stockQuote.change >= 0 ? styles.up : styles.down}>
+                                            {stockQuote.change >= 0 ? '▲' : '▼'} {Math.abs(stockQuote.change).toFixed(2)} (
+                                            {stockQuote.changePct >= 0 ? '+' : ''}
+                                            {stockQuote.changePct.toFixed(2)}%)
+                                        </span>
+                                    </>
+                                ) : quoteLoading ? (
+                                    <span style={{ color: 'var(--vt-text2)', fontSize: 15 }}>Loading…</span>
+                                ) : (
+                                    <span style={{ color: 'var(--vt-text3)' }}>—</span>
+                                )}
                             </span>
+                            {quoteError && !stockQuote && (
+                                <span style={{ fontSize: 11, color: '#f87171', maxWidth: 200 }} title={quoteError}>
+                                    {quoteError}
+                                </span>
+                            )}
                             <div style={{
                                 display: 'flex', alignItems: 'center', gap: '6px',
                                 background: marketStatus.open ? 'rgba(74,222,128,0.08)' : 'rgba(248,113,113,0.08)',
@@ -670,9 +811,10 @@ export default function TradingDashboard() {
                                 ))}
                             </div>
                             <div className={styles.chartTypeGroup}>
-                                {['1W', '1M', '3M', '1Y'].map(tf => (
+                                {TRADE_CHART_TIMEFRAMES.map(tf => (
                                     <button
                                         key={tf}
+                                        type="button"
                                         className={`${styles.ctrlBtn} ${timeframe === tf ? styles.active : ''}`}
                                         onClick={() => setTimeframe(tf)}
                                     >
@@ -739,13 +881,42 @@ export default function TradingDashboard() {
                             </>
                         ) : (
                             <span className={styles.ohlcEmpty}>
-                                Hover over the chart to see price details
+                                {stockQuote ? (
+                                    <>
+                                        <span className={styles.ohlcDate}>Live</span>
+                                        <span className={styles.ohlcItemVal} style={{ fontWeight: 700 }}>
+                                            ${stockQuote.price.toFixed(2)}
+                                        </span>
+                                        <span
+                                            className={styles.ohlcItemVal}
+                                            style={{ color: stockQuote.change >= 0 ? '#4ade80' : '#f87171' }}
+                                        >
+                                            {stockQuote.change >= 0 ? '+' : ''}
+                                            {stockQuote.change.toFixed(2)} ({stockQuote.changePct >= 0 ? '+' : ''}
+                                            {stockQuote.changePct.toFixed(2)}%)
+                                        </span>
+                                        <span style={{ marginLeft: 8, color: 'var(--vt-text3)', fontSize: 10 }}>
+                                            · hover chart for bar details
+                                        </span>
+                                    </>
+                                ) : quoteLoading ? (
+                                    'Loading quote…'
+                                ) : (
+                                    'Hover over the chart to see price details'
+                                )}
                             </span>
                         )}
                     </div>
 
-                    {/* Chart canvas — lightweight-charts fills this div */}
-                    <div ref={chartRef} className={styles.chartArea} />
+                    {/* Chart canvas — lightweight-charts fills inner div */}
+                    <div className={styles.chartCanvasWrap}>
+                        <div ref={chartRef} className={styles.chartArea} />
+                        {chartEmptyReason && (
+                            <div className={styles.chartEmptyOverlay} role="status">
+                                {chartEmptyReason}
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* ── Right Sidebar ────────────────────────────────────── */}
@@ -780,7 +951,7 @@ export default function TradingDashboard() {
                                 />
                             </label>
                             <div className={styles.tradeTotal}>
-                                Total: <strong>${(quantity * price).toFixed(2)}</strong>
+                                Total: <strong>${(quantity * displayPrice).toFixed(2)}</strong>
                             </div>
                             <div className={styles.tradeBtns}>
                                 <button className={styles.buyBtn} onClick={() => executeTrade('BUY')}>BUY</button>
@@ -813,7 +984,7 @@ export default function TradingDashboard() {
                                     min="0.01"
                                     value={alertPrice}
                                     onChange={e => setAlertPrice(e.target.value)}
-                                    placeholder={price > 0 ? `$${price.toFixed(2)}` : 'Target price'}
+                                    placeholder={displayPrice > 0 ? `$${displayPrice.toFixed(2)}` : 'Target price'}
                                     className={`${styles.tradeInput} ${styles.alertPriceInput}`}
                                 />
                             </div>

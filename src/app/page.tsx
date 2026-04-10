@@ -67,6 +67,21 @@ export default function Home() {
       .catch(() => setLoading(false));
   }, []);
 
+  // ── refresh portfolio while logged in (live quotes → holdings value) ──
+  useEffect(() => {
+    if (!authenticated) return;
+    const refresh = () => {
+      fetch('/api/holdings', { credentials: 'same-origin' })
+        .then(r => (r.ok ? r.json() : null))
+        .then(d => {
+          if (d) setPortfolioData(d);
+        })
+        .catch(() => {});
+    };
+    const id = setInterval(refresh, 15_000);
+    return () => clearInterval(id);
+  }, [authenticated]);
+
   // ── real market data fetch ────────────────────────────────────
   useEffect(() => {
     let mounted = true;
@@ -308,7 +323,7 @@ export default function Home() {
               <div className={styles.floatingBadgeText}>
                 <strong>Your portfolio today</strong>
                 <span style={{ color: isUp ? '#4ade80' : '#f87171' }}>
-                  {isUp ? '+' : ''}${pl.toFixed(2)} ({isUp ? '+' : ''}{pct.toFixed(2)}%)
+                  {isUp ? '+' : ''}${pl.toFixed(2)} ({isUp ? '+' : ''}{pct.toFixed(1)}%)
                 </span>
               </div>
             </div>

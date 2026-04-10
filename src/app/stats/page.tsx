@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './stats.module.css';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
@@ -13,6 +13,9 @@ interface HoldingEntry {
     shares: number;
     current_price: number;
     value: number;
+    buy_price?: number;
+    gain_loss?: number;
+    gain_loss_pct?: number;
 }
 
 interface LeaderboardEntry {
@@ -20,7 +23,12 @@ interface LeaderboardEntry {
     username: string;
     displayName: string | null;
     avatarColor: string;
+    /** Liquid cash only */
     cash: number;
+    /** Market value of open positions */
+    holdingsValue: number;
+    /** cash + holdingsValue — ranking uses this */
+    totalValue: number;
     pl: number;
     pct: number;
     isCurrentUser: boolean;
@@ -72,14 +80,12 @@ export default function StatsPage() {
         return () => { cancelled = true; };
     }, [router]);
 
-    useEffect(() => {
-        if (!authChecked) return;
-
-        // Fetch portfolio + leaderboard in parallel
-        Promise.all([
-            fetch('/api/holdings').then(r => r.ok ? r.json() : null),
-            fetch('/api/leaderboard').then(r => r.json()),
-        ]).then(([hd, lbData]) => {
+    const refreshPortfolioAndLeaderboard = useCallback(async () => {
+        try {
+            const [hd, lbData] = await Promise.all([
+                fetch('/api/holdings', { credentials: 'same-origin' }).then(r => (r.ok ? r.json() : null)),
+                fetch('/api/leaderboard', { credentials: 'same-origin' }).then(r => r.json()),
+            ]);
             if (hd) {
                 setCash(hd.cash);
                 setPortfolioValue(hd.portfolio_value);
@@ -88,18 +94,53 @@ export default function StatsPage() {
                 setHoldings(hd.holdings || []);
             }
             if (lbData?.leaderboard) setLeaderboard(lbData.leaderboard);
-            setLoading(false);
-        }).catch(() => setLoading(false));
+        } catch {
+            /* ignore */
+        }
+    }, []);
 
-        // Fetch portfolio history for the performance chart separately
-        fetch('/api/portfolio-history')
-            .then(r => r.ok ? r.json() : { history: [] })
-            .then(data => {
-                setPortfolioHistory(data.history || []);
-                setHistoryLoading(false);
-            })
-            .catch(() => setHistoryLoading(false));
-    }, [authChecked]);
+    const refreshPortfolioHistory = useCallback(async () => {
+        try {
+            const data = await fetch('/api/portfolio-history', { credentials: 'same-origin' })
+                .then(r => (r.ok ? r.json() : { history: [] }));
+            setPortfolioHistory(data.history || []);
+        } catch {
+            /* ignore */
+        } finally {
+            setHistoryLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!authChecked) return;
+
+        let cancelled = false;
+
+        (async () => {
+            setLoading(true);
+            await refreshPortfolioAndLeaderboard();
+            if (!cancelled) setLoading(false);
+            await refreshPortfolioHistory();
+        })();
+
+        const pollMs = 15_000;
+        const intervalId = setInterval(() => {
+            void refreshPortfolioAndLeaderboard();
+            void refreshPortfolioHistory();
+        }, pollMs);
+
+        const onFocus = () => {
+            void refreshPortfolioAndLeaderboard();
+            void refreshPortfolioHistory();
+        };
+        window.addEventListener('focus', onFocus);
+
+        return () => {
+            cancelled = true;
+            clearInterval(intervalId);
+            window.removeEventListener('focus', onFocus);
+        };
+    }, [authChecked, refreshPortfolioAndLeaderboard, refreshPortfolioHistory]);
 
     if (!authChecked || loading) {
         return (
@@ -188,7 +229,7 @@ export default function StatsPage() {
                                     </div>
                                 </div>
                                 <div className={styles.statCardValue} style={{ color: isUp ? 'var(--vt-green)' : 'var(--vt-red)' }}>
-                                    {isUp ? '+' : ''}{pct.toFixed(2)}%
+                                    {isUp ? '+' : ''}{pct.toFixed(1)}%
                                 </div>
                                 <div className={styles.statCardSub} style={{ color: isUp ? 'var(--vt-green)' : 'var(--vt-red)' }}>
                                     {isUp ? '+' : ''}${pl.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -240,7 +281,7 @@ export default function StatsPage() {
                                         background: isUp ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)',
                                         padding: '4px 12px', borderRadius: '100px',
                                     }}>
-                                        {isUp ? '+' : ''}{pct.toFixed(2)}%
+                                        {isUp ? '+' : ''}{pct.toFixed(1)}%
                                     </span>
                                 )}
                             </div>
@@ -331,7 +372,7 @@ export default function StatsPage() {
                                         },
                                         {
                                             label: 'Return %',
-                                            value: `${isUp ? '+' : ''}${pct.toFixed(2)}%`,
+                                            value: `${isUp ? '+' : ''}${pct.toFixed(1)}%`,
                                             color: isUp ? 'var(--vt-green)' : 'var(--vt-red)',
                                         },
                                         {
@@ -390,8 +431,10 @@ export default function StatsPage() {
                                             <tr>
                                                 <th>Stock</th>
                                                 <th>Shares</th>
+                                                <th>Avg Cost</th>
                                                 <th>Current Price</th>
                                                 <th>Market Value</th>
+                                                <th>Unrealized P/L</th>
                                                 <th>Allocation</th>
                                             </tr>
                                         </thead>
@@ -408,9 +451,30 @@ export default function StatsPage() {
                                                             </div>
                                                         </td>
                                                         <td className={styles.tdMuted}>{h.shares.toLocaleString()}</td>
+                                                        <td className={styles.tdMuted}>
+                                                            ${(h.buy_price ?? 0).toFixed(2)}
+                                                        </td>
                                                         <td className={styles.tdMuted}>${h.current_price?.toFixed(2)}</td>
                                                         <td className={styles.tdBlue}>
                                                             ${h.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                        </td>
+                                                        <td
+                                                            className={styles.tdMuted}
+                                                            style={{
+                                                                color:
+                                                                    (h.gain_loss ?? 0) >= 0 ? 'var(--vt-green)' : 'var(--vt-red)',
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            {(h.gain_loss ?? 0) >= 0 ? '+' : ''}$
+                                                            {(h.gain_loss ?? 0).toLocaleString('en-US', {
+                                                                minimumFractionDigits: 2,
+                                                                maximumFractionDigits: 2,
+                                                            })}{' '}
+                                                            <span style={{ opacity: 0.85 }}>
+                                                                ({(h.gain_loss ?? 0) >= 0 ? '+' : ''}
+                                                                {(h.gain_loss_pct ?? 0).toFixed(1)}%)
+                                                            </span>
                                                         </td>
                                                         <td>
                                                             <div className={styles.allocCell}>
@@ -486,10 +550,14 @@ export default function StatsPage() {
                                                             className={styles.podiumReturn}
                                                             style={{ color: entry.pct >= 0 ? 'var(--vt-green)' : 'var(--vt-red)' }}
                                                         >
-                                                            {entry.pct >= 0 ? '+' : ''}{entry.pct.toFixed(2)}%
+                                                            {entry.pct >= 0 ? '+' : ''}{entry.pct.toFixed(1)}%
                                                         </div>
                                                         <div className={styles.podiumPortfolio}>
-                                                            ${entry.cash.toLocaleString('en-US', { maximumFractionDigits: 0 })} portfolio
+                                                            $
+                                                            {entry.totalValue.toLocaleString('en-US', {
+                                                                maximumFractionDigits: 0,
+                                                            })}{' '}
+                                                            portfolio
                                                         </div>
                                                         {meta && (
                                                             <div className={styles.podiumRankLabel} style={{ color: meta.color }}>
@@ -577,11 +645,14 @@ export default function StatsPage() {
                                                                         background: entry.pct >= 0 ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)',
                                                                     }}
                                                                 >
-                                                                    {entry.pct >= 0 ? '+' : ''}{entry.pct.toFixed(2)}%
+                                                                    {entry.pct >= 0 ? '+' : ''}{entry.pct.toFixed(1)}%
                                                                 </span>
                                                             </td>
                                                             <td className={styles.tdBlue}>
-                                                                ${entry.cash.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                                                                $
+                                                                {entry.totalValue.toLocaleString('en-US', {
+                                                                    maximumFractionDigits: 0,
+                                                                })}
                                                             </td>
                                                             <td className={styles.tdCenter}>
                                                                 {meta

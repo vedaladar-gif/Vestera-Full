@@ -405,8 +405,31 @@
     white-space: nowrap;
 }
 
+/* Chart stack: canvas + optional empty-state overlay */
+.chartCanvasWrap {
+    position: relative;
+    min-height: 440px;
+}
 /* No padding — lightweight-charts fills the full div dimensions */
 .chartArea { height: 440px; }
+
+.chartEmptyOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--vt-text2);
+    background: color-mix(in srgb, var(--vt-surface) 92%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 5;
+    pointer-events: none;
+}
 
 /* ── Right sidebar ───────────────────────────────────────── */
 .sidebar { display: flex; flex-direction: column; gap: 12px; }
