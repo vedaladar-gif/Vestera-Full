@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import FounderCard from '@/components/founders/FounderCard';
+import FounderAvatarContent from '@/components/founders/FounderAvatarContent';
 import TypingText from '@/components/founders/TypingText';
 import { FOUNDERS_DATA } from '@/lib/foundersData';
 import pageStyles from '@/app/founders/founders.module.css';
@@ -24,6 +25,7 @@ export default function FoundersPageClient() {
     const [settled, setSettled] = useState<[boolean, boolean, boolean]>([false, false, false]);
     const [exitStage, setExitStage] = useState(false);
     const [stageOpen, setStageOpen] = useState(true);
+    const [missionVisible, setMissionVisible] = useState(false);
     const imageDoneRef = useRef(false);
     const mountedRef = useRef(true);
 
@@ -40,6 +42,20 @@ export default function FoundersPageClient() {
         setDone(true);
         setStageOpen(false);
     }, [reduceMotion]);
+
+    /** Mission sits below cards only after intro is done; brief delay lets the last grid card finish its entrance. */
+    useEffect(() => {
+        if (!done) {
+            setMissionVisible(false);
+            return;
+        }
+        if (reduceMotion) {
+            setMissionVisible(true);
+            return;
+        }
+        const id = window.setTimeout(() => setMissionVisible(true), 520);
+        return () => clearTimeout(id);
+    }, [done, reduceMotion]);
 
     useEffect(() => {
         imageDoneRef.current = false;
@@ -136,6 +152,8 @@ export default function FoundersPageClient() {
                                         role={data.role}
                                         bio={data.bio}
                                         initials={data.initials}
+                                        image={data.image}
+                                        imageObjectPosition={data.imageObjectPosition}
                                     />
                                 </motion.div>
                             )}
@@ -143,6 +161,31 @@ export default function FoundersPageClient() {
                     </div>
                 ))}
             </div>
+
+            {missionVisible && (
+                <motion.section
+                    className={pageStyles.mission}
+                    aria-labelledby="founders-mission-heading"
+                    initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                        duration: reduceMotion ? 0 : 0.5,
+                        ease: [0.22, 1, 0.36, 1],
+                    }}
+                >
+                    <div className={pageStyles.missionInner}>
+                        <h2 id="founders-mission-heading" className={pageStyles.missionTitle}>
+                            Our Mission
+                        </h2>
+                        <p className={pageStyles.missionText}>
+                            Vestera’s mission is to make financial education accessible, practical, and
+                            engaging for the next generation. We aim to give students and young investors the tools,
+                            knowledge, and confidence to understand markets, practice investing, and build a strong
+                            financial future.
+                        </p>
+                    </div>
+                </motion.section>
+            )}
 
             <AnimatePresence>
                 {showStage && founder && (
@@ -178,10 +221,21 @@ export default function FoundersPageClient() {
                                     step === 'frame' || exitStage ? introStyles.revealCardFrameOn : ''
                                 }`}
                             >
-                                <div className={cardStyles.avatarWrap} aria-hidden>
+                                <div
+                                    className={
+                                        founder.image
+                                            ? `${cardStyles.avatarWrap} ${cardStyles.avatarWrapPhoto}`
+                                            : `${cardStyles.avatarWrap} ${cardStyles.avatarWrapPlaceholder}`
+                                    }
+                                    aria-hidden
+                                >
                                     <motion.div
                                         key={`av-${fi}`}
-                                        className={cardStyles.avatarInner}
+                                        className={
+                                            founder.image
+                                                ? cardStyles.avatarHeroFrame
+                                                : cardStyles.avatarInnerInitials
+                                        }
                                         initial={{ opacity: 0, scale: 0.86 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{
@@ -194,7 +248,14 @@ export default function FoundersPageClient() {
                                             setStep('name');
                                         }}
                                     >
-                                        {founder.initials}
+                                        <FounderAvatarContent
+                                            image={founder.image}
+                                            initials={founder.initials}
+                                            name={founder.name}
+                                            photoClassName={cardStyles.avatarHeroPhoto}
+                                            objectPosition={founder.imageObjectPosition}
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                        />
                                     </motion.div>
                                 </div>
                                 <div className={cardStyles.body}>

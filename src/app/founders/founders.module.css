@@ -92,3 +92,50 @@
         width: 100%;
     }
 }
+
+/* “Our Mission” — shown only after founder intro completes */
+.mission {
+    margin-top: clamp(40px, 7vw, 72px);
+    padding-top: clamp(36px, 6vw, 56px);
+    border-top: 1px solid var(--vt-border);
+    text-align: center;
+    position: relative;
+    z-index: 4;
+}
+
+.missionInner {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 0 4px;
+}
+
+@media (min-width: 640px) {
+    .missionInner {
+        padding: 0;
+    }
+}
+
+.missionTitle {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.25rem, 3.2vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--vt-text);
+    line-height: 1.25;
+    margin: 0 0 16px;
+}
+
+@media (min-width: 768px) {
+    .missionTitle {
+        margin-bottom: 18px;
+    }
+}
+
+.missionText {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(15px, 2.4vw, 17px);
+    line-height: 1.75;
+    color: var(--vt-text2);
+    margin: 0;
+    text-wrap: pretty;
+}

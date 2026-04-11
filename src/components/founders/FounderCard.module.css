@@ -19,29 +19,56 @@
     border-color: var(--vt-border2);
 }
 
+/* Top media slot — full card width; aligns with rounded card top (overflow on .card) */
 .avatarWrap {
-    aspect-ratio: 4 / 5;
     width: 100%;
-    background: var(--vt-input-bg);
-    border-bottom: 1px solid var(--vt-border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
     overflow: hidden;
+    background: var(--vt-input-bg);
+    border-bottom: 1px solid var(--vt-border2);
 }
 
-.avatarInner {
-    width: 88px;
-    height: 88px;
-    border-radius: 20px;
-    background: linear-gradient(145deg, rgba(79, 110, 247, 0.22), rgba(155, 93, 229, 0.12));
-    border: 1px solid var(--vt-border);
+/* Founder with photo: large rectangular hero, image covers the slot */
+.avatarWrapPhoto {
+    aspect-ratio: 4 / 5;
+    min-height: min(280px, 58vw);
+}
+
+/* Initials-only: same slot proportions, centered glyph */
+.avatarWrapPlaceholder {
+    aspect-ratio: 4 / 5;
+    min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.avatarHeroFrame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.avatarHeroPhoto {
+    object-fit: cover;
+    object-position: center center;
+}
+
+.avatarInnerInitials {
+    position: relative;
+    width: min(112px, 34vw);
+    height: min(112px, 34vw);
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(79, 110, 247, 0.22), rgba(155, 93, 229, 0.12));
+    border: 1px solid var(--vt-border);
+    box-shadow: 0 6px 28px var(--vt-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
     font-family: 'Inter', sans-serif;
-    font-size: 22px;
+    font-size: clamp(17px, 5vw, 24px);
     font-weight: 800;
     letter-spacing: -0.04em;
     color: var(--vt-text2);
