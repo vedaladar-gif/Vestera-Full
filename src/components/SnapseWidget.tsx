@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import styles from './SnapseWidget.module.css';
 
@@ -18,49 +18,87 @@ function tickerFromWindow(): string {
     }
 }
 
+const TYPEWRITER_SPEED_MS = 12;
+
 export default function SnapseWidget() {
     const [open, setOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
         {
             role: 'assistant',
             content:
-                "Hi! I'm **Snapse**, your Vestera investing coach. Ask about markets, concepts, your **paper portfolio**, or a stock you're learning about — I'll keep it educational and clear. What would you like to explore?",
+                "Hi! I'm **Vestera AI**, your investing coach. Ask about markets, concepts, your **paper portfolio**, or a stock you're learning about — I'll keep it educational and clear. What would you like to explore?",
         },
     ]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const [streamingText, setStreamingText] = useState('');
+    const [isStreaming, setIsStreaming] = useState(false);
+    const streamingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    /** Always matches latest `messages` so the next send never posts an empty array (React batching). */
+    const messagesRef = useRef<Message[]>(messages);
     const pathname = usePathname();
 
     const isTrading = pathname.startsWith('/trade');
     const mode = isTrading ? 'TRADING' : 'TUTOR';
 
+    useLayoutEffect(() => {
+        messagesRef.current = messages;
+    }, [messages]);
+
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, loading]);
+    }, [messages, loading, streamingText]);
+
+    const typewriterReveal = (fullText: string, onDone: () => void) => {
+        if (streamingIntervalRef.current) clearInterval(streamingIntervalRef.current);
+        setIsStreaming(true);
+        setStreamingText('');
+        let i = 0;
+        streamingIntervalRef.current = setInterval(() => {
+            i++;
+            setStreamingText(fullText.slice(0, i));
+            if (i >= fullText.length) {
+                clearInterval(streamingIntervalRef.current!);
+                streamingIntervalRef.current = null;
+                setIsStreaming(false);
+                setStreamingText('');
+                onDone();
+            }
+        }, TYPEWRITER_SPEED_MS);
+    };
+
+    useEffect(() => {
+        return () => {
+            if (streamingIntervalRef.current) clearInterval(streamingIntervalRef.current);
+        };
+    }, []);
 
     const sendMessageWithText = async (raw: string) => {
         const trimmed = raw.trim();
         if (!trimmed || loading) return;
 
-        let snapshot: Message[] = [];
-        setMessages(prev => {
-            snapshot = [...prev, { role: 'user', content: trimmed }];
-            return snapshot;
-        });
+        const prev = messagesRef.current;
+        const next = [...prev, { role: 'user' as const, content: trimmed }];
+        messagesRef.current = next;
+        setMessages(next);
         setInput('');
         setLoading(true);
 
+        const toSend = next.slice(-10);
+
         try {
-            const res = await fetch('/api/snapse', {
+            const res = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'same-origin',
                 body: JSON.stringify({
-                    messages: snapshot,
-                    mode,
-                    route: pathname,
-                    stockSymbol: tickerFromWindow(),
+                    messages: toSend,
+                    context: {
+                        route: pathname,
+                        mode,
+                        stockSymbol: tickerFromWindow(),
+                    },
                 }),
             });
 
@@ -72,58 +110,72 @@ export default function SnapseWidget() {
             }
 
             if (res.status === 401) {
-                setMessages(prev => [
-                    ...prev,
-                    {
-                        role: 'assistant',
-                        content:
-                            'Please **sign in** to use Snapse. If you were logged in, your session may have expired — try refreshing the page.',
-                    },
-                ]);
+                setMessages(prev => {
+                    const updated = [
+                        ...prev,
+                        {
+                            role: 'assistant' as const,
+                            content:
+                                'Please **sign in** to use Vestera AI. If you were logged in, your session may have expired — try refreshing the page.',
+                        },
+                    ];
+                    messagesRef.current = updated;
+                    return updated;
+                });
             } else if (typeof data.reply === 'string' && data.reply.trim()) {
-                setMessages(prev => [...prev, { role: 'assistant', content: data.reply!.trim() }]);
+                const replyText = data.reply.trim();
+                setLoading(false);
+                typewriterReveal(replyText, () => {
+                    setMessages(prev => {
+                        const updated: Message[] = [...prev, { role: 'assistant', content: replyText }];
+                        messagesRef.current = updated;
+                        return updated;
+                    });
+                });
+                return;
             } else {
                 const detail =
                     typeof data.error === 'string' && data.error.trim()
                         ? data.error.trim()
-                        : `Something went wrong (${res.status}).`;
-                setMessages(prev => [
-                    ...prev,
-                    {
-                        role: 'assistant',
-                        content: `Sorry — ${detail} You can try again in a moment.`,
-                    },
-                ]);
+                        : 'Something went wrong. Please try again.';
+                setMessages(prev => {
+                    const updated: Message[] = [...prev, { role: 'assistant', content: detail }];
+                    messagesRef.current = updated;
+                    return updated;
+                });
             }
         } catch {
-            setMessages(prev => [
-                ...prev,
-                {
-                    role: 'assistant',
-                    content: '**Network error.** Check your connection and try again.',
-                },
-            ]);
+            setMessages(prev => {
+                const updated = [
+                    ...prev,
+                    { role: 'assistant' as const, content: 'Something went wrong. Please try again.' },
+                ];
+                messagesRef.current = updated;
+                return updated;
+            });
         } finally {
             setLoading(false);
         }
     };
 
     const formatContent = (text: string) => {
-        return text
+        const escaped = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+        return escaped
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\n/g, '<br/>');
     };
 
-    const quickPrompts = isTrading
-        ? ['What is diversification?', 'Bull vs bear case for a stock', 'Explain P/E ratio simply']
-        : ['What is dollar-cost averaging?', 'Quiz me on ETFs', 'What makes a stock risky?'];
+    const quickPrompts = ['What is a stock?', 'Explain ETFs', 'Is NVDA a good investment?'];
 
     return (
         <div className={styles.widget}>
             <button
                 className={`${styles.toggleBtn} ${open ? styles.active : ''}`}
                 onClick={() => setOpen(!open)}
-                title="Open Snapse AI"
+                title="Open Vestera AI"
                 type="button"
             >
                 {open ? '✕' : '💬'}
@@ -155,7 +207,7 @@ export default function SnapseWidget() {
                                     color: 'white',
                                 }}
                             >
-                                Snapse
+                                Vestera AI
                             </h3>
                             <p style={{ margin: 0, fontSize: '11px', color: '#4f6ef7' }}>
                                 {isTrading ? 'Investing coach' : 'Learning tutor'}
@@ -179,13 +231,26 @@ export default function SnapseWidget() {
                             />
                         </div>
                     ))}
+                    {isStreaming && (
+                        <div className={`${styles.message} ${styles.messageAssistant}`}>
+                            <div className={styles.bubble}>
+                                <span
+                                    dangerouslySetInnerHTML={{ __html: formatContent(streamingText) }}
+                                />
+                                <span className={styles.typingCursor} />
+                            </div>
+                        </div>
+                    )}
                     {loading && (
                         <div className={`${styles.message} ${styles.messageAssistant}`}>
                             <div className={styles.bubble}>
-                                <div className={styles.typingDots}>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
+                                <div className={styles.thinkingRow}>
+                                    <span className={styles.thinkingText}>Thinking…</span>
+                                    <div className={styles.typingDots}>
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -240,14 +305,14 @@ export default function SnapseWidget() {
                         placeholder="Ask about investing… (Shift+Enter for new line)"
                         className={styles.input}
                         rows={2}
-                        disabled={loading}
-                        aria-label="Message Snapse"
+                        disabled={loading || isStreaming}
+                        aria-label="Message Vestera AI"
                     />
                     <button
                         className={styles.sendBtn}
                         type="button"
                         onClick={() => void sendMessageWithText(input)}
-                        disabled={loading || !input.trim()}
+                        disabled={loading || isStreaming || !input.trim()}
                     >
                         ➤
                     </button>

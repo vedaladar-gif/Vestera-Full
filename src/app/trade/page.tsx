@@ -8,7 +8,11 @@ import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { isMarketOpen, MARKET_CLOSED_TRADE_MESSAGE } from '@/lib/marketStatus';
 import DashNav from '@/components/DashNav';
 import GuestGuard from '@/components/GuestGuard';
-import { useStockQuote } from '@/hooks/useStockQuote';
+import { useTradeAsset } from '@/hooks/useTradeAsset';
+import { useAssetSearch } from '@/hooks/useAssetSearch';
+import { AssetSearchInput } from '@/components/trade/AssetSearchInput';
+import { getAssetBySymbol, normalizeTradableTicker } from '@/lib/assetCatalog';
+import { displaySymbol } from '@/lib/symbolDisplay';
 import {
     type TradeChartTimeframe,
     TRADE_CHART_TIMEFRAMES,
@@ -92,14 +96,19 @@ const WATCHLIST_BASE: WatchItem[] = [
 // ── Component ──────────────────────────────────────────────────────────────
 
 function TradingDashboard() {
-    const [ticker, setTicker] = useState('AAPL');
+    const [authChecked, setAuthChecked] = useState(false);
+    const {
+        ticker,
+        setTicker,
+        quote: stockQuote,
+        loading: quoteLoading,
+        error: quoteError,
+    } = useTradeAsset('AAPL', { enabled: authChecked, pollIntervalMs: 15_000 });
+    const assetSearch = useAssetSearch({ debounceMs: 220, limit: 28 });
     const [quantity, setQuantity] = useState(1);
     const [cash, setCash] = useState(0);
     const [holdings, setHoldings] = useState<HoldingEntry[]>([]);
     const [recentTrades, setRecentTrades] = useState<TradeEntry[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState<string[]>([]);
-    const [showSearch, setShowSearch] = useState(false);
     const [chartType, setChartType] = useState<'candlestick' | 'area' | 'line'>('area');
     const [timeframe, setTimeframe] = useState<TradeChartTimeframe>('1M');
     const timeframeRef = useRef<TradeChartTimeframe>(timeframe);
@@ -108,7 +117,6 @@ function TradingDashboard() {
     const [statusType, setStatusType] = useState<'success' | 'error'>('success');
     const [chartReady, setChartReady] = useState(false);
     const [chartEmptyReason, setChartEmptyReason] = useState<string | null>(null);
-    const [authChecked, setAuthChecked] = useState(false);
 
     // OHLC tooltip state
     const [ohlcBar, setOhlcBar] = useState<OhlcBar | null>(null);
@@ -128,6 +136,7 @@ function TradingDashboard() {
     const [alertSaving, setAlertSaving] = useState(false);
     const [marketClosedToast, setMarketClosedToast] = useState<string | null>(null);
     const marketClosedToastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [showChatHint, setShowChatHint] = useState(true);
 
     const chartRef = useRef<HTMLDivElement>(null);
     const chartInstanceRef = useRef<ReturnType<typeof import('lightweight-charts').createChart> | null>(null);
@@ -145,11 +154,6 @@ function TradingDashboard() {
     // Live market status — re-evaluates every 60 s via the hook
     const marketStatus = useMarketStatus();
 
-    /** Single source of truth for the active ticker: price, day change, poll every 15s */
-    const { quote: stockQuote, loading: quoteLoading, error: quoteError } = useStockQuote(ticker, {
-        enabled: authChecked,
-        pollIntervalMs: 15_000,
-    });
     const displayPrice = stockQuote?.price ?? 0;
 
     // ── 1. Auth gate (wait for /me; only redirect when definitively unauthenticated) ─
@@ -178,7 +182,7 @@ function TradingDashboard() {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const t = params.get('ticker');
-        if (t) setTicker(t.toUpperCase());
+        if (t) setTicker(normalizeTradableTicker(t));
     }, []);
 
     // ── 3. Fetch holdings ─────────────────────────────────────────────────────
@@ -558,23 +562,12 @@ function TradingDashboard() {
         };
     }, [authChecked, ticker, fetchHoldings, fetchAlerts, fetchWatchlistPrices]);
 
-    // ── 10. Stock search ──────────────────────────────────────────────────────
-    useEffect(() => {
-        if (!searchQuery) { setSearchResults([]); setShowSearch(false); return; }
-        const t = setTimeout(async () => {
-            const res = await fetch(`/api/search-stocks?q=${encodeURIComponent(searchQuery)}`);
-            const data = await res.json();
-            setSearchResults(data.results || []);
-            setShowSearch(true);
-        }, 200);
-        return () => clearTimeout(t);
-    }, [searchQuery]);
-
     // ── Helpers ───────────────────────────────────────────────────────────────
     const selectStock = (sym: string) => {
-        setTicker(sym);
-        setSearchQuery('');
-        setShowSearch(false);
+        setTicker(normalizeTradableTicker(sym));
+        assetSearch.setQuery('');
+        assetSearch.setOpen(false);
+        assetSearch.setSelectedIndex(-1);
     };
 
     const showMarketClosedToast = useCallback(() => {
@@ -588,6 +581,11 @@ function TradingDashboard() {
 
     useEffect(() => () => {
         if (marketClosedToastTimer.current) clearTimeout(marketClosedToastTimer.current);
+    }, []);
+
+    useEffect(() => {
+        const t = setTimeout(() => setShowChatHint(false), 8000);
+        return () => clearTimeout(t);
     }, []);
 
     const dismissMarketClosedToast = useCallback(() => {
@@ -704,7 +702,7 @@ function TradingDashboard() {
                 value,
                 gainLoss,
                 hasQuote,
-                displayName: WATCHLIST_BASE.find(w => w.sym === h.stock)?.name,
+                displayName: getAssetBySymbol(h.stock)?.name,
             };
         });
     }, [holdings, ticker, stockQuote]);
@@ -784,23 +782,19 @@ function TradingDashboard() {
                 <div className={styles.chartPanel}>
                     <div className={styles.chartHeader}>
                         <div className={styles.tickerInfo}>
-                            <div className={styles.searchBox}>
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={e => setSearchQuery(e.target.value.toUpperCase())}
-                                    placeholder="Search stock…"
-                                    className={styles.searchInput}
-                                />
-                                {showSearch && searchResults.length > 0 && (
-                                    <div className={styles.searchDropdown}>
-                                        {searchResults.map(s => (
-                                            <button key={s} onClick={() => selectStock(s)} className={styles.searchItem}>{s}</button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <h2>{ticker}</h2>
+                            <AssetSearchInput
+                                query={assetSearch.query}
+                                onQueryChange={assetSearch.setQuery}
+                                open={assetSearch.open}
+                                onOpenChange={assetSearch.setOpen}
+                                onFocusOpen={assetSearch.onFocusOpen}
+                                results={assetSearch.results}
+                                loading={assetSearch.loading}
+                                selectedIndex={assetSearch.selectedIndex}
+                                onSelectedIndexChange={assetSearch.setSelectedIndex}
+                                onSelectSymbol={selectStock}
+                            />
+                            <h2>{displaySymbol(ticker)}</h2>
                             <span className={styles.priceDisplay}>
                                 {stockQuote ? (
                                     <>
@@ -1139,6 +1133,20 @@ function TradingDashboard() {
                     )}
                 </div>
             </div>
+
+            {showChatHint && (
+                <div className={styles.chatHint} role="complementary" onClick={() => setShowChatHint(false)}>
+                    <div className={styles.chatHintCard}>
+                        <p className={styles.chatHintLabel}>Try it out</p>
+                        <p className={styles.chatHintTitle}>Interactive AI Coach</p>
+                        <p className={styles.chatHintSub}>Ask about any stock, get coaching on trades, or learn investing concepts.</p>
+                        <svg className={styles.chatHintArrow} viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4 C4 32 36 36 54 54" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none"/>
+                            <path d="M54 54 L40 48 M54 54 L48 40" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+            )}
 
             {marketClosedToast && (
                 <div className={styles.marketClosedToast} role="alert">

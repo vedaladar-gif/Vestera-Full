@@ -184,6 +184,19 @@
     border: 1px solid var(--vt-border);
 }
 
+.thinkingRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.thinkingText {
+    font-size: 13px;
+    color: var(--vt-text2);
+    font-weight: 500;
+}
+
 .typingDots {
     display: flex;
     gap: 4px;
@@ -220,6 +233,21 @@
         transform: translateY(-8px);
         opacity: 1;
     }
+}
+
+.typingCursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--vt-text);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.7s step-start infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .inputArea {

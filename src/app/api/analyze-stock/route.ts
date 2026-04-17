@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
-import { getCurrentPrice, STOCKS } from '@/lib/stocks';
+import { isTradableSymbol, normalizeTradableTicker } from '@/lib/assetCatalog';
+import { getCurrentPrice } from '@/lib/stocks';
 
 export async function POST(request: Request) {
     const session = await getSession();
@@ -9,10 +10,10 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
-    const ticker = (data.ticker || '').toUpperCase();
+    const ticker = normalizeTradableTicker(data.ticker || '');
     const message = (data.message || '').trim();
 
-    if (!ticker || (!STOCKS.includes(ticker) && !STOCKS.includes(ticker + '-USD'))) {
+    if (!ticker || !isTradableSymbol(ticker)) {
         return NextResponse.json({ error: 'Invalid stock ticker' }, { status: 400 });
     }
 

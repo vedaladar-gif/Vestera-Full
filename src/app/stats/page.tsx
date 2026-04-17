@@ -6,8 +6,9 @@ import styles from './stats.module.css';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 import PortfolioChart, { type HistoryPoint } from '@/components/PortfolioChart';
 import GuestGuard from '@/components/GuestGuard';
+import { FriendsTab } from '@/components/stats/FriendsTab';
 
-type Tab = 'portfolio' | 'leaderboard';
+type Tab = 'portfolio' | 'leaderboard' | 'friends';
 
 interface HoldingEntry {
     stock: string;
@@ -59,6 +60,18 @@ function StatsPage() {
     const [portfolioHistory, setPortfolioHistory] = useState<HistoryPoint[]>([]);
     const [historyLoading, setHistoryLoading] = useState(true);
     const router = useRouter();
+
+    useEffect(() => {
+        try {
+            const t = sessionStorage.getItem('vestera-stats-tab');
+            if (t === 'friends' || t === 'leaderboard' || t === 'portfolio') {
+                setTab(t);
+                sessionStorage.removeItem('vestera-stats-tab');
+            }
+        } catch {
+            /* ignore */
+        }
+    }, []);
 
     useEffect(() => {
         let cancelled = false;
@@ -200,6 +213,12 @@ function StatsPage() {
                         >
                             🏆 Leaderboard
                             {myRank && <span className={styles.rankPill}>#{myRank}</span>}
+                        </button>
+                        <button
+                            className={`${styles.tabBtn} ${tab === 'friends' ? styles.tabBtnActive : ''}`}
+                            onClick={() => setTab('friends')}
+                        >
+                            👥 Friends
                         </button>
                     </div>
                 </div>
@@ -672,6 +691,11 @@ function StatsPage() {
                         )}
                     </>
                 )}
+
+                {/* ══════════════════════════════
+                    FRIENDS TAB
+                ══════════════════════════════ */}
+                {tab === 'friends' && <FriendsTab />}
 
             </div>
         </div>

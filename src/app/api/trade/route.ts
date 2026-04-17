@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { getUserCash, getHoldings, updateUserCash, addTrade } from '@/lib/models';
-import { STOCKS } from '@/lib/stocks';
+import { isTradableSymbol, normalizeTradableTicker } from '@/lib/assetCatalog';
 import { isMarketOpen, MARKET_CLOSED_TRADE_MESSAGE } from '@/lib/marketStatus';
 
 export async function POST(request: Request) {
@@ -20,15 +20,12 @@ export async function POST(request: Request) {
     const userId = session.userId;
     const data = await request.json();
 
-    const ticker = (data.ticker || '').toUpperCase();
+    const ticker = normalizeTradableTicker(data.ticker || '');
     const quantity = parseInt(data.quantity || '0', 10);
     const action = (data.action || '').toUpperCase();
     const price = parseFloat(data.price || '0');
 
-    // Accept both BTC and BTC-USD style
-    const validTicker = STOCKS.includes(ticker) || STOCKS.includes(ticker + '-USD') || STOCKS.includes(ticker.replace('-USD', ''));
-
-    if (!validTicker || quantity <= 0 || !['BUY', 'SELL'].includes(action) || price <= 0) {
+    if (!isTradableSymbol(ticker) || quantity <= 0 || !['BUY', 'SELL'].includes(action) || price <= 0) {
         return NextResponse.json({ error: 'Invalid trade parameters' }, { status: 400 });
     }
 

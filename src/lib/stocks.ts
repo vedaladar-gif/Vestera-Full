@@ -1,39 +1,32 @@
 import YahooFinance from 'yahoo-finance2';
+import { TRADABLE_SYMBOL_LIST, normalizeTradableTicker } from '@/lib/assetCatalog';
 
 const yahooFinance = new YahooFinance();
 
-// Extended stock list with popular companies
-export const STOCKS = [
-    'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'GOOG', 'NVDA', 'TSLA', 'META', 'AVGO', 'ASML',
-    'NFLX', 'PYPL', 'INTC', 'AMD', 'CRM', 'ADBE', 'IBM', 'ORCL', 'SAP', 'CSCO',
-    'QCOM', 'ADSK', 'SNPS', 'CDNS', 'MCHP', 'KLAC', 'LRCX', 'AMAT', 'LSCC', 'MPWR',
-    'GE', 'BA', 'CAT', 'DE', 'MMM', 'HON', 'ABB', 'EATON', 'ETN', 'ITW',
-    'WMT', 'KO', 'PEP', 'MCD', 'SBUX', 'DPZ', 'CPRT', 'YUM', 'CMG', 'ULTA',
-    'JPM', 'BAC', 'WFC', 'GS', 'MS', 'BLK', 'SCHW', 'TD', 'RY', 'BNS', 'V', 'MA',
-    'XOM', 'CVX', 'COP', 'EOG', 'MPC', 'PSX', 'VLO', 'HES', 'OXY', 'SLB',
-    'PG', 'UN', 'COST', 'MO', 'PM', 'BTC-USD', 'ETH-USD'
-];
+/** @deprecated Use `isTradableSymbol` from `@/lib/assetCatalog` — kept for legacy imports. */
+export const STOCKS = TRADABLE_SYMBOL_LIST as unknown as string[];
+
+/** Yahoo Finance uses hyphens for share classes (e.g. BRK-B); catalog may use dots (BRK.B). */
+export function toYahooFinanceSymbol(symbol: string): string {
+    const base = normalizeSymbol(symbol.trim());
+    const u = base.toUpperCase();
+    if (u.includes('.')) return u.replace(/\./g, '-');
+    return u;
+}
 
 // Human-friendly aliases for crypto
 export function normalizeSymbol(symbol: string): string {
-    if (symbol === 'BTC') return 'BTC-USD';
-    if (symbol === 'ETH') return 'ETH-USD';
-    return symbol;
+    return normalizeTradableTicker(symbol);
 }
 
-export function displaySymbol(symbol: string): string {
-    if (symbol === 'BTC-USD') return 'BTC';
-    if (symbol === 'ETH-USD') return 'ETH';
-    return symbol;
-}
+export { displaySymbol } from '@/lib/symbolDisplay';
 
 // In-memory price cache
 const CACHE: Map<string, { ts: number; price: number }> = new Map();
 const CACHE_TTL = 60; // 60 seconds
 
 export async function getCurrentPrice(symbol: string): Promise<number> {
-    symbol = symbol.toUpperCase();
-    const yfSymbol = normalizeSymbol(symbol);
+    const yfSymbol = toYahooFinanceSymbol(symbol);
 
     // Check cache
     const cached = CACHE.get(yfSymbol);
@@ -81,7 +74,7 @@ function sessionTimezoneForYahooSymbol(yfSymbol: string): string {
  * the most recent calendar day in the window that has bars (completed session when closed).
  */
 export async function getIntradaySession(symbol: string): Promise<HistoricalBar[]> {
-    const yfSymbol = normalizeSymbol(symbol.toUpperCase());
+    const yfSymbol = toYahooFinanceSymbol(symbol);
     const tz = sessionTimezoneForYahooSymbol(yfSymbol);
 
     const end = new Date();
@@ -143,8 +136,7 @@ export async function getIntradaySession(symbol: string): Promise<HistoricalBar[
 }
 
 export async function getHistorical(symbol: string, days = 30): Promise<HistoricalBar[]> {
-    symbol = symbol.toUpperCase();
-    const yfSymbol = normalizeSymbol(symbol);
+    const yfSymbol = toYahooFinanceSymbol(symbol);
 
     try {
         const end = new Date();
@@ -179,27 +171,4 @@ export async function getHistorical(symbol: string, days = 30): Promise<Historic
 
 
 export const STARTING_CASH = 100000.0;
-export const STOCK_NAMES: Record<string, string> = {
-    'AAPL': 'Apple Inc.', 'MSFT': 'Microsoft Corp', 'GOOGL': 'Alphabet Inc.', 'GOOG': 'Alphabet Inc.',
-    'AMZN': 'Amazon.com Inc', 'NVDA': 'NVIDIA Corp', 'TSLA': 'Tesla Inc.', 'META': 'Meta Platforms',
-    'NFLX': 'Netflix Inc.', 'INTC': 'Intel Corp', 'AMD': 'Advanced Micro', 'CRM': 'Salesforce Inc',
-    'ADBE': 'Adobe Inc.', 'PYPL': 'PayPal Inc.', 'IBM': 'IBM Corp', 'ORCL': 'Oracle Corp',
-    'CSCO': 'Cisco Systems', 'QCOM': 'Qualcomm Inc', 'ADSK': 'Autodesk Inc', 'SNPS': 'Synopsys Inc',
-    'CDNS': 'Cadence Inc.', 'MCHP': 'Microchip Tech', 'KLAC': 'KLA Corp', 'LRCX': 'Lam Research',
-    'AMAT': 'Applied Materials', 'LSCC': 'Lattice Semi', 'MPWR': 'Monolithic Power', 'ASML': 'ASML Holding',
-    'AVGO': 'Broadcom Inc', 'SAP': 'SAP SE', 'ABB': 'ABB Ltd', 'EATON': 'Eaton Corp',
-    'ETN': 'Eaton Tech', 'ITW': 'Illinois Tool', 'GE': 'General Electric', 'BA': 'Boeing Co.',
-    'CAT': 'Caterpillar Inc', 'DE': 'Deere & Co.', 'MMM': '3M Company', 'HON': 'Honeywell Intl',
-    'WMT': 'Walmart Inc.', 'KO': 'Coca-Cola Co.', 'PEP': 'PepsiCo Inc.', 'MCD': "McDonald's Corp",
-    'SBUX': 'Starbucks Corp', 'DPZ': "Domino's Pizza", 'CPRT': 'Carpetright', 'YUM': 'Yum! Brands',
-    'CMG': 'Chipotle Mexican', 'ULTA': 'Ulta Beauty Inc', 'JPM': 'JPMorgan Chase', 'BAC': 'Bank of America',
-    'WFC': 'Wells Fargo', 'GS': 'Goldman Sachs', 'MS': 'Morgan Stanley', 'BLK': 'BlackRock Inc.',
-    'SCHW': 'Schwab Corp', 'TD': 'Toronto Dominion', 'RY': 'Royal Bank Can', 'BNS': 'Bank Nova Scotia',
-    'V': 'Visa Inc.', 'MA': 'Mastercard Inc.',
-    'XOM': 'Exxon Mobil', 'CVX': 'Chevron Corp', 'COP': 'ConocoPhillips', 'EOG': 'EOG Resources',
-    'MPC': 'Marathon Petro', 'PSX': 'Phillips 66', 'VLO': 'Valero Energy', 'HES': 'Hess Corp',
-    'OXY': 'Occidental Petro', 'SLB': 'Schlumberger', 'PG': 'Procter & Gamble', 'UN': 'Unilever PLC',
-    'COST': 'Costco Wholesale', 'MO': 'Altria Group', 'PM': 'Philip Morris',
-    'BTC': 'Bitcoin', 'ETH': 'Ethereum', 'BTC-USD': 'Bitcoin', 'ETH-USD': 'Ethereum',
-};
 

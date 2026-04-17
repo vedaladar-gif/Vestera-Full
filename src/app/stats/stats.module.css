@@ -451,11 +451,523 @@
 .emptyTitle { font-size: 15px; font-weight: 600; color: var(--vt-text2); margin: 0 0 6px; }
 .emptyText { font-size: 13px; color: var(--vt-text3); margin: 0 0 8px; }
 
+/* ── Friends tab ── */
+.friendsLayout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 16px;
+    align-items: start;
+}
+.friendsMain { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.friendsAside {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 88px;
+}
+.friendsBanner {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.friendsBannerOk {
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.25);
+    color: var(--vt-green);
+}
+.friendsBannerErr {
+    background: rgba(248,113,113,0.1);
+    border: 1px solid rgba(248,113,113,0.25);
+    color: var(--vt-red);
+}
+.friendsIdentity {
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 16px;
+    padding: 20px 22px;
+}
+.friendsIdentityHandle {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--vt-text);
+    margin: 0 0 6px;
+}
+.friendsIdentitySub {
+    font-size: 13px;
+    color: var(--vt-text3);
+    margin: 0;
+    line-height: 1.45;
+}
+.friendsIdentityWarn {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #fbbf24;
+}
+.friendsListHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+.friendsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+.friendCard {
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.friendCardTop {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+.friendAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+}
+.friendMeta { min-width: 0; }
+.friendHandle { font-size: 14px; font-weight: 700; color: var(--vt-text); }
+.friendDisplay { font-size: 11px; color: var(--vt-text3); margin-top: 2px; }
+.friendBadge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--vt-text3);
+}
+.friendRemoveBtn {
+    align-self: flex-start;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid var(--vt-border);
+    background: transparent;
+    color: var(--vt-text2);
+    cursor: pointer;
+    font-family: inherit;
+}
+.friendRemoveBtn:hover {
+    color: #f87171;
+    border-color: rgba(248,113,113,0.35);
+    background: rgba(248,113,113,0.06);
+}
+.friendsPanel {
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 320px;
+}
+.friendsPanelTitle {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin: 0;
+}
+.friendsSearchInput {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--vt-border);
+    background: var(--vt-input-bg);
+    color: var(--vt-text);
+    font-size: 13px;
+    font-family: inherit;
+}
+.friendsSearchInput:focus {
+    outline: none;
+    border-color: #4f6ef7;
+}
+.friendsSearchInput::placeholder { color: var(--vt-text3); }
+.friendsSearchResults {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+    margin-top: 4px;
+}
+.friendsSearchRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+}
+.friendsSearchRowInfo { min-width: 0; flex: 1; }
+.friendsSearchRowHandle { font-size: 12px; font-weight: 700; }
+.friendsSearchRowSub { font-size: 10px; color: var(--vt-text3); margin-top: 2px; }
+.friendsRowBtn {
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.friendsRowBtnPrimary {
+    background: rgba(79,110,247,0.15);
+    color: #4f6ef7;
+    border: 1px solid rgba(79,110,247,0.3);
+}
+.friendsRowBtnPrimary:hover { background: rgba(79,110,247,0.22); }
+.friendsRowBtnMuted {
+    background: transparent;
+    color: var(--vt-text3);
+    border: 1px solid var(--vt-border);
+    cursor: default;
+}
+.friendsRowBtnAccept {
+    background: rgba(74,222,128,0.12);
+    color: var(--vt-green);
+    border: 1px solid rgba(74,222,128,0.3);
+}
+.friendsRowBtnAccept:hover { background: rgba(74,222,128,0.2); }
+.friendsReqList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    max-height: 200px;
+}
+.friendsReqRow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+}
+.friendsReqActions { display: flex; gap: 6px; flex-wrap: wrap; }
+.friendsReqBtn {
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+.friendsReqBtnAccept {
+    background: rgba(74,222,128,0.15);
+    color: var(--vt-green);
+    border: 1px solid rgba(74,222,128,0.35);
+}
+.friendsReqBtnDecline {
+    background: transparent;
+    color: var(--vt-text2);
+    border: 1px solid var(--vt-border);
+}
+
+.friendCardClickable {
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    transition: border-color 0.2s, background 0.2s;
+}
+.friendCardClickable:hover {
+    border-color: rgba(79,110,247,0.35);
+    background: rgba(79,110,247,0.04);
+}
+.friendsShareHelper {
+    font-size: 12px;
+    color: var(--vt-text3);
+    margin: 0 0 12px;
+    line-height: 1.45;
+}
+.friendsShareModes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.friendsShareModeRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--vt-border2);
+    background: var(--vt-input-bg);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: var(--vt-text);
+    transition: border-color 0.15s, background 0.15s;
+}
+.friendsShareModeRow:hover {
+    border-color: var(--vt-border);
+}
+.friendsShareModeRowActive {
+    border-color: rgba(79,110,247,0.45);
+    background: rgba(79,110,247,0.08);
+}
+.friendsShareModeRadio {
+    width: 16px;
+    height: 16px;
+    accent-color: #4f6ef7;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+.friendsShareModeLabel {
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+}
+.friendsShareModeHint {
+    font-size: 11px;
+    color: var(--vt-text3);
+    margin-top: 2px;
+    display: block;
+    font-weight: 500;
+}
+.friendsShareCheckWrap {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--vt-border2);
+}
+.friendsShareCheckTitle {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--vt-text3);
+    margin: 0 0 8px;
+}
+.friendsShareChecklist {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.friendsShareCheckRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.friendsShareCheckRow input {
+    accent-color: #4f6ef7;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+.friendsShareSaveBtn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    background: #4f6ef7;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+}
+.friendsShareSaveBtn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+.friendsShareSaveBtn:not(:disabled):hover {
+    filter: brightness(1.06);
+}
+
+/* Friend profile + read-only portfolio (also used under /friends) */
+.friendPageWrap {
+    min-height: 100vh;
+    background: var(--vt-bg);
+    padding: 48px 24px 80px;
+    color: var(--vt-text);
+    font-family: 'Inter', sans-serif;
+}
+.friendPageInner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.friendBackLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vt-text2);
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+.friendBackLink:hover {
+    color: #4f6ef7;
+}
+.friendProfileCard {
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 16px;
+    padding: 28px;
+}
+.friendProfileGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 220px) 1fr;
+    gap: 32px;
+    align-items: start;
+}
+.friendProfileHero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+.friendProfileHeroAvatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: 800;
+    color: #fff;
+}
+.friendProfileHeroHandle {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0;
+    word-break: break-all;
+}
+.friendProfileHeroSub {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--vt-text3);
+    margin: 0;
+}
+.friendProfileActions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+.friendProfileLocked {
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+    font-size: 13px;
+    color: var(--vt-text2);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.friendProfilePrimaryBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    background: #4f6ef7;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+}
+.friendProfilePrimaryBtn:hover {
+    filter: brightness(1.06);
+}
+.friendProfileDangerBtn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(248,113,113,0.4);
+    background: rgba(248,113,113,0.08);
+    color: #f87171;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+}
+.friendProfileDangerBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.friendPortfolioHeader {
+    margin-bottom: 20px;
+}
+.friendPortfolioTitle {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 4px;
+    letter-spacing: -0.5px;
+}
+.friendPortfolioSub {
+    font-size: 13px;
+    color: var(--vt-text3);
+    margin: 0;
+}
+.friendPortfolioSummary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+@media (max-width: 640px) {
+    .friendPortfolioSummary {
+        grid-template-columns: 1fr;
+    }
+    .friendProfileGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ── Responsive ── */
 @media (max-width: 1024px) {
     .statCards { grid-template-columns: repeat(2, 1fr); }
     .midGrid { grid-template-columns: 1fr; }
     .podiumGrid { grid-template-columns: repeat(2, 1fr); }
+    .friendsLayout { grid-template-columns: 1fr; }
+    .friendsAside { position: static; }
 }
 @media (max-width: 640px) {
     .statsWrap { padding: 32px 16px 60px; }

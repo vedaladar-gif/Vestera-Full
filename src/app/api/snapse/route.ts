@@ -3,8 +3,8 @@ import { getSession } from '@/lib/session';
 import { addChatMessage, getUserCash, getHoldings } from '@/lib/models';
 import { getCurrentPrice } from '@/lib/stocks';
 import { buildSnapseSystemInstruction } from '@/lib/snapsePrompt';
-import { clientMessagesToGeminiContents, lastUserContent, type SnapseClientMessage } from '@/lib/snapseConversation';
-import { generateSnapseReply } from '@/lib/snapseGemini';
+import { clientMessagesToGrokMessages, lastUserContent, type SnapseClientMessage } from '@/lib/snapseConversation';
+import { getGrokApiKey, grokChatCompletion } from '@/lib/grokXai';
 
 const MAX_MSG_LEN = 8000;
 
@@ -30,10 +30,10 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
+    const apiKey = getGrokApiKey();
     if (!apiKey) {
         return NextResponse.json(
-            { error: 'AI is not configured (missing GEMINI_API_KEY on the server).' },
+            { error: 'AI is not configured (missing GROK_API_KEY or XAI_API_KEY on the server).' },
             { status: 503 }
         );
     }
@@ -63,9 +63,9 @@ export async function POST(request: Request) {
 
     const userId = session.userId;
 
-    let contents;
+    let grokMessages: { role: 'user' | 'assistant'; content: string }[];
     try {
-        contents = clientMessagesToGeminiContents(messages);
+        grokMessages = clientMessagesToGrokMessages(messages);
     } catch (e) {
         return NextResponse.json(
             { error: e instanceof Error ? e.message : 'Invalid conversation history' },
@@ -122,10 +122,10 @@ export async function POST(request: Request) {
             stockPriceNote,
         });
 
-        const { text: reply } = await generateSnapseReply({
+        const { text: reply } = await grokChatCompletion({
             apiKey,
-            systemInstruction,
-            contents,
+            systemPrompt: systemInstruction,
+            messages: grokMessages,
         });
 
         if (!reply) {
@@ -141,15 +141,15 @@ export async function POST(request: Request) {
         const err = e as { message?: string; status?: number; statusText?: string };
         const msg = err?.message || String(e);
         if (process.env.NODE_ENV === 'development') {
-            console.error('[Snapse] Gemini error:', msg, e);
+            console.error('[Snapse] Grok error:', msg, e);
         } else {
-            console.error('[Snapse] Gemini error:', msg);
+            console.error('[Snapse] Grok error:', msg);
         }
 
         const lower = msg.toLowerCase();
         if (lower.includes('api key') || (lower.includes('invalid') && lower.includes('key'))) {
             return NextResponse.json(
-                { error: 'AI configuration error. Check GEMINI_API_KEY on the server.' },
+                { error: 'AI configuration error. Check GROK_API_KEY (or XAI_API_KEY) on the server.' },
                 { status: 503 }
             );
         }

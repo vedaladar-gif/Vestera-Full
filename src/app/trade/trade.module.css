@@ -253,25 +253,36 @@
     color: var(--vt-text);
     letter-spacing: -0.5px;
 }
-.searchBox { position: relative; }
-.searchInput {
+.searchBox { position: relative; z-index: 60; }
+.searchInput,
+.searchInputWide {
     padding: 8px 14px;
     background: var(--vt-input-bg);
     border: 1px solid var(--vt-border);
     border-radius: 8px;
     color: var(--vt-text);
     font-size: 13px;
-    width: 140px;
     transition: all 0.2s;
     font-family: inherit;
 }
-.searchInput:focus {
+.searchInput {
+    width: 140px;
+}
+.searchInputWide {
+    min-width: 220px;
+    width: min(320px, 36vw);
+}
+.searchInput:focus,
+.searchInputWide:focus {
     outline: none;
     border-color: #4f6ef7;
-    width: 180px;
     background: var(--vt-hover);
 }
-.searchInput::placeholder { color: var(--vt-text3); }
+.searchInputWide:focus {
+    width: min(360px, 42vw);
+}
+.searchInput::placeholder,
+.searchInputWide::placeholder { color: var(--vt-text3); }
 .searchDropdown {
     position: absolute;
     top: calc(100% + 4px);
@@ -284,6 +295,90 @@
     z-index: 50;
     min-width: 180px;
     box-shadow: 0 16px 40px var(--vt-shadow);
+}
+.assetSearchDropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 12px;
+    max-height: min(360px, 52vh);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 80;
+    min-width: 300px;
+    width: max(100%, 320px);
+    box-shadow: 0 16px 40px var(--vt-shadow);
+}
+.assetSearchHint {
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--vt-text3);
+    border-bottom: 1px solid var(--vt-border2);
+}
+.assetSearchRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--vt-border2);
+    color: var(--vt-text);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+.assetSearchRow:last-child { border-bottom: none; }
+.assetSearchRow:hover {
+    background: rgba(79,110,247,0.08);
+}
+.assetSearchRowHighlighted {
+    background: rgba(79,110,247,0.14);
+    outline: 1px solid rgba(79,110,247,0.25);
+    outline-offset: -1px;
+}
+.assetSearchRowLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+.assetSearchSym {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-size: 13px;
+}
+.assetSearchName {
+    font-size: 11px;
+    color: var(--vt-text2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+.assetSearchRowRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+}
+.assetSearchPrice {
+    font-weight: 700;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+}
+.assetSearchChg {
+    font-size: 11px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
 }
 .searchItem {
     display: block;
@@ -706,6 +801,77 @@
     transition: color 0.15s, background 0.15s;
 }
 .alertDismiss:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+
+/* ── Chat bot hint callout ───────────────────────────────── */
+.chatHint {
+    position: fixed;
+    bottom: 108px;
+    right: 104px;
+    z-index: 10000;
+    cursor: pointer;
+    animation: chatHintIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               chatHintOut 0.4s ease 7.6s both;
+}
+@keyframes chatHintIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.9); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes chatHintOut {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(8px) scale(0.95); }
+}
+.chatHintCard {
+    position: relative;
+    background: linear-gradient(135deg, #1e1b4b 0%, #2d1b69 100%);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 16px;
+    padding: 16px 18px 18px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(168,85,247,0.1);
+    max-width: 200px;
+    text-align: left;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.chatHint:hover .chatHintCard {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(168,85,247,0.2);
+}
+.chatHintLabel {
+    margin: 0 0 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #a78bfa;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+.chatHintTitle {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+.chatHintSub {
+    margin: 0;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.4;
+}
+.chatHintArrow {
+    position: absolute;
+    bottom: -38px;
+    right: -8px;
+    width: 52px;
+    height: 52px;
+    color: #a78bfa;
+    opacity: 0.85;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    animation: chatHintBounce 1.4s ease-in-out infinite;
+}
+@keyframes chatHintBounce {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(3px, 3px); }
+}
 
 /* ── Market closed trade toast (matches global alert toast styling) ─ */
 .marketClosedToast {

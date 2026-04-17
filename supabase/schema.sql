@@ -31,3 +31,7 @@ create table if not exists public.chat_messages (
   created_at timestamptz not null default now()
 );
 
+-- Friends (see migrations/20260413120000_friends.sql for full DDL)
+-- friend_requests: sender_id → recipient_id, status pending|accepted|declined
+-- friendships: user_a_id < user_b_id, unique pair
+

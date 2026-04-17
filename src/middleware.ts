@@ -3,13 +3,22 @@ import type { NextRequest } from 'next/server';
 import { getIronSession } from 'iron-session';
 import type { SessionData } from './lib/session';
 
-const protectedApiPaths = ['/api/trade', '/api/holdings', '/api/analyze-stock', '/api/delete-account', '/api/snapse'];
+const protectedApiPaths = [
+    '/api/trade',
+    '/api/holdings',
+    '/api/analyze-stock',
+    '/api/delete-account',
+    '/api/snapse',
+    '/api/portfolio-share',
+    '/api/friends/username',
+    '/api/chat',
+];
 
 /**
  * App routes that require a signed-in user. Unauthenticated visitors are sent to
  * `/restricted` (explains why) instead of `/login`.
  */
-const restrictedShellPaths = ['/trade', '/stats', '/settings', '/portfolio', '/leaderboard'];
+const restrictedShellPaths = ['/trade', '/stats', '/settings', '/portfolio', '/leaderboard', '/friends'];
 
 /** Always require iron-session (onboarding / legacy paths). */
 const authOnlyPaths = ['/setup-username', '/learn-unit', '/learn-quiz', '/dashboard'];
@@ -76,6 +85,8 @@ export const config = {
         '/portfolio/:path*',
         '/leaderboard',
         '/leaderboard/:path*',
+        '/friends',
+        '/friends/:path*',
         '/setup-username',
         '/setup-username/:path*',
         '/learn-unit/:path*',
@@ -83,6 +94,12 @@ export const config = {
         '/dashboard/:path*',
         '/api/trade/:path*',
         '/api/holdings/:path*',
+        '/api/portfolio-share',
+        '/api/portfolio-share/:path*',
+        '/api/friends/username',
+        '/api/friends/username/:path*',
+        '/api/chat',
+        '/api/chat/:path*',
         '/api/analyze-stock/:path*',
         '/api/delete-account/:path*',
         '/api/snapse',
