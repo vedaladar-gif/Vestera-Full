@@ -17,6 +17,7 @@ import {
     LessonContentWrapper,
     type LessonViewTab,
 } from './LessonViewTabs';
+import { LessonRenderer } from '@/components/learn/LessonRenderer';
 
 // Total lesson count across all levels
 const TOTAL_LESSONS = LEVELS.reduce((s, l) => s + l.units.length, 0);
@@ -117,8 +118,6 @@ export default function LearningDashboard() {
         }
     };
 
-    const formatContent = (text: string) =>
-        text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
 
     const activeUnitLevelObj = LEVELS.find(l => l.id === activeUnitLevel) ?? LEVELS[0];
 
@@ -255,7 +254,13 @@ export default function LearningDashboard() {
                                 <LessonContentWrapper>
                                     {lessonTab === 'concepts' && (
                                         <ConceptsTab>
-                                            <div className={styles.unitContent} dangerouslySetInnerHTML={{ __html: formatContent(activeUnit.content) }} />
+                                            <LessonRenderer
+                                                content={activeUnit.content}
+                                                unitId={activeUnit.id}
+                                                levelId={activeUnitLevel}
+                                                accentColor={activeUnitLevelObj.color}
+                                                onTakeQuiz={activeUnit.quiz.length > 0 ? startQuiz : undefined}
+                                            />
                                         </ConceptsTab>
                                     )}
                                     {lessonTab === 'video' && (

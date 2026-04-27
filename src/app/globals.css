@@ -182,6 +182,7 @@ body {
   transition: opacity 0.2s ease;
 }
 
+
 .nav-links {
   display: flex;
   gap: 4px;

@@ -1,0 +1,529 @@
+/* ── Main Renderer Container ──────────────────────────────────────────── */
+.renderer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 4px 0 24px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--vt-text);
+}
+
+/* ── Intro Block ──────────────────────────────────────────────────────── */
+.introBlock {
+    padding: 18px 20px;
+    border-left: 3px solid var(--accent, #4f6ef7);
+    background: linear-gradient(90deg, rgba(79,110,247,0.05) 0%, transparent 100%);
+    border-radius: 0 10px 10px 0;
+}
+
+.introText {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--vt-text);
+}
+
+/* ── Section Block ────────────────────────────────────────────────────── */
+.sectionBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sectionHeading {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--vt-text3);
+    padding: 4px 10px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+    border-radius: 6px;
+    width: fit-content;
+}
+
+.sectionBody {
+    padding: 14px 16px;
+    background: var(--vt-input-bg);
+    border-radius: 10px;
+    border: 1px solid var(--vt-border2);
+}
+
+.sectionText {
+    margin: 0 0 8px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--vt-text2);
+}
+.sectionText:last-child { margin-bottom: 0; }
+
+/* ── Concept Cards Grid ───────────────────────────────────────────────── */
+.conceptGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+.conceptCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px 14px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border);
+    border-radius: 10px;
+    transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    cursor: default;
+}
+
+.conceptCard:hover {
+    border-color: var(--accent, #4f6ef7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(79,110,247,0.1);
+}
+
+.conceptIcon {
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.conceptBody {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.conceptTerm {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--vt-text);
+    letter-spacing: -0.1px;
+}
+
+.conceptDesc {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--vt-text2);
+}
+
+/* ── Steps Block ──────────────────────────────────────────────────────── */
+.stepsBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stepsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.stepLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.stepNum {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent, #4f6ef7);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stepLine {
+    width: 2px;
+    flex: 1;
+    min-height: 18px;
+    background: linear-gradient(to bottom, var(--accent, #4f6ef7), transparent);
+    opacity: 0.3;
+    margin: 4px 0;
+}
+
+.stepText {
+    flex: 1;
+    padding: 5px 0 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--vt-text);
+}
+
+/* ── Bullet List ──────────────────────────────────────────────────────── */
+.bulletList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border2);
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.bulletItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.bulletDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent, #4f6ef7);
+    flex-shrink: 0;
+    margin-top: 7px;
+    opacity: 0.8;
+}
+
+.bulletText {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--vt-text);
+}
+
+/* ── Formula / Example Block ─────────────────────────────────────────── */
+.formulaBlock {
+    background: #0f172a;
+    border: 1px solid rgba(79,110,247,0.25);
+    border-left: 3px solid #4f6ef7;
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.exampleBlock {
+    background: rgba(168,85,247,0.05);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-left: 3px solid #a855f7;
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.formulaLabel {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #7d9bff;
+    margin-bottom: 4px;
+}
+
+.exampleBlock .formulaLabel {
+    color: #c084fc;
+}
+
+.formulaLine {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.exampleBlock .formulaLine {
+    font-family: 'Inter', sans-serif;
+    color: var(--vt-text);
+}
+
+.formulaBulletDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #a855f7;
+    flex-shrink: 0;
+}
+
+/* ── Regular Paragraph ────────────────────────────────────────────────── */
+.paragraph {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: var(--vt-text2);
+}
+
+/* ── Chart Section ────────────────────────────────────────────────────── */
+.chartSection {
+    margin: 4px 0;
+}
+
+.chartBox {
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: 14px;
+    padding: 18px 20px 16px;
+    overflow: hidden;
+}
+
+.chartTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin-bottom: 2px;
+    letter-spacing: -0.2px;
+}
+
+.chartSubtitle {
+    font-size: 12px;
+    color: var(--vt-text3);
+    margin-bottom: 14px;
+}
+
+.chart {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+    display: block;
+    color: var(--vt-text);
+}
+
+.chartNote {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--vt-text3);
+    background: var(--vt-input-bg);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--vt-border2);
+}
+
+.chartLegend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--vt-text2);
+}
+
+.legendDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legendLine {
+    width: 22px;
+    height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* ── Portfolio Pie Chart ──────────────────────────────────────────────── */
+.pieLayout {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 8px;
+}
+
+.pieChart {
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+}
+
+.pieLegend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.pieLegendItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pieLegendColor {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.pieLegendText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.pieLegendLabel {
+    font-size: 13px;
+    color: var(--vt-text);
+    font-weight: 500;
+}
+
+.pieLegendPct {
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Order Types Grid ─────────────────────────────────────────────────── */
+.orderGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.orderCard {
+    background: var(--vt-input-bg);
+    border: 1px solid var(--vt-border);
+    border-top-width: 3px;
+    border-radius: 10px;
+    padding: 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.orderIcon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.orderName {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+}
+
+.orderRow {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.orderLabel {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--vt-text3);
+}
+
+.orderVal {
+    font-size: 12px;
+    color: var(--vt-text2);
+}
+
+/* ── Quick Check CTA ─────────────────────────────────────────────────── */
+.quickCheck {
+    margin-top: 8px;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(79,110,247,0.08), rgba(168,85,247,0.06));
+    border: 1px solid rgba(79,110,247,0.18);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.quickCheckLabel {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--vt-text3);
+}
+
+.quickCheckText {
+    margin: 0;
+    font-size: 14px;
+    color: var(--vt-text2);
+    line-height: 1.5;
+}
+
+.quickCheckBtn {
+    margin-top: 4px;
+    width: fit-content;
+    padding: 8px 16px;
+    background: rgba(79,110,247,0.12);
+    border: 1px solid rgba(79,110,247,0.25);
+    border-radius: 8px;
+    color: #7d9bff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.15s;
+}
+
+.quickCheckBtn:hover {
+    background: rgba(79,110,247,0.2);
+    transform: translateX(2px);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .conceptGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .pieLayout {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pieChart {
+        width: 140px;
+        height: 140px;
+        align-self: center;
+    }
+
+    .orderGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chart {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 400px) {
+    .orderGrid {
+        grid-template-columns: 1fr;
+    }
+}

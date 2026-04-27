@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import VLogo from './VLogo';
+import VesteraLogo from './VesteraLogo';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 
 // Pages that render their own full-screen nav (trade, learn)
@@ -68,10 +68,7 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <Link href="/" className="nav-brand">
-                <span className="logo-glow">
-                    <VLogo size={30} />
-                </span>
-                <span className="nav-brand-word">Vestera</span>
+                <VesteraLogo height={38} />
             </Link>
             <div className="nav-links">
                 {authenticated ? (
