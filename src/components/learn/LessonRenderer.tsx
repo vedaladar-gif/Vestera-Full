@@ -124,7 +124,7 @@ function RichText({ text, className }: { text: string; className?: string }) {
 function conceptIcon(term: string): string {
     const t = term.toLowerCase();
     if (/price|bid|ask|spread|premium/.test(t)) return '💱';
-    if (/risk|loss|stop|drawdown|danger/.test(t)) return '⚠️';
+    if (/risk|loss|stop|drawdown|danger|penalty|withdraw/.test(t)) return '⚠️';
     if (/profit|gain|return|yield|dividend/.test(t)) return '📈';
     if (/chart|candle|pattern|signal|trend/.test(t)) return '📊';
     if (/strategy|plan|system|rule/.test(t)) return '🎯';
@@ -132,8 +132,11 @@ function conceptIcon(term: string): string {
     if (/portfolio|diversif|allocat|asset/.test(t)) return '🎨';
     if (/option|call|put|greek|delta|theta/.test(t)) return '⚙️';
     if (/time|period|day|week|month|date/.test(t)) return '📅';
-    if (/formula|ratio|calc|p\/e|eps/.test(t)) return '🧮';
+    if (/formula|ratio|calc|p\/e|eps|interest|rate|principal|linear|compound|snowball/.test(t)) return '🧮';
     if (/psychology|emotion|bias|fomo/.test(t)) return '🧠';
+    if (/ira|roth|traditional|retirement|pension|contribution/.test(t)) return '🏦';
+    if (/budget|expense|income|spend|need|want|saving|net worth|lifestyle/.test(t)) return '💵';
+    if (/frequen|growth|compound/.test(t)) return '📈';
     return '💡';
 }
 
@@ -600,6 +603,224 @@ function RiskRewardVisual() {
     );
 }
 
+// ─── Personal Finance Charts ──────────────────────────────────────────────────
+
+function IRAEarlyChart() {
+    // $200/month at 7%, retiring at age 65.  Start at 18 → $525K, start at 30 → $222K.
+    // Contributions: 47yr×12×$200 = $113K and 35yr×12×$200 = $84K.
+    // Scale: 560K → 150 px height; bottomY = 185.
+    const BY = 185;
+    const scale = (v: number) => Math.round((v / 560000) * 150);
+    const e = scale(525000); // 141
+    const l = scale(222000); // 59
+    const eC = scale(113000); // 30
+    const lC = scale(84000);  // 23
+    const g100  = BY - scale(100000);
+    const g300  = BY - scale(300000);
+    const g500  = BY - scale(500000);
+    return (
+        <div className={styles.chartBox}>
+            <div className={styles.chartTitle}>🏦 Early vs Late IRA Investor</div>
+            <div className={styles.chartSubtitle}>$200/month at 7% annual return — both retire at age 65</div>
+            <svg viewBox="0 0 380 215" className={styles.chart} aria-label="Early vs late IRA investor comparison">
+                {[BY, g100, g300, g500].map(y => (
+                    <line key={y} x1="44" y1={y} x2="356" y2={y} stroke="currentColor" strokeOpacity="0.08" />
+                ))}
+                <text x="40" y={BY + 4} textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$0</text>
+                <text x="40" y={g100 + 4} textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$100K</text>
+                <text x="40" y={g300 + 4} textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$300K</text>
+                <text x="40" y={g500 + 4} textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$500K</text>
+
+                {/* Bar 1 — start at 18 */}
+                <rect x="55" y={BY - e} width="95" height={e - eC} rx="4" fill="#06b6d4" fillOpacity="0.85" />
+                <rect x="55" y={BY - eC} width="95" height={eC} rx="0" fill="#06b6d4" fillOpacity="0.35" />
+                <text x="102" y={BY - e - 8} textAnchor="middle" fill="#22d3ee" fontSize="12" fontFamily="Inter,sans-serif" fontWeight="700">$525,000</text>
+                <text x="102" y={BY + 15} textAnchor="middle" fill="currentColor" fillOpacity="0.55" fontSize="10" fontFamily="Inter,sans-serif" fontWeight="600">Start at 18</text>
+
+                {/* Bar 2 — start at 30 */}
+                <rect x="225" y={BY - l} width="95" height={l - lC} rx="4" fill="#f97316" fillOpacity="0.85" />
+                <rect x="225" y={BY - lC} width="95" height={lC} rx="0" fill="#f97316" fillOpacity="0.35" />
+                <text x="272" y={BY - l - 8} textAnchor="middle" fill="#fb923c" fontSize="12" fontFamily="Inter,sans-serif" fontWeight="700">$222,000</text>
+                <text x="272" y={BY + 15} textAnchor="middle" fill="currentColor" fillOpacity="0.55" fontSize="10" fontFamily="Inter,sans-serif" fontWeight="600">Start at 30</text>
+
+                {/* Difference badge */}
+                <rect x="155" y={BY - e + Math.round(e / 2) - 11} width="56" height="22" rx="11" fill="#4ade8022" stroke="#4ade8044" />
+                <text x="183" y={BY - e + Math.round(e / 2) + 4} textAnchor="middle" fill="#4ade80" fontSize="10" fontFamily="Inter,sans-serif" fontWeight="700">+$303K</text>
+            </svg>
+            <div className={styles.chartLegend}>
+                <div className={styles.legendItem}><span className={styles.legendDot} style={{ background: '#06b6d4' }} />Compound growth (returns on returns)</div>
+                <div className={styles.legendItem}><span className={styles.legendDot} style={{ background: '#06b6d455' }} />Your actual contributions</div>
+            </div>
+            <div className={styles.chartNote}>💡 12 extra years of compounding more than doubles your retirement savings</div>
+        </div>
+    );
+}
+
+function CompoundMonthlyChart() {
+    // $100/month at 7%, compounded monthly over 40 years.
+    // x: 50→400 (350px / 40yr = 8.75px/yr).  y: 185→25 (160px / $265K).
+    const pts = (arr: [number, number][]) => arr.map(([x, y]) => `${x},${y}`).join(' ');
+    const totalPts: [number, number][] = [
+        [50, 185], [94, 181], [138, 175], [181, 165],
+        [225, 153], [269, 136], [313, 111], [356, 76], [400, 26],
+    ];
+    const contribPts: [number, number][] = [
+        [50, 185], [94, 181], [138, 178], [181, 174],
+        [225, 171], [269, 167], [313, 163], [356, 160], [400, 156],
+    ];
+    const growthArea = [
+        ...totalPts,
+        ...[...contribPts].reverse(),
+    ].map(([x, y]) => `${x},${y}`).join(' ');
+    const contribArea = [...contribPts, [400, 185] as [number, number]]
+        .map(([x, y]) => `${x},${y}`).join(' ');
+
+    const yrs = [0, 5, 10, 15, 20, 25, 30, 35, 40];
+    const xPos = [50, 94, 138, 181, 225, 269, 313, 356, 400];
+
+    return (
+        <div className={styles.chartBox}>
+            <div className={styles.chartTitle}>📈 Compound Growth in Action</div>
+            <div className={styles.chartSubtitle}>$100/month at 7% annual return — total value vs money contributed</div>
+            <svg viewBox="0 0 430 210" className={styles.chart} aria-label="Compound monthly contribution growth chart">
+                {[185, 145, 105, 65, 25].map(y => (
+                    <line key={y} x1="45" y1={y} x2="405" y2={y} stroke="currentColor" strokeOpacity="0.07" />
+                ))}
+                {/* Contribution area */}
+                <polygon points={contribArea} fill="#94a3b8" fillOpacity="0.15" />
+                {/* Growth area (between contribution and total) */}
+                <polygon points={growthArea} fill="#06b6d4" fillOpacity="0.15" />
+                {/* Contribution line */}
+                <polyline points={pts(contribPts)} fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5,3" strokeLinecap="round" />
+                {/* Total value line */}
+                <polyline points={pts(totalPts)} fill="none" stroke="#06b6d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Data dots */}
+                {totalPts.map(([x, y], i) => (
+                    <circle key={i} cx={x} cy={y} r="3.5" fill="#06b6d4" stroke="var(--vt-surface)" strokeWidth="2" />
+                ))}
+                {/* End labels */}
+                <rect x="304" y="12" width="98" height="22" rx="11" fill="#06b6d422" stroke="#06b6d444" />
+                <text x="353" y="27" textAnchor="middle" fill="#22d3ee" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$121,900</text>
+                <rect x="304" y="144" width="80" height="22" rx="11" fill="#94a3b822" stroke="#94a3b844" />
+                <text x="344" y="159" textAnchor="middle" fill="#94a3b8" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$36,000</text>
+                {/* X-axis labels */}
+                {yrs.map((yr, i) => (
+                    <text key={i} x={xPos[i]} y="200" textAnchor="middle" fill="currentColor" fillOpacity="0.45" fontSize="9" fontFamily="Inter,sans-serif">Yr {yr}</text>
+                ))}
+                {/* Y-axis labels */}
+                <text x="40" y="188" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$0</text>
+                <text x="40" y="28" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$265K</text>
+            </svg>
+            <div className={styles.chartLegend}>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#06b6d4' }} />Total account value (with compound growth)</div>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />Amount you actually contributed</div>
+            </div>
+            <div className={styles.chartNote}>💡 After 30 years your account is 3× your contributions — growth does the heavy lifting</div>
+        </div>
+    );
+}
+
+function SimpleVsCompoundChart() {
+    // $1,000 at 10% for 20 years.
+    // Simple: $1K + $100×t.  Compound: $1K × 1.10^t
+    // x: 50→390 (340px/20yr).  y: 175→25 (150px/$7K).
+    const simplePts = "50,154 135,143 220,132 305,121 390,111";
+    const compoundPts = "50,154 135,141 220,119 305,86 390,31";
+    const simpleArea = "50,175 50,154 135,143 220,132 305,121 390,111 390,175";
+    const compoundArea = "50,175 50,154 135,141 220,119 305,86 390,31 390,175";
+    const yrs = [0, 5, 10, 15, 20];
+    const xPos = [50, 135, 220, 305, 390];
+    return (
+        <div className={styles.chartBox}>
+            <div className={styles.chartTitle}>📐 Simple vs Compound Interest</div>
+            <div className={styles.chartSubtitle}>$1,000 at 10% — straight-line vs exponential growth over 20 years</div>
+            <svg viewBox="0 0 420 200" className={styles.chart} aria-label="Simple vs compound interest comparison chart">
+                {[175, 140, 105, 70, 35].map(y => (
+                    <line key={y} x1="45" y1={y} x2="395" y2={y} stroke="currentColor" strokeOpacity="0.07" />
+                ))}
+                {/* Simple area */}
+                <polygon points={simpleArea} fill="#94a3b8" fillOpacity="0.12" />
+                {/* Compound area */}
+                <polygon points={compoundArea} fill="#4f6ef7" fillOpacity="0.12" />
+                {/* Simple line */}
+                <polyline points={simplePts} fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Compound line */}
+                <polyline points={compoundPts} fill="none" stroke="#4f6ef7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                {/* End labels */}
+                <rect x="293" y="18" width="88" height="22" rx="11" fill="#4f6ef722" stroke="#4f6ef744" />
+                <text x="337" y="33" textAnchor="middle" fill="#7d9bff" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$6,727</text>
+                <rect x="293" y="98" width="82" height="22" rx="11" fill="#94a3b822" stroke="#94a3b844" />
+                <text x="334" y="113" textAnchor="middle" fill="#94a3b8" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$3,000</text>
+                {/* X-axis labels */}
+                {yrs.map((yr, i) => (
+                    <text key={i} x={xPos[i]} y="190" textAnchor="middle" fill="currentColor" fillOpacity="0.45" fontSize="9" fontFamily="Inter,sans-serif">Yr {yr}</text>
+                ))}
+                <text x="40" y="178" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$1K</text>
+                <text x="40" y="35" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$7K</text>
+            </svg>
+            <div className={styles.chartLegend}>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#4f6ef7' }} />Compound interest ($6,727 after 20 years)</div>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />Simple interest ($3,000 after 20 years)</div>
+            </div>
+            <div className={styles.chartNote}>💡 Compound interest produces 2.2× more than simple interest over 20 years at the same rate</div>
+        </div>
+    );
+}
+
+function BudgetPieChart() {
+    const segments = [
+        { label: 'Needs',    sub: 'Housing, food, transport', pct: 50, color: '#4f6ef7' },
+        { label: 'Wants',    sub: 'Dining, fun, hobbies',     pct: 30, color: '#f97316' },
+        { label: 'Savings',  sub: 'IRA, emergency fund',       pct: 20, color: '#4ade80' },
+    ];
+    const cx = 100, cy = 100, r = 70, innerR = 42;
+    let cumDeg = -90;
+    const arcs = segments.map(seg => {
+        const startDeg = cumDeg;
+        cumDeg += (seg.pct / 100) * 360;
+        const endDeg = cumDeg;
+        const toRad = (d: number) => (d * Math.PI) / 180;
+        const x1 = cx + r * Math.cos(toRad(startDeg));
+        const y1 = cy + r * Math.sin(toRad(startDeg));
+        const x2 = cx + r * Math.cos(toRad(endDeg));
+        const y2 = cy + r * Math.sin(toRad(endDeg));
+        const ix1 = cx + innerR * Math.cos(toRad(startDeg));
+        const iy1 = cy + innerR * Math.sin(toRad(startDeg));
+        const ix2 = cx + innerR * Math.cos(toRad(endDeg));
+        const iy2 = cy + innerR * Math.sin(toRad(endDeg));
+        const large = seg.pct > 50 ? 1 : 0;
+        const d = `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${ix2} ${iy2} A ${innerR} ${innerR} 0 ${large} 0 ${ix1} ${iy1} Z`;
+        return { ...seg, d };
+    });
+    return (
+        <div className={styles.chartBox}>
+            <div className={styles.chartTitle}>💵 The 50/30/20 Budget Rule</div>
+            <div className={styles.chartSubtitle}>A simple framework for every dollar you earn</div>
+            <div className={styles.pieLayout}>
+                <svg viewBox="0 0 200 200" className={styles.pieChart} aria-label="50/30/20 budget breakdown pie chart">
+                    {arcs.map((seg, i) => (
+                        <path key={i} d={seg.d} fill={seg.color} fillOpacity="0.9" stroke="var(--vt-surface)" strokeWidth="2" />
+                    ))}
+                    <text x={cx} y={cy - 6} textAnchor="middle" fill="var(--vt-text)" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">Your</text>
+                    <text x={cx} y={cx + 10} textAnchor="middle" fill="var(--vt-text)" fontSize="13" fontWeight="700" fontFamily="Inter,sans-serif">Budget</text>
+                </svg>
+                <div className={styles.pieLegend}>
+                    {segments.map((seg, i) => (
+                        <div key={i} className={styles.pieLegendItem}>
+                            <div className={styles.pieLegendColor} style={{ background: seg.color }} />
+                            <div className={styles.pieLegendText}>
+                                <span className={styles.pieLegendLabel}>{seg.label} — {seg.sub}</span>
+                                <span className={styles.pieLegendPct} style={{ color: seg.color }}>{seg.pct}%</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className={styles.chartNote}>💡 On $3,000/month: $1,500 needs · $900 wants · $600 saved and invested</div>
+        </div>
+    );
+}
+
 // ─── Chart Injection Map ──────────────────────────────────────────────────────
 
 function getChartForLesson(levelId: string, unitId: number): React.ReactNode | null {
@@ -615,6 +836,10 @@ function getChartForLesson(levelId: string, unitId: number): React.ReactNode | n
         case 'strategies-2':   return <RiskRewardVisual />;
         case 'strategies-5':   return <RiskRewardVisual />;
         case 'advanced-5':     return <CompoundGrowthChart />;
+        case 'personal-finance-1': return <IRAEarlyChart />;
+        case 'personal-finance-2': return <CompoundMonthlyChart />;
+        case 'personal-finance-3': return <SimpleVsCompoundChart />;
+        case 'personal-finance-4': return <BudgetPieChart />;
         default: return null;
     }
 }

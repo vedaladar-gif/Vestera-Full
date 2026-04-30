@@ -282,4 +282,192 @@ export const LEVELS: Level[] = [
             },
         ],
     },
+    {
+        id: 'personal-finance',
+        name: 'Personal Finance',
+        emoji: '💵',
+        color: '#06b6d4',
+        gradFrom: 'rgba(6,182,212,0.18)',
+        gradTo: 'rgba(6,182,212,0.04)',
+        units: [
+            {
+                id: 1,
+                icon: '🏦',
+                duration: '8 min',
+                topics: ['IRAs', 'Retirement', 'Tax-Free'],
+                title: 'Understanding IRAs',
+                content: `An IRA (Individual Retirement Account) is a tax-advantaged savings account built specifically for retirement. Understanding how IRAs work — and opening one early — is one of the most impactful financial moves anyone can make.
+
+**Why Retirement Accounts Matter:**
+Most people rely on Social Security — but the average monthly benefit is only around $1,900. An IRA lets your money grow in a tax-sheltered environment for decades, turning small monthly contributions into hundreds of thousands of dollars by the time you retire.
+
+**Key Concepts:**
+- **Traditional IRA:** Contribute pre-tax dollars. Get a tax deduction today. Pay taxes only when you withdraw in retirement.
+- **Roth IRA:** Contribute after-tax dollars. No deduction now — but all growth and qualified withdrawals are 100% tax-free.
+- **Contribution Limit:** $7,000/year in 2024 ($8,000 if you are age 50 or older)
+- **Early Withdrawal Penalty:** 10% penalty plus taxes if you withdraw before age 59½
+
+**Traditional vs Roth:**
+- **Traditional IRA:** Tax break now · Pre-tax contributions · Taxed at withdrawal · Required distributions at age 73
+- **Roth IRA:** Tax break later · After-tax contributions · Tax-free growth forever · No required distributions
+
+**Example:**
+$200/month at 7% annual return — both retire at age 65:
+- Start investing at age 18 → ~$525,000 by retirement
+- Start investing at age 30 → ~$222,000 by retirement
+Starting just 12 years earlier more than doubles the final balance.
+
+**Why It Matters:**
+Opening a Roth IRA at 18 with just $100/month can grow into over $400,000 by retirement — completely tax-free. Every year you delay is compound growth you can never recover. Money saved through budgeting and invested here starts compounding immediately toward your future.
+
+**Key Takeaways:**
+- **Choose Roth if young:** Low tax bracket now plus decades of tax-free growth equals a massive long-term advantage
+- **Start small:** $50/month invested consistently beats waiting to invest larger amounts later
+- **Max it out:** Aim for the full $7,000/year limit before investing in taxable brokerage accounts
+- **Time is irreplaceable:** Starting at 18 vs 30 can mean $300,000+ more at retirement`,
+                quiz: [
+                    { question: 'Which IRA provides 100% tax-free qualified withdrawals in retirement?', options: ['Traditional IRA', 'Roth IRA', 'SEP IRA', 'Both are equally tax-free'], answer: 1 },
+                    { question: 'What is the penalty for withdrawing IRA funds before age 59½?', options: ['5% penalty', '10% penalty plus taxes', '20% flat fee', 'No penalty, just taxes'], answer: 1 },
+                    { question: 'Which IRA gives you a tax deduction in the year you contribute?', options: ['Roth IRA', 'Traditional IRA', 'Neither type', 'Both types'], answer: 1 },
+                    { question: 'When is the best time to open a Roth IRA?', options: ['After you turn 40', 'Once you have a large amount saved', 'As early as possible', 'Only when fully employed'], answer: 2 },
+                ],
+            },
+            {
+                id: 2,
+                icon: '📊',
+                duration: '9 min',
+                topics: ['Compound Interest', 'Growth', 'Time'],
+                title: 'The Power of Compound Interest',
+                content: `Compound interest is earning returns on your returns — not just on the original amount. It is the most powerful wealth-building force in personal finance, and why time in the market matters far more than timing or the amount you start with.
+
+**Key Concepts:**
+- **Principal:** The original amount you invest or deposit
+- **Interest:** The return earned each period on your current total balance
+- **Compound Growth:** Returns are calculated on your ever-growing balance, not just the original deposit
+- **Compounding Frequency:** How often returns are added — daily, monthly, or annually. More frequent means faster growth.
+
+**Formula:**
+A = P × (1 + r/n)^(nt)
+- A = Final amount
+- P = Principal (your starting amount)
+- r = Annual interest rate as a decimal
+- n = Compounding periods per year
+- t = Time in years
+
+**Example:**
+$100/month at 7% annual return (compounded monthly):
+- After 10 years → ~$17,400 (you contributed just $12,000)
+- After 20 years → ~$52,400 (you contributed just $24,000)
+- After 30 years → ~$121,900 (you contributed just $36,000)
+
+**Early vs Late Starter ($100/month at 7%, retire at 65):**
+- Start at age 18 → ~$350,000 at retirement
+- Start at age 28 → ~$168,000 at retirement
+- 10 extra years of compounding creates over $180,000 more — without a single extra dollar invested
+
+**Why It Matters:**
+Compound interest also works against you on debt. A credit card at 24% APR compounds monthly just as aggressively — wiping out investment gains just as fast. Eliminating high-interest debt is equivalent to earning a guaranteed 24% return. Both investing early and clearing debt leverage the same compounding force in opposite directions. This is why long-term investing, started as early as possible, is the core of wealth-building.
+
+**Key Takeaways:**
+- **Time beats amount:** Starting 10 years earlier often doubles outcomes without higher contributions
+- **Reinvest everything:** All dividends and returns must stay invested to get the full compounding benefit
+- **Debt cuts both ways:** High-interest debt compounds against you — clear it before investing aggressively
+- **Stay the course:** Withdrawing early resets compounding and permanently reduces your final outcome`,
+                quiz: [
+                    { question: 'What makes compound interest more powerful than simple interest?', options: ['Higher interest rates', 'Government backing', 'You earn returns on your returns', 'It only applies to index funds'], answer: 2 },
+                    { question: 'In A = P(1 + r/n)^nt, what does "t" represent?', options: ['Tax rate', 'Type of account', 'Time in years', 'Transaction fee'], answer: 2 },
+                    { question: 'Why does starting at 18 vs 28 create such a large wealth difference?', options: ['Better stocks available when young', '10 more years of compounding on a growing total', 'Lower taxes when young', 'Higher IRA contribution limits'], answer: 1 },
+                    { question: 'Person A invests $100/month starting at 20. Person B invests $200/month starting at 35. Both retire at 65 at 7% return. Who has more?', options: ['Person B — more per month wins', 'Person A — time beats amount', 'They end up equal', 'It depends on stock selection'], answer: 1 },
+                ],
+            },
+            {
+                id: 3,
+                icon: '🧮',
+                duration: '6 min',
+                topics: ['Simple Interest', 'Loans', 'Formula'],
+                title: 'Simple Interest Basics',
+                content: `Simple interest calculates returns on the original principal only — it never earns on itself. It grows in a straight line. Understanding it helps you evaluate loans, savings accounts, and the real cost difference between simple and compound borrowing.
+
+**Key Concepts:**
+- **Linear Growth:** Simple interest adds the same dollar amount each period — no acceleration or snowball effect
+- **Common Uses:** Some auto loans, personal loans, short-term notes, and government savings bonds use simple interest
+- **Predictable:** You can calculate exactly how much you will owe or earn at any point in time
+- **No Snowball:** Unlike compound interest, previously earned interest never earns interest of its own
+
+**Formula:**
+Interest = Principal × Rate × Time
+- Interest = Total interest earned or owed
+- Principal = Starting amount in dollars
+- Rate = Annual interest rate as a decimal
+- Time = Number of years
+
+**Example:**
+$1,000 at 5% simple interest for 3 years:
+- Interest = $1,000 × 0.05 × 3 = $150
+- Total amount = $1,000 + $150 = $1,150
+
+**Simple vs Compound Interest:**
+- **Simple Interest:** Flat growth · Same dollar amount added each year · $1,000 at 10% for 20 years = $3,000
+- **Compound Interest:** Exponential growth · Returns on returns · $1,000 at 10% for 20 years = $6,727
+
+**Why It Matters:**
+When borrowing, knowing whether interest is simple or compound can save you thousands. Simple interest loans are almost always cheaper at the same stated rate. For saving and investing, compound interest is dramatically more powerful — which is why you want compound growth on investments and simple (or no) interest on your debt.
+
+**Key Takeaways:**
+- **Memorize the formula:** I = P × R × T — quick mental math for any loan estimate
+- **Simple is predictable:** Great for understanding the actual cost of short-term borrowing
+- **Compound wins for investing:** For growing wealth over time, compound interest is far superior
+- **Always ask:** Before taking a loan, confirm whether interest is simple or compound`,
+                quiz: [
+                    { question: 'Using I = P × R × T, what is the interest on $2,000 at 4% for 5 years?', options: ['$80', '$400', '$800', '$2,000'], answer: 1 },
+                    { question: 'How does simple interest grow over time?', options: ['Exponentially', 'In a straight line (linearly)', 'It decreases over time', 'It varies randomly'], answer: 1 },
+                    { question: 'At the same interest rate, which is generally cheaper for a borrower?', options: ['Compound interest', 'Simple interest', 'They are always identical', 'It depends on the lender'], answer: 1 },
+                    { question: 'What is the total amount owed on $500 at 6% simple interest for 2 years?', options: ['$530', '$560', '$600', '$660'], answer: 1 },
+                ],
+            },
+            {
+                id: 4,
+                icon: '💰',
+                duration: '8 min',
+                topics: ['Budgeting', '50/30/20', 'Money Management'],
+                title: 'Budgeting & Controlling Your Money',
+                content: `A budget is a plan for your money. Without one, spending naturally expands to fill whatever you earn — and nothing is ever left to invest. Budgeting is the foundation of financial control and the first step toward building real wealth.
+
+**Key Concepts:**
+- **Income:** All money coming in — salary, side income, freelance, benefits
+- **Fixed Expenses:** Same amount every month — rent, car payment, loan minimums, subscriptions
+- **Variable Expenses:** Change each month — food, clothing, entertainment, gas
+- **Net Worth:** Total assets minus total liabilities — the number that truly measures financial health
+
+**The 50/30/20 Rule:**
+1. 50% — Needs: rent, utilities, groceries, transportation, minimum debt payments
+2. 30% — Wants: dining out, entertainment, shopping, subscriptions, travel, hobbies
+3. 20% — Savings and debt payoff: emergency fund, retirement accounts, extra loan payments
+
+**Example:**
+Monthly take-home income of $3,000:
+- $1,500 to Needs (rent, utilities, groceries, transport)
+- $900 to Wants (dining, streaming, hobbies, clothing)
+- $600 to Savings and investments (IRA, emergency fund, extra debt payments)
+
+**Avoiding Lifestyle Inflation:**
+As income grows, spending tends to grow with it — this is lifestyle inflation. The key habit is keeping fixed expenses stable while routing raises and bonuses directly into savings and investments instead of upgrading your lifestyle.
+
+**Why It Matters:**
+A person earning $40,000 who saves 20% builds more long-term wealth than someone earning $80,000 who saves nothing. Every dollar saved through budgeting becomes a dollar that can be invested — compounding in an IRA, ETF, or savings account. The budget is what creates the money to invest.
+
+**Key Takeaways:**
+- **Pay yourself first:** Automatically transfer savings before touching any spending money
+- **Track every dollar:** An app or spreadsheet — awareness alone reduces spending significantly
+- **Cut wants first:** Review subscriptions and discretionary spending monthly before cutting necessities
+- **Invest the surplus:** Saved money should go to work in the market — not sit idle in a checking account`,
+                quiz: [
+                    { question: 'In the 50/30/20 rule, what percentage goes to savings and debt payoff?', options: ['10%', '20%', '30%', '50%'], answer: 1 },
+                    { question: 'What is "lifestyle inflation"?', options: ['Rising food and energy prices', 'Spending more as your income increases', 'Inflation affecting savings rates', 'Rising cost of housing over time'], answer: 1 },
+                    { question: 'Which of the following is a "fixed expense"?', options: ['Restaurant meals', 'Monthly rent or mortgage payment', 'Clothing purchases', 'Weekend entertainment'], answer: 1 },
+                    { question: 'Using 50/30/20 on a $4,000 monthly take-home, how much goes to "Wants"?', options: ['$400', '$800', '$1,200', '$2,000'], answer: 2 },
+                ],
+            },
+        ],
+    },
 ];
