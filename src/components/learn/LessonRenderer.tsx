@@ -183,7 +183,7 @@ function SectionBlock({ heading, items }: { heading: string; items: SectionItem[
                 <div className={styles.sectionBody}>
                     {items.map((item, i) => (
                         <p key={i} className={styles.sectionText}>
-                            <RichText text={item.text} />
+                            <RichText text={item.type === 'plain' ? item.text : `**${item.term}:** ${item.desc}`} />
                         </p>
                     ))}
                 </div>
