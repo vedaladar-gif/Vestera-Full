@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { USERNAME_REGEX } from '@/lib/avatarColors';
+import { validateUsername } from '@/utils/usernameValidation';
 
 const inputStyle: React.CSSProperties = {
     padding: '11px 14px',
@@ -40,29 +40,37 @@ export default function RegisterPage() {
     const checkUsername = (val: string) => {
         if (debounceRef.current) clearTimeout(debounceRef.current);
         if (!val) { setUnStatus('idle'); setUnError(''); return; }
-        if (!USERNAME_REGEX.test(val)) {
+
+        // Instant local validation: format + content moderation
+        const check = validateUsername(val);
+        if (!check.valid) {
             setUnStatus('invalid');
-            if (val.length < 3) setUnError('Too short — at least 3 characters');
-            else if (val.length > 20) setUnError('Too long — max 20 characters');
-            else setUnError('Only letters, numbers, underscores, and periods');
+            setUnError(check.error ?? 'Choose a different username');
             return;
         }
+
         setUnStatus('checking');
         setUnError('');
         debounceRef.current = setTimeout(async () => {
             const res = await fetch(`/api/auth/check-username?username=${encodeURIComponent(val)}`);
             const data = await res.json();
-            setUnStatus(data.available ? 'available' : 'taken');
-            if (!data.available) setUnError(`"${val}" is already taken`);
-        }, 600);
+            if (!data.available) {
+                setUnStatus('invalid');
+                setUnError(data.restricted ? (data.error ?? 'Choose a different username') : `"${val}" is already taken`);
+                if (!data.restricted) setUnStatus('taken');
+            } else {
+                setUnStatus('available');
+            }
+        }, 500);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
-        if (!USERNAME_REGEX.test(username)) {
-            setError('Please choose a valid username (letters, numbers, underscores, periods · 3–20 chars).');
+        const usernameCheck = validateUsername(username);
+        if (!usernameCheck.valid) {
+            setError(usernameCheck.error ?? 'Please choose a valid username.');
             return;
         }
         if (unStatus === 'taken') {

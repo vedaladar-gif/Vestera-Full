@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
-import { AVATAR_COLOR_KEYS, getAvatarGradient, getInitials, USERNAME_REGEX } from '@/lib/avatarColors';
+import { AVATAR_COLOR_KEYS, getAvatarGradient, getInitials } from '@/lib/avatarColors';
+import { validateUsername } from '@/utils/usernameValidation';
 import { applyTheme } from '@/components/ThemeProvider';
 import GuestGuard from '@/components/GuestGuard';
 
@@ -108,21 +109,27 @@ function SettingsPage() {
         if (debounceRef.current) clearTimeout(debounceRef.current);
         const v = val.trim();
         if (!v || v === profile.username) { setUnStatus('same'); setUnError(''); return; }
-        if (!USERNAME_REGEX.test(v)) {
+
+        // Instant local validation: format + content moderation
+        const check = validateUsername(v);
+        if (!check.valid) {
             setUnStatus('invalid');
-            setUnError(v.length < 3 ? 'Too short — at least 3 characters'
-                : v.length > 20 ? 'Too long — max 20 characters'
-                : 'Only letters, numbers, underscores, and periods');
+            setUnError(check.error ?? 'Choose a different username');
             return;
         }
+
         setUnStatus('checking');
         setUnError('');
         debounceRef.current = setTimeout(async () => {
             const res = await fetch(`/api/auth/check-username?username=${encodeURIComponent(v)}&excludeId=${userId}`);
             const data = await res.json();
-            setUnStatus(data.available ? 'available' : 'taken');
-            if (!data.available) setUnError(`"${v}" is already taken`);
-        }, 600);
+            if (!data.available) {
+                setUnStatus(data.restricted ? 'invalid' : 'taken');
+                setUnError(data.restricted ? (data.error ?? 'Choose a different username') : `"${v}" is already taken`);
+            } else {
+                setUnStatus('available');
+            }
+        }, 500);
     };
 
     const saveProfile = async () => {

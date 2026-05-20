@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase, createAuthedClient } from '@/lib/supabaseClient';
-import { USERNAME_REGEX } from '@/lib/avatarColors';
+import { validateUsername } from '@/utils/usernameValidation';
 
 const STARTING_CASH = 100_000;
 
@@ -18,12 +18,10 @@ export async function POST(request: Request) {
         const cleanEmail = email.trim().toLowerCase();
         const cleanUsername = username.trim().toLowerCase();
 
-        // Validate username format
-        if (!USERNAME_REGEX.test(cleanUsername)) {
-            return NextResponse.json(
-                { error: 'Username must be 3–20 characters: letters, numbers, underscores, and periods only.' },
-                { status: 400 }
-            );
+        // Validate username (format + content moderation)
+        const usernameCheck = validateUsername(username.trim());
+        if (!usernameCheck.valid) {
+            return NextResponse.json({ error: usernameCheck.error }, { status: 400 });
         }
 
         // Check username uniqueness before creating the auth user

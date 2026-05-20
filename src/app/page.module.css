@@ -159,7 +159,7 @@
    HERO
 ───────────────────────────────────────────────────────────── */
 .hero {
-  padding: 120px 48px 120px;
+  padding: 120px 48px 0;
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -463,9 +463,33 @@
 .floatingBadgeText span   { font-size: 11px; color: #4ade80; }
 
 /* ─────────────────────────────────────────────────────────────
+   EDTECH BADGE
+───────────────────────────────────────────────────────────── */
+.edtechBadgeWrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 44px 48px;
+}
+.edtechBadge {
+  display: block;
+  width: 130px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(79, 110, 247, 0.18)) drop-shadow(0 1px 4px rgba(0,0,0,0.10));
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.edtechBadge:hover {
+  transform: scale(1.06);
+  filter: drop-shadow(0 8px 20px rgba(79, 110, 247, 0.28)) drop-shadow(0 2px 8px rgba(0,0,0,0.14));
+}
+@media (max-width: 640px) {
+  .edtechBadgeWrap { padding: 36px 24px; }
+  .edtechBadge { width: 110px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
    FEATURES SECTION
 ───────────────────────────────────────────────────────────── */
-.features { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+.features { padding: 0 48px 100px; max-width: 1200px; margin: 0 auto; }
 .sectionLabel {
   font-size: 12px; font-weight: 600; color: #4f6ef7;
   text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
@@ -486,14 +510,15 @@
 .featureItem {
   background: var(--vt-bg); padding: 40px 32px;
   transition: background 0.3s;
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1;
+  transform: translateY(0);
 }
 .featureItem.visible {
-  animation: featureIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: featureIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @keyframes featureIn {
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .featureItem:hover { background: var(--vt-surface); }
 .featureIcon {

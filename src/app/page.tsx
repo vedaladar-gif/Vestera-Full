@@ -353,6 +353,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── EDTECH BADGE ── */}
+      <div className={styles.edtechBadgeWrap}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/edtech-badge.png"
+          alt="Find us on the EdTech Index"
+          className={styles.edtechBadge}
+        />
+      </div>
+
       {/* ── FEATURES ── */}
       <section className={styles.features}>
         <div className={styles.sectionLabel}>Everything you need</div>

@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { supabase } from '@/lib/supabaseClient';
-import { USERNAME_REGEX, AVATAR_COLOR_KEYS, isEmailUsername } from '@/lib/avatarColors';
+import { AVATAR_COLOR_KEYS, isEmailUsername } from '@/lib/avatarColors';
+import { validateUsername } from '@/utils/usernameValidation';
 
 export async function POST(request: Request) {
     const session = await getSession();
@@ -16,9 +17,13 @@ export async function POST(request: Request) {
 
     if (username !== undefined) {
         const clean = username.trim().toLowerCase();
-        if (!USERNAME_REGEX.test(clean)) {
-            return NextResponse.json({ error: 'Username must be 3–20 characters: letters, numbers, underscores, periods only.' }, { status: 400 });
+
+        // Full validation: format + content moderation
+        const usernameCheck = validateUsername(username.trim());
+        if (!usernameCheck.valid) {
+            return NextResponse.json({ error: usernameCheck.error }, { status: 400 });
         }
+
         // Check uniqueness (excluding current user)
         const { data: existing } = await supabase
             .from('profiles')

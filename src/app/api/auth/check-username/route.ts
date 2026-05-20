@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
-import { USERNAME_REGEX } from '@/lib/avatarColors';
+import { validateUsername } from '@/utils/usernameValidation';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -10,8 +10,15 @@ export async function GET(request: Request) {
     if (!username) {
         return NextResponse.json({ available: false, error: 'No username provided' });
     }
-    if (!USERNAME_REGEX.test(username)) {
-        return NextResponse.json({ available: false, error: 'Invalid username format' });
+
+    // Full validation: format + content moderation
+    const check = validateUsername(username);
+    if (!check.valid) {
+        return NextResponse.json({
+            available: false,
+            error: check.error,
+            restricted: check.reason === 'content' || check.reason === 'protected',
+        });
     }
 
     // Case-insensitive uniqueness check using the lower index
