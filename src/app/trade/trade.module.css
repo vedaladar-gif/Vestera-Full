@@ -944,7 +944,36 @@
     .dashNav { padding: 14px 20px; }
     .dashGrid { padding: 16px 20px; }
 }
+@media (max-width: 768px) {
+    .dashGrid { padding: 10px 12px; gap: 10px; }
+    /* Reduce chart height to fit mobile viewport comfortably */
+    .chartArea { height: 300px; }
+    .chartCanvasWrap { min-height: 300px; }
+    /* Make search input fill the available width */
+    .searchInputWide {
+        width: 100%;
+        min-width: 0;
+    }
+    .searchInputWide:focus { width: 100%; }
+    /* Tighten the chart header on phones */
+    .chartHeader { padding: 14px 16px 12px; gap: 8px; }
+    .ohlcBar { padding: 6px 14px; gap: 12px; }
+    /* Reduce sidebar card padding */
+    .sideCard { padding: 14px; }
+    /* Touch-friendly trade buttons */
+    .buyBtn, .sellBtn { padding: 15px 13px; font-size: 14px; }
+    /* Slightly tighten trade form */
+    .tradeInput { padding: 13px 14px; }
+}
+@media (max-width: 480px) {
+    .chartArea { height: 240px; }
+    .chartCanvasWrap { min-height: 240px; }
+    .sideCard { padding: 12px; }
+    /* Portfolio grid: 2 cols on very small phones */
+    .portfolioGrid { grid-template-columns: repeat(2, 1fr); }
+    /* Hide less important OHLC items to avoid overflow */
+    .ohlcItem + .ohlcItem + .ohlcItem { display: none; }
+}
 @media (max-width: 640px) {
-    .dashNav { flex-direction: column; gap: 8px; }
     .chartHeader { flex-direction: column; }
 }

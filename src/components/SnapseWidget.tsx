@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import styles from './SnapseWidget.module.css';
 
 interface Message {
@@ -26,7 +27,7 @@ export default function SnapseWidget() {
         {
             role: 'assistant',
             content:
-                "Hi! I'm **Vestera AI**, your investing coach. Ask about markets, concepts, your **paper portfolio**, or a stock you're learning about — I'll keep it educational and clear. What would you like to explore?",
+                "Hi! I'm **Vesta**, your investing coach. Ask about markets, concepts, your **paper portfolio**, or a stock you're learning about — I'll keep it educational and clear. What would you like to explore?",
         },
     ]);
     const [input, setInput] = useState('');
@@ -116,7 +117,7 @@ export default function SnapseWidget() {
                         {
                             role: 'assistant' as const,
                             content:
-                                'Please **sign in** to use Vestera AI. If you were logged in, your session may have expired — try refreshing the page.',
+                                'Please **sign in** to use Vesta. If you were logged in, your session may have expired — try refreshing the page.',
                         },
                     ];
                     messagesRef.current = updated;
@@ -175,29 +176,30 @@ export default function SnapseWidget() {
             <button
                 className={`${styles.toggleBtn} ${open ? styles.active : ''}`}
                 onClick={() => setOpen(!open)}
-                title="Open Vestera AI"
+                title="Open Vesta"
                 type="button"
             >
-                {open ? '✕' : '💬'}
+                {open ? '✕' : (
+                    <Image
+                        src="/vesta-logo.png"
+                        alt="Vesta"
+                        width={28}
+                        height={28}
+                        style={{ display: 'block', borderRadius: 4 }}
+                    />
+                )}
             </button>
 
             <div className={`${styles.panel} ${open ? styles.panelActive : ''}`}>
                 <div className={styles.header}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div
-                            style={{
-                                width: '32px',
-                                height: '32px',
-                                background: 'linear-gradient(135deg, #4f6ef7, #9b5de5)',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '14px',
-                            }}
-                        >
-                            S
-                        </div>
+                        <Image
+                            src="/vesta-logo.png"
+                            alt="Vesta"
+                            width={36}
+                            height={36}
+                            style={{ borderRadius: '8px', display: 'block' }}
+                        />
                         <div>
                             <h3
                                 style={{
@@ -207,7 +209,7 @@ export default function SnapseWidget() {
                                     color: 'white',
                                 }}
                             >
-                                Vestera AI
+                                Vesta
                             </h3>
                             <p style={{ margin: 0, fontSize: '11px', color: '#4f6ef7' }}>
                                 {isTrading ? 'Investing coach' : 'Learning tutor'}
@@ -306,7 +308,7 @@ export default function SnapseWidget() {
                         className={styles.input}
                         rows={2}
                         disabled={loading || isStreaming}
-                        aria-label="Message Vestera AI"
+                        aria-label="Message Vesta"
                     />
                     <button
                         className={styles.sendBtn}

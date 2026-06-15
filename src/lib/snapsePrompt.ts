@@ -1,5 +1,5 @@
 /**
- * Snapse (Vestera AI) — system instruction for Gemini.
+ * Snapse (Vesta) — system instruction for Gemini.
  * Educational only; no licensed advice; no fake live data.
  */
 

@@ -31,7 +31,7 @@ export function AssetResultRow({ row, onPick, highlighted }: Props) {
                 </span>
                 <span
                     className={styles.assetSearchChg}
-                    style={{ color: hasPx && pct != null ? (up ? '#4ade80' : '#f87171') : 'var(--color-muted)' }}
+                    style={{ color: hasPx && pct != null ? (up ? '#4ade80' : '#f87171') : 'var(--vt-text3)' }}
                 >
                     {hasPx && pct != null ? (
                         <>

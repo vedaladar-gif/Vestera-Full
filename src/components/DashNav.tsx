@@ -27,8 +27,12 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
     const [username, setUsername] = useState('');
     const [displayName, setDisplayName] = useState<string | null>(null);
     const [avatarColor, setAvatarColor] = useState('blue');
+    const [mobileOpen, setMobileOpen] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
+
+    // Close drawer on route change
+    useEffect(() => { setMobileOpen(false); }, [pathname]);
 
     useEffect(() => {
         if (previewMode) return;
@@ -46,11 +50,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
 
     const handleLogout = async () => {
         await fetch('/api/auth/logout', { method: 'POST' });
-        try {
-            localStorage.removeItem('vestera_learn_progress');
-        } catch {
-            /* ignore */
-        }
+        try { localStorage.removeItem('vestera_learn_progress'); } catch { /* ignore */ }
         onLogout?.();
         router.push('/');
     };
@@ -64,163 +64,219 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
         background: isActive(href) ? 'var(--vt-hover)' : 'transparent',
     });
 
-    return (
-        <nav style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0 32px',
-            height: 58,
-            background: 'var(--vt-nav-bg)',
-            borderBottom: '1px solid var(--vt-border2)',
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            flexShrink: 0,
-        }}>
-            {/* Brand */}
-            <Link
-                href="/"
-                className="brand-link"
-                style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
-            >
-                <VesteraLogo height={38} />
-            </Link>
+    const close = () => setMobileOpen(false);
 
-            {/* Links — preview users go straight to /restricted for locked areas (no /login hop) */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                {[
-                    { href: previewMode ? '/restricted' : '/trade', label: 'Trade', activePath: '/trade' },
-                    { href: previewMode ? '/restricted' : '/stats', label: 'Stats', activePath: '/stats' },
-                    { href: '/learn', label: 'Learn', activePath: '/learn' },
-                    { href: '/founders', label: 'Founders', activePath: '/founders' },
-                ].map(({ href, label, activePath }) => (
+    const navLinks = [
+        { href: previewMode ? '/restricted' : '/trade', label: 'Trade', activePath: '/trade' },
+        { href: previewMode ? '/restricted' : '/stats', label: 'Stats', activePath: '/stats' },
+        { href: '/learn', label: 'Learn', activePath: '/learn' },
+        { href: '/founders', label: 'Founders', activePath: '/founders' },
+    ];
+
+    return (
+        <>
+            {/* ── Nav bar (desktop layout preserved via inline styles) ── */}
+            <nav style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '0 32px',
+                height: 58,
+                background: 'var(--vt-nav-bg)',
+                borderBottom: '1px solid var(--vt-border2)',
+                position: 'sticky',
+                top: 0,
+                zIndex: 100,
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                flexShrink: 0,
+            }}>
+                {/* Brand */}
+                <Link
+                    href="/"
+                    className="brand-link"
+                    style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+                >
+                    <VesteraLogo height={38} />
+                </Link>
+
+                {/* Desktop links — hidden on mobile via .dashnav-links CSS class */}
+                <div className="dashnav-links" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {navLinks.map(({ href, label, activePath }) => (
+                        <Link
+                            key={label}
+                            href={href}
+                            style={{
+                                textDecoration: 'none',
+                                fontSize: 14,
+                                padding: '8px 16px',
+                                borderRadius: 8,
+                                transition: 'all 0.2s',
+                                ...linkStyle(activePath),
+                            }}
+                        >
+                            {label}
+                        </Link>
+                    ))}
+
+                    {previewMode ? (
+                        <>
+                            <Link
+                                href="/login"
+                                style={{
+                                    textDecoration: 'none', fontSize: 14, fontWeight: 600,
+                                    padding: '8px 16px', borderRadius: 8,
+                                    background: '#4f6ef7', color: '#fff', transition: 'background 0.2s',
+                                }}
+                            >
+                                Log In / Sign Up
+                            </Link>
+                            {onExitPreview && (
+                                <button
+                                    type="button"
+                                    onClick={onExitPreview}
+                                    style={{
+                                        background: 'none', border: '1px solid var(--vt-border)',
+                                        color: 'var(--vt-text2)', fontSize: 13, fontWeight: 500,
+                                        cursor: 'pointer', padding: '8px 14px',
+                                        fontFamily: 'inherit', borderRadius: 8,
+                                    }}
+                                >
+                                    Exit guest
+                                </button>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                href="/settings"
+                                style={{
+                                    display: 'flex', alignItems: 'center', gap: 7,
+                                    padding: '5px 10px 5px 6px', borderRadius: 10,
+                                    textDecoration: 'none', transition: 'background 0.2s',
+                                    background: isActive('/settings') ? 'var(--vt-hover)' : 'transparent',
+                                }}
+                            >
+                                <div style={{
+                                    width: 30, height: 30, borderRadius: 8,
+                                    background: getAvatarGradient(avatarColor),
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0,
+                                    border: isActive('/settings') ? '2px solid rgba(79,110,247,0.5)' : '2px solid transparent',
+                                    transition: 'border-color 0.15s',
+                                }}>
+                                    {initials}
+                                </div>
+                                <span style={{
+                                    fontSize: 13,
+                                    fontWeight: isActive('/settings') ? 600 : 500,
+                                    color: isActive('/settings') ? 'var(--vt-text)' : 'var(--vt-text2)',
+                                }}>
+                                    Settings
+                                </span>
+                            </Link>
+
+                            <button
+                                onClick={handleLogout}
+                                style={{
+                                    background: 'none', border: 'none', color: 'var(--vt-text2)',
+                                    fontSize: 14, fontWeight: 500, cursor: 'pointer',
+                                    padding: '8px 16px', fontFamily: 'inherit',
+                                    borderRadius: 8, transition: 'all 0.2s',
+                                }}
+                                onMouseEnter={e => {
+                                    (e.target as HTMLElement).style.color = '#f87171';
+                                    (e.target as HTMLElement).style.background = 'rgba(248,113,113,0.08)';
+                                }}
+                                onMouseLeave={e => {
+                                    (e.target as HTMLElement).style.color = 'var(--vt-text2)';
+                                    (e.target as HTMLElement).style.background = 'none';
+                                }}
+                            >
+                                Logout
+                            </button>
+                        </>
+                    )}
+                </div>
+
+                {/* ── Hamburger button (mobile only) ── */}
+                <button
+                    className={`nav-hamburger${mobileOpen ? ' nav-hamburger-open' : ''}`}
+                    onClick={() => setMobileOpen(o => !o)}
+                    aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={mobileOpen}
+                >
+                    <span />
+                    <span />
+                    <span />
+                </button>
+            </nav>
+
+            {/* ── Overlay ── */}
+            <div
+                className={`nav-mobile-overlay${mobileOpen ? ' nav-mobile-overlay-show' : ''}`}
+                onClick={close}
+                aria-hidden="true"
+            />
+
+            {/* ── Slide-out drawer ── */}
+            <div
+                className={`nav-mobile-drawer${mobileOpen ? ' nav-mobile-drawer-open' : ''}`}
+                aria-hidden={!mobileOpen}
+            >
+                {!previewMode && username && (
+                    <>
+                        <div className="nav-mobile-profile">
+                            <div style={{
+                                width: 40, height: 40, borderRadius: 11,
+                                background: getAvatarGradient(avatarColor),
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontSize: 14, fontWeight: 700, color: '#fff', flexShrink: 0,
+                            }}>
+                                {initials}
+                            </div>
+                            <div className="nav-mobile-username">@{username}</div>
+                        </div>
+                        <div className="nav-mobile-divider" />
+                    </>
+                )}
+
+                {navLinks.map(({ href, label, activePath }) => (
                     <Link
                         key={label}
                         href={href}
-                        style={{
-                            textDecoration: 'none',
-                            fontSize: 14,
-                            padding: '8px 16px',
-                            borderRadius: 8,
-                            transition: 'all 0.2s',
-                            ...linkStyle(activePath),
-                        }}
+                        className="nav-mobile-link"
+                        onClick={close}
+                        data-active={isActive(activePath) ? 'true' : 'false'}
                     >
                         {label}
                     </Link>
                 ))}
 
+                <div className="nav-mobile-divider" />
+
                 {previewMode ? (
                     <>
-                        <Link
-                            href="/login"
-                            style={{
-                                textDecoration: 'none',
-                                fontSize: 14,
-                                fontWeight: 600,
-                                padding: '8px 16px',
-                                borderRadius: 8,
-                                background: '#4f6ef7',
-                                color: '#fff',
-                                transition: 'background 0.2s',
-                            }}
-                        >
+                        <Link href="/login" className="nav-mobile-link nav-mobile-cta" onClick={close}>
                             Log In / Sign Up
                         </Link>
                         {onExitPreview && (
-                            <button
-                                type="button"
-                                onClick={onExitPreview}
-                                style={{
-                                    background: 'none',
-                                    border: '1px solid var(--vt-border)',
-                                    color: 'var(--vt-text2)',
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    cursor: 'pointer',
-                                    padding: '8px 14px',
-                                    fontFamily: 'inherit',
-                                    borderRadius: 8,
-                                }}
-                            >
+                            <button className="nav-mobile-link" onClick={() => { onExitPreview(); close(); }}>
                                 Exit guest
                             </button>
                         )}
                     </>
                 ) : (
                     <>
-                        {/* Settings link with avatar */}
-                        <Link
-                            href="/settings"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 7,
-                                padding: '5px 10px 5px 6px',
-                                borderRadius: 10,
-                                textDecoration: 'none',
-                                transition: 'background 0.2s',
-                                background: isActive('/settings') ? 'var(--vt-hover)' : 'transparent',
-                            }}
-                        >
-                            <div style={{
-                                width: 30,
-                                height: 30,
-                                borderRadius: 8,
-                                background: getAvatarGradient(avatarColor),
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: 11,
-                                fontWeight: 700,
-                                color: '#fff',
-                                flexShrink: 0,
-                                border: isActive('/settings') ? '2px solid rgba(79,110,247,0.5)' : '2px solid transparent',
-                                transition: 'border-color 0.15s',
-                            }}>
-                                {initials}
-                            </div>
-                            <span style={{
-                                fontSize: 13,
-                                fontWeight: isActive('/settings') ? 600 : 500,
-                                color: isActive('/settings') ? 'var(--vt-text)' : 'var(--vt-text2)',
-                            }}>
-                                Settings
-                            </span>
+                        <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>
+                            Settings
                         </Link>
-
-                        {/* Logout */}
-                        <button
-                            onClick={handleLogout}
-                            style={{
-                                background: 'none',
-                                border: 'none',
-                                color: 'var(--vt-text2)',
-                                fontSize: 14,
-                                fontWeight: 500,
-                                cursor: 'pointer',
-                                padding: '8px 16px',
-                                fontFamily: 'inherit',
-                                borderRadius: 8,
-                                transition: 'all 0.2s',
-                            }}
-                            onMouseEnter={e => {
-                                (e.target as HTMLElement).style.color = '#f87171';
-                                (e.target as HTMLElement).style.background = 'rgba(248,113,113,0.08)';
-                            }}
-                            onMouseLeave={e => {
-                                (e.target as HTMLElement).style.color = 'var(--vt-text2)';
-                                (e.target as HTMLElement).style.background = 'none';
-                            }}
-                        >
+                        <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>
                             Logout
                         </button>
                     </>
                 )}
             </div>
-        </nav>
+        </>
     );
 }

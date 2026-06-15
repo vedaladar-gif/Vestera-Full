@@ -588,3 +588,31 @@
   .sectionTitle { font-size: 36px; }
   .heroTitle { font-size: 48px; }
 }
+@media (max-width: 640px) {
+  .hero { padding: 64px 20px 48px; gap: 32px; }
+  .heroTitle { font-size: 38px; letter-spacing: -1.5px; }
+  .heroSub { font-size: 16px; margin-bottom: 28px; }
+  /* Full-width CTA buttons on mobile */
+  .heroBtns { flex-direction: column; gap: 10px; }
+  .btnPrimary, .btnGhost { width: 100%; text-align: center; display: block; padding: 15px 24px; }
+  /* Stat row: 3 items, reduce gap */
+  .heroStats { gap: 20px; }
+  .heroStat strong { font-size: 22px; }
+  /* Features */
+  .features { padding: 40px 20px; }
+  .sectionTitle { font-size: 28px; letter-spacing: -1px; }
+  .featureItem { padding: 28px 20px; }
+  /* CTA card */
+  .ctaCard { padding: 36px 20px; }
+  .ctaTitle { font-size: 28px; letter-spacing: -1px; }
+  .ctaSub { font-size: 15px; }
+  .ctaBtns { flex-direction: column; gap: 10px; }
+  /* Footer */
+  .footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px 20px; }
+  /* edtech badge */
+  .edtechBadgeWrap { padding: 28px 20px; }
+}
+@media (max-width: 400px) {
+  .heroTitle { font-size: 32px; }
+  .heroStats { flex-wrap: wrap; gap: 16px 28px; }
+}
