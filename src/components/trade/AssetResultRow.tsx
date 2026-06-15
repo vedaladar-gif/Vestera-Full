@@ -31,11 +31,14 @@ export function AssetResultRow({ row, onPick, highlighted }: Props) {
                 </span>
                 <span
                     className={styles.assetSearchChg}
-                    style={{ color: up ? '#4ade80' : '#f87171' }}
+                    style={{ color: hasPx && pct != null ? (up ? '#4ade80' : '#f87171') : 'var(--color-muted)' }}
                 >
-                    {hasPx && pct != null
-                        ? `${up ? '+' : ''}${pct.toFixed(2)}%`
-                        : '—'}
+                    {hasPx && pct != null ? (
+                        <>
+                            <span style={{ fontSize: '0.7em', marginRight: '1px' }}>{up ? '▲' : '▼'}</span>
+                            {`${up ? '+' : ''}${pct.toFixed(2)}%`}
+                        </>
+                    ) : '—'}
                 </span>
             </div>
         </button>

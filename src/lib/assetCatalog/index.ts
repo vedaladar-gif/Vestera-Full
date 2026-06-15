@@ -30,12 +30,22 @@ export function getAssetBySymbol(symbol: string): AssetRecord | undefined {
     return _bySymbol.get(symbol.trim().toUpperCase());
 }
 
-/** Canonical stored ticker (e.g. BTC → BTC-USD). */
+/** Canonical stored ticker (e.g. BTC → BTC-USD, SOL → SOL-USD). */
 export function normalizeTradableTicker(symbol: string): string {
     const u = symbol.trim().toUpperCase();
-    if (u === 'BTC') return 'BTC-USD';
-    if (u === 'ETH') return 'ETH-USD';
-    return u;
+    const cryptoShorthands: Record<string, string> = {
+        BTC: 'BTC-USD',
+        ETH: 'ETH-USD',
+        SOL: 'SOL-USD',
+        XRP: 'XRP-USD',
+        DOGE: 'DOGE-USD',
+        ADA: 'ADA-USD',
+        AVAX: 'AVAX-USD',
+        LINK: 'LINK-USD',
+        LTC: 'LTC-USD',
+        DOT: 'DOT-USD',
+    };
+    return cryptoShorthands[u] ?? u;
 }
 
 export function isTradableSymbol(symbol: string): boolean {
