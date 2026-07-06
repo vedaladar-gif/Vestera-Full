@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { LEVELS, type LessonUnit, type Level } from '@/lib/learningContent';
 import styles from './learn.module.css';
@@ -140,13 +141,18 @@ export default function LearningDashboard() {
             <div className={styles.content}>
 
                 {/* ── Hero header ── */}
-                <div className={styles.learnHero}>
+                <motion.div
+                    className={styles.learnHero}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
                     <div className={styles.heroLeft}>
                         <div className={styles.heroEyebrow}>
                             <span className={styles.eyebrowDot} />
                             Learning Academy
                         </div>
-                        <h1 className={styles.heroTitle}>Master the Markets</h1>
+                        <h1 className={styles.heroTitle}>Academy — Master the Markets</h1>
                         <p className={styles.heroSub}>
                             {LEVELS.length} courses · {TOTAL_LESSONS} lessons · Quizzes included
                         </p>
@@ -165,7 +171,7 @@ export default function LearningDashboard() {
                             <span>Progress</span>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* ── Level Tabs ── */}
                 <div className={styles.levelTabs}>

@@ -65,7 +65,7 @@
 
 .videoTitle {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 800;
     color: var(--vt-text);
@@ -96,8 +96,8 @@
     height: 64px;
     margin: 0 auto 16px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(79, 110, 247, 0.2), rgba(155, 93, 229, 0.15));
-    border: 1px solid rgba(79, 110, 247, 0.25);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(155, 93, 229, 0.15));
+    border: 1px solid rgba(139, 92, 246, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;

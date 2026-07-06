@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import VesteraLogo from './VesteraLogo';
-import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
+import VestaBlob from './VestaBlob';
+import { UserAvatar } from './UserAvatar';
 
-// Pages that render their own full-screen nav (trade, learn)
 const SELF_NAV = ['/trade', '/learn'];
-// Pages where we never auto-redirect even if needsUsername
 const NO_REDIRECT = ['/setup-username', '/settings', '/login', '/register'];
 
 export default function Navbar() {
@@ -16,13 +15,21 @@ export default function Navbar() {
     const [username, setUsername] = useState('');
     const [displayName, setDisplayName] = useState<string | null>(null);
     const [avatarColor, setAvatarColor] = useState('blue');
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
 
     const hasSelfNav = SELF_NAV.some(p => pathname === p || pathname.startsWith(p + '/'));
 
-    // Close drawer on route change
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 24);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
     useEffect(() => { setMobileOpen(false); }, [pathname]);
 
     useEffect(() => {
@@ -34,7 +41,7 @@ export default function Navbar() {
                     setUsername(data.username || '');
                     setDisplayName(data.displayName || null);
                     setAvatarColor(data.avatarColor || 'blue');
-
+                    setAvatarUrl(data.avatarUrl ?? null);
                     if (data.needsUsername && !NO_REDIRECT.some(p => pathname.startsWith(p))) {
                         router.replace('/setup-username');
                     }
@@ -52,118 +59,129 @@ export default function Navbar() {
 
     if (hasSelfNav) return null;
 
-    const initials = getInitials(username, displayName);
-    const avatarStyle: React.CSSProperties = {
-        width: 32, height: 32,
-        background: getAvatarGradient(avatarColor),
-        borderRadius: 9,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 12, fontWeight: 700, color: '#fff',
-        cursor: 'pointer', flexShrink: 0,
-        border: '2px solid transparent',
-        transition: 'border-color 0.15s',
-    };
-
+    const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
     const close = () => setMobileOpen(false);
+
+    const linkStyle = (href: string): React.CSSProperties => ({
+        color: isActive(href) ? '#20264D' : 'var(--vt-text2)',
+        fontWeight: isActive(href) ? 700 : 600,
+        background: isActive(href) ? 'rgba(76,141,255,0.10)' : 'transparent',
+        fontFamily: "'Nunito', 'Plus Jakarta Sans', sans-serif",
+    });
 
     return (
         <>
-            <nav className="navbar">
-                <Link href="/" className="nav-brand" onClick={close}>
-                    <VesteraLogo height={38} />
+            <nav className={`navbar${scrolled ? ' nav-scrolled' : ''}`}>
+                {/* ── Brand: Logo + Vesta mascot ── */}
+                <Link href="/" className="nav-brand" onClick={close} style={{ gap: 10 }}>
+                    <VesteraLogo height={32} />
+                    <VestaBlob size={28} showDot={false} />
                 </Link>
 
-                {/* ── Desktop links (hidden on mobile via CSS) ── */}
+                {/* ── Desktop links ── */}
                 <div className="nav-links">
                     {authenticated ? (
                         <>
-                            <Link href="/trade">Trade</Link>
-                            <Link href="/stats">Stats</Link>
-                            <Link href="/learn">Learn</Link>
-                            <Link href="/founders">Founders</Link>
-                            <Link href="/settings" style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 10px 5px 6px', borderRadius: 10 }}>
-                                <div style={avatarStyle} title={`@${username}`}>{initials}</div>
-                                <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--vt-text2)' }}>Settings</span>
+                            <Link href="/trade"    style={{ ...linkStyle('/trade'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Market</Link>
+                            <Link href="/stats"    style={{ ...linkStyle('/stats'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/learn"    style={{ ...linkStyle('/learn'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
+                            <Link href="/founders" style={{ ...linkStyle('/founders'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Founders</Link>
+                            <Link href="/stats?tab=friends" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Friends</Link>
+
+                            <div style={{ width: 1, height: 20, background: 'var(--vt-border)', margin: '0 6px', flexShrink: 0 }} />
+
+                            <Link
+                                href="/settings"
+                                style={{
+                                    display: 'flex', alignItems: 'center', gap: 8,
+                                    padding: '5px 12px 5px 7px', borderRadius: 50,
+                                    textDecoration: 'none',
+                                    background: isActive('/settings') ? 'rgba(76,141,255,0.10)' : 'rgba(32,38,77,0.04)',
+                                    border: '1.5px solid var(--vt-border)',
+                                    transition: 'all 0.18s',
+                                }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,141,255,0.35)'; (e.currentTarget as HTMLElement).style.background = 'rgba(76,141,255,0.08)'; }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--vt-border)'; (e.currentTarget as HTMLElement).style.background = isActive('/settings') ? 'rgba(76,141,255,0.10)' : 'rgba(32,38,77,0.04)'; }}
+                            >
+                                <UserAvatar size={26} avatarUrl={avatarUrl} avatarColor={avatarColor} username={username} displayName={displayName} borderRadius={50} />
+                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Nunito', sans-serif", letterSpacing: '-0.1px' }}>
+                                    {username ? `@${username}` : 'Profile'}
+                                </span>
                             </Link>
+
                             <button
                                 onClick={handleLogout}
-                                style={{
-                                    background: 'none', border: 'none', cursor: 'pointer',
-                                    color: '#fca5a5', fontSize: '14px', fontWeight: 500,
-                                    padding: '8px 14px', fontFamily: 'inherit',
-                                }}
-                            >
-                                Logout
-                            </button>
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--vt-text3)', fontSize: 13, fontWeight: 600, padding: '7px 12px', fontFamily: "'Nunito', sans-serif", borderRadius: 12, transition: 'all 0.18s' }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-red)'; (e.currentTarget as HTMLElement).style.background = 'rgba(224,99,122,0.08)'; }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-text3)'; (e.currentTarget as HTMLElement).style.background = 'none'; }}
+                            >Logout</button>
                         </>
                     ) : (
                         <>
-                            <Link href="/restricted">Trade</Link>
-                            <Link href="/restricted">Stats</Link>
-                            <Link href="/learn">Learn</Link>
-                            <Link href="/founders">Founders</Link>
-                            <Link href="/login">Login</Link>
-                            <Link href="/register">Register</Link>
+                            <Link href="/learn"    style={{ ...linkStyle('/learn'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
+                            <Link href="/stats"    style={{ ...linkStyle('/stats'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/founders" style={{ ...linkStyle('/founders'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>About</Link>
+                            <Link
+                                href="/login"
+                                style={{ textDecoration: 'none', padding: '7px 16px', borderRadius: 12, fontSize: 14, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Nunito', sans-serif", transition: 'all 0.18s' }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-text)'; (e.currentTarget as HTMLElement).style.background = 'var(--vt-hover)'; }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-text2)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                            >Log in</Link>
+                            <Link href="/register" className="nav-pill-cta">Get Started →</Link>
                         </>
                     )}
                 </div>
 
-                {/* ── Hamburger (mobile only) ── */}
+                {/* ── Hamburger ── */}
                 <button
                     className={`nav-hamburger${mobileOpen ? ' nav-hamburger-open' : ''}`}
                     onClick={() => setMobileOpen(o => !o)}
                     aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                     aria-expanded={mobileOpen}
                 >
-                    <span />
-                    <span />
-                    <span />
+                    <span /><span /><span />
                 </button>
             </nav>
 
-            {/* ── Overlay ── */}
-            <div
-                className={`nav-mobile-overlay${mobileOpen ? ' nav-mobile-overlay-show' : ''}`}
-                onClick={close}
-                aria-hidden="true"
-            />
+            <div className={`nav-mobile-overlay${mobileOpen ? ' nav-mobile-overlay-show' : ''}`} onClick={close} aria-hidden="true" />
 
-            {/* ── Slide-out drawer ── */}
-            <div
-                className={`nav-mobile-drawer${mobileOpen ? ' nav-mobile-drawer-open' : ''}`}
-                aria-hidden={!mobileOpen}
-            >
+            <div className={`nav-mobile-drawer${mobileOpen ? ' nav-mobile-drawer-open' : ''}`} aria-hidden={!mobileOpen}>
                 {authenticated ? (
                     <>
                         <div className="nav-mobile-profile">
-                            <div style={{ ...avatarStyle, width: 40, height: 40, borderRadius: 11, fontSize: 14 }}>
-                                {initials}
+                            <UserAvatar size={40} avatarUrl={avatarUrl} avatarColor={avatarColor} username={username} displayName={displayName} borderRadius={50} />
+                            <div>
+                                <div className="nav-mobile-username">@{username}</div>
+                                {displayName && <div style={{ fontSize: 12, color: 'var(--vt-text3)' }}>{displayName}</div>}
                             </div>
-                            <div className="nav-mobile-username">@{username}</div>
                         </div>
                         <div className="nav-mobile-divider" />
-                        <Link href="/trade" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/trade') ? 'true' : 'false'}>Trade</Link>
-                        <Link href="/stats" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/stats') ? 'true' : 'false'}>Stats</Link>
-                        <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/learn') ? 'true' : 'false'}>Learn</Link>
-                        <Link href="/founders" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/founders') ? 'true' : 'false'}>Founders</Link>
+                        <Link href="/trade"    className="nav-mobile-link" onClick={close} data-active={isActive('/trade')    ? 'true' : 'false'}>📊 Market</Link>
+                        <Link href="/stats"    className="nav-mobile-link" onClick={close} data-active={isActive('/stats')    ? 'true' : 'false'}>🏆 Rankings</Link>
+                        <Link href="/learn"    className="nav-mobile-link" onClick={close} data-active={isActive('/learn')    ? 'true' : 'false'}>🎓 Academy</Link>
+                        <Link href="/founders" className="nav-mobile-link" onClick={close} data-active={isActive('/founders') ? 'true' : 'false'}>⭐ Founders</Link>
+                        <Link href="/stats?tab=friends" className="nav-mobile-link" onClick={close}>👥 Friends</Link>
                         <div className="nav-mobile-divider" />
-                        <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/settings') ? 'true' : 'false'}>Settings</Link>
-                        <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>
-                            Logout
-                        </button>
+                        <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>👤 Profile</Link>
+                        <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>Logout</button>
                     </>
                 ) : (
                     <>
-                        <Link href="/restricted" className="nav-mobile-link" onClick={close}>Trade</Link>
-                        <Link href="/restricted" className="nav-mobile-link" onClick={close}>Stats</Link>
-                        <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/learn') ? 'true' : 'false'}>Learn</Link>
-                        <Link href="/founders" className="nav-mobile-link" onClick={close} data-active={pathname.startsWith('/founders') ? 'true' : 'false'}>Founders</Link>
+                        <div style={{ padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                            <VesteraLogo height={28} />
+                            <VestaBlob size={24} showDot={false} />
+                        </div>
                         <div className="nav-mobile-divider" />
-                        <Link href="/login" className="nav-mobile-link" onClick={close}>Login</Link>
-                        <Link href="/register" className="nav-mobile-link nav-mobile-cta" onClick={close}>Register</Link>
+                        <Link href="/learn"    className="nav-mobile-link" onClick={close} data-active={isActive('/learn')    ? 'true' : 'false'}>🎓 Academy</Link>
+                        <Link href="/founders" className="nav-mobile-link" onClick={close} data-active={isActive('/founders') ? 'true' : 'false'}>⭐ Founders</Link>
+                        <div className="nav-mobile-divider" />
+                        <Link href="/login"    className="nav-mobile-link" onClick={close}>Log In</Link>
+                        <Link href="/register" className="nav-mobile-link nav-mobile-cta" onClick={close}>Get Started Free →</Link>
                     </>
                 )}
             </div>
         </>
     );
 }
+
+

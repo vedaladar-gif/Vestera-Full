@@ -3,423 +3,357 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './page.module.css';
-import VLogo from '@/components/VLogo';
-import NonProfitSection from '@/components/NonProfitSection';
+import VestaBlob from '@/components/VestaBlob';
 import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { enterGuestMode } from '@/lib/guestMode';
 
-/* ── display helpers ─────────────────────────────────────── */
-interface NvdaData {
-  price: number; change: number; changePct: number;
-  open: number; volume: number; high52w: number; marketCap: number;
-}
-interface TickerItem { sym: string; price: number; change: number; changePct: number; }
-
+/* ── types & formatters ── */
+interface NvdaData { price: number; change: number; changePct: number; }
 const fmt$ = (n: number) => `$${n.toFixed(2)}`;
-const fmtVol = (n: number) => {
-  if (n >= 1e9) return `${(n / 1e9).toFixed(1)}B`;
-  if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`;
-  if (n >= 1e3) return `${(n / 1e3).toFixed(1)}K`;
-  return String(n);
-};
-const fmtCap = (n: number) => {
-  if (n >= 1e12) return `$${(n / 1e12).toFixed(2)}T`;
-  if (n >= 1e9)  return `$${(n / 1e9).toFixed(1)}B`;
-  return `$${(n / 1e6).toFixed(0)}M`;
-};
+const fmtPortfolio = (n: number) =>
+    '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/* ── content ── */
+const VESTA_PROMPTS = [
+    'Quiz me on how P/E ratios work',
+    'Explain why this stock went up today',
+    'Help me build my first practice portfolio',
+    'Strategies for spotting a good company',
+    'Show me a beginner trade to try',
+];
+
+const FAQ_ITEMS = [
+    { q: 'Is any of this real money?',          a: 'Never. Every trade uses your $100,000 of practice cash. Prices are real, risk is zero.' },
+    { q: 'What ages is Vestera for?',            a: 'Vestera is designed for students aged 10–18, but anyone curious about investing can learn here.' },
+    { q: 'Do I need a bank account or card?',   a: 'No. There\'s no real money involved. You start with virtual $100,000 from day one.' },
+    { q: 'Who is Vesta?',                        a: 'Vesta is your AI investing coach — she explains the market in plain English, no jargon.' },
+    { q: 'Can parents keep an eye on progress?', a: 'Yes! Parents can view their child\'s portfolio, trades, and lesson progress from the same account.' },
+];
 
 export default function Home() {
-  const router = useRouter();
+    const router = useRouter();
+    const [authenticated, setAuthenticated] = useState(false);
+    const [portfolioData, setPortfolioData] = useState<{ pl: number; pct: number; cash: number; portfolio_value: number } | null>(null);
+    const [loading, setLoading]     = useState(true);
+    const [nvdaData, setNvdaData]   = useState<NvdaData | null>(null);
+    const [priceColor, setPriceColor] = useState('#fff');
+    const prevPrice = useRef(0);
+    const marketStatus = useMarketStatus();
 
-  // ── auth / portfolio state ───────────────────────────────────
-  const [authenticated, setAuthenticated] = useState(false);
-  const [portfolioData, setPortfolioData] = useState<{
-    pl: number; pct: number; cash: number; portfolio_value: number;
-  } | null>(null);
-  const [loading, setLoading] = useState(true);
+    const [vestaOpen, setVestaOpen] = useState<number | null>(null);
+    const [faqOpen,   setFaqOpen]   = useState<number | null>(0);
+    const [vestaInput, setVestaInput] = useState('');
+    const [emailInput, setEmailInput] = useState('');
 
-  // ── real market data state ────────────────────────────────────
-  const [nvdaData, setNvdaData]   = useState<NvdaData | null>(null);
-  const [tickerData, setTickerData] = useState<TickerItem[]>([]);
-  // Use a CSS variable so it's correct in both light and dark mode
-  const [priceColor, setPriceColor] = useState<string>('var(--vt-text)');
-  const prevNvdaPrice = useRef<number>(0);
-  const marketStatus = useMarketStatus();
+    /* auth */
+    useEffect(() => {
+        fetch('/api/auth/me', { credentials: 'same-origin' })
+            .then(r => r.json())
+            .then(async d => {
+                setAuthenticated(d.authenticated);
+                if (d.authenticated) {
+                    const h = await fetch('/api/holdings').then(r => r.json());
+                    setPortfolioData(h);
+                }
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, []);
 
-  // Vestera Prototype Animation Add-on — ticker visibility state
-  const [tickerVisible, setTickerVisible] = useState(true);
+    /* NVDA */
+    useEffect(() => {
+        let alive = true;
+        const go = async () => {
+            try {
+                const d: NvdaData = await fetch('/api/quote/NVDA').then(r => r.json());
+                if (!alive) return;
+                if (prevPrice.current && d.price !== prevPrice.current)
+                    setPriceColor(d.price > prevPrice.current ? 'var(--vt-green)' : 'var(--vt-red)');
+                setTimeout(() => { if (alive) setPriceColor('#fff'); }, 700);
+                prevPrice.current = d.price;
+                setNvdaData(d);
+            } catch { /* ignore */ }
+        };
+        go();
+        const id = setInterval(go, 30_000);
+        return () => { alive = false; clearInterval(id); };
+    }, []);
 
-  // ── refs ─────────────────────────────────────────────────────
-  const heroRef = useRef<HTMLElement>(null);
+    const pl    = portfolioData?.pl  ?? 0;
+    const pct   = portfolioData?.pct ?? 0;
+    const isUp  = pl >= 0;
+    const total = authenticated && portfolioData
+        ? (portfolioData.portfolio_value ?? 0) + (portfolioData.cash ?? 0)
+        : 103_240;
 
-  // ── auth effect ──────────────────────────────────────────────
-  useEffect(() => {
-    fetch('/api/auth/me', { credentials: 'same-origin' })
-      .then(res => res.json())
-      .then(async data => {
-        setAuthenticated(data.authenticated);
-        if (data.authenticated) {
-          const holdings = await fetch('/api/holdings').then(r => r.json());
-          setPortfolioData(holdings);
-        }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+    const openVesta = (msg: string) =>
+        window.dispatchEvent(new CustomEvent('openVestaChat', { detail: { message: msg } }));
 
-  // ── refresh portfolio while logged in (live quotes → holdings value) ──
-  useEffect(() => {
-    if (!authenticated) return;
-    const refresh = () => {
-      fetch('/api/holdings', { credentials: 'same-origin' })
-        .then(r => (r.ok ? r.json() : null))
-        .then(d => {
-          if (d) setPortfolioData(d);
-        })
-        .catch(() => {});
-    };
-    const id = setInterval(refresh, 15_000);
-    return () => clearInterval(id);
-  }, [authenticated]);
-
-  // ── real market data fetch ────────────────────────────────────
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchNvda = async () => {
-      try {
-        const res = await fetch('/api/quote/NVDA');
-        if (!res.ok || !mounted) return;
-        const data: NvdaData = await res.json();
-        if (prevNvdaPrice.current && data.price !== prevNvdaPrice.current) {
-          setPriceColor(data.price >= prevNvdaPrice.current ? '#4ade80' : '#f87171');
-          setTimeout(() => { if (mounted) setPriceColor('var(--vt-text)'); }, 600);
-        }
-        prevNvdaPrice.current = data.price;
-        if (mounted) setNvdaData(data);
-      } catch { /* ignore */ }
+    const handleVestaSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (vestaInput.trim()) { openVesta(vestaInput.trim()); setVestaInput(''); }
     };
 
-    const fetchTicker = async () => {
-      try {
-        const res = await fetch('/api/market-data');
-        if (!res.ok || !mounted) return;
-        const json = await res.json();
-        if (mounted) setTickerData(json.data ?? []);
-      } catch { /* ignore */ }
+    const handleEmailSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        router.push(`/register${emailInput ? `?email=${encodeURIComponent(emailInput)}` : ''}`);
     };
 
-    fetchNvda();
-    fetchTicker();
-    const nvdaInt   = setInterval(fetchNvda,   30_000);
-    const tickerInt = setInterval(fetchTicker, 60_000);
+    /* ── render ── */
+    return (
+        <div className={styles.page}>
 
-    return () => {
-      mounted = false;
-      clearInterval(nvdaInt);
-      clearInterval(tickerInt);
-    };
-  }, []);
+            {/* ════════════════════════════
+                HERO
+            ════════════════════════════ */}
+            <section className={styles.heroSection}>
+                <div className={styles.heroInner}>
 
-  // ── animation effects ────────────────────────────────────────
-  useEffect(() => {
-    // Feature card scroll reveal (ctaCard handled separately below)
-    const revealEls = document.querySelectorAll(`.${styles.featureItem}`);
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el  = entry.target as HTMLElement;
-          const idx = Array.from(revealEls).indexOf(el);
-          el.style.animationDelay = (idx % 3) * 0.13 + 's';
-          el.classList.add(styles.visible);
-          revealObs.unobserve(el);
-        }
-      });
-    }, { threshold: 0.15 });
-    revealEls.forEach(el => revealObs.observe(el));
+                    {/* LEFT */}
+                    <motion.div
+                        className={styles.heroLeft}
+                        initial="hidden"
+                        animate="show"
+                        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+                    >
+                        <motion.h1 className={styles.heroTitle}
+                            variants={{ hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16,1,0.3,1] } } }}
+                        >
+                            Stocks made simple.<br />
+                            <span className={styles.heroBlue}>Vesta explains it all.</span>
+                        </motion.h1>
 
-    // Vestera Prototype Animation Add-on — hide ticker when hero exits viewport
-    const heroEl = heroRef.current;
-    const heroExitObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-        setTickerVisible(!scrolledPast);
-      });
-    }, { threshold: 0 });
-    if (heroEl) heroExitObs.observe(heroEl);
+                        <motion.p className={styles.heroSub}
+                            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.65, delay: 0.1 } } }}
+                        >
+                            Trade real companies with $100,000 in play money.
+                            Whenever you&apos;re stuck, Vesta breaks it down in plain
+                            English — no real risk, real understanding.
+                        </motion.p>
 
-    return () => {
-      revealObs.disconnect();
-      heroExitObs.disconnect();
-    };
-  }, []);
+                        <motion.div className={styles.heroBtns}
+                            variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 } } }}
+                        >
+                            <Link href={authenticated ? '/trade' : '/register'} className={styles.btnPrimary}>
+                                {authenticated ? 'Open Market' : 'Start Playing'} →
+                            </Link>
+                            <button type="button" className={styles.btnText}
+                                onClick={() => { enterGuestMode(); router.push('/learn'); }}>
+                                Browse Lessons
+                            </button>
+                        </motion.div>
 
-  // Runs after auth resolves so the CTA card is actually in the DOM
-  useEffect(() => {
-    if (loading || authenticated) return;
-    const ctaEl = document.querySelector(`.${styles.ctaCard}`) as HTMLElement | null;
-    if (!ctaEl) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(styles.visible);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    obs.observe(ctaEl);
-    return () => obs.disconnect();
-  }, [loading, authenticated]);
+                        <motion.p className={styles.heroMeta}
+                            variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 0.35 } } }}
+                        >
+                            Free to start · No real money, ever
+                        </motion.p>
+                    </motion.div>
 
-  const pl   = portfolioData?.pl  ?? 0;
-  const pct  = portfolioData?.pct ?? 0;
-  const isUp = pl >= 0;
+                    {/* RIGHT — floating cards */}
+                    <div className={styles.heroRight}>
 
-  return (
-    <div className={styles.wrap}>
+                        {/* Dark stock card — click opens NVDA in Market */}
+                        <Link
+                            href={authenticated ? '/trade?ticker=NVDA' : '/register'}
+                            style={{ textDecoration: 'none', position: 'absolute', top: 0, right: 0, zIndex: 2, transform: 'rotate(4deg)' }}
+                        >
+                        <motion.div className={styles.stockCard}
+                            style={{ position: 'static', transform: 'none', cursor: 'pointer' }}
+                            initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.85, delay: 0.2, ease: [0.16,1,0.3,1] }}
+                            whileHover={{ y: -6, transition: { duration: 0.22 } }}
+                        >
+                            <div className={styles.scTop}>
+                                <div className={styles.scTicker}>
+                                    <div className={styles.scIcon}>N</div>
+                                    <div>
+                                        <div className={styles.scSym}>NVDA</div>
+                                        <div className={styles.scName}>NVIDIA Corp.</div>
+                                    </div>
+                                </div>
+                                <span className={styles.scBadge} style={{
+                                    background: marketStatus.open ? 'rgba(124,224,198,0.2)' : 'rgba(224,99,122,0.2)',
+                                    color: marketStatus.open ? '#7CE0C6' : '#E0637A',
+                                }}>
+                                    + {marketStatus.label}
+                                </span>
+                            </div>
 
-      {/* Vestera Prototype Animation Add-on — scrolling stock ticker tape (real data) */}
-      <div className={`${styles.ticker}${tickerVisible ? '' : ' ' + styles.tickerHidden}`}>
-        {tickerData.length > 0 && (
-          <div className={styles.tickerInner}>
-            {/* items duplicated for a seamless infinite scroll loop */}
-            {[...tickerData, ...tickerData].map((s, i) => (
-              <span key={i} className={styles.tickerItem}>
-                <strong>{s.sym}</strong>
-                {fmt$(s.price)}{' '}
-                <span className={s.change >= 0 ? styles.tickerUp : styles.tickerDn}>
-                  {s.change >= 0 ? '+' : ''}{s.changePct.toFixed(2)}%
-                </span>
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
+                            <motion.div className={styles.scPrice} style={{ color: priceColor }}
+                                key={nvdaData?.price} animate={{ scale: [1,1.03,1] }} transition={{ duration: 0.3 }}>
+                                {nvdaData ? fmt$(nvdaData.price) : '$—'}
+                            </motion.div>
 
-      {/* ── Ambient background orbs ── */}
-      <div className={styles.bgOrbs} aria-hidden="true">
-        <div className={`${styles.orb} ${styles.orb1}`} />
-        <div className={`${styles.orb} ${styles.orb2}`} />
-        <div className={`${styles.orb} ${styles.orb3}`} />
-      </div>
-      <div className={styles.grain} aria-hidden="true" />
+                            <div className={styles.scChange}
+                                style={{ color: nvdaData && nvdaData.change >= 0 ? '#7CE0C6' : '#E0637A' }}>
+                                {nvdaData
+                                    ? `${nvdaData.change >= 0 ? '▲' : '▼'} ${Math.abs(nvdaData.changePct).toFixed(2)}% today`
+                                    : '▲ +3.4% today'}
+                            </div>
 
-      {/* ── HERO ── */}
-      <section className={styles.hero} ref={heroRef}>
-        <div className={styles.heroLeft}>
-          <div className={styles.heroEyebrow}>
-            <span className={styles.eyebrowDot} />
-            Paper Trading Platform
-          </div>
-          <h1 className={styles.heroTitle}>
-            Trade smarter.<br />
-            <span className={styles.heroTitleAccent}>Risk nothing.</span>
-          </h1>
-          <p className={styles.heroSub}>
-            Practice with real market data, AI-powered insights, and a $100K virtual portfolio. Learn the markets before you risk real money.
-          </p>
-          <div className={styles.heroBtns}>
-            <Link href={authenticated ? '/trade' : '/restricted'} className={styles.btnPrimary}>Launch Dashboard</Link>
-            <Link href="/learn" className={styles.btnGhost}>Browse Lessons →</Link>
-          </div>
-          <button
-            type="button"
-            className={styles.heroGuestLink}
-            onClick={() => {
-              enterGuestMode();
-              router.push('/learn');
-            }}
-          >
-            Continue without account →
-          </button>
-          <div className={styles.heroStats}>
-            <div className={styles.heroStat}>
-              <strong>77+</strong>
-              <span>Real Stocks</span>
-            </div>
-            <div className={styles.heroStat}>
-              <strong>$100K</strong>
-              <span>Starting Balance</span>
-            </div>
-            <div className={styles.heroStat}>
-              <strong>0%</strong>
-              <span>Risk</span>
-            </div>
-          </div>
-        </div>
+                            <div className={styles.scChart}>
+                                <svg viewBox="0 0 220 52" preserveAspectRatio="none">
+                                    <defs>
+                                        <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#FFB84C" stopOpacity="0.3"/>
+                                            <stop offset="100%" stopColor="#FFB84C" stopOpacity="0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M0,44 L22,40 L44,36 L66,39 L88,28 L110,22 L132,18 L154,14 L176,8 L198,5 L220,2"
+                                        stroke="#FFB84C" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                                    <path d="M0,44 L22,40 L44,36 L66,39 L88,28 L110,22 L132,18 L154,14 L176,8 L198,5 L220,2 L220,52 L0,52Z"
+                                        fill="url(#cg)"/>
+                                </svg>
+                            </div>
+                            <div className={styles.scHint}>Tap to open NVDA in Market →</div>
+                        </motion.div>
+                        </Link>
 
-        {/* ── MOCK TRADING CARD ── */}
-        <div className={styles.heroRight}>
-          <div className={styles.mockCard}>
-            <div className={styles.mockHeader}>
-              <div className={styles.mockTicker}>
-                <VLogo size={36} />
-                <div>
-                  <div className={styles.mockTickerName}>NVDA</div>
-                  <div className={styles.mockTickerSub}>NVIDIA Corp</div>
+                        {/* White portfolio card */}
+                        <motion.div className={styles.pfCard}
+                            initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.85, delay: 0.35, ease: [0.16,1,0.3,1] }}
+                            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                        >
+                            <div className={styles.pfLabel}>YOUR PORTFOLIO</div>
+                            <div className={styles.pfValue}>{fmtPortfolio(total)}</div>
+                            <div className={styles.pfChange} style={{ color: isUp ? '#3CA787' : '#E0637A' }}>
+                                {authenticated && portfolioData
+                                    ? `${isUp ? '▲' : '▼'} ${isUp ? '+' : ''}${pct.toFixed(2)}% this week`
+                                    : '▲ +2.2% this week'}
+                            </div>
+                        </motion.div>
+
+                        {/* Gold dollar badge */}
+                        <motion.div className={styles.dollarBadge}
+                            initial={{ opacity: 0, scale: 0.6 }}
+                            animate={{ opacity: 1, scale: 1, y: [0, -9, 0] }}
+                            transition={{ opacity: { duration: 0.5, delay: 0.5 }, scale: { duration: 0.5, delay: 0.5 }, y: { duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 1 } }}
+                        >$</motion.div>
+
+                        {/* Lesson chip */}
+                        <motion.div className={styles.lessonChip}
+                            initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.6 }}
+                        >
+                            <span className={styles.lcEmoji}>🎓</span>
+                            <div>
+                                <div className={styles.lcLabel}>Today&apos;s Lesson</div>
+                                <div className={styles.lcTitle}>What&apos;s a P/E ratio?</div>
+                            </div>
+                        </motion.div>
+
+                    </div>
                 </div>
-              </div>
-              <div
-                className={styles.mockBadge}
-                style={{
-                  background: marketStatus.open ? 'rgba(74,222,128,0.10)' : 'rgba(248,113,113,0.10)',
-                  border: `1px solid ${marketStatus.open ? 'rgba(74,222,128,0.25)' : 'rgba(248,113,113,0.25)'}`,
-                  color: marketStatus.open ? '#4ade80' : '#f87171',
-                }}
-              >
-                <span style={{
-                  display: 'inline-block', width: 6, height: 6, borderRadius: '50%',
-                  background: marketStatus.open ? '#4ade80' : '#f87171',
-                  marginRight: 5,
-                  boxShadow: marketStatus.open ? '0 0 6px #4ade80' : 'none',
-                  animation: marketStatus.open ? 'pulse 2s ease-in-out infinite' : 'none',
-                }} />
-                {marketStatus.label}
-              </div>
-            </div>
-            <div className={styles.mockPrice} style={{ color: priceColor }}>
-              {nvdaData ? fmt$(nvdaData.price) : '—'}
-            </div>
-            <div
-              className={styles.mockChange}
-              style={{ color: nvdaData && nvdaData.change >= 0 ? '#4ade80' : '#f87171' }}
-            >
-              {nvdaData
-                ? `${nvdaData.change >= 0 ? '+' : ''}${fmt$(nvdaData.change)} (${nvdaData.change >= 0 ? '+' : ''}${nvdaData.changePct.toFixed(2)}%) today`
-                : 'Loading…'}
-            </div>
-            <div className={styles.mockChart}>
-              <svg viewBox="0 0 300 80" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="chartGradHero" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#4f6ef7" stopOpacity="0.4"/>
-                    <stop offset="100%" stopColor="#4f6ef7" stopOpacity="0"/>
-                  </linearGradient>
-                </defs>
-                <path d="M0,65 L20,60 L40,55 L60,58 L80,45 L100,40 L120,35 L140,38 L160,25 L180,20 L200,22 L220,15 L240,18 L260,10 L280,8 L300,5" stroke="#4f6ef7" strokeWidth="2.5" fill="none"/>
-                <path d="M0,65 L20,60 L40,55 L60,58 L80,45 L100,40 L120,35 L140,38 L160,25 L180,20 L200,22 L220,15 L240,18 L260,10 L280,8 L300,5 L300,80 L0,80 Z" fill="url(#chartGradHero)"/>
-              </svg>
-            </div>
-            <div className={styles.mockGrid}>
-              <div className={styles.mockGridItem}>
-                <span>Open</span>
-                <strong>{nvdaData ? fmt$(nvdaData.open) : '—'}</strong>
-              </div>
-              <div className={styles.mockGridItem}>
-                <span>Volume</span>
-                <strong>{nvdaData ? fmtVol(nvdaData.volume) : '—'}</strong>
-              </div>
-              <div className={styles.mockGridItem}>
-                <span>52W High</span>
-                <strong>{nvdaData ? fmt$(nvdaData.high52w) : '—'}</strong>
-              </div>
-              <div className={styles.mockGridItem}>
-                <span>Mkt Cap</span>
-                <strong>{nvdaData ? fmtCap(nvdaData.marketCap) : '—'}</strong>
-              </div>
-            </div>
-            <button
-              className={styles.mockBuyBtn}
-              onClick={() => router.push(authenticated ? '/trade?ticker=NVDA' : '/restricted')}
-            >
-              Buy NVDA — Paper Trade
-            </button>
-          </div>
+            </section>
 
-          {/* Personalized badge when logged in */}
-          {!loading && authenticated && portfolioData && (
-            <div className={styles.floatingBadge}>
-              <div className={styles.floatingBadgeIcon}>{isUp ? '📈' : '📉'}</div>
-              <div className={styles.floatingBadgeText}>
-                <strong>Your portfolio today</strong>
-                <span style={{ color: isUp ? '#4ade80' : '#f87171' }}>
-                  {isUp ? '+' : ''}${pl.toFixed(2)} ({isUp ? '+' : ''}{pct.toFixed(1)}%)
-                </span>
-              </div>
-            </div>
-          )}
+            {/* ════════════════════════════
+                ASK VESTA
+            ════════════════════════════ */}
+            <section className={styles.askSection}>
+                <div className={styles.askInner}>
 
-          {/* Static badge for logged-out users */}
-          {!loading && !authenticated && (
-            <div className={styles.floatingBadge}>
-              <div className={styles.floatingBadgeIcon}>🚀</div>
-              <div className={styles.floatingBadgeText}>
-                <strong>Start with $100,000</strong>
-                <span style={{ color: '#4ade80' }}>Zero risk. Real data.</span>
-              </div>
-            </div>
-          )}
+                    <VestaBlob size={72} showDot animate={false} />
+                    <h2 className={styles.askHeading}>Ask Vesta anything about the market</h2>
+
+                    <div className={styles.accordion}>
+                        {VESTA_PROMPTS.map((p, i) => (
+                            <div key={i} className={styles.accItem}
+                                onClick={() => setVestaOpen(vestaOpen === i ? null : i)}>
+                                <span className={styles.accText}>{p}</span>
+                                <button type="button" className={styles.accBtn}
+                                    onClick={e => { e.stopPropagation(); openVesta(p); }}>
+                                    {vestaOpen === i ? '−' : '+'}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    <form className={styles.askForm} onSubmit={handleVestaSubmit}>
+                        <input type="text" className={styles.askInput}
+                            placeholder="Ask Vesta anything…"
+                            value={vestaInput} onChange={e => setVestaInput(e.target.value)} />
+                        <button type="submit" className={styles.askSend} aria-label="Send">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                <circle cx="16" cy="16" r="16" fill="#20264D"/>
+                                <path d="M16 22V10M10 16l6-6 6 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <p className={styles.askNote}>Vesta can make mistakes. This is practice money, not real advice.</p>
+                </div>
+            </section>
+
+            {/* ════════════════════════════
+                FAQ
+            ════════════════════════════ */}
+            <section className={styles.faqSection}>
+                <div className={styles.faqInner}>
+                    <h2 className={styles.faqHeading}>Frequently Asked Questions</h2>
+
+                    <div className={styles.accordion}>
+                        {FAQ_ITEMS.map((item, i) => (
+                            <div key={i}
+                                className={`${styles.accItem} ${faqOpen === i ? styles.accItemOpen : ''}`}
+                                onClick={() => setFaqOpen(faqOpen === i ? null : i)}
+                            >
+                                <span className={styles.accText}>{item.q}</span>
+                                <span className={styles.accBtn}>{faqOpen === i ? '−' : '+'}</span>
+                                <AnimatePresence>
+                                    {faqOpen === i && (
+                                        <motion.div className={styles.accAnswer}
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: 'auto' }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            transition={{ duration: 0.22 }}
+                                        >
+                                            {item.a}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════
+                FOOTER CTA
+            ════════════════════════════ */}
+            <section className={styles.footerSection}>
+                <div className={styles.footerInner}>
+                    <h2 className={styles.footerHeading}>Ready to start playing?</h2>
+                    <p className={styles.footerSub}>Free forever to start. No card, no real money, ever.</p>
+
+                    {!loading && !authenticated ? (
+                        <form className={styles.footerForm} onSubmit={handleEmailSubmit}>
+                            <input type="email" className={styles.footerEmail}
+                                placeholder="you@email.com"
+                                value={emailInput} onChange={e => setEmailInput(e.target.value)} />
+                            <button type="submit" className={styles.footerBtn}>Create Free Account</button>
+                        </form>
+                    ) : authenticated ? (
+                        <Link href="/trade" className={styles.footerBtn} style={{ textDecoration: 'none', display: 'inline-block' }}>
+                            Go to Market →
+                        </Link>
+                    ) : null}
+
+                    <nav className={styles.footerLinks}>
+                        <Link href={authenticated ? '/trade' : '/register'}>Play</Link>
+                        <Link href="/learn">Learn</Link>
+                        <Link href="/stats">Rankings</Link>
+                        <Link href="/founders">About</Link>
+                        <Link href="/privacy">Privacy</Link>
+                        <Link href="/terms">Terms</Link>
+                    </nav>
+                    <p className={styles.footerCopy}>© 2026 Vestera. Practice trading, real learning.</p>
+                </div>
+            </section>
+
         </div>
-      </section>
-
-      {/* ── EDTECH BADGE ── */}
-      <div className={styles.edtechBadgeWrap}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/edtech-badge.png"
-          alt="Find us on the EdTech Index"
-          className={styles.edtechBadge}
-        />
-      </div>
-
-      {/* ── FEATURES ── */}
-      <section className={styles.features}>
-        <div className={styles.sectionLabel}>Everything you need</div>
-        <h2 className={styles.sectionTitle}>Built for serious learners</h2>
-
-        <NonProfitSection />
-
-        <div className={styles.featureGrid}>
-          <div className={styles.featureItem}>
-            <div className={`${styles.featureIcon} ${styles.iconBlue}`}>📊</div>
-            <h3>Live Charts</h3>
-            <p>Candlestick, area, and line charts powered by real Yahoo Finance data. Multi-timeframe analysis just like the pros use.</p>
-          </div>
-          <div className={styles.featureItem}>
-            <div className={`${styles.featureIcon} ${styles.iconPurple}`}>🤖</div>
-            <h3>AI Stock Analyst</h3>
-            <p>Get entry and exit signals, risk assessments, and trade recommendations from an intelligent AI trading assistant.</p>
-          </div>
-          <div className={styles.featureItem}>
-            <div className={`${styles.featureIcon} ${styles.iconGreen}`}>🎓</div>
-            <h3>Learning Academy</h3>
-            <p>30+ lessons across beginner, intermediate, and advanced levels. Master technical analysis, risk management, and strategy.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA — logged-out only ── */}
-      {!loading && !authenticated && (
-        <section className={styles.ctaSection}>
-          <div className={styles.ctaCard}>
-            <h2 className={styles.ctaTitle}>Start trading today</h2>
-            <p className={styles.ctaSub}>Free forever. No credit card. No risk.</p>
-            <div className={styles.ctaBtns}>
-              <Link href="/register" className={styles.btnPrimary}>Create Free Account</Link>
-              <Link href="/login"    className={styles.btnGhost}>Sign In →</Link>
-            </div>
-            <button
-              type="button"
-              className={styles.heroGuestLink}
-              style={{ marginTop: 16, marginBottom: 0 }}
-              onClick={() => {
-                enterGuestMode();
-                router.push('/learn');
-              }}
-            >
-              Continue without account →
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* ── FOOTER ── */}
-      <footer className={styles.footer}>
-        <div className={styles.footerLogo}>Vestera</div>
-        <div className={styles.footerText}>© 2026 Vestera · For educational purposes only. Not financial advice.</div>
-      </footer>
-
-    </div>
-  );
+    );
 }

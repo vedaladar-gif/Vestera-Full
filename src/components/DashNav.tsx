@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import VesteraLogo from '@/components/VesteraLogo';
+import VestaBlob from '@/components/VestaBlob';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 
 interface DashNavProps {
@@ -59,45 +60,45 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
     const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
 
     const linkStyle = (href: string): React.CSSProperties => ({
-        color: isActive(href) ? 'var(--vt-text)' : 'var(--vt-text2)',
-        fontWeight: isActive(href) ? 600 : 500,
-        background: isActive(href) ? 'var(--vt-hover)' : 'transparent',
+        color: isActive(href) ? '#20264D' : '#5c628a',
+        fontWeight: isActive(href) ? 700 : 600,
+        background: 'transparent',
     });
 
     const close = () => setMobileOpen(false);
 
     const navLinks = [
-        { href: previewMode ? '/restricted' : '/trade', label: 'Trade', activePath: '/trade' },
-        { href: previewMode ? '/restricted' : '/stats', label: 'Stats', activePath: '/stats' },
-        { href: '/learn', label: 'Learn', activePath: '/learn' },
+        { href: previewMode ? '/restricted' : '/trade', label: 'Market', activePath: '/trade' },
+        { href: previewMode ? '/restricted' : '/stats', label: 'Rankings', activePath: '/stats' },
+        { href: '/learn', label: 'Academy', activePath: '/learn' },
         { href: '/founders', label: 'Founders', activePath: '/founders' },
     ];
 
     return (
         <>
-            {/* ── Nav bar (desktop layout preserved via inline styles) ── */}
+            {/* ── Nav bar ── */}
             <nav style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '0 32px',
-                height: 58,
-                background: 'var(--vt-nav-bg)',
-                borderBottom: '1px solid var(--vt-border2)',
+                padding: '0 40px',
+                height: 64,
+                background: '#ffffff',
+                borderBottom: '1px solid #E4E9F7',
                 position: 'sticky',
                 top: 0,
-                zIndex: 100,
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
+                zIndex: 200,
                 flexShrink: 0,
+                fontFamily: "'Nunito', sans-serif",
             }}>
                 {/* Brand */}
                 <Link
                     href="/"
                     className="brand-link"
-                    style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
                 >
-                    <VesteraLogo height={38} />
+                    <VesteraLogo height={36} />
+                    <VestaBlob size={22} showDot={false} mini={true} />
                 </Link>
 
                 {/* Desktop links — hidden on mobile via .dashnav-links CSS class */}
@@ -109,9 +110,9 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                             style={{
                                 textDecoration: 'none',
                                 fontSize: 14,
-                                padding: '8px 16px',
+                                padding: '8px 14px',
                                 borderRadius: 8,
-                                transition: 'all 0.2s',
+                                transition: 'color 0.15s',
                                 ...linkStyle(activePath),
                             }}
                         >
@@ -124,9 +125,9 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                             <Link
                                 href="/login"
                                 style={{
-                                    textDecoration: 'none', fontSize: 14, fontWeight: 600,
-                                    padding: '8px 16px', borderRadius: 8,
-                                    background: '#4f6ef7', color: '#fff', transition: 'background 0.2s',
+                                    textDecoration: 'none', fontSize: 14, fontWeight: 700,
+                                    padding: '8px 18px', borderRadius: 999,
+                                    background: '#4C8DFF', color: '#fff', transition: 'filter 0.2s',
                                 }}
                             >
                                 Log In / Sign Up
@@ -136,8 +137,8 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                     type="button"
                                     onClick={onExitPreview}
                                     style={{
-                                        background: 'none', border: '1px solid var(--vt-border)',
-                                        color: 'var(--vt-text2)', fontSize: 13, fontWeight: 500,
+                                        background: 'none', border: '1px solid #E4E9F7',
+                                        color: '#5c628a', fontSize: 13, fontWeight: 600,
                                         cursor: 'pointer', padding: '8px 14px',
                                         fontFamily: 'inherit', borderRadius: 8,
                                     }}
@@ -154,43 +155,32 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                     display: 'flex', alignItems: 'center', gap: 7,
                                     padding: '5px 10px 5px 6px', borderRadius: 10,
                                     textDecoration: 'none', transition: 'background 0.2s',
-                                    background: isActive('/settings') ? 'var(--vt-hover)' : 'transparent',
+                                    background: isActive('/settings') ? '#F4F6FC' : 'transparent',
                                 }}
                             >
                                 <div style={{
                                     width: 30, height: 30, borderRadius: 8,
                                     background: getAvatarGradient(avatarColor),
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0,
-                                    border: isActive('/settings') ? '2px solid rgba(79,110,247,0.5)' : '2px solid transparent',
-                                    transition: 'border-color 0.15s',
+                                    fontSize: 12, fontWeight: 800, color: '#fff', flexShrink: 0,
                                 }}>
                                     {initials}
                                 </div>
-                                <span style={{
-                                    fontSize: 13,
-                                    fontWeight: isActive('/settings') ? 600 : 500,
-                                    color: isActive('/settings') ? 'var(--vt-text)' : 'var(--vt-text2)',
-                                }}>
-                                    Settings
-                                </span>
                             </Link>
 
                             <button
                                 onClick={handleLogout}
                                 style={{
-                                    background: 'none', border: 'none', color: 'var(--vt-text2)',
-                                    fontSize: 14, fontWeight: 500, cursor: 'pointer',
-                                    padding: '8px 16px', fontFamily: 'inherit',
-                                    borderRadius: 8, transition: 'all 0.2s',
+                                    background: 'none', border: 'none', color: '#5c628a',
+                                    fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                                    padding: '8px 14px', fontFamily: 'inherit',
+                                    borderRadius: 8, transition: 'color 0.2s',
                                 }}
                                 onMouseEnter={e => {
                                     (e.target as HTMLElement).style.color = '#f87171';
-                                    (e.target as HTMLElement).style.background = 'rgba(248,113,113,0.08)';
                                 }}
                                 onMouseLeave={e => {
-                                    (e.target as HTMLElement).style.color = 'var(--vt-text2)';
-                                    (e.target as HTMLElement).style.background = 'none';
+                                    (e.target as HTMLElement).style.color = '#5c628a';
                                 }}
                             >
                                 Logout
@@ -269,7 +259,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                 ) : (
                     <>
                         <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>
-                            Settings
+                            👤 Profile
                         </Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>
                             Logout

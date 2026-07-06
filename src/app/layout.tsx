@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import ConditionalFooter from "@/components/ConditionalFooter";
 import TermsGate from "@/components/TermsGate";
 import SnapseWidget from "@/components/SnapseWidget";
 import ThemeProvider from "@/components/ThemeProvider";
@@ -19,32 +19,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-theme="dark">
+    <html lang="en" suppressHydrationWarning data-theme="light">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-        {/* Anti-FOUC: apply saved theme before first paint */}
-        <script dangerouslySetInnerHTML={{ __html: `
-          try {
-            var t = localStorage.getItem('vt-theme') || 'dark';
-            var resolved = t === 'system'
-              ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-              : (t === 'light' ? 'light' : 'dark');
-            document.documentElement.setAttribute('data-theme', resolved);
-          } catch(e) {}
-        ` }} />
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        {/* Anti-FOUC: apply saved theme before first paint (default: light) */}
+        <script dangerouslySetInnerHTML={{ __html: `document.documentElement.setAttribute('data-theme','light');` }} />
       </head>
       <body>
         <AlertToastProvider>
           <div className="app-root">
             <ThemeProvider />
             <GuestModeSync />
-            <Navbar />
+            <div className="nav-float-shell">
+              <Navbar />
+            </div>
             <TermsGate />
             <div className="app-main">
-              <div className="container app-main-inner">{children}</div>
-              <Footer />
+              <div className="app-main-inner">{children}</div>
+              <ConditionalFooter />
             </div>
             <SnapseWidget />
           </div>

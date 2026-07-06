@@ -1,12 +1,12 @@
 export const AVATAR_GRADIENTS: Record<string, string> = {
-    blue:   'linear-gradient(135deg, #4f6ef7, #6d8bff)',
-    purple: 'linear-gradient(135deg, #9b5de5, #c084fc)',
-    green:  'linear-gradient(135deg, #22c55e, #4ade80)',
-    orange: 'linear-gradient(135deg, #f97316, #fb923c)',
-    pink:   'linear-gradient(135deg, #ec4899, #f472b6)',
-    teal:   'linear-gradient(135deg, #14b8a6, #2dd4bf)',
-    red:    'linear-gradient(135deg, #ef4444, #f87171)',
-    yellow: 'linear-gradient(135deg, #eab308, #facc15)',
+    blue:   'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+    purple: 'linear-gradient(135deg, #A855F7, #9333EA)',
+    green:  'linear-gradient(135deg, #10B981, #059669)',
+    orange: 'linear-gradient(135deg, #F97316, #EA580C)',
+    pink:   'linear-gradient(135deg, #EC4899, #DB2777)',
+    teal:   'linear-gradient(135deg, #14B8A6, #0D9488)',
+    red:    'linear-gradient(135deg, #EF4444, #DC2626)',
+    yellow: 'linear-gradient(135deg, #F59E0B, #D97706)',
 };
 
 export const AVATAR_COLOR_KEYS = Object.keys(AVATAR_GRADIENTS);

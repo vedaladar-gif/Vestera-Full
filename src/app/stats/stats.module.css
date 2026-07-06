@@ -1,41 +1,25 @@
 /* ── Wrapper ── */
 .statsWrap {
     min-height: 100vh;
-    background: var(--vt-bg);
+    background: #EEF2FB;
     margin: -48px -24px 0;
-    font-family: 'Inter', sans-serif;
-    padding: 48px 32px 80px;
+    font-family: 'Nunito', sans-serif;
+    padding: 32px 40px 100px;
     position: relative;
-    color: var(--vt-text);
+    color: #20264D;
 }
-.statsWrap::before {
-    content: '';
-    position: fixed;
-    top: -180px; left: -120px;
-    width: 560px; height: 560px;
-    background: radial-gradient(circle, rgba(79,110,247,0.07) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-    opacity: var(--vt-orb-op);
-}
-.statsWrap::after {
-    content: '';
-    position: fixed;
-    bottom: -120px; right: -80px;
-    width: 440px; height: 440px;
-    background: radial-gradient(circle, rgba(155,93,229,0.05) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-    opacity: var(--vt-orb-op);
-}
+.statsWrap::before { content: none; }
+.statsWrap::after  { content: none; }
 .statsInner {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
 }
 .spinner {
     width: 32px; height: 32px;
-    border: 2px solid rgba(79,110,247,0.15);
-    border-top-color: #4f6ef7;
+    border: 2.5px solid rgba(79,124,255,0.15);
+    border-top-color: #4F7CFF;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -51,50 +35,53 @@
     flex-wrap: wrap;
 }
 .pageTitle {
+    font-family: 'Baloo 2', sans-serif;
     font-size: 28px;
     font-weight: 800;
-    color: var(--vt-text);
-    margin: 0 0 5px;
-    letter-spacing: -1px;
+    color: #20264D;
+    margin: 0 0 4px;
+    letter-spacing: -0.5px;
     line-height: 1;
 }
 .pageSubtitle {
     font-size: 14px;
-    color: var(--vt-text3);
+    font-weight: 600;
+    color: #8b90b0;
     margin: 0;
 }
 
 /* ── Tab Toggle ── */
 .tabToggle {
     display: flex;
-    gap: 4px;
-    background: var(--vt-input-bg);
-    border: 1px solid var(--vt-border);
+    gap: 2px;
+    background: #ffffff;
+    border: none;
     border-radius: 12px;
     padding: 4px;
     flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(32,38,77,0.06);
 }
 .tabBtn {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 9px 20px;
+    padding: 8px 18px;
     border: none;
-    border-radius: 9px;
+    border-radius: 8px;
     background: transparent;
-    color: var(--vt-text2);
+    color: #8b90b0;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', sans-serif;
     transition: all 0.2s;
     white-space: nowrap;
 }
-.tabBtn:hover { color: var(--vt-text); background: var(--vt-hover); }
+.tabBtn:hover { color: #20264D; background: #EEF2FB; }
 .tabBtnActive {
-    background: var(--vt-surface) !important;
-    color: var(--vt-text) !important;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+    background: #EEF2FB !important;
+    color: #20264D !important;
+    box-shadow: none;
 }
 .rankPill {
     padding: 2px 8px;
@@ -109,32 +96,33 @@
 .statCards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 14px;
+    margin-bottom: 20px;
 }
 .statCard {
-    background: var(--vt-surface);
-    border: 1px solid var(--vt-border);
+    background: #ffffff;
+    border: none;
     border-radius: 16px;
     padding: 20px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: box-shadow 0.22s, transform 0.22s;
+    box-shadow: 0 2px 10px rgba(32,38,77,0.06);
 }
 .statCard:hover {
-    border-color: rgba(79,110,247,0.3);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(32,38,77,0.10);
 }
 .statCardTop {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 .statCardLabel {
     font-size: 11px;
-    font-weight: 600;
-    color: var(--vt-text3);
+    font-weight: 700;
+    color: #8b90b0;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.05em;
 }
 .statCardIcon {
     width: 32px;
@@ -147,31 +135,35 @@
     flex-shrink: 0;
 }
 .statCardValue {
-    font-size: 22px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 26px;
     font-weight: 800;
     letter-spacing: -0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     line-height: 1;
+    color: #20264D;
 }
 .statCardSub {
     font-size: 12px;
-    color: var(--vt-text3);
+    font-weight: 600;
+    color: #8b90b0;
 }
 
 /* ── Middle Grid ── */
 .midGrid {
     display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 16px;
-    margin-bottom: 16px;
+    grid-template-columns: 1fr 340px;
+    gap: 18px;
+    margin-bottom: 18px;
 }
 
 /* ── Generic Card ── */
 .card {
-    background: var(--vt-surface);
-    border: 1px solid var(--vt-border);
+    background: #ffffff;
+    border: none;
     border-radius: 16px;
     padding: 24px;
+    box-shadow: 0 2px 10px rgba(32,38,77,0.06);
 }
 .cardHeader {
     display: flex;
@@ -263,30 +255,30 @@
     padding: 8px 16px;
     text-align: left;
     font-size: 11px;
-    font-weight: 600;
-    color: var(--vt-text3);
+    font-weight: 700;
+    color: #8b90b0;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    border-bottom: 1px solid var(--vt-border2);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #E4E9F7;
     white-space: nowrap;
 }
 .table td {
     padding: 14px 16px;
     font-size: 13px;
-    color: var(--vt-text);
-    border-bottom: 1px solid var(--vt-border3);
+    color: #20264D;
+    border-bottom: 1px solid #F4F6FC;
     vertical-align: middle;
 }
 .tableRow:last-child td { border-bottom: none; }
 .tableRow:hover td { background: var(--vt-hover2); }
-.tableRowMe td { background: rgba(79,110,247,0.04); }
-.tableRowMe:hover td { background: rgba(79,110,247,0.07); }
+.tableRowMe td { background: rgba(79,124,255,0.04); }
+.tableRowMe:hover td { background: rgba(79,124,255,0.07); }
 
 .stockCell { display: flex; align-items: center; gap: 10px; }
 .stockDot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 .stockTicker { font-weight: 700; font-size: 14px; color: var(--vt-text); }
 .tdMuted { color: var(--vt-text2) !important; }
-.tdBlue { color: #4f6ef7 !important; font-weight: 600 !important; }
+.tdBlue { color: #4F7CFF !important; font-weight: 600 !important; }
 .tdCenter { text-align: center !important; }
 
 .allocCell { display: flex; align-items: center; gap: 8px; }
@@ -322,7 +314,7 @@
     border-top: 3px solid #fbbf24 !important;
     padding-bottom: 28px;
 }
-.podiumMe { box-shadow: 0 0 0 2px rgba(79,110,247,0.4) !important; }
+.podiumMe { box-shadow: 0 0 0 2px rgba(79,124,255,0.4) !important; }
 .podiumMedal { font-size: 30px; margin-bottom: 14px; line-height: 1; }
 .podiumAvatar {
     width: 60px; height: 60px;
@@ -361,8 +353,8 @@
 .youChip {
     display: inline-block;
     padding: 2px 8px;
-    background: rgba(79,110,247,0.1);
-    color: #4f6ef7;
+    background: rgba(79,124,255,0.1);
+    color: #4F7CFF;
     border-radius: 100px;
     font-size: 11px;
     font-weight: 600;
@@ -394,8 +386,8 @@
 }
 .traderName {
     font-size: 13px;
-    font-weight: 600;
-    color: var(--vt-text);
+    font-weight: 700;
+    color: #20264D;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -403,8 +395,8 @@
 .traderHandle { font-size: 11px; color: var(--vt-text3); margin-top: 1px; }
 .youTag {
     padding: 1px 6px;
-    background: rgba(79,110,247,0.1);
-    color: #4f6ef7;
+    background: rgba(79,124,255,0.1);
+    color: #4F7CFF;
     border-radius: 4px;
     font-size: 10px;
     font-weight: 700;
@@ -419,12 +411,12 @@
 .medalText { font-size: 18px; }
 .myRankBadge {
     padding: 5px 14px;
-    background: rgba(79,110,247,0.1);
-    border: 1px solid rgba(79,110,247,0.2);
+    background: rgba(79,124,255,0.1);
+    border: 1px solid rgba(79,124,255,0.2);
     border-radius: 100px;
     font-size: 12px;
     font-weight: 600;
-    color: #4f6ef7;
+    color: #4F7CFF;
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -432,10 +424,10 @@
 /* ── Utility ── */
 .ctaLink {
     padding: 7px 16px;
-    background: rgba(79,110,247,0.1);
-    border: 1px solid rgba(79,110,247,0.2);
+    background: rgba(79,124,255,0.1);
+    border: 1px solid rgba(79,124,255,0.2);
     border-radius: 8px;
-    color: #4f6ef7;
+    color: #4F7CFF;
     font-size: 12px;
     font-weight: 600;
     text-decoration: none;
@@ -443,8 +435,8 @@
     white-space: nowrap;
     flex-shrink: 0;
 }
-.ctaLink:hover { background: rgba(79,110,247,0.18); }
-.link { color: #4f6ef7; text-decoration: none; font-weight: 600; }
+.ctaLink:hover { background: rgba(79,124,255,0.18); }
+.link { color: #4F7CFF; text-decoration: none; font-weight: 600; }
 .link:hover { text-decoration: underline; }
 .emptyState { text-align: center; padding: 40px 0; }
 .emptyIcon { font-size: 32px; margin-bottom: 10px; }
@@ -599,7 +591,7 @@
 }
 .friendsSearchInput:focus {
     outline: none;
-    border-color: #4f6ef7;
+    border-color: #4F7CFF;
 }
 .friendsSearchInput::placeholder { color: var(--vt-text3); }
 .friendsSearchResults {
@@ -635,11 +627,11 @@
     white-space: nowrap;
 }
 .friendsRowBtnPrimary {
-    background: rgba(79,110,247,0.15);
-    color: #4f6ef7;
-    border: 1px solid rgba(79,110,247,0.3);
+    background: rgba(79,124,255,0.15);
+    color: #4F7CFF;
+    border: 1px solid rgba(79,124,255,0.3);
 }
-.friendsRowBtnPrimary:hover { background: rgba(79,110,247,0.22); }
+.friendsRowBtnPrimary:hover { background: rgba(79,124,255,0.22); }
 .friendsRowBtnMuted {
     background: transparent;
     color: var(--vt-text3);
@@ -697,8 +689,8 @@
     transition: border-color 0.2s, background 0.2s;
 }
 .friendCardClickable:hover {
-    border-color: rgba(79,110,247,0.35);
-    background: rgba(79,110,247,0.04);
+    border-color: rgba(79,124,255,0.35);
+    background: rgba(79,124,255,0.04);
 }
 .friendsShareHelper {
     font-size: 12px;
@@ -729,13 +721,13 @@
     border-color: var(--vt-border);
 }
 .friendsShareModeRowActive {
-    border-color: rgba(79,110,247,0.45);
-    background: rgba(79,110,247,0.08);
+    border-color: rgba(79,124,255,0.45);
+    background: rgba(79,124,255,0.08);
 }
 .friendsShareModeRadio {
     width: 16px;
     height: 16px;
-    accent-color: #4f6ef7;
+    accent-color: #4F7CFF;
     margin-top: 2px;
     flex-shrink: 0;
 }
@@ -785,7 +777,7 @@
     cursor: pointer;
 }
 .friendsShareCheckRow input {
-    accent-color: #4f6ef7;
+    accent-color: #4F7CFF;
     width: 15px;
     height: 15px;
     flex-shrink: 0;
@@ -796,7 +788,7 @@
     padding: 10px 14px;
     border-radius: 10px;
     border: none;
-    background: #4f6ef7;
+    background: #4F7CFF;
     color: #fff;
     font-size: 13px;
     font-weight: 700;
@@ -817,7 +809,7 @@
     background: var(--vt-bg);
     padding: 48px 24px 80px;
     color: var(--vt-text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
 }
 .friendPageInner {
     max-width: 900px;
@@ -834,7 +826,7 @@
     margin-bottom: 20px;
 }
 .friendBackLink:hover {
-    color: #4f6ef7;
+    color: #4F7CFF;
 }
 .friendProfileCard {
     background: var(--vt-surface);
@@ -905,7 +897,7 @@
     padding: 12px 18px;
     border-radius: 10px;
     border: none;
-    background: #4f6ef7;
+    background: #4F7CFF;
     color: #fff;
     font-size: 14px;
     font-weight: 700;

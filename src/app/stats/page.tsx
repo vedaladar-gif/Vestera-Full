@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import styles from './stats.module.css';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 import PortfolioChart, { type HistoryPoint } from '@/components/PortfolioChart';
@@ -195,9 +196,14 @@ function StatsPage() {
             <div className={styles.statsInner}>
 
                 {/* ── Page Header ── */}
-                <div className={styles.pageHeader}>
+                <motion.div
+                    className={styles.pageHeader}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
                     <div>
-                        <h1 className={styles.pageTitle}>Stats & Leaderboard</h1>
+                        <h1 className={styles.pageTitle}>Rankings & Stats</h1>
                         <p className={styles.pageSubtitle}>Track your portfolio and compete with other traders</p>
                     </div>
                     <div className={styles.tabToggle}>
@@ -221,7 +227,7 @@ function StatsPage() {
                             👥 Friends
                         </button>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* ══════════════════════════════
                     PORTFOLIO TAB

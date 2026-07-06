@@ -2,10 +2,11 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import styles from './settings.module.css';
 import { AVATAR_COLOR_KEYS, getAvatarGradient, getInitials } from '@/lib/avatarColors';
 import { validateUsername } from '@/utils/usernameValidation';
-import { applyTheme } from '@/components/ThemeProvider';
+import { applyTheme as _applyTheme } from '@/components/ThemeProvider';
 import GuestGuard from '@/components/GuestGuard';
 
 type Tab = 'profile' | 'appearance' | 'account';
@@ -37,7 +38,7 @@ function Spinner() {
 function SettingsPage() {
     const [authChecked, setAuthChecked] = useState(false);
     const [tab, setTab] = useState<Tab>('profile');
-    const [profile, setProfile] = useState<Profile>({ username: '', displayName: null, avatarColor: 'blue', theme: 'dark' });
+    const [profile, setProfile] = useState<Profile>({ username: '', displayName: null, avatarColor: 'blue', theme: 'light' });
     const [userId, setUserId] = useState('');
 
     // Profile edit state
@@ -90,7 +91,7 @@ function SettingsPage() {
                     username:    data.username    || '',
                     displayName: data.displayName || null,
                     avatarColor: data.avatarColor || 'blue',
-                    theme:       data.theme       || 'dark',
+                    theme:       data.theme       || 'light',
                 };
                 setProfile(p);
                 setEditUsername(p.username);
@@ -157,18 +158,6 @@ function SettingsPage() {
         setSavingProfile(false);
     };
 
-    const saveTheme = async (t: string) => {
-        applyTheme(t);
-        localStorage.setItem('vt-theme', t);
-        setProfile(prev => ({ ...prev, theme: t }));
-        await fetch('/api/profile/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ theme: t }),
-        });
-        showToast('✓ Theme saved');
-    };
-
     if (!authChecked) {
         return (
             <div className={styles.wrap} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -193,8 +182,14 @@ function SettingsPage() {
     return (
         <div className={styles.wrap}>
             <div className={styles.inner}>
-                <h1 className={styles.heading}>Settings</h1>
-                <p className={styles.subheading}>Manage your profile, appearance, and account preferences.</p>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                >
+                    <h1 className={styles.heading}>Profile & Settings</h1>
+                    <p className={styles.subheading}>Manage your profile, appearance, and account preferences.</p>
+                </motion.div>
 
                 <div className={styles.grid}>
                     {/* Sidebar */}
@@ -307,38 +302,13 @@ function SettingsPage() {
                         {tab === 'appearance' && (
                             <div className={styles.panel}>
                                 <div className={styles['panel-title']}>Appearance</div>
-                                <div className={styles['panel-sub']}>Choose how Vestera looks for you. Synced across sessions.</div>
+                                <div className={styles['panel-sub']}>Vestera uses light mode — clean, bright, and easy to read.</div>
 
-                                <div className={styles['settings-row']}>
+                                <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'var(--vt-surface2)', border: '1px solid var(--vt-border)', borderRadius: 12 }}>
+                                    <span style={{ fontSize: 20 }}>☀️</span>
                                     <div>
-                                        <div className={styles['row-label']}>Color theme</div>
-                                        <div className={styles['row-sub']}>Applies to profile, settings, and navigation.</div>
-                                    </div>
-                                    <div className={styles['theme-toggle']}>
-                                        {(['dark', 'light', 'system'] as const).map(t => (
-                                            <button
-                                                key={t}
-                                                className={`${styles['theme-btn']} ${profile.theme === t ? styles.active : ''}`}
-                                                onClick={() => saveTheme(t)}
-                                            >
-                                                {t === 'dark' ? '🌙' : t === 'light' ? '☀️' : '💻'} {t.charAt(0).toUpperCase() + t.slice(1)}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Preview */}
-                                <div style={{ marginTop: 24, padding: 20, background: 'var(--vt-surface2)', border: '1px solid var(--vt-border)', borderRadius: 14 }}>
-                                    <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--vt-text2)', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: 16 }}>Preview</div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                                        <div style={{ padding: '14px 16px', background: 'var(--vt-surface)', border: '1px solid var(--vt-border)', borderRadius: 10 }}>
-                                            <div style={{ fontSize: 11, color: 'var(--vt-text2)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: 6 }}>Account Value</div>
-                                            <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--vt-text)' }}>$102,847</div>
-                                        </div>
-                                        <div style={{ padding: '14px 16px', background: 'var(--vt-surface)', border: '1px solid var(--vt-border)', borderRadius: 10 }}>
-                                            <div style={{ fontSize: 11, color: 'var(--vt-text2)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: 6 }}>Total Return</div>
-                                            <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--vt-green)' }}>+2.85%</div>
-                                        </div>
+                                        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--vt-text)' }}>Light Mode</div>
+                                        <div style={{ fontSize: 12, color: 'var(--vt-text3)', fontWeight: 500 }}>Always on — best for learning and trading</div>
                                     </div>
                                 </div>
                             </div>

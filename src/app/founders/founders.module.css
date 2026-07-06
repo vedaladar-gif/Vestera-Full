@@ -1,24 +1,24 @@
 .page {
-    max-width: 1120px;
+    max-width: 1160px;
     margin: 0 auto;
-    padding: 32px 16px 80px;
+    padding: 40px 24px 100px;
 }
 
 @media (min-width: 640px) {
     .page {
-        padding: 40px 24px 96px;
+        padding: 60px 32px 120px;
     }
 }
 
 .header {
     text-align: center;
-    max-width: 36rem;
-    margin: 0 auto 40px;
+    max-width: 38rem;
+    margin: 0 auto 52px;
 }
 
 @media (min-width: 768px) {
     .header {
-        margin-bottom: 48px;
+        margin-bottom: 64px;
     }
 }
 
@@ -38,12 +38,12 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #4f6ef7;
-    box-shadow: 0 0 10px rgba(79, 110, 247, 0.5);
+    background: #4F7CFF;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
 }
 
 .title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-size: clamp(1.75rem, 4.5vw, 2.25rem);
     font-weight: 800;
     letter-spacing: -0.04em;
@@ -53,7 +53,7 @@
 }
 
 .subtitle {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-size: 16px;
     line-height: 1.65;
     color: var(--vt-text2);
@@ -71,14 +71,14 @@
 @media (min-width: 640px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 22px;
+        gap: 24px;
     }
 }
 
 @media (min-width: 1024px) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
+        gap: 26px;
     }
 }
 
@@ -116,7 +116,7 @@
 }
 
 .missionTitle {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-size: clamp(1.25rem, 3.2vw, 1.5rem);
     font-weight: 700;
     letter-spacing: -0.03em;
@@ -132,7 +132,7 @@
 }
 
 .missionText {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-size: clamp(15px, 2.4vw, 17px);
     line-height: 1.75;
     color: var(--vt-text2);

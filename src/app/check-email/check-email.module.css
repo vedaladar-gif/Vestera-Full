@@ -21,7 +21,7 @@
 .brand {
     width: 44px;
     height: 44px;
-    background: linear-gradient(135deg, #4f6ef7, #9b5de5);
+    background: linear-gradient(135deg, #8B5CF6, #9b5de5);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -61,7 +61,7 @@
     display: block;
     width: 100%;
     padding: 14px 20px;
-    background: linear-gradient(135deg, #4f6ef7 0%, #5b7cff 100%);
+    background: linear-gradient(135deg, #8B5CF6 0%, #5b7cff 100%);
     color: #fff;
     font-size: 15px;
     font-weight: 600;

@@ -1,37 +1,15 @@
 .learnWrap {
     margin: -48px -24px 0;
     min-height: 100vh;
-    background: var(--vt-bg);
-    font-family: 'Inter', sans-serif;
+    background: #EEF2FB;
+    font-family: 'Nunito', sans-serif;
     position: relative;
-    color: var(--vt-text);
+    color: #20264D;
 }
 
-/* Ambient glow blobs */
-.learnWrap::before {
-    content: '';
-    position: fixed;
-    top: -180px;
-    left: -120px;
-    width: 560px;
-    height: 560px;
-    background: radial-gradient(circle, rgba(79,110,247,0.07) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    opacity: var(--vt-orb-op);
-}
-.learnWrap::after {
-    content: '';
-    position: fixed;
-    bottom: -120px;
-    right: -80px;
-    width: 440px;
-    height: 440px;
-    background: radial-gradient(circle, rgba(155,93,229,0.05) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    opacity: var(--vt-orb-op);
-}
+/* Ambient glow blobs — disabled in redesign */
+.learnWrap::before { content: none; }
+.learnWrap::after  { content: none; }
 
 /* ── Nav ────────────────────────────────────────────────── */
 .learnNav {
@@ -94,7 +72,7 @@
 .content {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 36px 32px 60px;
+    padding: 32px 36px 80px;
     position: relative;
     z-index: 1;
 }
@@ -104,7 +82,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     gap: 24px;
     flex-wrap: wrap;
 }
@@ -112,57 +90,60 @@
 .heroEyebrow {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-size: 12px;
-    font-weight: 600;
-    color: #4f6ef7;
+    font-weight: 800;
+    color: #4C8DFF;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
 }
 .eyebrowDot {
     width: 6px;
     height: 6px;
-    background: #4f6ef7;
+    background: #4C8DFF;
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(79,110,247,0.6);
 }
 .heroTitle {
-    margin: 0 0 8px;
+    margin: 0 0 6px;
+    font-family: 'Baloo 2', sans-serif;
     font-size: 32px;
     font-weight: 800;
-    color: var(--vt-text);
-    letter-spacing: -1.5px;
+    color: #20264D;
+    letter-spacing: -1px;
     line-height: 1.1;
 }
 .heroSub {
     margin: 0;
     font-size: 14px;
-    color: var(--vt-text3);
+    color: #8b90b0;
 }
 .heroStats {
     display: flex;
-    gap: 24px;
+    gap: 12px;
     flex-shrink: 0;
 }
 .heroStat {
     text-align: center;
-    background: var(--vt-surface);
-    border: 1px solid var(--vt-border);
+    background: #ffffff;
+    border: none;
     border-radius: 12px;
-    padding: 12px 20px;
+    padding: 14px 20px;
     min-width: 80px;
+    box-shadow: 0 2px 8px rgba(32,38,77,0.06);
 }
 .heroStat strong {
     display: block;
+    font-family: 'Baloo 2', sans-serif;
     font-size: 22px;
     font-weight: 800;
-    color: var(--vt-text);
+    color: #20264D;
     letter-spacing: -0.5px;
 }
 .heroStat span {
-    font-size: 11px;
-    color: var(--vt-text3);
+    font-size: 10px;
+    font-weight: 700;
+    color: #8b90b0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -170,48 +151,52 @@
 /* ── Level Tabs ─────────────────────────────────────────── */
 .levelTabs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
 .levelTab {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 9px 18px;
-    background: var(--vt-input-bg);
-    border: 1px solid var(--vt-border);
+    gap: 6px;
+    padding: 10px 18px;
+    background: transparent;
+    border: none;
     border-radius: 10px;
-    color: var(--vt-text2);
+    color: #5c628a;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
 }
-.levelTab:hover { background: var(--vt-hover); color: var(--vt-text); }
+.levelTab:hover { background: rgba(76,141,255,0.07); color: #20264D; }
 .activeTab {
-    background: var(--vt-surface) !important;
-    color: var(--vt-text) !important;
+    background: #E9F2FF !important;
+    color: #20264D !important;
+    border: none !important;
+    box-shadow: none !important;
 }
+.activeTab .tabCount { background: rgba(76,141,255,0.2) !important; color: #4C8DFF !important; }
 .tabCount {
     font-size: 11px;
     font-weight: 700;
     padding: 2px 7px;
     border-radius: 20px;
-    background: var(--vt-border2);
-    color: var(--vt-text3);
+    background: rgba(32,38,77,0.07);
+    color: #8b90b0;
     letter-spacing: 0;
     transition: all 0.2s;
 }
 
 /* ── Progress card ──────────────────────────────────────── */
 .progressCard {
-    background: var(--vt-surface);
-    border: 1px solid var(--vt-border);
-    border-radius: 12px;
+    background: #ffffff;
+    border: none;
+    border-radius: 14px;
     padding: 16px 20px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(32,38,77,0.06);
 }
 .progressInfo {
     display: flex;
@@ -269,37 +254,38 @@
 
 /* ── Course Card ────────────────────────────────────────── */
 .courseCard {
-    background: var(--vt-surface);
-    border: 1px solid var(--vt-border);
-    border-radius: 16px;
+    background: #ffffff;
+    border: none;
+    border-radius: 18px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     flex-direction: column;
     position: relative;
+    box-shadow: 0 2px 12px rgba(32,38,77,0.06);
 }
 .courseCard:hover {
-    border-color: rgba(79,110,247,0.35);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px var(--vt-shadow);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(32,38,77,0.10);
 }
 .courseCardDone {
-    border-color: rgba(74,222,128,0.25);
+    border: none;
 }
 .courseCardDone:hover {
-    border-color: rgba(74,222,128,0.45);
+    border: none;
 }
 
 /* ── Card illustration area ─────────────────────────────── */
 .cardIllustration {
-    height: 88px;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    background: linear-gradient(135deg, #E9F2FF, #F4F6FC);
 }
 .illDotGrid {
     position: absolute;
@@ -338,7 +324,7 @@
 
 /* ── Card body ──────────────────────────────────────────── */
 .cardBody {
-    padding: 18px 20px 16px;
+    padding: 22px 24px 20px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -357,25 +343,25 @@
 }
 .cardLessonNum {
     font-size: 11px;
-    color: var(--vt-text3);
+    color: #8b90b0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 6px;
-    font-weight: 600;
+    font-weight: 700;
 }
 .cardTitle {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Baloo 2', sans-serif;
     margin: 0 0 8px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 700;
-    color: var(--vt-text);
+    color: #20264D;
     letter-spacing: -0.3px;
-    line-height: 1.4;
+    line-height: 1.3;
 }
 .cardPreview {
     margin: 0 0 10px;
     font-size: 12.5px;
-    color: var(--vt-text3);
+    color: #8b90b0;
     line-height: 1.6;
     flex: 1;
 }
@@ -386,14 +372,14 @@
     margin-bottom: 12px;
 }
 .cardTopicTag {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--vt-text3);
-    background: var(--vt-input-bg);
-    border: 1px solid var(--vt-border2);
-    border-radius: 4px;
-    padding: 2px 7px;
-    letter-spacing: 0.2px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #5c628a;
+    background: #F4F6FC;
+    border: none;
+    border-radius: 999px;
+    padding: 3px 9px;
+    letter-spacing: 0.1px;
 }
 
 /* ── Card footer ────────────────────────────────────────── */
@@ -408,26 +394,21 @@
 .cardCta {
     font-size: 12px;
     font-weight: 700;
-    color: #4f6ef7;
+    color: #4F7CFF;
     letter-spacing: 0.1px;
 }
 .badgeDone {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    color: #4ade80;
-    background: rgba(74,222,128,0.1);
-    border: 1px solid rgba(74,222,128,0.2);
-    border-radius: 4px;
-    padding: 2px 8px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #3CA787;
 }
 .badgeQuiz {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.4px;
-    color: #4f6ef7;
-    background: rgba(79,110,247,0.1);
-    border: 1px solid rgba(79,110,247,0.2);
+    color: #4C8DFF;
+    background: rgba(76,141,255,0.1);
+    border: none;
     border-radius: 4px;
     padding: 2px 8px;
 }
@@ -450,8 +431,9 @@
 .unitViewer {
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 16px;
-    padding: 36px;
+    border-radius: 24px;
+    padding: 44px;
+    box-shadow: 0 4px 24px rgba(17,24,39,0.06);
 }
 .viewerHeader {
     display: flex;
@@ -499,7 +481,7 @@
 .backBtn {
     background: none;
     border: none;
-    color: #4f6ef7;
+    color: #4F7CFF;
     font-size: 14px;
     cursor: pointer;
     font-family: inherit;
@@ -521,7 +503,7 @@
     flex-wrap: wrap;
 }
 .lessonHeaderTitle {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     margin: 0;
     font-size: 26px;
     font-weight: 800;
@@ -533,23 +515,24 @@
 }
 .lessonQuizBtn {
     flex-shrink: 0;
-    padding: 12px 24px;
-    background: #4f6ef7;
+    padding: 11px 24px;
+    background: linear-gradient(135deg, #4F7CFF 0%, #3B5CF0 100%);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
     font-family: inherit;
-    letter-spacing: 0.2px;
+    letter-spacing: -0.1px;
     white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(79,124,255,0.32);
 }
 .lessonQuizBtn:hover {
-    background: #3d5ce8;
+    filter: brightness(1.07);
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(79,110,247,0.3);
+    box-shadow: 0 8px 24px rgba(79,124,255,0.38);
 }
 
 /* ── Lesson inner tabs (Concepts · Video) ─────────────────── */
@@ -657,26 +640,27 @@
     display: inline-block;
     margin-top: 32px;
     padding: 13px 32px;
-    background: #4f6ef7;
+    background: linear-gradient(135deg, #4F7CFF 0%, #3B5CF0 100%);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
-    letter-spacing: 0.2px;
+    letter-spacing: -0.1px;
+    box-shadow: 0 4px 16px rgba(79,124,255,0.3);
 }
 .quizCta:hover {
-    background: #3d5ce8;
+    filter: brightness(1.07);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(79,110,247,0.3);
+    box-shadow: 0 8px 24px rgba(79,124,255,0.38);
 }
 
 /* ── Quiz section ───────────────────────────────────────── */
 .quizSection h2 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     margin: 0 0 28px;
     font-size: 22px;
     font-weight: 800;
@@ -705,32 +689,34 @@
     transition: all 0.2s;
 }
 .option:hover {
-    border-color: rgba(79,110,247,0.3);
-    background: rgba(79,110,247,0.06);
+    border-color: rgba(79,124,255,0.3);
+    background: rgba(79,124,255,0.06);
     color: var(--vt-text);
 }
 .optionSelected {
-    border-color: #4f6ef7 !important;
-    background: rgba(79,110,247,0.1) !important;
+    border-color: #4F7CFF !important;
+    background: rgba(79,124,255,0.1) !important;
     color: var(--vt-text) !important;
 }
-.option input { accent-color: #4f6ef7; }
+.option input { accent-color: #4F7CFF; }
 .submitQuizBtn {
-    padding: 12px 28px;
-    background: #4f6ef7;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, #4F7CFF 0%, #3B5CF0 100%);
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 50px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
+    box-shadow: 0 4px 14px rgba(79,124,255,0.3);
 }
 .submitQuizBtn:disabled { opacity: 0.4; cursor: not-allowed; }
 .submitQuizBtn:hover:not(:disabled) {
-    background: #3d5ce8;
+    filter: brightness(1.07);
     transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(79,124,255,0.38);
 }
 .quizResultCard {
     margin-top: 20px;
@@ -748,7 +734,7 @@
 }
 .quizResultCard h3 {
     margin: 0 0 8px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-size: 20px;
     font-weight: 800;
     color: var(--vt-text);

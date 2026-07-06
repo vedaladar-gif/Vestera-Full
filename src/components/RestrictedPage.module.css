@@ -24,7 +24,7 @@
     height: 72px;
     margin: 0 auto 20px;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(79, 110, 247, 0.2), rgba(155, 93, 229, 0.12));
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(155, 93, 229, 0.12));
     border: 1px solid var(--vt-border);
     display: flex;
     align-items: center;
@@ -59,7 +59,7 @@
     align-items: center;
     justify-content: center;
     padding: 14px 20px;
-    background: #4f6ef7;
+    background: #8B5CF6;
     color: #fff;
     font-size: 14px;
     font-weight: 600;
@@ -72,7 +72,7 @@
 }
 
 .btnPrimary:hover {
-    background: #3d5ce8;
+    background: #7C3AED;
 }
 
 .btnGhost {
