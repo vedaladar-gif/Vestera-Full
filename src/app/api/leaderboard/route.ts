@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
-import { supabase } from '@/lib/supabaseClient';
-import { getPortfolioRowsForUsers } from '@/lib/models';
-import { getCurrentPrice, STARTING_CASH } from '@/lib/stocks';
-import {
-    plVersusStarting,
-    positionsFromTradesAsc,
-    returnPctVersusStarting,
-    totalAccountValue,
-} from '@/lib/portfolioMath';
-import { isEmailUsername } from '@/lib/avatarColors';
+import { buildScoredLeaderboard } from '@/lib/leaderboard';
 
 export async function GET() {
     const session = await getSession();
@@ -17,99 +8,10 @@ export async function GET() {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data: profiles, error } = await supabase
-        .from('profiles')
-        .select('id, username, display_name, avatar_color, cash')
-        .limit(800);
-
-    if (error) {
-        return NextResponse.json({ error: 'Failed to fetch leaderboard' }, { status: 500 });
-    }
-
-    const eligible = (profiles || []).filter(p => p.username && !isEmailUsername(p.username as string));
-
-    if (eligible.length === 0) {
+    const scored = await buildScoredLeaderboard();
+    if (scored.length === 0) {
         return NextResponse.json({ leaderboard: [] });
     }
-
-    const ids = eligible.map(p => p.id as string);
-    const tradeRows = await getPortfolioRowsForUsers(ids);
-
-    const byUser = new Map<string, typeof tradeRows>();
-    for (const r of tradeRows) {
-        if (!byUser.has(r.user_id)) byUser.set(r.user_id, []);
-        byUser.get(r.user_id)!.push(r);
-    }
-
-    const symbols = new Set<string>();
-    for (const r of tradeRows) {
-        symbols.add(r.stock);
-    }
-
-    const priceCache = new Map<string, number>();
-    await Promise.all(
-        [...symbols].map(async sym => {
-            const px = await getCurrentPrice(sym);
-            priceCache.set(sym, px);
-        })
-    );
-
-    type Scored = {
-        id: string;
-        username: string;
-        displayName: string | null;
-        avatarColor: string;
-        cash: number;
-        holdingsValue: number;
-        totalValue: number;
-        pl: number;
-        pct: number;
-        isCurrentUser: boolean;
-    };
-
-    const scored: Scored[] = [];
-
-    for (const p of eligible) {
-        const uid = p.id as string;
-        const cash = Number(p.cash) || 0;
-        const rows = (byUser.get(uid) || []).slice();
-        rows.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
-
-        const posMap = positionsFromTradesAsc(
-            rows.map(r => ({
-                stock: r.stock,
-                shares: r.shares,
-                price: Number(r.price) || 0,
-                action: r.action,
-            }))
-        );
-
-        let holdingsValue = 0;
-        for (const [sym, { shares }] of posMap) {
-            const px = priceCache.get(sym) ?? (await getCurrentPrice(sym));
-            if (!priceCache.has(sym)) priceCache.set(sym, px);
-            holdingsValue += shares * px;
-        }
-
-        const totalValue = totalAccountValue(cash, holdingsValue);
-        const pl = plVersusStarting(totalValue);
-        const pct = returnPctVersusStarting(totalValue);
-
-        scored.push({
-            id: uid,
-            username: p.username as string,
-            displayName: (p.display_name as string | null) ?? null,
-            avatarColor: (p.avatar_color as string) || 'blue',
-            cash,
-            holdingsValue,
-            totalValue,
-            pl,
-            pct,
-            isCurrentUser: uid === session.userId,
-        });
-    }
-
-    scored.sort((a, b) => b.totalValue - a.totalValue);
 
     const TOP = 100;
     const top = scored.slice(0, TOP);
@@ -123,7 +25,7 @@ export async function GET() {
         totalValue: row.totalValue,
         pl: row.pl,
         pct: row.pct,
-        isCurrentUser: row.isCurrentUser,
+        isCurrentUser: row.id === session.userId,
     }));
 
     const meIndex = scored.findIndex(r => r.id === session.userId);

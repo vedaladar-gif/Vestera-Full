@@ -250,6 +250,145 @@
 }
 
 /* ================================================================
+   ACADEMY + COMMUNITY — stacked sections
+   ================================================================ */
+.featuresSection {
+    width: 100%;
+    background: #ffffff;
+    border-top: 1.5px solid var(--vt-border);
+    padding: 72px 24px 64px;
+}
+
+.communitySection {
+    width: 100%;
+    background: var(--vt-bg);
+    border-top: 1.5px solid var(--vt-border);
+    padding: 64px 24px 72px;
+}
+
+.featuresInner {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.featureBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.featureEyebrow {
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--vt-vblue);
+    letter-spacing: 0.06em;
+}
+
+.featureTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 800;
+    color: var(--vt-text);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+}
+
+.featureBody {
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--vt-text2);
+    line-height: 1.65;
+    margin: 0;
+}
+
+.featureList {
+    margin: 4px 0 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.featureList li {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--vt-text2);
+    line-height: 1.5;
+}
+
+.featureLink {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 4px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--vt-vblue);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.featureLink:hover { color: #3A7DE8; }
+
+.communityCards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 4px;
+}
+
+.communityCard {
+    display: flex;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--vt-bg);
+    border: 1.5px solid var(--vt-border);
+    border-radius: 16px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.communityCard:hover {
+    border-color: rgba(76,141,255,0.25);
+    box-shadow: 0 6px 20px rgba(32,38,77,0.06);
+}
+
+.communityIcon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.communityCardTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--vt-text);
+    margin: 0 0 6px;
+}
+
+.communityCardText {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--vt-text2);
+    line-height: 1.55;
+    margin: 0 0 10px;
+}
+
+.communityCardLink {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--vt-vblue);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.communityCardLink:hover { color: #3A7DE8; }
+
+/* ================================================================
    ASK VESTA SECTION — white bg
    ================================================================ */
 .askSection {
@@ -372,8 +511,18 @@
     text-align: center; margin: 0; line-height: 1.5;
 }
 
+.faqHeading {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(20px, 2.8vw, 30px);
+    font-weight: 800;
+    color: var(--vt-text);
+    text-align: center;
+    margin: 0 0 36px;
+    letter-spacing: -0.3px;
+}
+
 /* ================================================================
-   FAQ SECTION — white bg with border-top
+   FAQ SECTION
    ================================================================ */
 .faqSection {
     width: 100%;
@@ -385,16 +534,6 @@
 .faqInner {
     max-width: 560px;
     margin: 0 auto;
-}
-
-.faqHeading {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(20px, 2.8vw, 30px);
-    font-weight: 800;
-    color: var(--vt-text);
-    text-align: center;
-    margin: 0 0 36px;
-    letter-spacing: -0.3px;
 }
 
 /* ================================================================
@@ -503,7 +642,12 @@
     .dollarBadge { width: 56px; height: 56px; font-size: 22px; top: 128px; right: -2px; }
     .lessonChip { display: none; }
 
-    .askSection, .faqSection { padding: 52px 16px 56px; }
+    .featuresSection,
+    .communitySection { padding: 52px 16px 56px; }
+    .communityCard { flex-direction: column; gap: 10px; }
+
+    .askSection,
+    .faqSection { padding: 52px 16px 56px; }
     .footerSection { padding: 60px 16px 48px; }
     .footerForm { flex-direction: column; align-items: stretch; }
     .footerEmail, .footerBtn { width: 100%; min-width: unset; }

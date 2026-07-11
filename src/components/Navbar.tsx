@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import VesteraLogo from './VesteraLogo';
-import VestaBlob from './VestaBlob';
 import { UserAvatar } from './UserAvatar';
 
 const SELF_NAV = ['/trade', '/learn'];
@@ -72,22 +71,20 @@ export default function Navbar() {
     return (
         <>
             <nav className={`navbar${scrolled ? ' nav-scrolled' : ''}`}>
-                {/* ── Brand: Logo + Vesta mascot ── */}
+                {/* ── Brand ── */}
                 <Link href="/" className="nav-brand" onClick={close} style={{ gap: 10 }}>
                     <VesteraLogo height={32} />
-                    <VestaBlob size={28} showDot={false} />
                 </Link>
 
                 {/* ── Desktop links ── */}
                 <div className="nav-links">
                     {authenticated ? (
                         <>
-                            <Link href="/trade"    style={{ ...linkStyle('/trade'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Market</Link>
-                            <Link href="/stats"    style={{ ...linkStyle('/stats'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
-                            <Link href="/learn"    style={{ ...linkStyle('/learn'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
-                            <Link href="/founders" style={{ ...linkStyle('/founders'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Founders</Link>
-                            <Link href="/stats?tab=friends" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Friends</Link>
-
+                            <Link href="/trade"      style={{ ...linkStyle('/trade'),      textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Market</Link>
+                            <Link href="/stats"      style={{ ...linkStyle('/stats'),      textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/portfolio"  style={{ ...linkStyle('/portfolio'),  textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Portfolio</Link>
+                            <Link href="/friends"    style={{ ...linkStyle('/friends'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Friends</Link>
+                            <Link href="/learn"      style={{ ...linkStyle('/learn'),      textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
                             <div style={{ width: 1, height: 20, background: 'var(--vt-border)', margin: '0 6px', flexShrink: 0 }} />
 
                             <Link
@@ -120,7 +117,6 @@ export default function Navbar() {
                         <>
                             <Link href="/learn"    style={{ ...linkStyle('/learn'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
                             <Link href="/stats"    style={{ ...linkStyle('/stats'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
-                            <Link href="/founders" style={{ ...linkStyle('/founders'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>About</Link>
                             <Link
                                 href="/login"
                                 style={{ textDecoration: 'none', padding: '7px 16px', borderRadius: 12, fontSize: 14, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Nunito', sans-serif", transition: 'all 0.18s' }}
@@ -156,24 +152,23 @@ export default function Navbar() {
                             </div>
                         </div>
                         <div className="nav-mobile-divider" />
-                        <Link href="/trade"    className="nav-mobile-link" onClick={close} data-active={isActive('/trade')    ? 'true' : 'false'}>📊 Market</Link>
-                        <Link href="/stats"    className="nav-mobile-link" onClick={close} data-active={isActive('/stats')    ? 'true' : 'false'}>🏆 Rankings</Link>
-                        <Link href="/learn"    className="nav-mobile-link" onClick={close} data-active={isActive('/learn')    ? 'true' : 'false'}>🎓 Academy</Link>
-                        <Link href="/founders" className="nav-mobile-link" onClick={close} data-active={isActive('/founders') ? 'true' : 'false'}>⭐ Founders</Link>
-                        <Link href="/stats?tab=friends" className="nav-mobile-link" onClick={close}>👥 Friends</Link>
+                        <Link href="/trade"     className="nav-mobile-link" onClick={close} data-active={isActive('/trade')     ? 'true' : 'false'}>📊 Market</Link>
+                        <Link href="/stats"     className="nav-mobile-link" onClick={close} data-active={isActive('/stats')     ? 'true' : 'false'}>🏆 Rankings</Link>
+                        <Link href="/portfolio" className="nav-mobile-link" onClick={close} data-active={isActive('/portfolio') ? 'true' : 'false'}>💼 Portfolio</Link>
+                        <Link href="/friends"   className="nav-mobile-link" onClick={close} data-active={isActive('/friends')   ? 'true' : 'false'}>👥 Friends</Link>
+                        <Link href="/learn"     className="nav-mobile-link" onClick={close} data-active={isActive('/learn')     ? 'true' : 'false'}>🎓 Academy</Link>
+
                         <div className="nav-mobile-divider" />
                         <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>👤 Profile</Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>Logout</button>
                     </>
                 ) : (
                     <>
-                        <div style={{ padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ padding: '20px 20px 16px' }}>
                             <VesteraLogo height={28} />
-                            <VestaBlob size={24} showDot={false} />
                         </div>
                         <div className="nav-mobile-divider" />
                         <Link href="/learn"    className="nav-mobile-link" onClick={close} data-active={isActive('/learn')    ? 'true' : 'false'}>🎓 Academy</Link>
-                        <Link href="/founders" className="nav-mobile-link" onClick={close} data-active={isActive('/founders') ? 'true' : 'false'}>⭐ Founders</Link>
                         <div className="nav-mobile-divider" />
                         <Link href="/login"    className="nav-mobile-link" onClick={close}>Log In</Link>
                         <Link href="/register" className="nav-mobile-link nav-mobile-cta" onClick={close}>Get Started Free →</Link>

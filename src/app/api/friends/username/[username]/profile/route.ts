@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
-import { friendshipExists, getProfileByUsername } from '@/lib/friends';
+import { getProfileByUsername, getUserRelation } from '@/lib/friends';
 import { canViewerSeePortfolio } from '@/lib/portfolioShare';
+import { computeUserPortfolioSnapshot } from '@/lib/userPortfolioSnapshot';
+import { getUserLeaderboardRank } from '@/lib/leaderboard';
 
 type RouteCtx = { params: Promise<{ username: string }> };
 
@@ -19,22 +21,30 @@ export async function GET(_req: Request, ctx: RouteCtx) {
     }
 
     const viewerId = session.userId;
-    if (profile.id === viewerId) {
-        return NextResponse.json({
-            friend: profile,
-            isSelf: true,
-            canViewPortfolio: true,
-        });
-    }
+    const { relation, incomingRequestId } = await getUserRelation(viewerId, profile.id);
+    const isSelf = relation === 'self';
+    const isFriend = relation === 'friend';
 
-    if (!(await friendshipExists(profile.id, viewerId))) {
-        return NextResponse.json({ error: 'Not friends with this user' }, { status: 403 });
-    }
+    const [snapshot, rank] = await Promise.all([
+        computeUserPortfolioSnapshot(profile.id),
+        getUserLeaderboardRank(profile.id),
+    ]);
 
-    const canViewPortfolio = await canViewerSeePortfolio(profile.id, viewerId);
+    const canViewPortfolio =
+        isSelf || (isFriend && (await canViewerSeePortfolio(profile.id, viewerId)));
+
     return NextResponse.json({
         friend: profile,
-        isSelf: false,
+        isSelf,
+        relation,
+        incomingRequestId,
         canViewPortfolio,
+        stats: {
+            rank,
+            pl: snapshot.pl,
+            pct: snapshot.pct,
+            totalValue: snapshot.total_account_value,
+            startingCash: snapshot.starting_cash,
+        },
     });
 }

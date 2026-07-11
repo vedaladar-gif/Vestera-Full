@@ -826,6 +826,27 @@ function BudgetPieChart() {
 function getChartForLesson(levelId: string, unitId: number): React.ReactNode | null {
     const key = `${levelId}-${unitId}`;
     switch (key) {
+        // Course 1 — Introduction to Investing
+        case 'course-1-2': return <PortfolioPieChart />;
+        case 'course-1-3': return <RiskRewardVisual />;
+        case 'course-1-4': return <PortfolioPieChart />;
+        case 'course-1-5': return <CompoundGrowthChart />;
+        // Course 2 — Understanding Stocks
+        case 'course-2-5': return <CompoundGrowthChart />;
+        // Course 3 — Reading the Market
+        case 'course-3-1': return <CandlestickDiagram />;
+        case 'course-3-2': return <MovingAveragesChart />;
+        case 'course-3-3': return <BullBearChart />;
+        case 'course-3-5': return <MovingAveragesChart />;
+        // Course 4 — Fundamental Analysis
+        case 'course-4-3': return <RiskRewardVisual />;
+        // Course 5 — Personal Finance
+        case 'course-5-1': return <BudgetPieChart />;
+        case 'course-5-4': return <SimpleVsCompoundChart />;
+        case 'course-5-5': return <IRAEarlyChart />;
+        // Course 6 — Advanced Investing
+        case 'course-6-5': return <PortfolioPieChart />;
+        // Legacy keys (backward compat)
         case 'beginner-3':  return <OrderTypesVisual />;
         case 'beginner-4':  return <PortfolioPieChart />;
         case 'beginner-5':  return <CandlestickDiagram />;
@@ -833,9 +854,6 @@ function getChartForLesson(levelId: string, unitId: number): React.ReactNode | n
         case 'beginner-7':  return <CompoundGrowthChart />;
         case 'intermediate-2': return <MovingAveragesChart />;
         case 'intermediate-8': return <RiskRewardVisual />;
-        case 'strategies-2':   return <RiskRewardVisual />;
-        case 'strategies-5':   return <RiskRewardVisual />;
-        case 'advanced-5':     return <CompoundGrowthChart />;
         case 'personal-finance-1': return <IRAEarlyChart />;
         case 'personal-finance-2': return <CompoundMonthlyChart />;
         case 'personal-finance-3': return <SimpleVsCompoundChart />;

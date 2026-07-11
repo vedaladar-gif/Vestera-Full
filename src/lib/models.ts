@@ -47,10 +47,13 @@ export interface ChatMessage {
 // User / Profile Functions
 // ==========================================
 
+const PROFILE_SELECT =
+    'id, username, cash, created_at, display_name, avatar_color, theme, terms_accepted_at';
+
 export async function getUserById(userId: string): Promise<User | null> {
     const { data, error } = await supabase
         .from('profiles')
-        .select('id, username, cash, created_at, display_name, avatar_color, theme, terms_accepted_at')
+        .select(PROFILE_SELECT)
         .eq('id', userId)
         .maybeSingle();
     if (error) {

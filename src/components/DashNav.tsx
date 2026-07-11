@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import VesteraLogo from '@/components/VesteraLogo';
-import VestaBlob from '@/components/VestaBlob';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 
 interface DashNavProps {
@@ -57,11 +56,11 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
     };
 
     const initials = getInitials(username, displayName);
-    const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+    const isActive = (activePath: string) => pathname === activePath || pathname.startsWith(activePath + '/');
 
-    const linkStyle = (href: string): React.CSSProperties => ({
-        color: isActive(href) ? '#20264D' : '#5c628a',
-        fontWeight: isActive(href) ? 700 : 600,
+    const linkStyle = (activePath: string): React.CSSProperties => ({
+        color: isActive(activePath) ? '#20264D' : '#5c628a',
+        fontWeight: isActive(activePath) ? 700 : 600,
         background: 'transparent',
     });
 
@@ -70,14 +69,16 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
     const navLinks = [
         { href: previewMode ? '/restricted' : '/trade', label: 'Market', activePath: '/trade' },
         { href: previewMode ? '/restricted' : '/stats', label: 'Rankings', activePath: '/stats' },
+        { href: previewMode ? '/restricted' : '/portfolio', label: 'Portfolio', activePath: '/portfolio' },
+        { href: previewMode ? '/restricted' : '/friends', label: 'Friends', activePath: '/friends' },
         { href: '/learn', label: 'Academy', activePath: '/learn' },
-        { href: '/founders', label: 'Founders', activePath: '/founders' },
     ];
 
     return (
         <>
             {/* ── Nav bar ── */}
-            <nav style={{
+            <nav
+                style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -98,7 +99,6 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                     style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
                 >
                     <VesteraLogo height={36} />
-                    <VestaBlob size={22} showDot={false} mini={true} />
                 </Link>
 
                 {/* Desktop links — hidden on mobile via .dashnav-links CSS class */}

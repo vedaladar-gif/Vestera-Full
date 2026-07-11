@@ -1,457 +1,531 @@
+/* ══════════════════════════════════════════════════════════════
+   Vestera Academy — learn.module.css
+   Design system: Baloo 2 headings · Nunito body · #EEF2FB bg
+══════════════════════════════════════════════════════════════ */
+
+/* ── Shell ───────────────────────────────────────────────────────── */
 .learnWrap {
-    margin: -48px -24px 0;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     background: #EEF2FB;
     font-family: 'Nunito', sans-serif;
-    position: relative;
-    color: #20264D;
 }
 
-/* Ambient glow blobs — disabled in redesign */
-.learnWrap::before { content: none; }
-.learnWrap::after  { content: none; }
-
-/* ── Nav ────────────────────────────────────────────────── */
-.learnNav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 32px;
-    height: 58px;
-    background: var(--vt-nav-bg);
-    border-bottom: 1px solid var(--vt-border2);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-}
-.brand {
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--vt-text);
-    text-decoration: none;
-    letter-spacing: -0.5px;
-    transition: opacity 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    line-height: 1;
-}
-.brand:hover { opacity: 0.8; }
-.navLinks {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-.navLinks a {
-    color: var(--vt-text2);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-.navLinks a:hover { color: var(--vt-text); background: var(--vt-hover); }
-.logoutBtn {
-    background: none;
-    border: none;
-    color: var(--vt-text2);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    padding: 8px 16px;
-    font-family: inherit;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-.logoutBtn:hover { color: #f87171; background: rgba(248,113,113,0.08); }
-
-/* ── Content wrapper ────────────────────────────────────── */
 .content {
-    max-width: 1280px;
+    padding: 32px 40px 80px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 36px 80px;
-    position: relative;
-    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* ── Hero header ────────────────────────────────────────── */
-.learnHero {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+/* ── Academy Header ──────────────────────────────────────────────── */
+.academyHeader {
     margin-bottom: 24px;
-    gap: 24px;
-    flex-wrap: wrap;
 }
-.heroLeft { flex: 1; min-width: 0; }
-.heroEyebrow {
+.academyEyebrow {
+    color: #4C8DFF;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+.academyTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    color: #20264D;
+    margin: 0 0 4px;
+    line-height: 1.15;
+}
+.academySubtitle {
+    color: #8b90b0;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ── Today's Mission ─────────────────────────────────────────────── */
+.missionCard {
+    background: #fff;
+    border-radius: 22px;
+    padding: 36px 40px;
+    margin-bottom: 28px;
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 800;
+    justify-content: space-between;
+    gap: 32px;
+    box-shadow: 0 4px 14px rgba(32,38,77,0.06);
+}
+.missionLeft { flex: 1; min-width: 0; }
+.missionEyebrow {
     color: #4C8DFF;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.12em;
     margin-bottom: 8px;
 }
-.eyebrowDot {
-    width: 6px;
-    height: 6px;
-    background: #4C8DFF;
-    border-radius: 50%;
-}
-.heroTitle {
-    margin: 0 0 6px;
+.missionTitle {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 32px;
     font-weight: 800;
+    font-size: 26px;
     color: #20264D;
-    letter-spacing: -1px;
-    line-height: 1.1;
+    margin: 0 0 6px;
+    line-height: 1.2;
 }
-.heroSub {
-    margin: 0;
+.missionSub {
     font-size: 14px;
     color: #8b90b0;
+    font-weight: 600;
+    margin: 0 0 20px;
 }
-.heroStats {
+.missionMeta {
     display: flex;
-    gap: 12px;
-    flex-shrink: 0;
+    gap: 32px;
+    margin-bottom: 24px;
 }
-.heroStat {
-    text-align: center;
-    background: #ffffff;
-    border: none;
-    border-radius: 12px;
-    padding: 14px 20px;
-    min-width: 80px;
-    box-shadow: 0 2px 8px rgba(32,38,77,0.06);
-}
-.heroStat strong {
-    display: block;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: #20264D;
-    letter-spacing: -0.5px;
-}
-.heroStat span {
-    font-size: 10px;
-    font-weight: 700;
+.missionMetaItem { display: flex; flex-direction: column; gap: 4px; }
+.missionMetaLabel {
+    font-size: 11px;
     color: #8b90b0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+.missionMetaValue {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: #20264D;
+}
+.missionCta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #4C8DFF;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 13px 12px 13px 24px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: filter 0.2s;
+}
+.missionCta:hover { filter: brightness(1.08); }
+.missionCtaArrow {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    color: #4C8DFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
 }
 
-/* ── Level Tabs ─────────────────────────────────────────── */
-.levelTabs {
+/* Goal concentric-circle graphic */
+.goalGraphic {
+    width: 144px;
+    height: 144px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #EEF2FB, #F4F6FC);
     display: flex;
-    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transform: rotate(-4deg);
+}
+.goalRing1 {
+    position: absolute;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    border: 9px solid #DCE6FB;
+}
+.goalRing2 {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #4C8DFF;
+}
+.goalDot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+/* ── Your Progress Row ───────────────────────────────────────────── */
+.progressSectionTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: #20264D;
+    margin-bottom: 14px;
+}
+.progressRow {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+.progressCardAccent {
+    background: #EEF2FB;
+    border-radius: 16px;
+    padding: 20px;
+}
+.progressCardWhite {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(32,38,77,0.05);
+}
+.progressCardLabel {
+    font-weight: 800;
+    font-size: 12px;
+    color: #8b90b0;
+    margin-bottom: 2px;
+}
+.progressBigNum {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    color: #20264D;
+    margin-top: 6px;
+    line-height: 1;
+}
+.progressBarWrap { margin-top: 14px; }
+.progressBarTrack {
+    height: 6px;
+    background: #DCE6FB;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progressBarFill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+.progressBarLabels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #5c628a;
+    font-weight: 600;
+}
+.progressCardSub {
+    font-size: 11px;
+    color: #8b90b0;
+    font-weight: 600;
+    margin-top: 8px;
+}
+.progressRankName {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: #20264D;
+    margin-top: 6px;
+}
+.rankLadder {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.rankPip {
+    font-size: 16px;
+    transition: opacity 0.2s;
+}
+
+/* Flame icon (streak) */
+.flameIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50% 50% 50% 4px;
+    background: #FFB84C;
+    transform: rotate(-45deg);
+    flex-shrink: 0;
+}
+
+/* ── Category Tabs ───────────────────────────────────────────────── */
+.categoryTabs {
+    display: flex;
+    gap: 8px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
-.levelTab {
+.categoryTab {
     display: flex;
     align-items: center;
     gap: 6px;
     padding: 10px 18px;
-    background: transparent;
-    border: none;
     border-radius: 10px;
-    color: #5c628a;
+    border: none;
+    background: transparent;
+    color: #20264D;
+    font-weight: 700;
     font-size: 13px;
-    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
+    font-family: 'Nunito', sans-serif;
+    transition: background 0.18s, color 0.18s;
 }
-.levelTab:hover { background: rgba(76,141,255,0.07); color: #20264D; }
-.activeTab {
-    background: #E9F2FF !important;
-    color: #20264D !important;
-    border: none !important;
-    box-shadow: none !important;
+.categoryTab:hover { background: #fff; }
+.categoryTabActive { background: #E9F2FF !important; color: #4C8DFF !important; }
+.categoryTabLocked { color: #a7acc9 !important; }
+.tabLockIcon {
+    display: flex;
+    align-items: center;
+    color: #a7acc9;
 }
-.activeTab .tabCount { background: rgba(76,141,255,0.2) !important; color: #4C8DFF !important; }
 .tabCount {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 20px;
-    background: rgba(32,38,77,0.07);
-    color: #8b90b0;
-    letter-spacing: 0;
-    transition: all 0.2s;
+    font-size: 12px;
+    opacity: 0.8;
 }
 
-/* ── Progress card ──────────────────────────────────────── */
-.progressCard {
-    background: #ffffff;
-    border: none;
-    border-radius: 14px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(32,38,77,0.06);
+/* ── Locked Panel ────────────────────────────────────────────────── */
+.lockedPanel {
+    background: #fff;
+    border-radius: 18px;
+    padding: 48px 32px;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(32,38,77,0.05);
 }
-.progressInfo {
+.lockedIconWrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: #F4F6FC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a7acc9;
+    margin-bottom: 18px;
+}
+.lockedTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #20264D;
+    margin: 0 0 6px;
+}
+.lockedDesc {
+    font-size: 14px;
+    color: #8b90b0;
+    font-weight: 600;
+    margin: 0 0 20px;
+    max-width: 340px;
+    line-height: 1.5;
+}
+.lockedCta {
+    background: #4C8DFF;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: filter 0.2s;
+}
+.lockedCta:hover { filter: brightness(1.08); }
+
+/* ── Course Summary Bar ──────────────────────────────────────────── */
+.courseSummaryBar {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(32,38,77,0.04);
+}
+.courseSummaryText {
+    font-weight: 800;
+    font-size: 13px;
+    color: #20264D;
+}
+.courseSummaryQuizzes {
+    font-size: 12px;
+    color: #8b90b0;
+    font-weight: 600;
+}
+
+/* ── Lesson Grid ─────────────────────────────────────────────────── */
+.lessonGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.lessonCard {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.lessonCard:hover:not(.lessonCardLocked) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(32,38,77,0.10);
+}
+.lessonCardActive { box-shadow: 0 10px 26px rgba(76,141,255,0.16); }
+.lessonCardLocked { opacity: 0.6; }
+
+/* Banner */
+.lessonBanner {
+    height: 90px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bannerLockIcon { color: rgba(167,172,201,0.7); }
+.bannerCheckmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    color: #3CA787;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Card Body */
+.lessonCardBody { padding: 18px; }
+.lessonMetaRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    gap: 12px;
-    flex-wrap: wrap;
 }
-.progressLeft {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.progressText {
-    font-size: 13px;
-    color: var(--vt-text2);
-}
-.quizText {
-    font-size: 12px;
-    color: var(--vt-text3);
-}
-.progressBar {
-    height: 4px;
-    background: var(--vt-border2);
-    border-radius: 2px;
-    overflow: hidden;
-}
-.progressFill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.5s ease;
-}
-
-/* ── Level/topic badge ──────────────────────────────────── */
-.levelBadge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    padding: 3px 9px;
-    border-radius: 6px;
-    white-space: nowrap;
-}
-
-/* ── Course Card Grid ───────────────────────────────────── */
-.unitGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
-}
-
-/* ── Course Card ────────────────────────────────────────── */
-.courseCard {
-    background: #ffffff;
-    border: none;
-    border-radius: 18px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    box-shadow: 0 2px 12px rgba(32,38,77,0.06);
-}
-.courseCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 40px rgba(32,38,77,0.10);
-}
-.courseCardDone {
-    border: none;
-}
-.courseCardDone:hover {
-    border: none;
-}
-
-/* ── Card illustration area ─────────────────────────────── */
-.cardIllustration {
-    height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, #E9F2FF, #F4F6FC);
-}
-.illDotGrid {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
-    background-size: 18px 18px;
-}
-[data-theme="light"] .illDotGrid {
-    background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px);
-}
-.illBlob1 {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    top: -20px;
-    right: -10px;
-    filter: blur(20px);
-}
-.illBlob2 {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    bottom: -15px;
-    left: 10px;
-    filter: blur(18px);
-}
-.cardIllIcon {
-    font-size: 32px;
-    position: relative;
-    z-index: 1;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
-    line-height: 1;
-}
-
-/* ── Card body ──────────────────────────────────────────── */
-.cardBody {
-    padding: 22px 24px 20px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 0;
-}
-.cardMetaRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-.cardDuration {
-    font-size: 11px;
-    color: var(--vt-text3);
-    font-weight: 500;
-}
-.cardLessonNum {
-    font-size: 11px;
-    color: #8b90b0;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-    font-weight: 700;
-}
-.cardTitle {
-    font-family: 'Baloo 2', sans-serif;
-    margin: 0 0 8px;
-    font-size: 17px;
-    font-weight: 700;
-    color: #20264D;
-    letter-spacing: -0.3px;
-    line-height: 1.3;
-}
-.cardPreview {
-    margin: 0 0 10px;
-    font-size: 12.5px;
-    color: #8b90b0;
-    line-height: 1.6;
-    flex: 1;
-}
-.cardTopics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-bottom: 12px;
-}
-.cardTopicTag {
-    font-size: 11px;
-    font-weight: 700;
-    color: #5c628a;
-    background: #F4F6FC;
-    border: none;
-    border-radius: 999px;
-    padding: 3px 9px;
-    letter-spacing: 0.1px;
-}
-
-/* ── Card footer ────────────────────────────────────────── */
-.cardFooter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 10px;
-    border-top: 1px solid var(--vt-border2);
-    margin-top: auto;
-}
-.cardCta {
-    font-size: 12px;
-    font-weight: 700;
-    color: #4F7CFF;
-    letter-spacing: 0.1px;
-}
-.badgeDone {
-    font-size: 13px;
+.lessonLevelPill {
     font-weight: 800;
-    color: #3CA787;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
 }
-.badgeQuiz {
+.lessonDuration { font-size: 12px; font-weight: 600; }
+.lessonNum {
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.4px;
-    color: #4C8DFF;
-    background: rgba(76,141,255,0.1);
-    border: none;
-    border-radius: 4px;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+.lessonTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0 0 8px;
+    line-height: 1.25;
+}
+.lessonDesc {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0 0 16px;
+}
+.lessonFooter {
+    border-top: 1px solid #EEF2FB;
+    padding-top: 14px;
+}
+.lessonFooterDone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #3CA787;
+    font-weight: 800;
+    font-size: 13px;
+}
+.quizPassBadge {
     padding: 2px 8px;
+    background: rgba(60,167,135,0.12);
+    border-radius: 999px;
+    font-size: 11px;
+    color: #3CA787;
+    font-weight: 700;
+}
+.startLessonBtn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4C8DFF;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: filter 0.2s;
+    text-align: center;
+}
+.startLessonBtn:hover { filter: brightness(1.08); }
+.lessonFooterLocked {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #a7acc9;
+    font-weight: 700;
+    font-size: 12px;
 }
 
-/* ── Card progress bar ──────────────────────────────────── */
-.cardProgressBar {
-    height: 3px;
-    background: var(--vt-border2);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 12px;
-}
-.cardProgressFill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.5s ease;
-}
-
-/* ── Unit viewer ────────────────────────────────────────── */
+/* ── Unit Viewer (lesson reader) ─────────────────────────────────── */
 .unitViewer {
-    background: var(--vt-surface);
-    border: 1px solid var(--vt-border);
-    border-radius: 24px;
-    padding: 44px;
-    box-shadow: 0 4px 24px rgba(17,24,39,0.06);
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 14px rgba(32,38,77,0.06);
 }
 .viewerHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 28px;
 }
-.viewerMeta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.backBtn {
+    background: none;
+    border: 1px solid #E4E9F7;
+    color: #5c628a;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.18s;
+}
+.backBtn:hover { color: #20264D; border-color: #c4cceb; background: #F4F6FC; }
+.viewerMeta { display: flex; align-items: center; gap: 10px; }
+.levelBadge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 999px;
 }
 .viewerDuration {
-    font-size: 12px;
-    color: var(--vt-text3);
-    font-weight: 500;
+    font-size: 13px;
+    color: #8b90b0;
+    font-weight: 600;
 }
 .viewerIconRow {
     display: flex;
@@ -460,314 +534,514 @@
     margin-bottom: 16px;
     flex-wrap: wrap;
 }
-.viewerIcon {
-    font-size: 36px;
-    line-height: 1;
-}
-.topicTags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
+.viewerIcon { font-size: 36px; }
+.topicTags { display: flex; gap: 6px; flex-wrap: wrap; }
 .topicTag {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--vt-text3);
-    background: var(--vt-input-bg);
-    border: 1px solid var(--vt-border2);
-    border-radius: 5px;
-    padding: 3px 9px;
-}
-.backBtn {
-    background: none;
-    border: none;
-    color: #4F7CFF;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 600;
-}
-.backBtn:hover { color: #7d9bff; }
-
-/* ── Lesson title row + quiz (above tabs, always visible) ───── */
-.lessonHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px 20px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-.lessonHeaderTitle {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--vt-text);
-    letter-spacing: -1px;
-    line-height: 1.2;
-    flex: 1 1 200px;
-    min-width: 0;
-}
-.lessonQuizBtn {
-    flex-shrink: 0;
-    padding: 11px 24px;
-    background: linear-gradient(135deg, #4F7CFF 0%, #3B5CF0 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 14px;
+    padding: 3px 10px;
+    background: #EEF2FB;
+    border-radius: 999px;
+    font-size: 12px;
     font-weight: 700;
-    cursor: pointer;
-    transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
-    font-family: inherit;
-    letter-spacing: -0.1px;
-    white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(79,124,255,0.32);
-}
-.lessonQuizBtn:hover {
-    filter: brightness(1.07);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(79,124,255,0.38);
+    color: #5c628a;
 }
 
-/* ── Lesson inner tabs (Concepts · Video) ─────────────────── */
-.lessonTabBar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
-    padding-bottom: 0;
-    border-bottom: 1px solid var(--vt-border2);
-}
-.lessonTabBtn {
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    color: var(--vt-text3);
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    transition: color 0.2s, background 0.2s, border-color 0.2s;
-}
-.lessonTabBtn:hover {
-    color: var(--vt-text2);
-    background: var(--vt-hover);
-}
-.lessonTabBtnActive {
-    color: var(--vt-text);
-}
-.lessonContentWrapper {
-    min-height: 280px;
-    transition: opacity 0.2s ease;
-}
-.lessonTabPanel {
-    animation: lessonPanelFade 0.22s ease;
-}
-@keyframes lessonPanelFade {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-.videoPlaceholder {
-    max-width: 520px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 8px 0 24px;
-}
-.videoPlaceholderFrame {
-    aspect-ratio: 16 / 9;
-    max-height: 280px;
-    margin: 0 auto 24px;
-    border-radius: 14px;
-    background: var(--vt-input-bg);
-    border: 1px solid var(--vt-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: inset 0 0 0 1px var(--vt-border2);
-}
-.videoPlaceholderIcon {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: var(--vt-surface);
-    border: 2px solid var(--vt-border);
-    color: var(--vt-text3);
-    font-size: 22px;
-    line-height: 64px;
-    text-align: center;
-    padding-left: 4px;
-    opacity: 0.85;
-}
-.videoPlaceholderTitle {
-    margin: 0 0 8px;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--vt-text);
-    letter-spacing: -0.3px;
-}
-.videoPlaceholderLesson {
-    margin: 0 0 16px;
-    font-size: 14px;
-    color: var(--vt-text2);
-    line-height: 1.5;
-}
-.videoPlaceholderHint {
-    margin: 0;
-    font-size: 13px;
-    color: var(--vt-text3);
-    line-height: 1.65;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.unitContent {
-    font-size: 15px;
-    color: var(--vt-text2);
-    line-height: 1.85;
-}
-.unitContent strong { color: var(--vt-text); }
-.quizCta {
-    display: inline-block;
-    margin-top: 32px;
-    padding: 13px 32px;
-    background: linear-gradient(135deg, #4F7CFF 0%, #3B5CF0 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-    letter-spacing: -0.1px;
-    box-shadow: 0 4px 16px rgba(79,124,255,0.3);
-}
-.quizCta:hover {
-    filter: brightness(1.07);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(79,124,255,0.38);
-}
-
-/* ── Quiz section ───────────────────────────────────────── */
-.quizSection h2 {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    margin: 0 0 28px;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--vt-text);
-    letter-spacing: -0.5px;
-}
+/* ── Quiz ────────────────────────────────────────────────────────── */
+.quizSection { padding: 8px 0; }
 .quizQuestion { margin-bottom: 28px; }
-.questionText {
-    color: var(--vt-text);
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
+.questionText { font-size: 15px; font-weight: 700; color: #20264D; margin: 0 0 12px; }
 .options { display: flex; flex-direction: column; gap: 8px; }
 .option {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 12px 16px;
-    background: var(--vt-input-bg);
-    border: 1px solid var(--vt-border);
-    border-radius: 9px;
-    color: var(--vt-text2);
-    font-size: 14px;
+    border: 1.5px solid #E4E9F7;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s;
-}
-.option:hover {
-    border-color: rgba(79,124,255,0.3);
-    background: rgba(79,124,255,0.06);
-    color: var(--vt-text);
-}
-.optionSelected {
-    border-color: #4F7CFF !important;
-    background: rgba(79,124,255,0.1) !important;
-    color: var(--vt-text) !important;
-}
-.option input { accent-color: #4F7CFF; }
-.submitQuizBtn {
-    padding: 12px 32px;
-    background: linear-gradient(135deg, #4F7CFF 0%, #3B5CF0 100%);
-    color: white;
-    border: none;
-    border-radius: 50px;
     font-size: 14px;
+    font-weight: 600;
+    color: #20264D;
+    transition: all 0.18s;
+}
+.option:hover { border-color: #4C8DFF; background: #F0F5FF; }
+.optionSelected { border-color: #4C8DFF !important; background: #E9F2FF !important; }
+.submitQuizBtn {
+    padding: 13px 28px;
+    background: #4C8DFF;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-    box-shadow: 0 4px 14px rgba(79,124,255,0.3);
+    font-family: 'Nunito', sans-serif;
+    transition: filter 0.2s;
+    margin-top: 8px;
 }
-.submitQuizBtn:disabled { opacity: 0.4; cursor: not-allowed; }
-.submitQuizBtn:hover:not(:disabled) {
-    filter: brightness(1.07);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(79,124,255,0.38);
-}
+.submitQuizBtn:hover:not(:disabled) { filter: brightness(1.08); }
+.submitQuizBtn:disabled { opacity: 0.5; cursor: not-allowed; }
 .quizResultCard {
     margin-top: 20px;
-    padding: 24px;
-    border-radius: 12px;
-    text-align: center;
+    padding: 20px 24px;
+    border-radius: 14px;
+    font-weight: 700;
 }
-.quizPassed {
-    background: rgba(34,197,94,0.08);
-    border: 1px solid rgba(34,197,94,0.15);
-}
-.quizFailed {
-    background: rgba(239,68,68,0.08);
-    border: 1px solid rgba(239,68,68,0.15);
-}
-.quizResultCard h3 {
-    margin: 0 0 8px;
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--vt-text);
-}
-.quizResultCard p { margin: 0; color: var(--vt-text2); font-size: 14px; }
+.quizResultCard h3 { margin: 0 0 6px; font-size: 18px; }
+.quizResultCard p { margin: 0; font-size: 14px; }
+.quizPassed { background: rgba(60,167,135,0.1); color: #3CA787; border: 1px solid rgba(60,167,135,0.25); }
+.quizFailed { background: rgba(224,99,122,0.1); color: #E0637A; border: 1px solid rgba(224,99,122,0.25); }
 .retryBtn {
     margin-top: 12px;
-    padding: 8px 20px;
-    background: rgba(239,68,68,0.1);
-    border: 1px solid rgba(239,68,68,0.2);
-    border-radius: 8px;
-    color: #f87171;
+    padding: 10px 20px;
+    background: #E0637A;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
     cursor: pointer;
-    font-family: inherit;
-    font-size: 13px;
-    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
 }
-.retryBtn:hover { background: rgba(239,68,68,0.18); }
 
-/* ── Responsive ─────────────────────────────────────────── */
+/* ── Course catalog grid ─────────────────────────────────────────── */
+.courseGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.courseCard {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 10px rgba(32,38,77,0.06);
+}
+.courseCard:hover:not(.courseCardLocked) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(32,38,77,0.12);
+}
+.courseCardLocked {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+.courseCardComplete {
+    border: 2px solid rgba(60,167,135,0.25);
+}
+
+.courseCardTop {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.courseCardEmoji { font-size: 42px; }
+.courseCardCompleteBadge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #E9F9EF;
+    color: #3CA787;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.courseCardBody { padding: 20px; }
+.courseCardDifficulty {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+}
+.courseCardTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+.courseCardDesc {
+    font-size: 13px;
+    color: #8b90b0;
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0 0 12px;
+}
+.courseCardStats {
+    display: flex;
+    gap: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5c628a;
+    margin-bottom: 8px;
+}
+.courseCardRewards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8b90b0;
+    margin-bottom: 14px;
+}
+.courseCardProgressTrack {
+    height: 6px;
+    background: #EEF2FB;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+.courseCardProgressFill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+.courseCardProgressLabel {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8b90b0;
+}
+.courseCardLockedMsg {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #a7acc9;
+    padding: 10px 12px;
+    background: #F4F6FC;
+    border-radius: 10px;
+}
+
+/* ── Course detail view ──────────────────────────────────────────── */
+.courseDetailHeader {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin: 20px 0 24px;
+}
+.courseDetailIcon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    flex-shrink: 0;
+}
+.courseDetailTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #20264D;
+    margin: 0 0 8px;
+}
+.courseDetailSub {
+    font-size: 14px;
+    color: #8b90b0;
+    font-weight: 600;
+    margin: 0 0 10px;
+    line-height: 1.55;
+    max-width: 600px;
+}
+.courseDetailMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #5c628a;
+}
+
+.courseProgressCard {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(32,38,77,0.06);
+}
+.courseProgressTop {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.courseProgressLabel {
+    font-size: 13px;
+    font-weight: 800;
+    color: #20264D;
+}
+.courseProgressPct {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #4C8DFF;
+}
+.courseProgressTrack {
+    height: 10px;
+    background: #EEF2FB;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+.courseProgressFill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+.courseProgressSub {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8b90b0;
+}
+
+/* ── Lesson list (course detail) ─────────────────────────────────── */
+.lessonList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.lessonListItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: #fff;
+    border-radius: 14px;
+    border: 1.5px solid #E4E9F7;
+    cursor: pointer;
+    transition: all 0.18s;
+}
+.lessonListItem:hover:not(.lessonListLocked) {
+    border-color: #4C8DFF;
+    box-shadow: 0 4px 14px rgba(76,141,255,0.1);
+}
+.lessonListActive {
+    border-color: #4C8DFF !important;
+    background: #F8FAFF;
+}
+.lessonListDone {
+    border-color: rgba(60,167,135,0.3);
+    background: #FAFEFC;
+}
+.lessonListLocked {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+.quizListItem {
+    border-style: dashed;
+    margin-top: 6px;
+}
+
+.lessonListNum {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #EEF2FB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #4C8DFF;
+    flex-shrink: 0;
+}
+.lessonListDone .lessonListNum {
+    background: #E9F9EF;
+    color: #3CA787;
+}
+.lessonListLocked .lessonListNum {
+    background: #F4F6FC;
+    color: #a7acc9;
+}
+
+.lessonListBody { flex: 1; min-width: 0; }
+.lessonListTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #20264D;
+    margin-bottom: 2px;
+}
+.lessonListMeta {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8b90b0;
+}
+.lessonListCta {
+    font-size: 13px;
+    font-weight: 800;
+    color: #4C8DFF;
+    flex-shrink: 0;
+}
+.lessonListDoneBadge {
+    font-size: 12px;
+    font-weight: 800;
+    color: #3CA787;
+    flex-shrink: 0;
+}
+.lessonListLockText {
+    font-size: 12px;
+    font-weight: 700;
+    color: #a7acc9;
+    flex-shrink: 0;
+}
+
+/* ── Lesson viewer extras ────────────────────────────────────────── */
+.lessonHeaderBar {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #EEF2FB;
+}
+.lessonNumBadge {
+    font-size: 11px;
+    font-weight: 800;
+    color: #4C8DFF;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: block;
+}
+.lessonViewerTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: #20264D;
+    margin: 0 0 12px;
+}
+.lessonCompleteBar {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #EEF2FB;
+    text-align: center;
+}
+.completeLessonBtn {
+    padding: 14px 32px;
+    background: #4C8DFF;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+.completeLessonBtn:hover { filter: brightness(1.08); }
+.lessonDoneMsg {
+    font-size: 15px;
+    font-weight: 800;
+    color: #3CA787;
+}
+
+/* ── Badges row ──────────────────────────────────────────────────── */
+.badgesRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+.badgeChip {
+    padding: 6px 12px;
+    background: #FFF8E8;
+    border: 1px solid rgba(255,184,76,0.3);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #7a5a00;
+}
+
+/* ── Completion modal ────────────────────────────────────────────── */
+.completionOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(32,38,77,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    padding: 24px;
+}
+.completionModal {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 36px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(32,38,77,0.2);
+}
+.completionEmoji { font-size: 56px; margin-bottom: 12px; }
+.completionTitle {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #20264D;
+    margin: 0 0 10px;
+}
+.completionSub {
+    font-size: 14px;
+    color: #8b90b0;
+    font-weight: 600;
+    margin: 0 0 20px;
+    line-height: 1.5;
+}
+.completionRewards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.completionReward {
+    padding: 10px 16px;
+    background: #EEF2FB;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #20264D;
+}
+.completionUnlock {
+    font-size: 14px;
+    font-weight: 700;
+    color: #3CA787;
+    margin: 0 0 24px;
+}
+.completionBtn {
+    width: 100%;
+    padding: 14px;
+    background: #4C8DFF;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-    .unitGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .progressRow { grid-template-columns: repeat(2, 1fr); }
+    .lessonGrid  { grid-template-columns: repeat(2, 1fr); }
+    .courseGrid  { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
-    .learnNav { flex-direction: column; gap: 8px; height: auto; padding: 12px 20px; }
-    .levelTabs { flex-wrap: wrap; }
-    .unitGrid { grid-template-columns: 1fr; }
-    .unitViewer { padding: 20px; }
-    .content { padding: 20px 20px 40px; }
-    .learnHero { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .heroStats { gap: 12px; }
-    .heroTitle { font-size: 24px; }
-    .lessonHeader { flex-direction: column; align-items: stretch; }
-    .lessonHeaderTitle { font-size: 22px; }
-    .lessonQuizBtn { width: 100%; text-align: center; white-space: normal; }
+    .content { padding: 24px 20px 60px; }
+    .missionCard { flex-direction: column; padding: 24px; }
+    .goalGraphic { display: none; }
+    .progressRow { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .lessonGrid  { grid-template-columns: 1fr; }
+    .categoryTabs { gap: 6px; }
+    .categoryTab { padding: 8px 12px; font-size: 12px; }
+}
+@media (max-width: 480px) {
+    .content { padding: 16px 14px 60px; }
+    .progressRow { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .progressCardAccent, .progressCardWhite { padding: 14px; }
+    .progressBigNum { font-size: 22px; }
+    .academyTitle { font-size: 24px; }
+    .missionTitle { font-size: 20px; }
 }

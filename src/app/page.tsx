@@ -251,6 +251,75 @@ export default function Home() {
             </section>
 
             {/* ════════════════════════════
+                ACADEMY
+            ════════════════════════════ */}
+            <section className={styles.featuresSection}>
+                <div className={styles.featuresInner}>
+                    <div className={styles.featureBlock}>
+                        <div className={styles.featureEyebrow}>THE ACADEMY</div>
+                        <h2 className={styles.featureTitle}>Learn the basics. Master the markets.</h2>
+                        <p className={styles.featureBody}>
+                            The Academy is your spot to learn trading from the very beginning all the way
+                            to mastering it. Work through bite-size lessons, pass quizzes, earn XP, and
+                            level up through ranks as you go — from your first stock to real strategies.
+                        </p>
+                        <ul className={styles.featureList}>
+                            <li>5 courses · 41 lessons · quizzes included</li>
+                            <li>Start with basics, unlock harder courses as you progress</li>
+                            <li>Earn XP and climb from Rookie Trader to Wall Street Whiz</li>
+                        </ul>
+                        <Link href={authenticated ? '/learn' : '/register'} className={styles.featureLink}>
+                            Explore the Academy →
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════
+                RANKINGS & FRIENDS
+            ════════════════════════════ */}
+            <section className={styles.communitySection}>
+                <div className={styles.featuresInner}>
+                    <div className={styles.featureBlock}>
+                        <div className={styles.featureEyebrow}>COMPETE &amp; CONNECT</div>
+                        <h2 className={styles.featureTitle}>Rankings and friends</h2>
+                        <p className={styles.featureBody}>
+                            Vestera isn&apos;t just solo practice — see how you stack up and learn
+                            alongside other traders.
+                        </p>
+                        <div className={styles.communityCards}>
+                            <div className={styles.communityCard}>
+                                <div className={styles.communityIcon}>🏆</div>
+                                <div>
+                                    <h3 className={styles.communityCardTitle}>Rankings</h3>
+                                    <p className={styles.communityCardText}>
+                                        Climb the global leaderboard based on your portfolio return.
+                                        See who&apos;s on top and track your rank as you trade.
+                                    </p>
+                                    <Link href={authenticated ? '/stats' : '/register'} className={styles.communityCardLink}>
+                                        View Rankings →
+                                    </Link>
+                                </div>
+                            </div>
+                            <div className={styles.communityCard}>
+                                <div className={styles.communityIcon}>👥</div>
+                                <div>
+                                    <h3 className={styles.communityCardTitle}>Friends</h3>
+                                    <p className={styles.communityCardText}>
+                                        Add friends, compare portfolios, and see how your strategies
+                                        stack up against people you know.
+                                    </p>
+                                    <Link href={authenticated ? '/friends' : '/register'} className={styles.communityCardLink}>
+                                        Find Friends →
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════
                 ASK VESTA
             ════════════════════════════ */}
             <section className={styles.askSection}>
@@ -346,7 +415,6 @@ export default function Home() {
                         <Link href={authenticated ? '/trade' : '/register'}>Play</Link>
                         <Link href="/learn">Learn</Link>
                         <Link href="/stats">Rankings</Link>
-                        <Link href="/founders">About</Link>
                         <Link href="/privacy">Privacy</Link>
                         <Link href="/terms">Terms</Link>
                     </nav>
