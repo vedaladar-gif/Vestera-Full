@@ -1,4 +1,13 @@
 import { supabase } from './supabaseClient';
+import {
+    isDemo,
+    getDemoUser,
+    getDemoCash,
+    setDemoCash,
+    getDemoTrades,
+    addDemoTrade,
+    acceptDemoTerms,
+} from './demoStore';
 
 // ==========================================
 // Types
@@ -47,13 +56,11 @@ export interface ChatMessage {
 // User / Profile Functions
 // ==========================================
 
-const PROFILE_SELECT =
-    'id, username, cash, created_at, display_name, avatar_color, theme, terms_accepted_at';
-
 export async function getUserById(userId: string): Promise<User | null> {
+    if (isDemo(userId)) return getDemoUser();
     const { data, error } = await supabase
         .from('profiles')
-        .select(PROFILE_SELECT)
+        .select('id, username, cash, created_at, display_name, avatar_color, theme, terms_accepted_at')
         .eq('id', userId)
         .maybeSingle();
     if (error) {
@@ -96,6 +103,7 @@ export async function createProfile(userId: string, username: string, startingCa
 }
 
 export async function acceptUserTerms(userId: string): Promise<boolean> {
+    if (isDemo(userId)) { acceptDemoTerms(); return true; }
     const { error } = await supabase
         .from('profiles')
         .update({ terms_accepted_at: new Date().toISOString() })
@@ -108,6 +116,7 @@ export async function acceptUserTerms(userId: string): Promise<boolean> {
 }
 
 export async function updateUserCash(userId: string, newCash: number): Promise<void> {
+    if (isDemo(userId)) { setDemoCash(newCash); return; }
     const { error } = await supabase
         .from('profiles')
         .update({ cash: newCash })
@@ -132,6 +141,7 @@ export async function deleteUserAccount(userId: string): Promise<boolean> {
 // ==========================================
 
 export async function addTrade(userId: string, stock: string, shares: number, price: number, action: string): Promise<boolean> {
+    if (isDemo(userId)) { addDemoTrade(stock, shares, price, action); return true; }
     const { error } = await supabase.from('portfolio').insert({
         user_id: userId,
         stock,
@@ -178,6 +188,7 @@ export async function getPortfolioRowsForUsers(userIds: string[]): Promise<Portf
 }
 
 export async function getUserTrades(userId: string): Promise<Trade[]> {
+    if (isDemo(userId)) return getDemoTrades(false);
     const { data, error } = await supabase
         .from('portfolio')
         .select('*')
@@ -192,6 +203,7 @@ export async function getUserTrades(userId: string): Promise<Trade[]> {
 
 /** Chronological order for average-cost and P/L math. */
 export async function getUserTradesAscending(userId: string): Promise<Trade[]> {
+    if (isDemo(userId)) return getDemoTrades(true);
     const { data, error } = await supabase
         .from('portfolio')
         .select('*')
@@ -205,18 +217,22 @@ export async function getUserTradesAscending(userId: string): Promise<Trade[]> {
 }
 
 export async function getHoldings(userId: string): Promise<Holding[]> {
-    const { data, error } = await supabase
-        .from('portfolio')
-        .select('stock, shares, action')
-        .eq('user_id', userId);
-
-    if (error) {
-        console.error('getHoldings error:', error);
-        return [];
-    }
+    const rows: { stock: string; shares: number; action: string }[] = isDemo(userId)
+        ? getDemoTrades(false).map(t => ({ stock: t.stock, shares: t.shares, action: t.action }))
+        : (await (async () => {
+            const { data, error } = await supabase
+                .from('portfolio')
+                .select('stock, shares, action')
+                .eq('user_id', userId);
+            if (error) {
+                console.error('getHoldings error:', error);
+                return [];
+            }
+            return data as { stock: string; shares: number; action: string }[];
+        })());
 
     const map = new Map<string, number>();
-    for (const row of data as { stock: string; shares: number; action: string }[]) {
+    for (const row of rows) {
         const sign = row.action === 'BUY' ? 1 : -1;
         map.set(row.stock, (map.get(row.stock) ?? 0) + sign * row.shares);
     }
@@ -227,6 +243,7 @@ export async function getHoldings(userId: string): Promise<Holding[]> {
 }
 
 export async function getUserCash(userId: string): Promise<number> {
+    if (isDemo(userId)) return getDemoCash();
     const { data, error } = await supabase
         .from('profiles')
         .select('cash')
@@ -241,6 +258,7 @@ export async function getUserCash(userId: string): Promise<number> {
 // ==========================================
 
 export async function addChatMessage(userId: string, role: string, content: string, mode: string, route?: string): Promise<void> {
+    if (isDemo(userId)) return; // demo chat is not persisted
     const { error } = await supabase.from('chat_messages').insert({
         user_id: userId,
         role,
@@ -258,6 +276,7 @@ export async function getChatHistory(
     mode: string,
     limit = 20
 ): Promise<{ role: string; content: string; created_at: string }[]> {
+    if (isDemo(userId)) return [];
     const { data, error } = await supabase
         .from('chat_messages')
         .select('role, content, created_at')

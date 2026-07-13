@@ -1,0 +1,213 @@
+/* ─── Onboarding Tour ─────────────────────────────────────────────────────── */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    /* Root is click-through; only the card (and, for centered steps, the dim) capture clicks.
+       This keeps the highlighted element and the rest of the page fully clickable. */
+    pointer-events: none;
+}
+
+/* Dim layer used for centered (no-target) steps — modal, captures clicks */
+.dim {
+    position: absolute;
+    inset: 0;
+    background: rgba(16, 22, 46, 0.62);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    pointer-events: auto;
+}
+
+/* Spotlight: a transparent box whose massive box-shadow darkens everything else */
+.spotlight {
+    position: absolute;
+    border-radius: 16px;
+    box-shadow: 0 0 0 9999px rgba(16, 22, 46, 0.62);
+    transition: top 0.4s cubic-bezier(0.16,1,0.3,1),
+                left 0.4s cubic-bezier(0.16,1,0.3,1),
+                width 0.4s cubic-bezier(0.16,1,0.3,1),
+                height 0.4s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
+}
+
+/* Pulsing ring around the spotlight */
+.ring {
+    position: absolute;
+    border-radius: 18px;
+    border: 2.5px solid #4C8DFF;
+    box-shadow: 0 0 0 4px rgba(76,141,255,0.25);
+    animation: ringPulse 1.8s ease-in-out infinite;
+    pointer-events: none;
+    transition: top 0.4s cubic-bezier(0.16,1,0.3,1),
+                left 0.4s cubic-bezier(0.16,1,0.3,1),
+                width 0.4s cubic-bezier(0.16,1,0.3,1),
+                height 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes ringPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(76,141,255,0.25); }
+    50%      { box-shadow: 0 0 0 10px rgba(76,141,255,0.10); }
+}
+
+/* The Vesta guide + speech card cluster */
+.cluster {
+    position: absolute;
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    max-width: 340px;
+    transition: top 0.45s cubic-bezier(0.16,1,0.3,1),
+                left 0.45s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: auto;
+}
+.clusterCentered {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    text-align: center;
+}
+
+.vestaWrap {
+    margin-bottom: -6px;
+    margin-left: 12px;
+    filter: drop-shadow(0 8px 20px rgba(32,38,77,0.25));
+    animation: vestaFloat 2.6s ease-in-out infinite;
+}
+.clusterCentered .vestaWrap { margin-left: 0; }
+@keyframes vestaFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+}
+
+.card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px 22px;
+    box-shadow: 0 20px 60px rgba(16,22,46,0.28), 0 4px 16px rgba(16,22,46,0.12);
+    border: 1px solid rgba(76,141,255,0.18);
+    width: 340px;
+    max-width: calc(100vw - 32px);
+}
+
+.stepDots {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    justify-content: flex-start;
+}
+.clusterCentered .stepDots { justify-content: center; }
+.dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #DDE5F5;
+    transition: background 0.25s, width 0.25s;
+}
+.dotActive { background: #4C8DFF; width: 20px; border-radius: 4px; }
+.dotDone { background: #7CE0C6; }
+
+.title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: #20264D;
+    margin: 0 0 8px;
+    line-height: 1.25;
+}
+.body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5c628a;
+    line-height: 1.6;
+    margin: 0 0 18px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.clusterCentered .actions { justify-content: center; }
+
+.primaryBtn {
+    background: #4C8DFF;
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    border: none;
+    border-radius: 999px;
+    padding: 11px 22px;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 4px 16px rgba(76,141,255,0.32);
+}
+.primaryBtn:hover {
+    background: #3A7DE8;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(76,141,255,0.4);
+}
+.primaryBtn:disabled {
+    opacity: 0.55;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+.cardFinish {
+    border-color: rgba(124,224,198,0.5);
+    background: linear-gradient(160deg, #ffffff 0%, #f2fbf8 100%);
+    box-shadow: 0 20px 60px rgba(60,167,135,0.22), 0 4px 16px rgba(16,22,46,0.12);
+    text-align: center;
+}
+.cardFinish .actions { justify-content: center; }
+
+.waitHint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--vt-vblue);
+    padding: 8px 4px;
+}
+.waitDot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--vt-vblue);
+    animation: waitPulse 1.1s ease-in-out infinite;
+}
+@keyframes waitPulse {
+    0%, 100% { opacity: 0.35; transform: scale(0.85); }
+    50%      { opacity: 1; transform: scale(1.15); }
+}
+
+.skipBtn {
+    background: none;
+    border: none;
+    color: #8b90b0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px 4px;
+    transition: color 0.15s;
+}
+.skipBtn:hover { color: #5c628a; }
+
+/* Little pointer beak from the card toward the target */
+.beak {
+    position: absolute;
+    width: 16px; height: 16px;
+    background: #fff;
+    border: 1px solid rgba(76,141,255,0.18);
+    transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vestaWrap, .ring { animation: none; }
+    .spotlight, .ring, .cluster { transition: none; }
+}

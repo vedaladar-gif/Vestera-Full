@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { getUserCash, getHoldings, updateUserCash, addTrade } from '@/lib/models';
+import { isDemo } from '@/lib/demoStore';
 import { isTradableSymbol, normalizeTradableTicker } from '@/lib/assetCatalog';
 import { isMarketOpen, MARKET_CLOSED_TRADE_MESSAGE } from '@/lib/marketStatus';
 
@@ -10,15 +11,17 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (!isMarketOpen()) {
+    const userId = session.userId;
+    const data = await request.json();
+
+    // Demo users and the guided tutorial can trade anytime so onboarding never stalls.
+    const isTutorialTrade = isDemo(userId) || data.tutorial === true;
+    if (!isTutorialTrade && !isMarketOpen()) {
         return NextResponse.json(
             { success: false, error: 'MARKET_CLOSED', message: MARKET_CLOSED_TRADE_MESSAGE },
             { status: 403 },
         );
     }
-
-    const userId = session.userId;
-    const data = await request.json();
 
     const ticker = normalizeTradableTicker(data.ticker || '');
     const quantity = parseInt(data.quantity || '0', 10);

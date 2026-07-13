@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import styles from './stats.module.css';
 import { getAvatarGradient, getInitials } from '@/lib/avatarColors';
 import GuestGuard from '@/components/GuestGuard';
+import { isTutorialActive } from '@/lib/onboarding';
 
 interface LeaderboardEntry {
     rank: number;
@@ -52,7 +53,8 @@ function RankingsPage() {
 
     const refresh = useCallback(async () => {
         try {
-            const lbData = await fetch('/api/leaderboard', { credentials: 'same-origin' }).then(r => r.json());
+            const lbUrl = isTutorialActive() ? '/api/leaderboard?tutorial=1' : '/api/leaderboard';
+            const lbData = await fetch(lbUrl, { credentials: 'same-origin' }).then(r => r.json());
             if (lbData?.leaderboard) setLeaderboard(lbData.leaderboard);
         } catch { /* ignore */ }
     }, []);
@@ -82,10 +84,6 @@ function RankingsPage() {
     const myRank = leaderboard.find(u => u.isCurrentUser)?.rank;
     const top3 = leaderboard.slice(0, 3);
     const podiumOrder = [top3[1], top3[0], top3[2]].filter(Boolean) as LeaderboardEntry[];
-
-    const goToProfile = (username: string) => {
-        router.push(`/friends/${encodeURIComponent(username)}`);
-    };
 
     return (
         <div className={styles.statsWrap}>
@@ -118,17 +116,9 @@ function RankingsPage() {
                                         return (
                                             <div
                                                 key={entry.rank}
-                                                role="button"
-                                                tabIndex={0}
-                                                className={`${styles.podiumCard} ${styles.podiumCardClickable} ${entry.rank === 1 ? styles.podiumFirst : ''} ${entry.isCurrentUser ? styles.podiumMe : ''}`}
+                                                data-tour={entry.isCurrentUser ? 'lb-me' : undefined}
+                                                className={`${styles.podiumCard} ${entry.rank === 1 ? styles.podiumFirst : ''} ${entry.isCurrentUser ? styles.podiumMe : ''}`}
                                                 style={meta ? { borderColor: meta.borderColor } : {}}
-                                                onClick={() => goToProfile(entry.username)}
-                                                onKeyDown={e => {
-                                                    if (e.key === 'Enter' || e.key === ' ') {
-                                                        e.preventDefault();
-                                                        goToProfile(entry.username);
-                                                    }
-                                                }}
                                             >
                                                 <div className={styles.podiumMedal}>{meta?.icon ?? `#${entry.rank}`}</div>
                                                 <div
@@ -196,16 +186,7 @@ function RankingsPage() {
                                             return (
                                                 <tr
                                                     key={entry.rank}
-                                                    role="button"
-                                                    tabIndex={0}
-                                                    className={`${styles.tableRow} ${styles.tableRowClickable} ${entry.isCurrentUser ? styles.tableRowMe : ''}`}
-                                                    onClick={() => goToProfile(entry.username)}
-                                                    onKeyDown={e => {
-                                                        if (e.key === 'Enter' || e.key === ' ') {
-                                                            e.preventDefault();
-                                                            goToProfile(entry.username);
-                                                        }
-                                                    }}
+                                                    className={`${styles.tableRow} ${entry.isCurrentUser ? styles.tableRowMe : ''}`}
                                                 >
                                                     <td>
                                                         <div

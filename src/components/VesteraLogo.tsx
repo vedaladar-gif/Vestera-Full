@@ -1,19 +1,44 @@
 /**
- * Vestera wordmark — V-mark icon + "Vestera" Baloo 2 text.
+ * Vestera wordmark — blue rounded-square mark + "Vestera" Baloo 2 text.
+ * Redesign 2026: flat blue square + navy text, no gradient.
  */
-
-import VLogo from './VLogo';
 
 interface VesteraLogoProps {
     height?: number;
 }
 
 export default function VesteraLogo({ height = 36 }: VesteraLogoProps) {
-    const iconSize = Math.round(height * 0.95);
-
+    const box = Math.round(height * 0.95);
+    const chevron = Math.round(box * 0.58);
     return (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <VLogo size={iconSize} />
+            <div style={{
+                width: box,
+                height: box,
+                borderRadius: Math.round(height * 0.3),
+                background: '#4C8DFF',
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <svg
+                    width={chevron}
+                    height={chevron}
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M4 5.5L10 15L16 5.5"
+                        stroke="#fff"
+                        strokeWidth="2.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            </div>
             <span style={{
                 fontFamily: "'Baloo 2', sans-serif",
                 fontWeight: 800,

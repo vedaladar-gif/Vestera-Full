@@ -43,20 +43,6 @@ export async function POST(request: Request) {
 
             if (profileError) {
                 console.error('Self-heal createProfile error:', profileError);
-                // Profile may already exist (e.g. partial registration) — load it instead of failing
-                if (profileError.code === '23505') {
-                    user = await getUserById(data.user.id);
-                    if (user) {
-                        const session = await getSession();
-                        session.userId = user.id;
-                        await session.save();
-                        return NextResponse.json({
-                            success: true,
-                            user: { id: user.id, username: user.username },
-                            needsUsername: isEmailUsername(user.username),
-                        });
-                    }
-                }
                 return NextResponse.json({ error: 'Failed to create user profile' }, { status: 500 });
             }
 

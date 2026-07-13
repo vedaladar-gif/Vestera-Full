@@ -13,6 +13,7 @@ import { useAssetSearch } from '@/hooks/useAssetSearch';
 import { AssetSearchInput } from '@/components/trade/AssetSearchInput';
 import { getAssetBySymbol, normalizeTradableTicker } from '@/lib/assetCatalog';
 import { displaySymbol } from '@/lib/symbolDisplay';
+import { isTutorialActive } from '@/lib/onboarding';
 import {
     type TradeChartTimeframe,
     TRADE_CHART_TIMEFRAMES,
@@ -126,6 +127,18 @@ function TradingDashboard() {
     // Watchlist state
     const [watchlist, setWatchlist] = useState<WatchItem[]>(WATCHLIST_BASE);
     const [watchlistLoading, setWatchlistLoading] = useState(true);
+
+    // Tutorial mode: during the guided tutorial, show a single practice stock.
+    // Reverts to the full real watchlist when the tutorial ends.
+    const [tutorialMode, setTutorialMode] = useState(false);
+    const tutorialModeRef = useRef(false);
+    tutorialModeRef.current = tutorialMode;
+    useEffect(() => {
+        setTutorialMode(isTutorialActive());
+        const end = () => setTutorialMode(false);
+        window.addEventListener('vestera:tour-end', end);
+        return () => window.removeEventListener('vestera:tour-end', end);
+    }, []);
 
     // Price alert state
     const [alerts, setAlerts] = useState<PriceAlert[]>([]);
@@ -599,7 +612,8 @@ function TradingDashboard() {
     const executeTrade = async (action: 'BUY' | 'SELL') => {
         if (!displayPrice || quantity <= 0) return;
         // Client check (instant feedback); server re-checks on every POST.
-        if (!isMarketOpen()) {
+        // Tutorial buys are always allowed so the guided flow never gets stuck.
+        if (!tutorialModeRef.current && !isMarketOpen()) {
             showMarketClosedToast();
             return;
         }
@@ -608,7 +622,7 @@ function TradingDashboard() {
             const res = await fetch('/api/trade', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ticker, quantity, price: displayPrice, action }),
+                body: JSON.stringify({ ticker, quantity, price: displayPrice, action, tutorial: tutorialModeRef.current }),
                 credentials: 'same-origin',
             });
             const data = await res.json().catch(() => ({}));
@@ -625,6 +639,10 @@ function TradingDashboard() {
                     stock: ticker, action, shares: quantity, price: displayPrice,
                     created_at: new Date().toISOString(),
                 }, ...prev].slice(0, 10));
+                // Advance the guided tutorial once the first buy lands.
+                if (tutorialModeRef.current && action === 'BUY') {
+                    window.dispatchEvent(new CustomEvent('vestera:tutorial-bought'));
+                }
             } else {
                 setStatusMsg(typeof data.error === 'string' ? data.error : 'Trade failed');
                 setStatusType('error');
@@ -732,21 +750,21 @@ function TradingDashboard() {
         <div className={styles.dashWrap}>
             <DashNav onLogout={() => router.push('/')} />
 
-            <div className={styles.dashGrid}>
+            <div className={`${styles.dashGrid} ${tutorialMode ? styles.tutorialGrid : ''}`}>
 
                 {/* ── Stock Watchlist Sidebar (left) ────────────────────── */}
                 <div className={styles.stockList}>
                     <div className={styles.stockListHeader}>
                         <div className={styles.stockListTitle}>
-                            Watchlist
-                            {watchlistLoading && (
+                            {tutorialMode ? 'Practice Stock' : 'Watchlist'}
+                            {watchlistLoading && !tutorialMode && (
                                 <span className={styles.stockListUpdating}>updating…</span>
                             )}
                         </div>
                     </div>
                     <div className={styles.stockListItems}>
-                        {watchlist.map((item, idx) => (
-                            <div key={item.sym}>
+                        {(tutorialMode ? watchlist.slice(0, 1) : watchlist).map((item, idx, arr) => (
+                            <div key={item.sym} data-tour={tutorialMode && idx === 0 ? 'tutorial-stock' : undefined}>
                                 <button
                                     className={`${styles.stockItem} ${ticker === item.sym ? styles.stockItemActive : ''}`}
                                     onClick={() => selectStock(item.sym)}
@@ -770,11 +788,16 @@ function TradingDashboard() {
                                         </span>
                                     </div>
                                 </button>
-                                {idx < watchlist.length - 1 && (
+                                {idx < arr.length - 1 && (
                                     <div className={styles.stockDivider} />
                                 )}
                             </div>
                         ))}
+                        {tutorialMode && (
+                            <div className={styles.tutorialLockNote}>
+                                🔒 More stocks unlock after the tutorial
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -973,7 +996,7 @@ function TradingDashboard() {
                     </div>
 
                     {/* Trade form */}
-                    <div className={styles.sideCard}>
+                    <div className={styles.sideCard} data-tour="buy-panel">
                         <h3>Trade {ticker}</h3>
                         <div className={styles.tradeForm}>
                             <label className={styles.tradeLabel}>

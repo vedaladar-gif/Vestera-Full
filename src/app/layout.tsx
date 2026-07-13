@@ -7,6 +7,7 @@ import SnapseWidget from "@/components/SnapseWidget";
 import ThemeProvider from "@/components/ThemeProvider";
 import { AlertToastProvider } from "@/components/AlertToastProvider";
 import GuestModeSync from "@/components/GuestModeSync";
+import OnboardingTour from "@/components/OnboardingTour";
 
 export const metadata: Metadata = {
   title: "Vestera - Professional Paper Trading",
@@ -41,6 +42,7 @@ export default function RootLayout({
               <ConditionalFooter />
             </div>
             <SnapseWidget />
+            <OnboardingTour />
           </div>
         </AlertToastProvider>
       </body>

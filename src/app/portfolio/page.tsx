@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import styles from '@/app/stats/stats.module.css';
 import PortfolioChart, { type HistoryPoint } from '@/components/PortfolioChart';
 import GuestGuard from '@/components/GuestGuard';
+import { isTutorialActive } from '@/lib/onboarding';
 
 interface HoldingEntry {
     stock: string;
@@ -55,9 +56,10 @@ function PortfolioPage() {
 
     const refresh = useCallback(async () => {
         try {
+            const lbUrl = isTutorialActive() ? '/api/leaderboard?tutorial=1' : '/api/leaderboard';
             const [hd, lbData] = await Promise.all([
                 fetch('/api/holdings', { credentials: 'same-origin' }).then(r => (r.ok ? r.json() : null)),
-                fetch('/api/leaderboard', { credentials: 'same-origin' }).then(r => r.json()),
+                fetch(lbUrl, { credentials: 'same-origin' }).then(r => r.json()),
             ]);
             if (hd) {
                 setCash(hd.cash);
@@ -109,7 +111,8 @@ function PortfolioPage() {
     const isUp = pl >= 0;
     const allocTotal = totalAccount > 0 ? totalAccount : 1;
     const holdingBars = holdings.map((h, i) => ({
-        label: h.stock, value: h.value,
+        label: h.stock,
+        value: h.value,
         color: ALLOC_COLORS[i % ALLOC_COLORS.length],
         pct: (h.value / allocTotal) * 100,
     }));
@@ -135,7 +138,6 @@ function PortfolioPage() {
                     <p className={styles.pageSubtitle}>Track your holdings, performance, and allocation</p>
                 </motion.div>
 
-                {/* 4 Stat Cards */}
                 <div className={styles.statCards}>
                     <div className={styles.statCard}>
                         <div className={styles.statCardTop}>
@@ -190,7 +192,6 @@ function PortfolioPage() {
                     </div>
                 </div>
 
-                {/* Portfolio Performance chart */}
                 <div className={styles.card} style={{ marginBottom: 16 }}>
                     <div className={styles.cardHeader}>
                         <div>
@@ -215,7 +216,6 @@ function PortfolioPage() {
                     <PortfolioChart data={portfolioHistory} loading={historyLoading} chartHeight={240} />
                 </div>
 
-                {/* Allocation + Quick Stats */}
                 <div className={styles.midGrid}>
                     <div className={styles.card}>
                         <div className={styles.cardHeader}>
@@ -229,7 +229,12 @@ function PortfolioPage() {
                                 <div
                                     key={i}
                                     className={styles.allocSeg}
-                                    style={{ flexGrow: Math.max(seg.pct, 0.5), flexShrink: 0, flexBasis: 0, background: seg.color }}
+                                    style={{
+                                        flexGrow: Math.max(seg.pct, 0.5),
+                                        flexShrink: 0,
+                                        flexBasis: 0,
+                                        background: seg.color,
+                                    }}
                                     title={`${seg.label}: ${seg.pct.toFixed(1)}%`}
                                 />
                             ))}
@@ -292,7 +297,6 @@ function PortfolioPage() {
                     </div>
                 </div>
 
-                {/* Holdings Table */}
                 <div className={styles.card}>
                     <div className={styles.cardHeader}>
                         <div>

@@ -56,29 +56,28 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
     };
 
     const initials = getInitials(username, displayName);
-    const isActive = (activePath: string) => pathname === activePath || pathname.startsWith(activePath + '/');
+    const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
 
-    const linkStyle = (activePath: string): React.CSSProperties => ({
-        color: isActive(activePath) ? '#20264D' : '#5c628a',
-        fontWeight: isActive(activePath) ? 700 : 600,
+    const linkStyle = (href: string): React.CSSProperties => ({
+        color: isActive(href) ? '#20264D' : '#5c628a',
+        fontWeight: isActive(href) ? 700 : 600,
         background: 'transparent',
     });
 
     const close = () => setMobileOpen(false);
 
     const navLinks = [
-        { href: previewMode ? '/restricted' : '/trade', label: 'Market', activePath: '/trade' },
-        { href: previewMode ? '/restricted' : '/stats', label: 'Rankings', activePath: '/stats' },
-        { href: previewMode ? '/restricted' : '/portfolio', label: 'Portfolio', activePath: '/portfolio' },
-        { href: previewMode ? '/restricted' : '/friends', label: 'Friends', activePath: '/friends' },
-        { href: '/learn', label: 'Academy', activePath: '/learn' },
+        { href: previewMode ? '/restricted' : '/trade', label: 'Market', activePath: '/trade', tour: 'nav-market' },
+        { href: previewMode ? '/restricted' : '/stats', label: 'Rankings', activePath: '/stats', tour: 'nav-rankings' },
+        { href: previewMode ? '/restricted' : '/portfolio', label: 'Portfolio', activePath: '/portfolio', tour: 'nav-portfolio' },
+        { href: previewMode ? '/restricted' : '/friends', label: 'Friends', activePath: '/friends', tour: 'nav-friends' },
+        { href: '/learn', label: 'Academy', activePath: '/learn', tour: 'nav-academy' },
     ];
 
     return (
         <>
             {/* ── Nav bar ── */}
-            <nav
-                style={{
+            <nav style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -103,10 +102,11 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
 
                 {/* Desktop links — hidden on mobile via .dashnav-links CSS class */}
                 <div className="dashnav-links" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {navLinks.map(({ href, label, activePath }) => (
+                    {navLinks.map(({ href, label, activePath, tour }) => (
                         <Link
                             key={label}
                             href={href}
+                            data-tour={tour}
                             style={{
                                 textDecoration: 'none',
                                 fontSize: 14,

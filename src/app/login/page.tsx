@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { clearGuestMode } from '@/lib/guestMode';
+import { hasSeenTour, startTour } from '@/lib/onboarding';
 import VesteraLogo from '@/components/VesteraLogo';
 
 export default function LoginPage() {
@@ -36,7 +37,15 @@ export default function LoginPage() {
             if (!res.ok) { setError((data as { error?: string }).error || 'Login failed'); setLoading(false); return; }
             if (data.success === true) {
                 clearGuestMode();
-                window.location.assign(data.needsUsername ? '/setup-username' : '/trade');
+                if (data.needsUsername) {
+                    window.location.assign('/setup-username');
+                } else if (!hasSeenTour()) {
+                    // First sign-in on this device → run the guided tutorial from the Market
+                    startTour();
+                    window.location.assign('/trade');
+                } else {
+                    window.location.assign('/trade');
+                }
                 return;
             }
             setError('Login failed');

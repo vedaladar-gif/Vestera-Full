@@ -8,6 +8,7 @@ import styles from './page.module.css';
 import VestaBlob from '@/components/VestaBlob';
 import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { enterGuestMode } from '@/lib/guestMode';
+import { startTour } from '@/lib/onboarding';
 
 /* ── types & formatters ── */
 interface NvdaData { price: number; change: number; changePct: number; }
@@ -22,6 +23,19 @@ const VESTA_PROMPTS = [
     'Help me build my first practice portfolio',
     'Strategies for spotting a good company',
     'Show me a beginner trade to try',
+];
+
+const TICKER_TAPE = [
+    { sym: 'AAPL',  name: 'Apple',     pct: 1.24 },
+    { sym: 'TSLA',  name: 'Tesla',     pct: -2.08 },
+    { sym: 'NVDA',  name: 'NVIDIA',    pct: 4.03 },
+    { sym: 'DIS',   name: 'Disney',    pct: 0.62 },
+    { sym: 'GOOGL', name: 'Alphabet',  pct: 0.95 },
+    { sym: 'AMZN',  name: 'Amazon',    pct: -0.41 },
+    { sym: 'NFLX',  name: 'Netflix',   pct: 1.87 },
+    { sym: 'RBLX',  name: 'Roblox',    pct: 3.12 },
+    { sym: 'MSFT',  name: 'Microsoft', pct: 0.58 },
+    { sym: 'COIN',  name: 'Coinbase',  pct: -1.35 },
 ];
 
 const FAQ_ITEMS = [
@@ -88,6 +102,22 @@ export default function Home() {
         ? (portfolioData.portfolio_value ?? 0) + (portfolioData.cash ?? 0)
         : 103_240;
 
+    /* count-up animation for the portfolio number */
+    const [displayTotal, setDisplayTotal] = useState(0);
+    useEffect(() => {
+        let raf: number;
+        const startTime = performance.now();
+        const duration = 1100;
+        const tick = (now: number) => {
+            const p = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            setDisplayTotal(total * eased);
+            if (p < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+    }, [total]);
+
     const openVesta = (msg: string) =>
         window.dispatchEvent(new CustomEvent('openVestaChat', { detail: { message: msg } }));
 
@@ -101,6 +131,18 @@ export default function Home() {
         router.push(`/register${emailInput ? `?email=${encodeURIComponent(emailInput)}` : ''}`);
     };
 
+    /* Launch the no-signup demo + guided tutorial (starts on the trade page) */
+    const [demoLoading, setDemoLoading] = useState(false);
+    const startDemoTour = async () => {
+        if (demoLoading) return;
+        setDemoLoading(true);
+        try {
+            await fetch('/api/auth/demo-login', { method: 'POST', credentials: 'same-origin' });
+        } catch { /* ignore — tutorial still runs */ }
+        startTour();
+        window.location.assign('/trade'); // load the Market as the demo user, then the tutorial begins
+    };
+
     /* ── render ── */
     return (
         <div className={styles.page}>
@@ -109,6 +151,9 @@ export default function Home() {
                 HERO
             ════════════════════════════ */}
             <section className={styles.heroSection}>
+                <div className={`${styles.auroraBlob} ${styles.auroraBlob1}`} />
+                <div className={`${styles.auroraBlob} ${styles.auroraBlob2}`} />
+                <div className={`${styles.auroraBlob} ${styles.auroraBlob3}`} />
                 <div className={styles.heroInner}>
 
                     {/* LEFT */}
@@ -136,9 +181,15 @@ export default function Home() {
                         <motion.div className={styles.heroBtns}
                             variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 } } }}
                         >
-                            <Link href={authenticated ? '/trade' : '/register'} className={styles.btnPrimary}>
+                            <Link href={authenticated ? '/trade' : '/register'} className={styles.btnPrimary} data-tour="start-trading">
                                 {authenticated ? 'Open Market' : 'Start Playing'} →
                             </Link>
+                            {!authenticated && (
+                                <button type="button" className={styles.btnDemo}
+                                    onClick={startDemoTour} disabled={demoLoading}>
+                                    {demoLoading ? 'Starting…' : '▶ Try the tutorial — no signup'}
+                                </button>
+                            )}
                             <button type="button" className={styles.btnText}
                                 onClick={() => { enterGuestMode(); router.push('/learn'); }}>
                                 Browse Lessons
@@ -219,7 +270,7 @@ export default function Home() {
                             whileHover={{ y: -4, transition: { duration: 0.2 } }}
                         >
                             <div className={styles.pfLabel}>YOUR PORTFOLIO</div>
-                            <div className={styles.pfValue}>{fmtPortfolio(total)}</div>
+                            <div className={styles.pfValue}>{fmtPortfolio(displayTotal)}</div>
                             <div className={styles.pfChange} style={{ color: isUp ? '#3CA787' : '#E0637A' }}>
                                 {authenticated && portfolioData
                                     ? `${isUp ? '▲' : '▼'} ${isUp ? '+' : ''}${pct.toFixed(2)}% this week`
@@ -251,71 +302,20 @@ export default function Home() {
             </section>
 
             {/* ════════════════════════════
-                ACADEMY
+                TICKER TAPE
             ════════════════════════════ */}
-            <section className={styles.featuresSection}>
-                <div className={styles.featuresInner}>
-                    <div className={styles.featureBlock}>
-                        <div className={styles.featureEyebrow}>THE ACADEMY</div>
-                        <h2 className={styles.featureTitle}>Learn the basics. Master the markets.</h2>
-                        <p className={styles.featureBody}>
-                            The Academy is your spot to learn trading from the very beginning all the way
-                            to mastering it. Work through bite-size lessons, pass quizzes, earn XP, and
-                            level up through ranks as you go — from your first stock to real strategies.
-                        </p>
-                        <ul className={styles.featureList}>
-                            <li>5 courses · 41 lessons · quizzes included</li>
-                            <li>Start with basics, unlock harder courses as you progress</li>
-                            <li>Earn XP and climb from Rookie Trader to Wall Street Whiz</li>
-                        </ul>
-                        <Link href={authenticated ? '/learn' : '/register'} className={styles.featureLink}>
-                            Explore the Academy →
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* ════════════════════════════
-                RANKINGS & FRIENDS
-            ════════════════════════════ */}
-            <section className={styles.communitySection}>
-                <div className={styles.featuresInner}>
-                    <div className={styles.featureBlock}>
-                        <div className={styles.featureEyebrow}>COMPETE &amp; CONNECT</div>
-                        <h2 className={styles.featureTitle}>Rankings and friends</h2>
-                        <p className={styles.featureBody}>
-                            Vestera isn&apos;t just solo practice — see how you stack up and learn
-                            alongside other traders.
-                        </p>
-                        <div className={styles.communityCards}>
-                            <div className={styles.communityCard}>
-                                <div className={styles.communityIcon}>🏆</div>
-                                <div>
-                                    <h3 className={styles.communityCardTitle}>Rankings</h3>
-                                    <p className={styles.communityCardText}>
-                                        Climb the global leaderboard based on your portfolio return.
-                                        See who&apos;s on top and track your rank as you trade.
-                                    </p>
-                                    <Link href={authenticated ? '/stats' : '/register'} className={styles.communityCardLink}>
-                                        View Rankings →
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className={styles.communityCard}>
-                                <div className={styles.communityIcon}>👥</div>
-                                <div>
-                                    <h3 className={styles.communityCardTitle}>Friends</h3>
-                                    <p className={styles.communityCardText}>
-                                        Add friends, compare portfolios, and see how your strategies
-                                        stack up against people you know.
-                                    </p>
-                                    <Link href={authenticated ? '/friends' : '/register'} className={styles.communityCardLink}>
-                                        Find Friends →
-                                    </Link>
-                                </div>
-                            </div>
+            <section className={styles.tickerSection}>
+                <div className={styles.tickerTrack}>
+                    {[...TICKER_TAPE, ...TICKER_TAPE].map((t, i) => (
+                        <div key={i} className={styles.tickerItem}>
+                            <span className={styles.tickerSym}>{t.sym}</span>
+                            <span className={styles.tickerName}>{t.name}</span>
+                            <span className={styles.tickerChange} style={{ color: t.pct >= 0 ? '#7CE0C6' : '#FF7BA6' }}>
+                                {t.pct >= 0 ? '▲' : '▼'} {Math.abs(t.pct).toFixed(2)}%
+                            </span>
+                            <span className={styles.tickerDot} />
                         </div>
-                    </div>
+                    ))}
                 </div>
             </section>
 
@@ -323,9 +323,14 @@ export default function Home() {
                 ASK VESTA
             ════════════════════════════ */}
             <section className={styles.askSection}>
-                <div className={styles.askInner}>
+                <motion.div className={styles.askInner}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
+                >
 
-                    <VestaBlob size={72} showDot animate={false} />
+                    <VestaBlob size={72} showDot animate />
                     <h2 className={styles.askHeading}>Ask Vesta anything about the market</h2>
 
                     <div className={styles.accordion}>
@@ -354,14 +359,19 @@ export default function Home() {
                     </form>
 
                     <p className={styles.askNote}>Vesta can make mistakes. This is practice money, not real advice.</p>
-                </div>
+                </motion.div>
             </section>
 
             {/* ════════════════════════════
                 FAQ
             ════════════════════════════ */}
             <section className={styles.faqSection}>
-                <div className={styles.faqInner}>
+                <motion.div className={styles.faqInner}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
+                >
                     <h2 className={styles.faqHeading}>Frequently Asked Questions</h2>
 
                     <div className={styles.accordion}>
@@ -387,14 +397,19 @@ export default function Home() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* ════════════════════════════
                 FOOTER CTA
             ════════════════════════════ */}
             <section className={styles.footerSection}>
-                <div className={styles.footerInner}>
+                <motion.div className={styles.footerInner}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
+                >
                     <h2 className={styles.footerHeading}>Ready to start playing?</h2>
                     <p className={styles.footerSub}>Free forever to start. No card, no real money, ever.</p>
 
@@ -419,7 +434,7 @@ export default function Home() {
                         <Link href="/terms">Terms</Link>
                     </nav>
                     <p className={styles.footerCopy}>© 2026 Vestera. Practice trading, real learning.</p>
-                </div>
+                </motion.div>
             </section>
 
         </div>

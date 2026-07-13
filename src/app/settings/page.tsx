@@ -8,6 +8,7 @@ import { AVATAR_COLOR_KEYS, getAvatarGradient, getInitials } from '@/lib/avatarC
 import { validateUsername } from '@/utils/usernameValidation';
 import { applyTheme as _applyTheme } from '@/components/ThemeProvider';
 import GuestGuard from '@/components/GuestGuard';
+import { startTour } from '@/lib/onboarding';
 
 type Tab = 'profile' | 'appearance' | 'account';
 
@@ -317,6 +318,19 @@ function SettingsPage() {
                         {/* ── ACCOUNT TAB ── */}
                         {tab === 'account' && (
                             <>
+                                <div className={styles.panel}>
+                                    <div className={styles['panel-title']}>Guided Tutorial</div>
+                                    <div className={styles['panel-sub']}>New here or need a refresher? Vesta will walk you through making your first trade, the leaderboard, and the rest of the app.</div>
+                                    <div className={styles['btn-row']}>
+                                        <button
+                                            className={styles['btn-primary']}
+                                            onClick={() => { startTour(); window.location.assign('/trade'); }}
+                                        >
+                                            ▶ Replay the tutorial
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <div className={styles.panel}>
                                     <div className={styles['panel-title']}>Change Password</div>
                                     <div className={styles['panel-sub']}>Leave blank to keep your current password.</div>

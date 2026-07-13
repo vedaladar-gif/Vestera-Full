@@ -71,7 +71,7 @@ export default function Navbar() {
     return (
         <>
             <nav className={`navbar${scrolled ? ' nav-scrolled' : ''}`}>
-                {/* ── Brand ── */}
+                {/* ── Brand: Logo ── */}
                 <Link href="/" className="nav-brand" onClick={close} style={{ gap: 10 }}>
                     <VesteraLogo height={32} />
                 </Link>
@@ -85,6 +85,7 @@ export default function Navbar() {
                             <Link href="/portfolio"  style={{ ...linkStyle('/portfolio'),  textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Portfolio</Link>
                             <Link href="/friends"    style={{ ...linkStyle('/friends'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Friends</Link>
                             <Link href="/learn"      style={{ ...linkStyle('/learn'),      textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
+
                             <div style={{ width: 1, height: 20, background: 'var(--vt-border)', margin: '0 6px', flexShrink: 0 }} />
 
                             <Link
@@ -157,14 +158,13 @@ export default function Navbar() {
                         <Link href="/portfolio" className="nav-mobile-link" onClick={close} data-active={isActive('/portfolio') ? 'true' : 'false'}>💼 Portfolio</Link>
                         <Link href="/friends"   className="nav-mobile-link" onClick={close} data-active={isActive('/friends')   ? 'true' : 'false'}>👥 Friends</Link>
                         <Link href="/learn"     className="nav-mobile-link" onClick={close} data-active={isActive('/learn')     ? 'true' : 'false'}>🎓 Academy</Link>
-
                         <div className="nav-mobile-divider" />
                         <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>👤 Profile</Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>Logout</button>
                     </>
                 ) : (
                     <>
-                        <div style={{ padding: '20px 20px 16px' }}>
+                        <div style={{ padding: '20px 20px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
                             <VesteraLogo height={28} />
                         </div>
                         <div className="nav-mobile-divider" />

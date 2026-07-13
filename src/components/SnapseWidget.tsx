@@ -72,6 +72,7 @@ function getChips(pathname: string): { label: string; text: string }[] {
 
 export default function SnapseWidget() {
     const [open, setOpen] = useState(false);
+    const [tourActive, setTourActive] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -112,6 +113,18 @@ export default function SnapseWidget() {
         window.addEventListener('openVestaChat', handler);
         return () => window.removeEventListener('openVestaChat', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /* Hide the corner widget while the onboarding tour is running */
+    useEffect(() => {
+        const onStart = () => { setTourActive(true); setOpen(false); };
+        const onEnd = () => setTourActive(false);
+        window.addEventListener('vestera:tour-start', onStart);
+        window.addEventListener('vestera:tour-end', onEnd);
+        return () => {
+            window.removeEventListener('vestera:tour-start', onStart);
+            window.removeEventListener('vestera:tour-end', onEnd);
+        };
     }, []);
 
     const typewriterReveal = (fullText: string, onDone: () => void) => {
@@ -214,6 +227,8 @@ export default function SnapseWidget() {
     };
 
     const hasMessages = messages.length > 0;
+
+    if (tourActive) return null;
 
     return (
         <div className={styles.widget}>

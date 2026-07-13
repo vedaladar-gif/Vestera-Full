@@ -183,34 +183,6 @@ export async function listOutgoingPendingRecipients(userId: string): Promise<Set
     return new Set((data || []).map((r: { recipient_id: string }) => r.recipient_id));
 }
 
-export type UserRelation = SearchRelation | 'self';
-
-export async function getUserRelation(
-    viewerId: string,
-    targetId: string
-): Promise<{ relation: UserRelation; incomingRequestId?: number }> {
-    if (viewerId === targetId) return { relation: 'self' };
-    if (await friendshipExists(viewerId, targetId)) return { relation: 'friend' };
-
-    const outgoing = await listOutgoingPendingRecipients(viewerId);
-    if (outgoing.has(targetId)) return { relation: 'outgoing_pending' };
-
-    const { data, error } = await friendsDb()
-        .from('friend_requests')
-        .select('id')
-        .eq('sender_id', targetId)
-        .eq('recipient_id', viewerId)
-        .eq('status', 'pending')
-        .maybeSingle();
-
-    if (error) logFriendsError('getUserRelation(incoming)', error);
-    if (data) {
-        return { relation: 'incoming_pending', incomingRequestId: (data as { id: number }).id };
-    }
-
-    return { relation: 'none' };
-}
-
 export async function friendshipExists(userId1: string, userId2: string): Promise<boolean> {
     const { user_a_id, user_b_id } = friendshipPair(userId1, userId2);
     const { data, error } = await friendsDb()

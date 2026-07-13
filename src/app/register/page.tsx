@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { validateUsername } from '@/utils/usernameValidation';
+import { startTour } from '@/lib/onboarding';
 import VesteraLogo from '@/components/VesteraLogo';
 
 const inputBase: React.CSSProperties = {
@@ -68,6 +69,9 @@ export default function RegisterPage() {
             });
             const data = await res.json();
             if (data.success) {
+                // Arm the first-run tour now, at account creation. It stays queued
+                // until the new user lands on the homepage (after their first sign-in).
+                startTour();
                 const q = new URLSearchParams({ registered: '1' });
                 if (data.emailConfirmationRequired) q.set('pending', '1');
                 router.replace(`/check-email?${q.toString()}`);

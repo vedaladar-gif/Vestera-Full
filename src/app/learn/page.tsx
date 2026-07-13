@@ -1,466 +1,399 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import {
-    COURSE_CATALOG,
-    TOTAL_LESSONS,
-    getCourseById,
-    type Course,
-    type CourseLesson,
-} from '@/lib/courseContent';
+import { LEVELS, type LessonUnit, type Level } from '@/lib/learningContent';
 import styles from './learn.module.css';
 import DashNav from '@/components/DashNav';
 import UpgradeModal from '@/components/UpgradeModal';
 import { useAuthState } from '@/hooks/useAuthState';
 import { useGuestMode } from '@/hooks/useGuestMode';
-import { LessonRenderer } from '@/components/learn/LessonRenderer';
-import CourseQuiz from '@/components/learn/CourseQuiz';
+import { useLearnProgress } from '@/hooks/useLearnProgress';
 import {
-    useAcademyProgress,
-    RANKS,
-    QUIZ_PASS_PCT,
-    XP_PER_LESSON,
-    COINS_PER_LESSON,
-    XP_QUIZ_BONUS,
-    COINS_QUIZ_BONUS,
-    isCourseUnlocked,
-    isLessonUnlocked,
-    isLessonDone,
-    getCourseProgressPct,
-    getCourseProgress,
-} from '@/hooks/useAcademyProgress';
+    LessonHeader,
+    LessonTabs,
+    ConceptsTab,
+    VideoTab,
+    LessonContentWrapper,
+    type LessonViewTab,
+} from './LessonViewTabs';
+import { LessonRenderer } from '@/components/learn/LessonRenderer';
 
-type View = 'catalog' | 'course' | 'lesson' | 'quiz';
+// Total lesson count across all levels
+const TOTAL_LESSONS = LEVELS.reduce((s, l) => s + l.units.length, 0);
 
-function LockIcon({ size = 16 }: { size?: number }) {
+function CardIllustration({ level, unit }: { level: Level; unit: LessonUnit }) {
     return (
-        <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-            <rect x="3" y="7" width="10" height="8" rx="2" fill="currentColor" />
-            <path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
-        </svg>
+        <div
+            className={styles.cardIllustration}
+            style={{
+                background: `linear-gradient(135deg, ${level.gradFrom ?? 'rgba(79,110,247,0.15)'}, ${level.gradTo ?? 'rgba(79,110,247,0.04)'})`,
+            }}
+        >
+            {/* Decorative dot grid */}
+            <div className={styles.illDotGrid} />
+            {/* Decorative circle blobs */}
+            <div className={styles.illBlob1} style={{ background: level.color + '22' }} />
+            <div className={styles.illBlob2} style={{ background: level.color + '11' }} />
+            <span className={styles.cardIllIcon}>{unit.icon ?? level.emoji}</span>
+        </div>
     );
 }
 
-export default function AcademyPage() {
+export default function LearningDashboard() {
+    const [activeLevel, setActiveLevel] = useState(LEVELS[0].id);
+    const [activeUnit, setActiveUnit] = useState<LessonUnit | null>(null);
+    const [activeUnitLevel, setActiveUnitLevelId] = useState<string>(LEVELS[0].id);
+    const [showQuiz, setShowQuiz] = useState(false);
+    const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+    const [quizResult, setQuizResult] = useState<{ score: number; total: number; passed: boolean } | null>(null);
+    const [lessonTab, setLessonTab] = useState<LessonViewTab>('concepts');
+    const [upgradeOpen, setUpgradeOpen] = useState(false);
     const router = useRouter();
     const { authenticated, userId, loading: authLoading } = useAuthState();
     const { isGuest, clearGuestMode } = useGuestMode();
-
-    const {
-        courses,
-        totalLessonsDone,
-        totalXP,
-        totalCoins,
-        traderScore,
-        currentRank,
-        nextRank,
-        xpToNext,
-        streak,
-        badges,
-        completeLesson,
-        passQuiz,
-        canTakeQuiz,
-    } = useAcademyProgress(authenticated, authLoading, userId);
-
-    const [view, setView] = useState<View>('catalog');
-    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-    const [selectedLesson, setSelectedLesson] = useState<CourseLesson | null>(null);
-    const [upgradeOpen, setUpgradeOpen] = useState(false);
-    const [completionModal, setCompletionModal] = useState<{
-        course: Course;
-        scorePct: number;
-    } | null>(null);
+    const { progressForUi: progress, updateProgress } = useLearnProgress(authenticated, authLoading, userId);
 
     const learnPreviewOnly = authLoading || !authenticated;
-    const selectedCourse = selectedCourseId ? getCourseById(selectedCourseId) : null;
 
-    const openCourse = (course: Course) => {
-        if (!isCourseUnlocked(course.id, courses)) return;
-        setSelectedCourseId(course.id);
-        setView('course');
-    };
-
-    const openLesson = (lesson: CourseLesson) => {
-        if (!selectedCourseId) return;
-        const idx = lesson.id - 1;
-        if (!isLessonUnlocked(selectedCourseId, idx, courses)) return;
-        setSelectedLesson(lesson);
-        setView('lesson');
-    };
-
-    const handleCompleteLesson = () => {
-        if (!selectedCourseId || !selectedLesson || learnPreviewOnly) {
-            if (learnPreviewOnly) setUpgradeOpen(true);
-            return;
+    useEffect(() => {
+        if (learnPreviewOnly && lessonTab === 'video') {
+            setLessonTab('concepts');
         }
-        const idx = selectedLesson.id - 1;
-        if (!isLessonDone(selectedCourseId, idx, courses)) {
-            completeLesson(selectedCourseId);
-        }
-        setView('course');
-        setSelectedLesson(null);
-    };
+    }, [learnPreviewOnly, lessonTab]);
 
-    const handleQuizComplete = (scorePct: number, passed: boolean) => {
-        if (!selectedCourse || learnPreviewOnly) return;
-        passQuiz(selectedCourse.id, scorePct);
-        if (passed) {
-            setCompletionModal({ course: selectedCourse, scorePct });
-        }
-    };
+    const level = LEVELS.find(l => l.id === activeLevel)!;
 
-    const dashNav = (
-        <DashNav
-            onLogout={() => router.push('/')}
-            previewMode={!authenticated}
-            onExitPreview={isGuest ? () => { clearGuestMode(); router.push('/'); } : undefined}
-        />
+    const completedCount = level.units.filter(u => progress[`${activeLevel}-${u.id}`]?.completed).length;
+    const quizzesPassed = level.units.filter(u => progress[`${activeLevel}-${u.id}`]?.quizPassed).length;
+    const totalCompleted = LEVELS.reduce(
+        (s, l) => s + l.units.filter(u => progress[`${l.id}-${u.id}`]?.completed).length, 0
     );
 
-    // ── Lesson viewer ─────────────────────────────────────────────────────
-    if (view === 'lesson' && selectedCourse && selectedLesson) {
-        const lessonIdx = selectedLesson.id - 1;
-        const done = isLessonDone(selectedCourse.id, lessonIdx, courses);
+    const openUnit = (unit: LessonUnit, levelId: string) => {
+        setActiveUnit(unit);
+        setActiveUnitLevelId(levelId);
+        setShowQuiz(false);
+        setQuizResult(null);
+        setQuizAnswers({});
+        const key = `${levelId}-${unit.id}`;
+        // Logged-in only: guests never persist completion (updateProgress is a no-op when logged out)
+        updateProgress(prev => ({
+            ...prev,
+            [key]: { ...prev[key], completed: true },
+        }));
+    };
 
-        return (
-            <div className={styles.learnWrap}>
-                <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
-                {dashNav}
-                <div className={styles.content}>
-                    <div className={styles.unitViewer}>
-                        <div className={styles.viewerHeader}>
-                            <button className={styles.backBtn} onClick={() => { setView('course'); setSelectedLesson(null); }}>
-                                ← Back to {selectedCourse.title}
-                            </button>
-                            <div className={styles.viewerMeta}>
-                                <span className={styles.levelBadge} style={{ background: selectedCourse.color + '18', color: selectedCourse.color, border: `1px solid ${selectedCourse.color}33` }}>
-                                    {selectedCourse.emoji} {selectedCourse.title}
-                                </span>
-                                <span className={styles.viewerDuration}>⏱ {selectedLesson.duration}</span>
-                                <span className={styles.viewerDuration}>📊 {selectedLesson.difficulty}</span>
-                            </div>
-                        </div>
+    const startQuiz = () => {
+        if (learnPreviewOnly) {
+            setUpgradeOpen(true);
+            return;
+        }
+        setShowQuiz(true);
+        setQuizResult(null);
+        setQuizAnswers({});
+    };
 
-                        <div className={styles.lessonHeaderBar}>
-                            <span className={styles.lessonNumBadge}>Lesson {selectedLesson.id} of 5</span>
-                            <h2 className={styles.lessonViewerTitle}>{selectedLesson.title}</h2>
-                            <div className={styles.topicTags}>
-                                {selectedLesson.topics.map(t => (
-                                    <span key={t} className={styles.topicTag}>{t}</span>
-                                ))}
-                            </div>
-                        </div>
+    const handleLessonTabChange = (t: LessonViewTab) => {
+        if (learnPreviewOnly && t === 'video') {
+            setUpgradeOpen(true);
+            return;
+        }
+        setLessonTab(t);
+    };
 
-                        <LessonRenderer
-                            content={selectedLesson.content}
-                            unitId={selectedLesson.id}
-                            levelId={selectedCourse.id}
-                            accentColor={selectedCourse.color}
-                        />
+    const submitQuiz = () => {
+        if (!activeUnit) return;
+        let correct = 0;
+        activeUnit.quiz.forEach((q, i) => { if (quizAnswers[i] === q.answer) correct++; });
+        const total = activeUnit.quiz.length;
+        const passed = correct === total;
+        setQuizResult({ score: correct, total, passed });
+        if (passed) {
+            const key = `${activeUnitLevel}-${activeUnit.id}`;
+            updateProgress(prev => ({
+                ...prev,
+                [key]: { ...prev[key], completed: true, quizScore: correct, quizPassed: true },
+            }));
+        }
+    };
 
-                        <div className={styles.lessonCompleteBar}>
-                            {done ? (
-                                <div className={styles.lessonDoneMsg}>✓ Lesson completed</div>
-                            ) : (
-                                <button type="button" className={styles.completeLessonBtn} onClick={handleCompleteLesson}>
-                                    Mark Lesson Complete →
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
-    // ── Final quiz ────────────────────────────────────────────────────────
-    if (view === 'quiz' && selectedCourse) {
-        return (
-            <div className={styles.learnWrap}>
-                {dashNav}
-                <div className={styles.content}>
-                    <CourseQuiz
-                        courseTitle={selectedCourse.title}
-                        questions={selectedCourse.finalQuiz}
-                        onComplete={handleQuizComplete}
-                        onBack={() => setView('course')}
-                    />
-                </div>
-            </div>
-        );
-    }
+    const activeUnitLevelObj = LEVELS.find(l => l.id === activeUnitLevel) ?? LEVELS[0];
 
-    // ── Course detail ─────────────────────────────────────────────────────
-    if (view === 'course' && selectedCourse) {
-        const cp = getCourseProgress(courses, selectedCourse.id);
-        const pct = getCourseProgressPct(selectedCourse.id, courses);
-        const quizReady = canTakeQuiz(selectedCourse.id);
-        const quizPassed = cp.quizPassed;
-
-        return (
-            <div className={styles.learnWrap}>
-                <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
-                {dashNav}
-                <div className={styles.content}>
-                    <button className={styles.backBtn} onClick={() => { setView('catalog'); setSelectedCourseId(null); }}>
-                        ← All Courses
-                    </button>
-
-                    <div className={styles.courseDetailHeader}>
-                        <div className={styles.courseDetailIcon} style={{ background: selectedCourse.color + '18' }}>
-                            {selectedCourse.emoji}
-                        </div>
-                        <div>
-                            <h1 className={styles.courseDetailTitle}>{selectedCourse.title}</h1>
-                            <p className={styles.courseDetailSub}>{selectedCourse.description}</p>
-                            <div className={styles.courseDetailMeta}>
-                                <span>{selectedCourse.difficulty}</span>
-                                <span>·</span>
-                                <span>{selectedCourse.estimatedMinutes} min total</span>
-                                <span>·</span>
-                                <span>+{selectedCourse.xpReward} XP · +{selectedCourse.coinReward} coins</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Course progress bar */}
-                    <div className={styles.courseProgressCard}>
-                        <div className={styles.courseProgressTop}>
-                            <span className={styles.courseProgressLabel}>Course Progress</span>
-                            <span className={styles.courseProgressPct}>{pct}%</span>
-                        </div>
-                        <div className={styles.courseProgressTrack}>
-                            <div className={styles.courseProgressFill} style={{ width: `${pct}%`, background: selectedCourse.color }} />
-                        </div>
-                        <div className={styles.courseProgressSub}>
-                            {cp.lessonsDone}/5 lessons · {quizPassed ? 'Quiz passed ✓' : quizReady ? 'Quiz ready!' : `${5 - cp.lessonsDone} lessons to quiz`}
-                        </div>
-                    </div>
-
-                    {/* Lesson list */}
-                    <div className={styles.lessonList}>
-                        {selectedCourse.lessons.map((lesson, idx) => {
-                            const unlocked = isLessonUnlocked(selectedCourse.id, idx, courses);
-                            const done = isLessonDone(selectedCourse.id, idx, courses);
-                            const active = unlocked && !done;
-
-                            return (
-                                <div
-                                    key={lesson.id}
-                                    className={`${styles.lessonListItem} ${done ? styles.lessonListDone : ''} ${!unlocked ? styles.lessonListLocked : ''} ${active ? styles.lessonListActive : ''}`}
-                                    onClick={() => unlocked && openLesson(lesson)}
-                                    role={unlocked ? 'button' : undefined}
-                                >
-                                    <div className={styles.lessonListNum}>
-                                        {done ? '✓' : !unlocked ? <LockIcon size={12} /> : lesson.id}
-                                    </div>
-                                    <div className={styles.lessonListBody}>
-                                        <div className={styles.lessonListTitle}>{lesson.title}</div>
-                                        <div className={styles.lessonListMeta}>
-                                            {lesson.duration} · {lesson.difficulty}
-                                        </div>
-                                    </div>
-                                    {active && <span className={styles.lessonListCta}>Start →</span>}
-                                    {done && <span className={styles.lessonListDoneBadge}>Done</span>}
-                                    {!unlocked && <span className={styles.lessonListLockText}>Locked</span>}
-                                </div>
-                            );
-                        })}
-
-                        {/* Final quiz row */}
-                        <div
-                            className={`${styles.lessonListItem} ${styles.quizListItem} ${quizPassed ? styles.lessonListDone : ''} ${!quizReady ? styles.lessonListLocked : ''}`}
-                            onClick={() => quizReady && setView('quiz')}
-                            role={quizReady ? 'button' : undefined}
-                        >
-                            <div className={styles.lessonListNum}>📝</div>
-                            <div className={styles.lessonListBody}>
-                                <div className={styles.lessonListTitle}>Final Quiz — 10 Questions</div>
-                                <div className={styles.lessonListMeta}>
-                                    {quizPassed
-                                        ? `Passed · Best score ${cp.quizBestScore}%`
-                                        : quizReady
-                                            ? `Need ${QUIZ_PASS_PCT}% to pass · Unlimited retries`
-                                            : 'Complete all 5 lessons first'}
-                                </div>
-                            </div>
-                            {quizReady && !quizPassed && <span className={styles.lessonListCta}>Take Quiz →</span>}
-                            {quizPassed && <span className={styles.lessonListDoneBadge}>Passed ✓</span>}
-                            {!quizReady && <span className={styles.lessonListLockText}>🔒 Locked</span>}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // ── Course catalog (main view) ────────────────────────────────────────
     return (
         <div className={styles.learnWrap}>
             <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
-            {dashNav}
+            <DashNav
+                onLogout={() => router.push('/')}
+                previewMode={!authenticated}
+                onExitPreview={
+                    isGuest
+                        ? () => {
+                              clearGuestMode();
+                              router.push('/');
+                          }
+                        : undefined
+                }
+            />
 
             <div className={styles.content}>
-                <motion.div className={styles.academyHeader} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>
-                    <div className={styles.academyEyebrow}>THE ACADEMY</div>
-                    <h1 className={styles.academyTitle}>Master the Markets</h1>
-                    <p className={styles.academySubtitle}>
-                        {COURSE_CATALOG.length} courses · {TOTAL_LESSONS} lessons · Pass each quiz to unlock the next
-                    </p>
+
+                {/* ── Hero header ── */}
+                <motion.div
+                    className={styles.learnHero}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                >
+                    <div className={styles.heroLeft}>
+                        <div className={styles.heroEyebrow}>
+                            <span className={styles.eyebrowDot} />
+                            Learning Academy
+                        </div>
+                        <h1 className={styles.heroTitle}>Academy — Master the Markets</h1>
+                        <p className={styles.heroSub}>
+                            {LEVELS.length} courses · {TOTAL_LESSONS} lessons · Quizzes included
+                        </p>
+                    </div>
+                    <div className={styles.heroStats}>
+                        <div className={styles.heroStat}>
+                            <strong>{totalCompleted}</strong>
+                            <span>Completed</span>
+                        </div>
+                        <div className={styles.heroStat}>
+                            <strong>{TOTAL_LESSONS - totalCompleted}</strong>
+                            <span>Remaining</span>
+                        </div>
+                        <div className={styles.heroStat}>
+                            <strong>{TOTAL_LESSONS > 0 ? Math.round((totalCompleted / TOTAL_LESSONS) * 100) : 0}%</strong>
+                            <span>Progress</span>
+                        </div>
+                    </div>
                 </motion.div>
 
-                {/* Progress stats */}
-                <div className={styles.progressRow}>
-                    <div className={styles.progressCardAccent}>
-                        <div className={styles.progressCardLabel} style={{ color: '#4C8DFF' }}>Trader Score</div>
-                        <div className={styles.progressBigNum}>{traderScore}</div>
-                        <div className={styles.progressBarTrack}>
-                            <div className={styles.progressBarFill} style={{ width: `${traderScore / 10}%`, background: '#4C8DFF' }} />
-                        </div>
-                    </div>
-                    <div className={styles.progressCardWhite}>
-                        <div className={styles.progressCardLabel}>XP</div>
-                        <div className={styles.progressBigNum} style={{ fontSize: 26 }}>{totalXP}</div>
-                        <div className={styles.progressCardSub}>{nextRank ? `${xpToNext} XP to ${nextRank.name}` : 'Max rank!'}</div>
-                    </div>
-                    <div className={styles.progressCardWhite}>
-                        <div className={styles.progressCardLabel}>Coins</div>
-                        <div className={styles.progressBigNum} style={{ fontSize: 26 }}>🪙 {totalCoins}</div>
-                    </div>
-                    <div className={styles.progressCardWhite}>
-                        <div className={styles.progressCardLabel}>Streak</div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 }}>
-                            <div className={styles.flameIcon} />
-                            <div className={styles.progressBigNum} style={{ fontSize: 26 }}>{streak}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={styles.progressRow} style={{ marginTop: -12 }}>
-                    <div className={styles.progressCardWhite} style={{ gridColumn: '1 / -1' }}>
-                        <div className={styles.progressCardLabel}>Current Rank</div>
-                        <div className={styles.progressRankName}>{currentRank.emoji} {currentRank.name}</div>
-                        <div className={styles.rankLadder}>
-                            {RANKS.map(r => (
-                                <span key={r.name} className={styles.rankPip} style={{ opacity: currentRank.name === r.name ? 1 : 0.35 }}>
-                                    {r.emoji} {r.name}
-                                </span>
-                            ))}
-                        </div>
-                        {badges.length > 0 && (
-                            <div className={styles.badgesRow}>
-                                {badges.map(b => (
-                                    <span key={b} className={styles.badgeChip}>🏅 {b}</span>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Course cards */}
-                <div className={styles.courseGrid}>
-                    {COURSE_CATALOG.map((course, i) => {
-                        const unlocked = isCourseUnlocked(course.id, courses);
-                        const pct = getCourseProgressPct(course.id, courses);
-                        const cp = getCourseProgress(courses, course.id);
-                        const prevCourse = course.prerequisite ? getCourseById(course.prerequisite) : null;
-
+                {/* ── Level Tabs ── */}
+                <div className={styles.levelTabs}>
+                    {LEVELS.map(l => {
+                        const done = l.units.filter(u => progress[`${l.id}-${u.id}`]?.completed).length;
                         return (
-                            <motion.div
-                                key={course.id}
-                                className={`${styles.courseCard} ${!unlocked ? styles.courseCardLocked : ''} ${cp.quizPassed ? styles.courseCardComplete : ''}`}
-                                initial={{ opacity: 0, y: 16 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.06 }}
-                                onClick={() => unlocked && openCourse(course)}
-                                role={unlocked ? 'button' : undefined}
+                            <button
+                                key={l.id}
+                                className={`${styles.levelTab} ${activeLevel === l.id ? styles.activeTab : ''}`}
+                                onClick={() => { setActiveLevel(l.id); setActiveUnit(null); setShowQuiz(false); }}
+                                style={activeLevel === l.id ? { borderColor: l.color, color: l.color } : {}}
                             >
-                                <div className={styles.courseCardTop} style={{ background: unlocked ? `linear-gradient(135deg, ${course.color}18, #F4F6FC)` : 'linear-gradient(135deg,#EDEFF6,#F4F6FC)' }}>
-                                    <span className={styles.courseCardEmoji}>{unlocked ? course.emoji : '🔒'}</span>
-                                    {cp.quizPassed && <span className={styles.courseCardCompleteBadge}>✓ Complete</span>}
-                                </div>
-                                <div className={styles.courseCardBody}>
-                                    <div className={styles.courseCardDifficulty} style={{ color: unlocked ? course.color : '#a7acc9' }}>
-                                        {course.difficulty}
-                                    </div>
-                                    <h3 className={styles.courseCardTitle} style={{ color: unlocked ? '#20264D' : '#a7acc9' }}>
-                                        {course.title}
-                                    </h3>
-                                    <p className={styles.courseCardDesc}>{course.description.substring(0, 100)}…</p>
-
-                                    <div className={styles.courseCardStats}>
-                                        <span>📚 5 lessons</span>
-                                        <span>⏱ {course.estimatedMinutes} min</span>
-                                    </div>
-                                    <div className={styles.courseCardRewards}>
-                                        <span>+{course.xpReward} XP</span>
-                                        <span>🪙 {course.coinReward}</span>
-                                        <span>{course.badgeEmoji} {course.badgeName}</span>
-                                    </div>
-
-                                    {unlocked ? (
-                                        <>
-                                            <div className={styles.courseCardProgressTrack}>
-                                                <div className={styles.courseCardProgressFill} style={{ width: `${pct}%`, background: course.color }} />
-                                            </div>
-                                            <div className={styles.courseCardProgressLabel}>{pct}% complete</div>
-                                        </>
-                                    ) : (
-                                        <div className={styles.courseCardLockedMsg}>
-                                            <LockIcon size={12} />
-                                            Complete {prevCourse?.title ?? 'previous course'} to unlock
-                                        </div>
-                                    )}
-                                </div>
-                            </motion.div>
+                                <span>{l.emoji}</span>
+                                <span>{l.name}</span>
+                                <span
+                                    className={styles.tabCount}
+                                    style={activeLevel === l.id ? { background: l.color + '22', color: l.color } : {}}
+                                >
+                                    {done}/{l.units.length}
+                                </span>
+                            </button>
                         );
                     })}
                 </div>
-            </div>
 
-            {/* Completion modal */}
-            <AnimatePresence>
-                {completionModal && (
-                    <motion.div
-                        className={styles.completionOverlay}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setCompletionModal(null)}
-                    >
-                        <motion.div
-                            className={styles.completionModal}
-                            initial={{ scale: 0.85, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.9, opacity: 0 }}
-                            onClick={e => e.stopPropagation()}
-                        >
-                            <div className={styles.completionEmoji}>🎉</div>
-                            <h2 className={styles.completionTitle}>Course Complete!</h2>
-                            <p className={styles.completionSub}>
-                                You passed <strong>{completionModal.course.title}</strong> with {completionModal.scorePct}%
-                            </p>
-                            <div className={styles.completionRewards}>
-                                <div className={styles.completionReward}>+{XP_QUIZ_BONUS} XP</div>
-                                <div className={styles.completionReward}>🪙 +{COINS_QUIZ_BONUS} coins</div>
-                                <div className={styles.completionReward}>
-                                    {completionModal.course.badgeEmoji} {completionModal.course.badgeName}
-                                </div>
+                {/* ── Level progress bar ── */}
+                {!activeUnit && (
+                    <div className={styles.progressCard}>
+                        <div className={styles.progressInfo}>
+                            <div className={styles.progressLeft}>
+                                <span className={styles.levelBadge} style={{ background: level.color + '18', color: level.color, border: `1px solid ${level.color}33` }}>
+                                    {level.emoji} {level.name}
+                                </span>
+                                <span className={styles.progressText}>{completedCount}/{level.units.length} lessons completed</span>
                             </div>
-                            <p className={styles.completionUnlock}>
-                                {COURSE_CATALOG.findIndex(c => c.id === completionModal.course.id) < COURSE_CATALOG.length - 1
-                                    ? '🔓 Next course unlocked!'
-                                    : '🏆 You completed the entire Academy!'}
-                            </p>
-                            <button type="button" className={styles.completionBtn} onClick={() => setCompletionModal(null)}>
-                                Continue
-                            </button>
-                        </motion.div>
-                    </motion.div>
+                            <span className={styles.quizText}>{quizzesPassed}/{level.units.length} quizzes passed</span>
+                        </div>
+                        <div className={styles.progressBar}>
+                            <div
+                                className={styles.progressFill}
+                                style={{ width: `${(completedCount / level.units.length) * 100}%`, background: level.color }}
+                            />
+                        </div>
+                    </div>
                 )}
-            </AnimatePresence>
+
+                {/* ── Unit viewer or course grid ── */}
+                {activeUnit ? (
+                    <div className={styles.unitViewer}>
+                        <div className={styles.viewerHeader}>
+                            <button className={styles.backBtn} onClick={() => { setActiveUnit(null); setShowQuiz(false); }}>
+                                ← Back to {activeUnitLevelObj.name}
+                            </button>
+                            <div className={styles.viewerMeta}>
+                                <span className={styles.levelBadge} style={{ background: activeUnitLevelObj.color + '18', color: activeUnitLevelObj.color, border: `1px solid ${activeUnitLevelObj.color}33` }}>
+                                    {activeUnitLevelObj.emoji} {activeUnitLevelObj.name}
+                                </span>
+                                {activeUnit.duration && (
+                                    <span className={styles.viewerDuration}>⏱ {activeUnit.duration}</span>
+                                )}
+                            </div>
+                        </div>
+
+                        {!showQuiz ? (
+                            <>
+                                <div className={styles.viewerIconRow}>
+                                    <span className={styles.viewerIcon}>{activeUnit.icon ?? activeUnitLevelObj.emoji}</span>
+                                    {activeUnit.topics && (
+                                        <div className={styles.topicTags}>
+                                            {activeUnit.topics.map(t => (
+                                                <span key={t} className={styles.topicTag}>{t}</span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                                <LessonHeader
+                                    title={activeUnit.title}
+                                    quizAvailable={activeUnit.quiz.length > 0}
+                                    onTakeQuiz={startQuiz}
+                                />
+                                <LessonTabs
+                                    active={lessonTab}
+                                    onChange={handleLessonTabChange}
+                                    accentColor={activeUnitLevelObj.color}
+                                />
+                                <LessonContentWrapper>
+                                    {lessonTab === 'concepts' && (
+                                        <ConceptsTab>
+                                            <LessonRenderer
+                                                content={activeUnit.content}
+                                                unitId={activeUnit.id}
+                                                levelId={activeUnitLevel}
+                                                accentColor={activeUnitLevelObj.color}
+                                                onTakeQuiz={activeUnit.quiz.length > 0 ? startQuiz : undefined}
+                                            />
+                                        </ConceptsTab>
+                                    )}
+                                    {lessonTab === 'video' && (
+                                        <VideoTab lessonTitle={activeUnit.title} />
+                                    )}
+                                </LessonContentWrapper>
+                            </>
+                        ) : (
+                            <div className={styles.quizSection}>
+                                <h2>Quiz: {activeUnit.title}</h2>
+                                {activeUnit.quiz.map((q, qi) => (
+                                    <div key={qi} className={styles.quizQuestion}>
+                                        <p className={styles.questionText}>{qi + 1}. {q.question}</p>
+                                        <div className={styles.options}>
+                                            {q.options.map((opt, oi) => (
+                                                <label key={oi} className={`${styles.option} ${quizAnswers[qi] === oi ? styles.optionSelected : ''}`}>
+                                                    <input
+                                                        type="radio"
+                                                        name={`q${qi}`}
+                                                        checked={quizAnswers[qi] === oi}
+                                                        onChange={() => setQuizAnswers(prev => ({ ...prev, [qi]: oi }))}
+                                                    />
+                                                    {opt}
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                                <button
+                                    className={styles.submitQuizBtn}
+                                    onClick={submitQuiz}
+                                    disabled={Object.keys(quizAnswers).length < activeUnit.quiz.length}
+                                >
+                                    Submit Answers
+                                </button>
+                                {quizResult && (
+                                    <div className={`${styles.quizResultCard} ${quizResult.passed ? styles.quizPassed : styles.quizFailed}`}>
+                                        <h3>{quizResult.passed ? '🎉 Passed!' : 'Try Again'}</h3>
+                                        <p>Score: {quizResult.score}/{quizResult.total}</p>
+                                        {!quizResult.passed && (
+                                            <button className={styles.retryBtn} onClick={startQuiz}>Retry Quiz</button>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className={styles.unitGrid}>
+                        {level.units.map((unit, idx) => {
+                            const key = `${activeLevel}-${unit.id}`;
+                            const p = progress[key];
+                            const progressPct = p?.completed ? 100 : 0;
+                            return (
+                                <div
+                                    key={unit.id}
+                                    className={`${styles.courseCard} ${p?.completed ? styles.courseCardDone : ''}`}
+                                    onClick={() => openUnit(unit, activeLevel)}
+                                >
+                                    {/* Illustration area */}
+                                    <CardIllustration level={level} unit={unit} />
+
+                                    {/* Card body */}
+                                    <div className={styles.cardBody}>
+                                        <div className={styles.cardMetaRow}>
+                                            <span
+                                                className={styles.levelBadge}
+                                                style={{
+                                                    background: level.color + '18',
+                                                    color: level.color,
+                                                    border: `1px solid ${level.color}33`,
+                                                }}
+                                            >
+                                                {level.name}
+                                            </span>
+                                            <span className={styles.cardDuration}>
+                                                {unit.duration ?? '~8 min'}
+                                            </span>
+                                        </div>
+
+                                        <div className={styles.cardLessonNum}>
+                                            Lesson {idx + 1} of {level.units.length}
+                                        </div>
+
+                                        <h4 className={styles.cardTitle}>{unit.title}</h4>
+
+                                        <p className={styles.cardPreview}>
+                                            {unit.content.replace(/\*\*/g, '').substring(0, 88).trimEnd()}…
+                                        </p>
+
+                                        {unit.topics && (
+                                            <div className={styles.cardTopics}>
+                                                {unit.topics.slice(0, 3).map(t => (
+                                                    <span key={t} className={styles.cardTopicTag}>{t}</span>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        <div className={styles.cardFooter}>
+                                            {p?.completed ? (
+                                                <span className={styles.badgeDone}>✓ Completed</span>
+                                            ) : (
+                                                <span className={styles.cardCta}>
+                                                    {p ? 'Continue' : 'Start lesson'} →
+                                                </span>
+                                            )}
+                                            {p?.quizPassed && (
+                                                <span className={styles.badgeQuiz}>Quiz ✓</span>
+                                            )}
+                                        </div>
+
+                                        {/* Progress bar at bottom */}
+                                        {progressPct > 0 && (
+                                            <div className={styles.cardProgressBar}>
+                                                <div
+                                                    className={styles.cardProgressFill}
+                                                    style={{ width: `${progressPct}%`, background: level.color }}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
