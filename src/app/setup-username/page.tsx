@@ -11,7 +11,7 @@ export default function SetupUsernamePage() {
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('');
     const [avatarColor, setAvatarColor] = useState('blue');
-    const [unStatus, setUnStatus] = useState<'idle' | 'checking' | 'available' | 'taken' | 'invalid'>('idle');
+    const [unStatus, setUnStatus] = useState<'idle' | 'checking' | 'available' | 'taken' | 'invalid' | 'error'>('idle');
     const [unError, setUnError] = useState('');
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
@@ -63,13 +63,24 @@ export default function SetupUsernamePage() {
         setUnStatus('checking');
         setUnError('');
         debounceRef.current = setTimeout(async () => {
-            const res = await fetch(`/api/auth/check-username?username=${encodeURIComponent(val)}`);
-            const data = await res.json();
-            if (!data.available) {
-                setUnStatus(data.restricted ? 'invalid' : 'taken');
-                setUnError(data.restricted ? (data.error ?? 'Choose a different username') : `"${val}" is already taken`);
-            } else {
-                setUnStatus('available');
+            try {
+                const res = await fetch(`/api/auth/check-username?username=${encodeURIComponent(val)}`);
+                const data = await res.json();
+                if (!res.ok || data.checkFailed) {
+                    setUnStatus('error');
+                    setUnError(data.error ?? 'Could not verify username. Try again.');
+                    return;
+                }
+                if (!data.available) {
+                    setUnStatus(data.restricted ? 'invalid' : 'taken');
+                    setUnError(data.restricted ? (data.error ?? 'Choose a different username') : `"${val}" is already taken`);
+                } else {
+                    setUnStatus('available');
+                    setUnError('');
+                }
+            } catch {
+                setUnStatus('error');
+                setUnError('Could not verify username. Try again.');
             }
         }, 500);
     };
@@ -122,6 +133,7 @@ export default function SetupUsernamePage() {
 
     const unBorderColor = unStatus === 'available' ? 'rgba(74,222,128,0.5)'
         : unStatus === 'taken' || unStatus === 'invalid' ? 'rgba(248,113,113,0.5)'
+        : unStatus === 'error' ? 'rgba(251,191,36,0.5)'
         : 'var(--vt-border)';
 
     return (
@@ -155,6 +167,7 @@ export default function SetupUsernamePage() {
                                 {unStatus === 'checking' && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#fbbf24', display: 'inline-block', animation: 'spin 0.8s linear infinite' }} /><span style={{ fontSize: 12, color: 'var(--vt-text2)' }}>Checking availability…</span></>}
                                 {unStatus === 'available' && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#4ade80', display: 'inline-block' }} /><span style={{ fontSize: 12, color: '#4ade80' }}>&quot;{username}&quot; is available</span></>}
                                 {(unStatus === 'taken' || unStatus === 'invalid') && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#f87171', display: 'inline-block' }} /><span style={{ fontSize: 12, color: '#f87171' }}>{unError}</span></>}
+                                {unStatus === 'error' && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#fbbf24', display: 'inline-block' }} /><span style={{ fontSize: 12, color: '#d97706' }}>{unError}</span></>}
                             </div>
                         </div>
                         <button

@@ -1,17 +1,35 @@
 import { NextResponse } from 'next/server';
-import { getUserById } from '@/lib/models';
 import { getSession } from '@/lib/session';
+import { getUserById, updateUserProfile } from '@/lib/models';
+import { STARTING_CASH } from '@/lib/stocks';
+import { shouldUseLocalAuth } from '@/lib/authMode';
+import { checkLocalPassword } from '@/lib/localStore';
 import { supabase, createAuthedClient } from '@/lib/supabaseClient';
 import { isEmailUsername } from '@/lib/avatarColors';
-
-const STARTING_CASH = 100_000;
 
 export async function POST(request: Request) {
     try {
         const { username, password } = await request.json();
 
         if (!username?.trim() || !password) {
-            return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
+            return NextResponse.json({ error: 'Email/username and password required' }, { status: 400 });
+        }
+
+        if (shouldUseLocalAuth()) {
+            const user = checkLocalPassword(username.trim(), password);
+            if (!user) {
+                return NextResponse.json({ error: 'Invalid username or password' }, { status: 401 });
+            }
+
+            const session = await getSession();
+            session.userId = user.id;
+            await session.save();
+
+            return NextResponse.json({
+                success: true,
+                user: { id: user.id, username: user.username },
+                needsUsername: isEmailUsername(user.username),
+            });
         }
 
         const email = username.trim().toLowerCase();
@@ -21,8 +39,7 @@ export async function POST(request: Request) {
         if (error || !data.user) {
             console.error('signInWithPassword error:', error);
             const message =
-                (error as any)?.message ||
-                (Array.isArray((error as any)?.reasons) && (error as any).reasons[0]?.message) ||
+                (error as { message?: string })?.message ||
                 'Invalid email or password';
             return NextResponse.json({ error: message }, { status: 401 });
         }
@@ -30,8 +47,6 @@ export async function POST(request: Request) {
         let user = await getUserById(data.user.id);
 
         if (!user) {
-            // Self-heal: use the username stored in auth metadata at registration time.
-            // Fall back to email only if metadata is missing (very old accounts).
             const authedClient = createAuthedClient(data.session!.access_token);
             const metaUsername = (data.user.user_metadata?.username as string | undefined) || email;
 

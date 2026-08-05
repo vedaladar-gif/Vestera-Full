@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
-import { supabase } from '@/lib/supabaseClient';
+import { updateUserProfile } from '@/lib/models';
 import { AVATAR_COLOR_KEYS, isEmailUsername } from '@/lib/avatarColors';
+import { findProfileIdByUsername, normalizeStoredUsername } from '@/lib/usernameAvailability';
 import { validateUsername } from '@/utils/usernameValidation';
 
 export async function POST(request: Request) {
@@ -13,27 +14,29 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { username, display_name, avatar_color, theme } = body;
 
-    const update: Record<string, string | null> = {};
+    const update: Partial<{
+        username: string;
+        display_name: string | null;
+        avatar_color: string;
+        theme: string;
+    }> = {};
 
     if (username !== undefined) {
-        const clean = username.trim().toLowerCase();
+        const clean = normalizeStoredUsername(username);
 
-        // Full validation: format + content moderation
         const usernameCheck = validateUsername(username.trim());
         if (!usernameCheck.valid) {
             return NextResponse.json({ error: usernameCheck.error }, { status: 400 });
         }
 
-        // Check uniqueness (excluding current user)
-        const { data: existing } = await supabase
-            .from('profiles')
-            .select('id')
-            .ilike('username', clean)
-            .neq('id', session.userId)
-            .maybeSingle();
-
-        if (existing) {
-            return NextResponse.json({ error: 'That username is already taken.' }, { status: 409 });
+        try {
+            const existing = await findProfileIdByUsername(clean, session.userId);
+            if (existing) {
+                return NextResponse.json({ error: 'That username is already taken.' }, { status: 409 });
+            }
+        } catch (lookupError) {
+            console.error('profile update username lookup error:', lookupError);
+            return NextResponse.json({ error: 'Could not verify username. Please try again.' }, { status: 503 });
         }
         update.username = clean;
     }
@@ -60,20 +63,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true });
     }
 
-    const { error } = await supabase
-        .from('profiles')
-        .update(update)
-        .eq('id', session.userId);
-
-    if (error) {
-        if (error.code === '23505') {
-            return NextResponse.json({ error: 'That username is already taken.' }, { status: 409 });
-        }
-        console.error('profile update error:', error);
+    const ok = await updateUserProfile(session.userId, update);
+    if (!ok) {
         return NextResponse.json({ error: 'Update failed' }, { status: 500 });
     }
 
-    // Return needsUsername status after update
     const newUsername = update.username ?? undefined;
     return NextResponse.json({ success: true, needsUsername: newUsername ? isEmailUsername(newUsername) : false });
 }

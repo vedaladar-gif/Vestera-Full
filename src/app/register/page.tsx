@@ -25,7 +25,7 @@ const DIVIDER: React.CSSProperties = {
     textTransform: 'uppercase', letterSpacing: '0.5px',
 };
 
-type UnStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid';
+type UnStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid' | 'error';
 
 export default function RegisterPage() {
     const [email, setEmail]       = useState('');
@@ -45,12 +45,25 @@ export default function RegisterPage() {
         if (!check.valid) { setUnStatus('invalid'); setUnError(check.error ?? 'Choose a different username'); return; }
         setUnStatus('checking'); setUnError('');
         debounceRef.current = setTimeout(async () => {
-            const res = await fetch(`/api/auth/check-username?username=${encodeURIComponent(val)}`);
-            const data = await res.json();
-            if (!data.available) {
-                setUnStatus(data.restricted ? 'invalid' : 'taken');
-                setUnError(data.restricted ? (data.error ?? 'Choose a different username') : `"${val}" is already taken`);
-            } else { setUnStatus('available'); }
+            try {
+                const res = await fetch(`/api/auth/check-username?username=${encodeURIComponent(val)}`);
+                const data = await res.json();
+                if (!res.ok || data.checkFailed) {
+                    setUnStatus('error');
+                    setUnError(data.error ?? 'Could not verify username. Try again.');
+                    return;
+                }
+                if (!data.available) {
+                    setUnStatus(data.restricted ? 'invalid' : 'taken');
+                    setUnError(data.restricted ? (data.error ?? 'Choose a different username') : `"${val}" is already taken`);
+                } else {
+                    setUnStatus('available');
+                    setUnError('');
+                }
+            } catch {
+                setUnStatus('error');
+                setUnError('Could not verify username. Try again.');
+            }
         }, 500);
     };
 
@@ -69,8 +82,6 @@ export default function RegisterPage() {
             });
             const data = await res.json();
             if (data.success) {
-                // Arm the first-run tour now, at account creation. It stays queued
-                // until the new user lands on the homepage (after their first sign-in).
                 startTour();
                 const q = new URLSearchParams({ registered: '1' });
                 if (data.emailConfirmationRequired) q.set('pending', '1');
@@ -84,6 +95,7 @@ export default function RegisterPage() {
 
     const unBorder = unStatus === 'available' ? 'rgba(34,197,94,0.5)'
         : (unStatus === 'taken' || unStatus === 'invalid') ? 'rgba(239,68,68,0.5)'
+        : unStatus === 'error' ? 'rgba(245,158,11,0.5)'
         : '#E8ECF3';
 
     const focusIn = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -205,6 +217,7 @@ export default function RegisterPage() {
                                 {unStatus === 'checking' && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#F59E0B', display: 'inline-block', animation: 'spin 0.8s linear infinite', flexShrink: 0 }} /><span style={{ fontSize: 12, color: '#6B7280' }}>Checking…</span></>}
                                 {unStatus === 'available' && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22C55E', display: 'inline-block', flexShrink: 0 }} /><span style={{ fontSize: 12, color: '#16A34A', fontWeight: 600 }}>&quot;{username}&quot; is available</span></>}
                                 {(unStatus === 'taken' || unStatus === 'invalid') && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#EF4444', display: 'inline-block', flexShrink: 0 }} /><span style={{ fontSize: 12, color: '#DC2626', fontWeight: 600 }}>{unError}</span></>}
+                                {unStatus === 'error' && <><span style={{ width: 7, height: 7, borderRadius: '50%', background: '#F59E0B', display: 'inline-block', flexShrink: 0 }} /><span style={{ fontSize: 12, color: '#B45309', fontWeight: 600 }}>{unError}</span></>}
                             </div>
                         </div>
 

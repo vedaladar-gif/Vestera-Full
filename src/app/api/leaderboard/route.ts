@@ -13,6 +13,8 @@ import { isEmailUsername } from '@/lib/avatarColors';
 import { isDemo } from '@/lib/demoStore';
 import { getUserById } from '@/lib/models';
 import { computeUserPortfolioSnapshot } from '@/lib/userPortfolioSnapshot';
+import { shouldUseLocalAuth } from '@/lib/authMode';
+import { listLocalUsersForLeaderboard } from '@/lib/localStore';
 
 // Practice bots shown on the leaderboard during the demo/tutorial. They always
 // rank below the demo user so the tutorial can show "you're #1".
@@ -74,6 +76,47 @@ export async function GET(request: Request) {
         return NextResponse.json({ leaderboard: [me, ...bots] });
     }
 
+    if (shouldUseLocalAuth()) {
+        const eligible = listLocalUsersForLeaderboard().filter(u => u.username && !isEmailUsername(u.username));
+        if (eligible.length === 0) {
+            return NextResponse.json({ leaderboard: [] });
+        }
+
+        const ids = eligible.map(u => u.id);
+        const tradeRows = await getPortfolioRowsForUsers(ids);
+        const byUser = new Map<string, typeof tradeRows>();
+        for (const r of tradeRows) {
+            if (!byUser.has(r.user_id)) byUser.set(r.user_id, []);
+            byUser.get(r.user_id)!.push(r);
+        }
+
+        const symbols = new Set<string>();
+        for (const r of tradeRows) symbols.add(r.stock);
+
+        const priceCache = new Map<string, number>();
+        await Promise.all(
+            [...symbols].map(async sym => {
+                const px = await getCurrentPrice(sym);
+                priceCache.set(sym, px);
+            }),
+        );
+
+        const scored = await scoreProfiles(
+            eligible.map(u => ({
+                id: u.id,
+                username: u.username,
+                display_name: u.display_name,
+                avatar_color: u.avatar_color,
+                cash: u.cash,
+            })),
+            byUser,
+            priceCache,
+            session.userId,
+        );
+
+        return NextResponse.json({ leaderboard: buildLeaderboardResponse(scored, session.userId) });
+    }
+
     const { data: profiles, error } = await supabase
         .from('profiles')
         .select('id, username, display_name, avatar_color, cash')
@@ -111,23 +154,53 @@ export async function GET(request: Request) {
         })
     );
 
-    type Scored = {
-        id: string;
-        username: string;
-        displayName: string | null;
-        avatarColor: string;
-        cash: number;
-        holdingsValue: number;
-        totalValue: number;
-        pl: number;
-        pct: number;
-        isCurrentUser: boolean;
-    };
+    const scored: Scored[] = await scoreProfiles(
+        eligible.map(p => ({
+            id: p.id as string,
+            username: p.username as string,
+            display_name: (p.display_name as string | null) ?? null,
+            avatar_color: (p.avatar_color as string) || 'blue',
+            cash: Number(p.cash) || 0,
+        })),
+        byUser,
+        priceCache,
+        session.userId,
+    );
 
+    return NextResponse.json({ leaderboard: buildLeaderboardResponse(scored, session.userId) });
+}
+
+type ProfileLite = {
+    id: string;
+    username: string;
+    display_name: string | null;
+    avatar_color: string;
+    cash: number;
+};
+
+type Scored = {
+    id: string;
+    username: string;
+    displayName: string | null;
+    avatarColor: string;
+    cash: number;
+    holdingsValue: number;
+    totalValue: number;
+    pl: number;
+    pct: number;
+    isCurrentUser: boolean;
+};
+
+async function scoreProfiles(
+    profiles: ProfileLite[],
+    byUser: Map<string, Awaited<ReturnType<typeof getPortfolioRowsForUsers>>>,
+    priceCache: Map<string, number>,
+    currentUserId: string,
+): Promise<Scored[]> {
     const scored: Scored[] = [];
 
-    for (const p of eligible) {
-        const uid = p.id as string;
+    for (const p of profiles) {
+        const uid = p.id;
         const cash = Number(p.cash) || 0;
         const rows = (byUser.get(uid) || []).slice();
         rows.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
@@ -138,7 +211,7 @@ export async function GET(request: Request) {
                 shares: r.shares,
                 price: Number(r.price) || 0,
                 action: r.action,
-            }))
+            })),
         );
 
         let holdingsValue = 0;
@@ -154,20 +227,23 @@ export async function GET(request: Request) {
 
         scored.push({
             id: uid,
-            username: p.username as string,
-            displayName: (p.display_name as string | null) ?? null,
-            avatarColor: (p.avatar_color as string) || 'blue',
+            username: p.username,
+            displayName: p.display_name,
+            avatarColor: p.avatar_color || 'blue',
             cash,
             holdingsValue,
             totalValue,
             pl,
             pct,
-            isCurrentUser: uid === session.userId,
+            isCurrentUser: uid === currentUserId,
         });
     }
 
     scored.sort((a, b) => b.totalValue - a.totalValue);
+    return scored;
+}
 
+function buildLeaderboardResponse(scored: Scored[], currentUserId: string) {
     const TOP = 100;
     const top = scored.slice(0, TOP);
     const rankedTop = top.map((row, index) => ({
@@ -183,13 +259,12 @@ export async function GET(request: Request) {
         isCurrentUser: row.isCurrentUser,
     }));
 
-    const meIndex = scored.findIndex(r => r.id === session.userId);
+    const meIndex = scored.findIndex(r => r.id === currentUserId);
     const me = meIndex >= 0 ? scored[meIndex]! : null;
     const inTop = rankedTop.some(r => r.isCurrentUser);
 
-    let leaderboard = rankedTop;
     if (me && !inTop) {
-        leaderboard = [
+        return [
             ...rankedTop,
             {
                 rank: meIndex + 1,
@@ -206,5 +281,5 @@ export async function GET(request: Request) {
         ];
     }
 
-    return NextResponse.json({ leaderboard });
+    return rankedTop;
 }

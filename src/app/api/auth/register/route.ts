@@ -1,41 +1,63 @@
 import { NextResponse } from 'next/server';
+import { getSession } from '@/lib/session';
 import { supabase, createAuthedClient } from '@/lib/supabaseClient';
+import { shouldUseLocalAuth } from '@/lib/authMode';
+import { createLocalUser } from '@/lib/localStore';
+import { findProfileIdByUsername, normalizeStoredUsername } from '@/lib/usernameAvailability';
 import { validateUsername } from '@/utils/usernameValidation';
-
-const STARTING_CASH = 100_000;
+import { STARTING_CASH } from '@/lib/stocks';
 
 export async function POST(request: Request) {
     try {
         const { username, email, password } = await request.json();
 
-        if (!email?.trim() || !password?.trim()) {
-            return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
+        if (!password?.trim()) {
+            return NextResponse.json({ error: 'Password is required' }, { status: 400 });
         }
         if (!username?.trim()) {
             return NextResponse.json({ error: 'Username is required' }, { status: 400 });
         }
 
-        const cleanEmail = email.trim().toLowerCase();
-        const cleanUsername = username.trim().toLowerCase();
+        const cleanUsername = normalizeStoredUsername(username);
 
-        // Validate username (format + content moderation)
         const usernameCheck = validateUsername(username.trim());
         if (!usernameCheck.valid) {
             return NextResponse.json({ error: usernameCheck.error }, { status: 400 });
         }
 
-        // Check username uniqueness before creating the auth user
-        const { data: existing } = await supabase
-            .from('profiles')
-            .select('id')
-            .ilike('username', cleanUsername)
-            .maybeSingle();
+        if (shouldUseLocalAuth()) {
+            const existing = await findProfileIdByUsername(cleanUsername);
+            if (existing) {
+                return NextResponse.json({ error: 'That username is already taken.' }, { status: 409 });
+            }
 
-        if (existing) {
+            const user = createLocalUser(cleanUsername, password.trim(), STARTING_CASH, email?.trim());
+            if (!user) {
+                return NextResponse.json({ error: 'That username is already taken.' }, { status: 409 });
+            }
+
+            const session = await getSession();
+            session.userId = user.id;
+            await session.save();
+
+            return NextResponse.json({
+                success: true,
+                emailConfirmationRequired: false,
+                signedIn: true,
+            });
+        }
+
+        if (!email?.trim()) {
+            return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+        }
+
+        const cleanEmail = email.trim().toLowerCase();
+
+        const remoteExisting = await findProfileIdByUsername(cleanUsername);
+        if (remoteExisting) {
             return NextResponse.json({ error: 'That username is already taken.' }, { status: 409 });
         }
 
-        // Create the Supabase auth user — store username in metadata for self-heal on first login
         const { data, error } = await supabase.auth.signUp({
             email: cleanEmail,
             password: password.trim(),
@@ -50,9 +72,6 @@ export async function POST(request: Request) {
             );
         }
 
-        // Create profile. Use authed client if we have a session (email-confirm disabled).
-        // If email-confirm is enabled we still attempt the insert; the login self-heal will
-        // pick up the correct username from auth metadata if this fails.
         const client = data.session?.access_token
             ? createAuthedClient(data.session.access_token)
             : supabase;
@@ -65,10 +84,19 @@ export async function POST(request: Request) {
             console.error('createProfile error during register:', profileError);
         }
 
-        // No session until email is confirmed (when Supabase email confirmation is on)
+        if (data.session) {
+            const session = await getSession();
+            session.userId = data.user.id;
+            await session.save();
+        }
+
         const emailConfirmationRequired = !data.session;
 
-        return NextResponse.json({ success: true, emailConfirmationRequired });
+        return NextResponse.json({
+            success: true,
+            emailConfirmationRequired,
+            signedIn: !!data.session,
+        });
     } catch (e) {
         console.error('Register error:', e);
         return NextResponse.json({ error: 'Registration failed' }, { status: 500 });

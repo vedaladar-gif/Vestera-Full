@@ -23,7 +23,7 @@ function initDb(db: Database.Database) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
-      cash REAL NOT NULL DEFAULT 10000,
+      cash REAL NOT NULL DEFAULT 100000,
       created_at TEXT
     )
   `);
@@ -53,4 +53,14 @@ function initDb(db: Database.Database) {
       FOREIGN KEY(user_id) REFERENCES users(id)
     )
   `);
+
+    for (const sql of [
+        'ALTER TABLE users ADD COLUMN email TEXT',
+        'ALTER TABLE users ADD COLUMN display_name TEXT',
+        'ALTER TABLE users ADD COLUMN avatar_color TEXT DEFAULT \'blue\'',
+        'ALTER TABLE users ADD COLUMN theme TEXT DEFAULT \'dark\'',
+        'ALTER TABLE users ADD COLUMN terms_accepted_at TEXT',
+    ]) {
+        try { db.exec(sql); } catch { /* column already exists */ }
+    }
 }
