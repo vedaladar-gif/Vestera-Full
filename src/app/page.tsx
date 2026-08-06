@@ -430,6 +430,7 @@ export default function Home() {
                         <Link href={authenticated ? '/trade' : '/register'}>Play</Link>
                         <Link href="/learn">Learn</Link>
                         <Link href="/stats">Rankings</Link>
+                        <Link href="/partners">Partners</Link>
                         <Link href="/privacy">Privacy</Link>
                         <Link href="/terms">Terms</Link>
                     </nav>

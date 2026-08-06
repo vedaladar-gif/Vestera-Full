@@ -14,6 +14,10 @@ export default function Footer() {
                     <Link href="/terms" className={styles.link}>
                         Terms of Service
                     </Link>
+                    {' · '}
+                    <Link href="/partners" className={styles.link}>
+                        Partners
+                    </Link>
                 </p>
             </div>
         </footer>
