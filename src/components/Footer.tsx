@@ -16,7 +16,11 @@ export default function Footer() {
                     </Link>
                     {' · '}
                     <Link href="/partners" className={styles.link}>
-                        Partners
+                        Partnerships
+                    </Link>
+                    {' · '}
+                    <Link href="/chapters" className={styles.link}>
+                        Start a Chapter
                     </Link>
                 </p>
             </div>

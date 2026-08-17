@@ -247,7 +247,7 @@ export default function PrivacyPage() {
                         <div>Vestera Support</div>
                         <div>
                             Email:{' '}
-                            <a href="mailto:synapseai.education@gmail.com">synapseai.education@gmail.com</a>
+                            <a href="mailto:vesteratrading@gmail.com">vesteratrading@gmail.com</a>
                         </div>
                         <div>
                             Website:{' '}

@@ -72,6 +72,8 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
         { href: previewMode ? '/restricted' : '/portfolio', label: 'Portfolio', activePath: '/portfolio', tour: 'nav-portfolio' },
         { href: previewMode ? '/restricted' : '/friends', label: 'Friends', activePath: '/friends', tour: 'nav-friends' },
         { href: '/learn', label: 'Academy', activePath: '/learn', tour: 'nav-academy' },
+        { href: '/partners', label: 'Partnerships', activePath: '/partners', tour: 'nav-partnerships' },
+        { href: '/chapters', label: 'Start a Chapter', activePath: '/chapters', tour: 'nav-chapters' },
     ];
 
     return (

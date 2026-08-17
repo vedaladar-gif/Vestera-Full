@@ -10,7 +10,7 @@ import { applyTheme as _applyTheme } from '@/components/ThemeProvider';
 import GuestGuard from '@/components/GuestGuard';
 import { startTour } from '@/lib/onboarding';
 
-type Tab = 'profile' | 'appearance' | 'account';
+type Tab = 'profile' | 'appearance' | 'account' | 'help';
 
 interface Profile {
     username: string;
@@ -54,6 +54,11 @@ function SettingsPage() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [savingPassword, setSavingPassword] = useState(false);
+
+    // Help tab
+    const [supportCode, setSupportCode] = useState('');
+    const [supportCodeError, setSupportCodeError] = useState('');
+    const [checkingSupportCode, setCheckingSupportCode] = useState(false);
 
     // Toast
     const [toastMsg, setToastMsg] = useState('');
@@ -178,7 +183,30 @@ function SettingsPage() {
         { id: 'profile',    label: 'Profile',    icon: '👤' },
         { id: 'appearance', label: 'Appearance', icon: '🎨' },
         { id: 'account',    label: 'Account',    icon: '🔒' },
+        { id: 'help',       label: 'Help',       icon: '❓' },
     ];
+
+    const handleSupportCodeSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setCheckingSupportCode(true);
+        setSupportCodeError('');
+        try {
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: supportCode }),
+            });
+            if (!res.ok) {
+                setSupportCodeError('That code isn\u2019t valid.');
+                return;
+            }
+            router.push('/admin');
+        } catch {
+            setSupportCodeError('Something went wrong. Try again.');
+        } finally {
+            setCheckingSupportCode(false);
+        }
+    };
 
     return (
         <div className={styles.wrap}>
@@ -377,6 +405,47 @@ function SettingsPage() {
                                         Deleting your account permanently removes your portfolio, trade history, and leaderboard position. This cannot be undone.
                                     </p>
                                     <button className={styles['btn-danger']}>Delete Account</button>
+                                </div>
+                            </>
+                        )}
+
+                        {/* ── HELP TAB ── */}
+                        {tab === 'help' && (
+                            <>
+                                <div className={styles.panel}>
+                                    <div className={styles['panel-title']}>Help &amp; Support</div>
+                                    <div className={styles['panel-sub']}>Questions about trading, your account, or the Academy? We&apos;re happy to help.</div>
+                                    <p style={{ fontSize: 13, color: 'var(--vt-text2)', lineHeight: 1.7 }}>
+                                        Reach out any time at{' '}
+                                        <a href="mailto:vesteratrading@gmail.com" style={{ color: 'var(--vt-vblue)', fontWeight: 700 }}>
+                                            vesteratrading@gmail.com
+                                        </a>{' '}
+                                        and we&apos;ll get back to you as soon as we can.
+                                    </p>
+                                </div>
+
+                                <div className={styles.panel}>
+                                    <div className={styles['panel-title']}>Have a support code?</div>
+                                    <div className={styles['panel-sub']}>If a Vestera team member gave you a code, enter it here.</div>
+                                    <form onSubmit={handleSupportCodeSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 280 }}>
+                                        <div className={styles.field} style={{ marginBottom: 0 }}>
+                                            <input
+                                                type="text"
+                                                inputMode="numeric"
+                                                value={supportCode}
+                                                onChange={e => { setSupportCode(e.target.value); setSupportCodeError(''); }}
+                                                placeholder="Enter code"
+                                                className={supportCodeError ? styles.invalid : undefined}
+                                            />
+                                            {supportCodeError && <span className={`${styles.hint} ${styles.err}`}>{supportCodeError}</span>}
+                                        </div>
+                                        <div className={styles['btn-row']}>
+                                            <button type="submit" className={styles['btn-primary']} disabled={checkingSupportCode || !supportCode.trim()}>
+                                                {checkingSupportCode && <Spinner />}
+                                                {checkingSupportCode ? 'Checking…' : 'Submit'}
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </>
                         )}

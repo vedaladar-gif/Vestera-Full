@@ -54,6 +54,18 @@ function initDb(db: Database.Database) {
     )
   `);
 
+    db.exec(`
+    CREATE TABLE IF NOT EXISTS inquiries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      type TEXT NOT NULL,
+      full_name TEXT NOT NULL,
+      organization TEXT,
+      email TEXT NOT NULL,
+      message TEXT,
+      created_at TEXT NOT NULL
+    )
+  `);
+
     for (const sql of [
         'ALTER TABLE users ADD COLUMN email TEXT',
         'ALTER TABLE users ADD COLUMN display_name TEXT',

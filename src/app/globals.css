@@ -717,14 +717,16 @@ input:focus, select:focus, textarea:focus {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 768px) {
+@media (max-width: 1180px) {
   .nav-float-shell { padding: 8px 12px 0; }
   .navbar { height: 52px; padding: 0 14px; border-radius: 16px; }
   .nav-links { display: none !important; }
   .nav-hamburger { display: flex; }
   .nav-mobile-overlay { display: block; }
-  .container { padding: 0 16px; margin: 20px auto; }
 }
 @media (max-width: 768px) {
+  .container { padding: 0 16px; margin: 20px auto; }
+}
+@media (max-width: 1180px) {
   .dashnav-links { display: none !important; }
 }
