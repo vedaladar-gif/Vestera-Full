@@ -1,0 +1,254 @@
+/* Shared styles for all AI Forecast presentational components. */
+
+.textGreen { color: #3CA787; font-weight: 700; }
+.textRed { color: #E0637A; font-weight: 700; }
+.textGreenLg { color: #3CA787; font-weight: 800; font-size: 15px; }
+.textRedLg { color: #E0637A; font-weight: 800; font-size: 15px; }
+
+.spinner {
+    width: 26px; height: 26px;
+    border: 2.5px solid rgba(76,141,255,0.15);
+    border-top-color: #4C8DFF;
+    border-radius: 50%;
+    animation: vtSpin 0.8s linear infinite;
+}
+@keyframes vtSpin { to { transform: rotate(360deg); } }
+
+/* ── Search ── */
+.searchBox { position: relative; width: 100%; max-width: 640px; margin: 0 auto; }
+.searchInputWrap {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border: 1.5px solid #E4E9F7; border-radius: 16px;
+    padding: 14px 18px; box-shadow: 0 8px 30px rgba(32,38,77,0.06);
+    transition: border-color 0.18s;
+}
+.searchInputWrap:focus-within { border-color: #4C8DFF; }
+.searchIcon { font-size: 16px; opacity: 0.6; }
+.searchInput {
+    flex: 1; border: none; outline: none; background: transparent;
+    font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600; color: #20264D;
+}
+.searchInput::placeholder { color: #8b90b0; font-weight: 500; }
+.searchSpinner {
+    width: 16px; height: 16px; border: 2px solid rgba(76,141,255,0.2); border-top-color: #4C8DFF;
+    border-radius: 50%; animation: vtSpin 0.7s linear infinite; flex-shrink: 0;
+}
+.searchDropdown {
+    position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+    background: #fff; border: 1px solid #E4E9F7; border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(32,38,77,0.14);
+    max-height: 360px; overflow-y: auto; z-index: 40; padding: 6px;
+}
+.searchDropdownLabel {
+    font-size: 11px; font-weight: 800; color: #8b90b0; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 8px 12px 4px;
+}
+.searchResultRow {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px; border: none; background: transparent; border-radius: 10px;
+    cursor: pointer; text-align: left; font-family: 'Nunito', sans-serif;
+    transition: background 0.15s;
+}
+.searchResultRow:hover { background: #F4F6FC; }
+.searchResultSymbol { font-weight: 800; color: #20264D; font-size: 14px; }
+.searchResultName { font-size: 12px; color: #8b90b0; font-weight: 600; margin-top: 1px; }
+.searchResultPrice { text-align: right; font-size: 13px; font-weight: 700; color: #20264D; }
+
+/* ── Stock Header ── */
+.headerCard {
+    background: #fff; border-radius: 20px; padding: 28px 28px 20px;
+    box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
+}
+.headerTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+.headerSymbolRow { display: flex; align-items: center; gap: 10px; }
+.headerSymbol {
+    font-family: 'Baloo 2', sans-serif; font-size: 30px; font-weight: 800; color: #20264D;
+    margin: 0; letter-spacing: -0.5px;
+}
+.statusPill {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+    border-radius: 100px; font-size: 12px; font-weight: 800;
+}
+.statusDot { width: 6px; height: 6px; border-radius: 50%; }
+.headerName { font-size: 14px; color: #5c628a; font-weight: 600; margin-top: 2px; }
+.headerPriceBlock { text-align: right; }
+.headerPrice { font-family: 'Baloo 2', sans-serif; font-size: 32px; font-weight: 800; color: #20264D; }
+.headerStatsGrid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 22px;
+    padding-top: 18px; border-top: 1px solid #EEF1FA;
+}
+.headerStat { min-width: 0; }
+.headerStatLabel { font-size: 11px; color: #8b90b0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+.headerStatValue { font-size: 14px; color: #20264D; font-weight: 800; margin-top: 3px; }
+.dataUpdatedRow { font-size: 12px; color: #8b90b0; font-weight: 600; margin-top: 16px; }
+
+@media (max-width: 900px) {
+    .headerStatsGrid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+    .headerStatsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Outlook card ── */
+.outlookCard {
+    background: #fff; border-radius: 20px; padding: 28px;
+    box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
+}
+.outlookLabel { font-size: 13px; font-weight: 800; color: #5c628a; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
+.aiTag {
+    font-size: 10px; font-weight: 700; color: #4C8DFF; background: rgba(76,141,255,0.1);
+    padding: 2px 8px; border-radius: 100px; text-transform: none; letter-spacing: 0;
+}
+.outlookCategory { font-family: 'Baloo 2', sans-serif; font-size: 34px; font-weight: 800; margin-top: 6px; letter-spacing: -0.5px; }
+.outlookScoreRow { display: flex; align-items: baseline; gap: 6px; margin-top: 6px; }
+.outlookScoreBig { font-family: 'Baloo 2', sans-serif; font-size: 26px; font-weight: 800; }
+.outlookScoreOutOf { font-size: 15px; color: #8b90b0; font-weight: 700; }
+.outlookBarTrack {
+    position: relative; height: 10px; background: #EEF1FA; border-radius: 100px; margin-top: 16px; overflow: hidden;
+}
+.outlookBarFill { height: 100%; border-radius: 100px; transition: width 0.4s ease; }
+.outlookBarMid { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 2px; background: #c7cce3; }
+.outlookBarLabels { display: flex; justify-content: space-between; font-size: 11px; color: #8b90b0; font-weight: 700; margin-top: 6px; }
+.outlookMetaRow { display: flex; gap: 40px; margin-top: 20px; }
+.outlookMetaLabel { font-size: 12px; color: #8b90b0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+.outlookMetaValue { font-size: 20px; color: #20264D; font-weight: 800; margin-top: 2px; font-family: 'Baloo 2', sans-serif; }
+
+/* ── Generic section card ── */
+.sectionCard {
+    background: #fff; border-radius: 20px; padding: 26px 28px;
+    box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
+}
+.sectionHeader { margin-bottom: 18px; }
+.sectionTitle { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; color: #20264D; margin: 0 0 4px; }
+.sectionSubtitle { font-size: 13px; color: #8b90b0; font-weight: 600; margin: 0; }
+
+/* ── Chart ── */
+.chartCard { background: #fff; border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px; }
+.chartHeader { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.chartTitle { font-family: 'Baloo 2', sans-serif; font-size: 18px; font-weight: 800; color: #20264D; }
+.chartRangeToggle { display: flex; gap: 2px; background: #F4F6FC; border-radius: 10px; padding: 3px; }
+.rangeBtn, .rangeBtnActive {
+    border: none; background: transparent; padding: 6px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 700; color: #8b90b0; cursor: pointer; font-family: 'Nunito', sans-serif;
+    transition: all 0.15s;
+}
+.rangeBtnActive { background: #fff; color: #20264D; box-shadow: 0 1px 4px rgba(32,38,77,0.1); }
+.chartLegend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #8b90b0; font-weight: 600; margin: 12px 0 4px; }
+.chartLegend span { display: inline-flex; align-items: center; gap: 6px; }
+.legendDotBlue, .legendDotOrange, .legendDotPurple { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.legendDotBlue { background: #4C8DFF; }
+.legendDotOrange { background: #f0a94a; }
+.legendDotPurple { background: #9b5de5; }
+.legendDotDashed { width: 12px; height: 0; border-top: 2px dashed #4C8DFF; display: inline-block; }
+.legendDotDotted { width: 12px; height: 0; border-top: 2px dotted #7c3aed; display: inline-block; }
+.chartCanvasWrap { position: relative; margin-top: 8px; }
+.chartCanvas { width: 100%; height: 420px; }
+.chartOverlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.7); border-radius: 12px; color: #8b90b0; font-weight: 600; font-size: 13px; text-align: center; padding: 20px;
+}
+
+/* ── Horizon forecasts ── */
+.horizonGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.horizonCard { background: #F8FAFC; border: 1px solid #EEF1FA; border-radius: 16px; padding: 18px; }
+.horizonLabel { font-size: 13px; font-weight: 800; color: #5c628a; }
+.horizonDirection { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; margin-top: 4px; }
+.horizonRange { font-size: 12.5px; color: #5c628a; font-weight: 600; margin-top: 6px; }
+.horizonBarRow { display: flex; justify-content: space-between; margin-top: 12px; font-size: 11.5px; font-weight: 700; color: #8b90b0; }
+.horizonBarLabel { color: #8b90b0; }
+.horizonBarValue { color: #20264D; }
+.horizonBarTrack { height: 6px; background: #EEF1FA; border-radius: 100px; margin-top: 4px; overflow: hidden; }
+.horizonBarFill { height: 100%; border-radius: 100px; }
+.horizonBarFillMuted { height: 100%; border-radius: 100px; background: #b8bdd8; }
+.horizonFactors { margin: 12px 0 0; padding-left: 16px; font-size: 12px; color: #5c628a; font-weight: 600; line-height: 1.5; }
+.horizonFactors li { margin-bottom: 2px; }
+
+/* ── Scenarios ── */
+.scenarioGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.scenarioCard { background: #F8FAFC; border-radius: 16px; padding: 18px; border-top: 3px solid; text-align: center; }
+.scenarioLabel { font-size: 13px; font-weight: 800; }
+.scenarioPrice { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: #20264D; margin-top: 6px; }
+.scenarioProbLabel { font-size: 11px; color: #8b90b0; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+.scenarioProbTrack { height: 6px; background: #EEF1FA; border-radius: 100px; margin-top: 6px; overflow: hidden; }
+.scenarioProbFill { height: 100%; border-radius: 100px; }
+.scenarioProbValue { font-size: 13px; font-weight: 800; color: #20264D; margin-top: 6px; }
+
+@media (max-width: 700px) {
+    .scenarioGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Why AI factors ── */
+.factorsGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.factorsColLabel { font-size: 13px; font-weight: 800; margin-bottom: 10px; }
+.factorsList { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: #20264D; font-weight: 600; }
+.factorItemPositive::marker { color: #3CA787; }
+.factorItemNegative::marker { color: #E0637A; }
+.factorsEmpty { font-size: 13px; color: #8b90b0; font-weight: 600; }
+
+@media (max-width: 700px) {
+    .factorsGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Risk ── */
+.riskOverallRow { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; width: 100%; }
+.riskOverallBadge { display: flex; align-items: center; gap: 10px; }
+.riskOverallScore { font-size: 13px; font-weight: 800; color: #5c628a; }
+.riskPill { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 800; }
+.riskGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.riskRow { display: flex; align-items: center; gap: 12px; background: #F8FAFC; border-radius: 12px; padding: 12px 14px; }
+.riskRowLabel { font-size: 13px; font-weight: 700; color: #20264D; flex: 1; }
+.riskRowDetail { font-size: 12px; color: #8b90b0; font-weight: 600; white-space: nowrap; }
+
+@media (max-width: 700px) {
+    .riskGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Model performance ── */
+.performanceLoading { display: flex; align-items: center; gap: 12px; padding: 24px 0; color: #5c628a; font-weight: 700; font-size: 13.5px; }
+.performanceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.performanceCard { background: #F8FAFC; border-radius: 14px; padding: 16px; }
+.performanceLabel { font-size: 12px; font-weight: 700; color: #5c628a; }
+.performanceValue { font-family: 'Baloo 2', sans-serif; font-size: 30px; font-weight: 800; color: #20264D; margin-top: 4px; }
+.performanceSub { font-size: 11.5px; color: #8b90b0; font-weight: 600; margin-top: 4px; }
+.methodologyNote { font-size: 12px; color: #8b90b0; font-weight: 600; margin: 16px 0 0; line-height: 1.6; }
+.errorText { font-size: 13px; color: #E0637A; font-weight: 700; }
+
+/* ── AI Summary ── */
+.summaryCard {
+    background: linear-gradient(135deg, rgba(76,141,255,0.06), rgba(124,58,237,0.04));
+    border: 1px solid rgba(76,141,255,0.15); border-radius: 20px; padding: 22px 26px; margin-bottom: 20px;
+}
+.summaryLabel { font-size: 13px; font-weight: 800; color: #4C8DFF; margin-bottom: 8px; }
+.summaryText { font-size: 14.5px; line-height: 1.7; color: #20264D; font-weight: 600; margin: 0; }
+
+/* ── Loading state ── */
+.loadingWrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 90px 20px; text-align: center; }
+.loadingSpinner {
+    width: 44px; height: 44px; border: 3px solid rgba(76,141,255,0.15); border-top-color: #4C8DFF;
+    border-radius: 50%; animation: vtSpin 0.8s linear infinite; margin-bottom: 24px;
+}
+.loadingStep { font-family: 'Baloo 2', sans-serif; font-size: 17px; font-weight: 800; color: #20264D; margin-bottom: 20px; }
+.loadingSteps { display: flex; flex-direction: column; gap: 8px; }
+.loadingStepDone, .loadingStepPending { font-size: 13px; font-weight: 700; }
+.loadingStepDone { color: #3CA787; }
+.loadingStepPending { color: #b8bdd8; }
+
+/* ── Integration bar ── */
+.integrationBar {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+    background: #fff; border-radius: 16px; padding: 16px 20px; box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
+}
+.integrationLeft { display: flex; align-items: center; min-width: 0; }
+.positionBadge { font-size: 13px; font-weight: 800; color: #3CA787; }
+.positionBadgeMuted { font-size: 12.5px; font-weight: 600; color: #8b90b0; }
+.integrationActions { display: flex; gap: 10px; flex-wrap: wrap; }
+.integrationBtnPrimary, .integrationBtnSecondary, .integrationBtnActive {
+    padding: 9px 16px; border-radius: 12px; font-size: 13px; font-weight: 800;
+    text-decoration: none; cursor: pointer; font-family: 'Nunito', sans-serif; border: 1.5px solid transparent;
+    transition: all 0.15s;
+}
+.integrationBtnPrimary { background: #4C8DFF; color: #fff; }
+.integrationBtnPrimary:hover { filter: brightness(1.05); }
+.integrationBtnSecondary { background: #F4F6FC; color: #20264D; border-color: #E4E9F7; }
+.integrationBtnSecondary:hover { background: #EEF1FA; }
+.integrationBtnActive { background: rgba(255,184,76,0.15); color: #b9790c; border-color: rgba(255,184,76,0.4); }

@@ -85,6 +85,7 @@ export default function Navbar() {
                             <Link href="/portfolio"  style={{ ...linkStyle('/portfolio'),  textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Portfolio</Link>
                             <Link href="/friends"    style={{ ...linkStyle('/friends'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Friends</Link>
                             <Link href="/learn"      style={{ ...linkStyle('/learn'),      textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
+                            <Link href="/ai-forecast" style={{ ...linkStyle('/ai-forecast'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>AI Forecast</Link>
                             <Link href="/partners"   style={{ ...linkStyle('/partners'),   textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Partnerships</Link>
                             <Link href="/chapters"   style={{ ...linkStyle('/chapters'),   textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Start a Chapter</Link>
 
@@ -120,6 +121,7 @@ export default function Navbar() {
                         <>
                             <Link href="/learn"    style={{ ...linkStyle('/learn'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
                             <Link href="/stats"    style={{ ...linkStyle('/stats'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/ai-forecast" style={{ ...linkStyle('/ai-forecast'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>AI Forecast</Link>
                             <Link href="/partners" style={{ ...linkStyle('/partners'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Partnerships</Link>
                             <Link href="/chapters" style={{ ...linkStyle('/chapters'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Start a Chapter</Link>
                             <Link
@@ -162,6 +164,7 @@ export default function Navbar() {
                         <Link href="/portfolio" className="nav-mobile-link" onClick={close} data-active={isActive('/portfolio') ? 'true' : 'false'}>💼 Portfolio</Link>
                         <Link href="/friends"   className="nav-mobile-link" onClick={close} data-active={isActive('/friends')   ? 'true' : 'false'}>👥 Friends</Link>
                         <Link href="/learn"     className="nav-mobile-link" onClick={close} data-active={isActive('/learn')     ? 'true' : 'false'}>🎓 Academy</Link>
+                        <Link href="/ai-forecast" className="nav-mobile-link" onClick={close} data-active={isActive('/ai-forecast') ? 'true' : 'false'}>🧠 AI Forecast</Link>
                         <Link href="/partners"  className="nav-mobile-link" onClick={close} data-active={isActive('/partners')  ? 'true' : 'false'}>🤝 Partnerships</Link>
                         <Link href="/chapters"  className="nav-mobile-link" onClick={close} data-active={isActive('/chapters')  ? 'true' : 'false'}>🏫 Start a Chapter</Link>
                         <div className="nav-mobile-divider" />
@@ -175,6 +178,7 @@ export default function Navbar() {
                         </div>
                         <div className="nav-mobile-divider" />
                         <Link href="/learn"    className="nav-mobile-link" onClick={close} data-active={isActive('/learn')    ? 'true' : 'false'}>🎓 Academy</Link>
+                        <Link href="/ai-forecast" className="nav-mobile-link" onClick={close} data-active={isActive('/ai-forecast') ? 'true' : 'false'}>🧠 AI Forecast</Link>
                         <Link href="/partners" className="nav-mobile-link" onClick={close} data-active={isActive('/partners') ? 'true' : 'false'}>🤝 Partnerships</Link>
                         <Link href="/chapters" className="nav-mobile-link" onClick={close} data-active={isActive('/chapters') ? 'true' : 'false'}>🏫 Start a Chapter</Link>
                         <div className="nav-mobile-divider" />
