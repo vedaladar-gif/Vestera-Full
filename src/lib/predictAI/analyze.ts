@@ -94,7 +94,7 @@ export async function runPredictAI(symbol: string): Promise<PredictAIResult> {
 
     if (trigger.shouldLog) {
         for (const h of horizons) logPrediction(upper, h, trigger.reason, todayNewsAnalyses);
-        const note = historyNoteFor(trigger.reason, trigger.newArticles, todayForecast.predictedPrice, Math.abs(todayForecast.predictedChangePct));
+        const note = historyNoteFor(trigger.reason, trigger.newArticles, todayForecast.predictedPrice, trigger.priceChangePct);
         appendHistoryLog(upper, trigger.reason, note, todayForecast.predictedPrice, todayForecast.direction, todayForecast.confidence);
         recordSeenNews(upper, todayNewsAnalyses);
         setState(upper, currentPrice, todayHorizon.compositeScore);

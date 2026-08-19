@@ -20,21 +20,25 @@ export async function GET(request: Request, { params }: { params: Promise<{ stoc
     const isStale = !run || Date.now() - new Date(run.runAt).getTime() > STALE_AFTER_MS;
 
     if (isStale) {
-        if (!inFlight.has(ticker)) {
-            inFlight.set(
-                ticker,
-                (async () => {
-                    try {
-                        const fundamentals = await getFundamentals(ticker);
-                        const fresh = await runBacktest(ticker, fundamentals);
-                        return fresh ?? getLatestBacktestRun(ticker);
-                    } finally {
-                        inFlight.delete(ticker);
-                    }
-                })()
-            );
+        // Capture a single local reference to the in-flight promise (either an existing one, or a
+        // freshly-created one set into the map here) so every waiter always awaits a real promise —
+        // never `undefined` from a `.get()` that ran after the entry was already deleted.
+        let promise = inFlight.get(ticker);
+        if (!promise) {
+            promise = (async () => {
+                try {
+                    const fundamentals = await getFundamentals(ticker);
+                    const fresh = await runBacktest(ticker, fundamentals);
+                    return fresh ?? getLatestBacktestRun(ticker);
+                } finally {
+                    // Only remove this promise's own entry — never blindly delete by key, in case a
+                    // newer request's promise has since taken over this ticker's slot.
+                    if (inFlight.get(ticker) === promise) inFlight.delete(ticker);
+                }
+            })();
+            inFlight.set(ticker, promise);
         }
-        const fresh = await inFlight.get(ticker)!;
+        const fresh = await promise;
         if (fresh) run = fresh;
     }
 

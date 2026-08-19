@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './aiForecast.module.css';
 import StockSearch from '@/components/AIForecast/StockSearch';
@@ -32,28 +32,37 @@ function AIForecastInner() {
     const [error, setError] = useState<string | null>(null);
     const [errorDetail, setErrorDetail] = useState<string | null>(null);
     const { data: predictAIData, error: predictAIError } = usePredictAI(symbol);
+    // Tracks the symbol the most recently-issued request was for, so a slow response
+    // for a symbol the user has since navigated away from can be safely ignored.
+    const latestSymbolRef = useRef<string | null>(null);
 
     const load = useCallback(async (sym: string, silent = false) => {
         if (!silent) { setLoading(true); setError(null); setErrorDetail(null); }
         try {
             const res = await fetch(`/api/ai-forecast/${encodeURIComponent(sym)}`);
             const json = await res.json();
+            if (latestSymbolRef.current !== sym) return; // stale response — a newer symbol is now active
             if (!res.ok) {
-                setError(json.error || 'Unable to retrieve current market data. Please try again.');
-                setErrorDetail(json.reason || null);
-                if (!silent) setData(null);
+                // A failed background refresh should never blank out an analysis the user is
+                // already viewing — only surface the error (and clear data) for foreground loads.
+                if (!silent) {
+                    setError(json.error || 'Unable to retrieve current market data. Please try again.');
+                    setErrorDetail(json.reason || null);
+                    setData(null);
+                }
                 return;
             }
             setData(json);
             setError(null);
         } catch {
-            setError('Unable to retrieve current market data. Please try again.');
+            if (latestSymbolRef.current === sym && !silent) setError('Unable to retrieve current market data. Please try again.');
         } finally {
-            if (!silent) setLoading(false);
+            if (latestSymbolRef.current === sym && !silent) setLoading(false);
         }
     }, []);
 
     useEffect(() => {
+        latestSymbolRef.current = symbol;
         if (!symbol) { setData(null); return; }
         void load(symbol);
         const id = setInterval(() => void load(symbol, true), REFRESH_MS);

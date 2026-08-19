@@ -27,6 +27,8 @@ export interface TriggerDecision {
     reason: TriggerReason;
     shouldLog: boolean;
     newArticles: NewsAnalysis[];
+    /** The actual observed price move (%) since the last computed state, when known — used for the 'price_move' history note. */
+    priceChangePct?: number;
 }
 
 export function determineTrigger(symbol: string, currentPrice: number, todayNewsAnalyses: NewsAnalysis[]): TriggerDecision {
@@ -48,10 +50,10 @@ export function determineTrigger(symbol: string, currentPrice: number, todayNews
         return { reason: 'throttled', shouldLog: false, newArticles };
     }
     if (meaningfulNew.length > 0) {
-        return { reason: 'news_detected', shouldLog: true, newArticles: meaningfulNew };
+        return { reason: 'news_detected', shouldLog: true, newArticles: meaningfulNew, priceChangePct };
     }
     if (priceChangePct >= PRICE_MOVE_THRESHOLD_PCT) {
-        return { reason: 'price_move', shouldLog: true, newArticles };
+        return { reason: 'price_move', shouldLog: true, newArticles, priceChangePct };
     }
     if (elapsedMs >= SCHEDULED_REFRESH_MS) {
         return { reason: 'scheduled_refresh', shouldLog: true, newArticles };

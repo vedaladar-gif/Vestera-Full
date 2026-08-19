@@ -53,6 +53,11 @@ export default function PriceChart({ symbol }: { symbol: string }) {
 
     useEffect(() => {
         let mounted = true;
+        // `init` is async, so its own `return` value isn't the effect's cleanup function —
+        // these must be captured in refs the outer cleanup below can reach, or the observers
+        // never get disconnected and keep firing `applyOptions` on a removed chart.
+        let ro: ResizeObserver | null = null;
+        let themeObserver: MutationObserver | null = null;
         const init = async () => {
             await new Promise(r => setTimeout(r, 60));
             if (!mounted || !chartRef.current) return;
@@ -72,20 +77,21 @@ export default function PriceChart({ symbol }: { symbol: string }) {
             });
             chartInstanceRef.current = chart;
 
-            const ro = new ResizeObserver(() => {
+            ro = new ResizeObserver(() => {
                 if (chartRef.current) chart.applyOptions({ width: chartRef.current.clientWidth });
             });
             ro.observe(chartRef.current);
 
-            const themeObserver = new MutationObserver(() => chart.applyOptions(buildChartOptions(isThemeDark())));
+            themeObserver = new MutationObserver(() => chart.applyOptions(buildChartOptions(isThemeDark())));
             themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
             setChartReady(true);
-            return () => { ro.disconnect(); themeObserver.disconnect(); };
         };
         void init();
         return () => {
             mounted = false;
+            ro?.disconnect();
+            themeObserver?.disconnect();
             try { chartInstanceRef.current?.remove(); } catch { /* ignore */ }
             chartInstanceRef.current = null;
         };
@@ -95,6 +101,10 @@ export default function PriceChart({ symbol }: { symbol: string }) {
         if (!chartReady || !chartInstanceRef.current || !lcRef.current) return;
         const chart = chartInstanceRef.current;
         const lc = lcRef.current;
+        // Guards against a slow response for a stock/range the user has since navigated away
+        // from landing after a newer request already rendered — without this, series for the
+        // wrong symbol/range could get drawn onto the chart.
+        let cancelled = false;
         setLoading(true);
         setEmptyReason(null);
 
@@ -107,6 +117,7 @@ export default function PriceChart({ symbol }: { symbol: string }) {
                 : Promise.resolve(null),
         ])
             .then(([data, predictAIData]) => {
+                if (cancelled) return;
                 // Clear previous series (chart instance is typed `any`, so we track our own series list on it).
                 try {
                     (chart.__vtSeries || []).forEach((s: unknown) => { try { chart.removeSeries(s); } catch { /* ignore */ } });
@@ -199,9 +210,12 @@ export default function PriceChart({ symbol }: { symbol: string }) {
                 setLoading(false);
             })
             .catch(() => {
+                if (cancelled) return;
                 setEmptyReason('Unable to retrieve current market data. Please try again.');
                 setLoading(false);
             });
+
+        return () => { cancelled = true; };
     }, [chartReady, symbol, range]);
 
     return (
