@@ -35,3 +35,7 @@ create table if not exists public.chat_messages (
 -- friend_requests: sender_id → recipient_id, status pending|accepted|declined
 -- friendships: user_a_id < user_b_id, unique pair
 
+-- Academy engine (see migrations/20260909200000_academy.sql)
+-- academy_progress, diagnostic, lessons, quizzes, rank-up, sessions, achievements
+
+

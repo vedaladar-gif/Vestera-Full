@@ -48,7 +48,7 @@ export default function UpgradeModal({ open, onClose }: Props) {
                     Create an account to continue
                 </h2>
                 <p className={styles.message}>
-                    Sign up or log in to unlock quizzes, videos, and full learning features.
+                    Sign up or log in to take the diagnostic and unlock the Academy.
                 </p>
                 <div className={styles.actions}>
                     <Link href="/login" className={styles.btnPrimary} onClick={onClose}>

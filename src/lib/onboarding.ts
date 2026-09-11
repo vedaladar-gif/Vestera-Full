@@ -75,7 +75,7 @@ export const TOUR_STEPS: TourStep[] = [
         route: '/learn',
         navPath: '/learn',
         title: 'Step 4 — The Academy',
-        body: 'Lessons and quizzes live here — the fastest way to go from total beginner to confident investor.',
+        body: 'Take a short diagnostic, then follow a 100-lesson path from Just Starting to Investing Pro. Quizzes unlock XP — reading alone is not enough.',
         cta: 'Next',
     },
     {

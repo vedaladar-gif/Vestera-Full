@@ -397,3 +397,11 @@
     color: #8b90b0;
     font-size: 14px;
 }
+
+.clickRow {
+    cursor: pointer;
+}
+
+.clickRow:hover {
+    background: rgba(76, 141, 255, 0.06);
+}

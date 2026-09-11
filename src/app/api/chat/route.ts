@@ -88,14 +88,28 @@ export async function POST(req: Request) {
     const ctx = (body as { context?: unknown }).context;
     let contextBlock = '';
     if (ctx && typeof ctx === 'object' && ctx !== null) {
-        const c = ctx as { route?: unknown; mode?: unknown; stockSymbol?: unknown };
+        const c = ctx as {
+            route?: unknown;
+            mode?: unknown;
+            stockSymbol?: unknown;
+            lessonId?: unknown;
+            lessonTitle?: unknown;
+            lessonExcerpt?: unknown;
+        };
         const route = typeof c.route === 'string' ? c.route : '';
         const mode = typeof c.mode === 'string' ? c.mode : '';
         const sym = typeof c.stockSymbol === 'string' ? c.stockSymbol.trim().toUpperCase() : '';
+        const lessonTitle = typeof c.lessonTitle === 'string' ? c.lessonTitle : '';
+        const lessonId = typeof c.lessonId === 'number' ? c.lessonId : (typeof c.lessonId === 'string' ? c.lessonId : '');
+        const excerpt = typeof c.lessonExcerpt === 'string' ? c.lessonExcerpt.slice(0, 1800) : '';
         const parts: string[] = [];
         if (route) parts.push(`Site route: ${route}.`);
         if (mode) parts.push(`UI mode hint: ${mode}.`);
         if (sym) parts.push(`User may be viewing ticker ${sym} (context only — do not invent live quotes).`);
+        if (lessonTitle) {
+            parts.push(`The student is studying Academy lesson ${lessonId}: "${lessonTitle}". Stay on this topic. Teach concepts, do not give personalized financial advice, and never say stocks always go up. Simulated practice is not real-world performance.`);
+            if (excerpt) parts.push(`Lesson excerpt:\n${excerpt}`);
+        }
         if (parts.length) contextBlock = `\n\n${parts.join(' ')}`;
     }
 

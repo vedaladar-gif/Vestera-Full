@@ -12,6 +12,7 @@ const protectedApiPaths = [
     '/api/portfolio-share',
     '/api/friends/username',
     '/api/chat',
+    '/api/academy',
 ];
 
 /**
@@ -100,6 +101,7 @@ export const config = {
         '/api/friends/username/:path*',
         '/api/chat',
         '/api/chat/:path*',
+        '/api/academy/:path*',
         '/api/analyze-stock/:path*',
         '/api/delete-account/:path*',
         '/api/snapse',

@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
+import { initAcademySqlite } from './academy/schema';
 
 let db: Database.Database | null = null;
 
@@ -241,4 +242,6 @@ function initDb(db: Database.Database) {
     ]) {
         try { db.exec(sql); } catch { /* column already exists */ }
     }
+
+    initAcademySqlite(db);
 }

@@ -24,7 +24,7 @@ interface Account {
 }
 
 type InboxFilter = 'all' | 'partnership' | 'chapter';
-type Mode = 'accounts' | 'inbox';
+type Mode = 'accounts' | 'inbox' | 'academy';
 
 const money = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
@@ -46,6 +46,11 @@ export default function AdminPage() {
     const [inboxLoading, setInboxLoading] = useState(false);
     const [inboxError, setInboxError] = useState('');
     const [filter, setFilter] = useState<InboxFilter>('all');
+
+    const [academyOverview, setAcademyOverview] = useState<Record<string, unknown> | null>(null);
+    const [academyLoading, setAcademyLoading] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [userAcademy, setUserAcademy] = useState<{ user: { username: string; displayName: string | null }; academy: Record<string, unknown> } | null>(null);
 
     const loadAccounts = useCallback(async () => {
         setAccountsLoading(true);
@@ -79,6 +84,28 @@ export default function AdminPage() {
         }
     }, []);
 
+    const loadAcademy = useCallback(async () => {
+        setAcademyLoading(true);
+        try {
+            const res = await fetch('/api/admin/academy');
+            if (res.status === 401) { setAuthed(false); return; }
+            const data = await res.json();
+            if (!res.ok) throw new Error(data?.error || 'Failed to load');
+            setAcademyOverview(data);
+        } catch {
+            setAcademyOverview(null);
+        } finally {
+            setAcademyLoading(false);
+        }
+    }, []);
+
+    const openUserAcademy = async (id: string) => {
+        setSelectedUserId(id);
+        const res = await fetch(`/api/admin/academy/users/${encodeURIComponent(id)}`);
+        const data = await res.json();
+        if (res.ok) setUserAcademy(data);
+    };
+
     useEffect(() => {
         (async () => {
             try {
@@ -95,7 +122,8 @@ export default function AdminPage() {
         if (!authed) return;
         loadAccounts();
         loadInquiries();
-    }, [authed, loadAccounts, loadInquiries]);
+        loadAcademy();
+    }, [authed, loadAccounts, loadInquiries, loadAcademy]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -198,6 +226,12 @@ export default function AdminPage() {
                         Inbox
                         {inquiries.length > 0 && <span className={styles.pill}>{inquiries.length}</span>}
                     </button>
+                    <button
+                        className={`${styles.modeTab} ${mode === 'academy' ? styles.modeTabActive : ''}`}
+                        onClick={() => setMode('academy')}
+                    >
+                        Academy
+                    </button>
                 </div>
 
                 {mode === 'accounts' && (
@@ -242,7 +276,7 @@ export default function AdminPage() {
                                     </thead>
                                     <tbody>
                                         {filteredAccounts.map(a => (
-                                            <tr key={a.id}>
+                                            <tr key={a.id} className={styles.clickRow} onClick={() => { setMode('academy'); void openUserAcademy(a.id); }}>
                                                 <td>
                                                     <div className={styles.tableUser}>@{a.username}</div>
                                                     {a.displayName && <div className={styles.tableSub}>{a.displayName}</div>}
@@ -306,7 +340,61 @@ export default function AdminPage() {
                         </div>
                     </>
                 )}
+
+                {mode === 'academy' && (
+                    <>
+                        <p className={styles.subtitle}>All numbers come from real Academy activity. Unranked means the diagnostic has not been completed.</p>
+                        {academyLoading && <p className={styles.empty}>Loading…</p>}
+                        {academyOverview && (
+                            <div className={styles.statsRow}>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Academy users</div><div className={styles.statValue}>{String(academyOverview.totalUsers ?? 0)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Ranked</div><div className={styles.statValue}>{String(academyOverview.rankedUsers ?? 0)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Unranked</div><div className={styles.statValue}>{String(academyOverview.unrankedUsers ?? 0)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Avg diagnostic</div><div className={styles.statValue}>{academyOverview.averageDiagnosticScore == null ? '—' : Number(academyOverview.averageDiagnosticScore).toFixed(1)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Avg quiz</div><div className={styles.statValue}>{academyOverview.averageQuizScore == null ? '—' : Number(academyOverview.averageQuizScore).toFixed(1)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Lessons completed</div><div className={styles.statValue}>{String(academyOverview.lessonsCompleted ?? 0)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Academy hours</div><div className={styles.statValue}>{Number(academyOverview.totalAcademyHours || 0).toFixed(1)}</div></div>
+                                <div className={styles.statCard}><div className={styles.statLabel}>Rank-up pass rate</div><div className={styles.statValue}>{academyOverview.rankUpSuccessRate == null ? '—' : `${Math.round(Number(academyOverview.rankUpSuccessRate) * 100)}%`}</div></div>
+                            </div>
+                        )}
+                        <p className={styles.subtitle}>Click a username in Accounts to open their Academy profile. Rank is UNRANKED until they finish the diagnostic.</p>
+                        {userAcademy && (
+                            <article className={styles.card}>
+                                <div className={styles.cardHeader}>
+                                    <div>
+                                        <div className={styles.cardName}>@{userAcademy.user.username}</div>
+                                        {userAcademy.user.displayName && <div className={styles.cardOrg}>{userAcademy.user.displayName}</div>}
+                                    </div>
+                                    <button type="button" className={styles.filterBtn} onClick={() => { setUserAcademy(null); setSelectedUserId(null); }}>Close</button>
+                                </div>
+                                <p className={styles.cardMessage}>
+                                    Academy progress{'\n'}
+                                    Rank: {String(userAcademy.academy.rank)}{'\n'}
+                                    XP: {String(userAcademy.academy.xp)}{'\n'}
+                                    Lessons: {String(userAcademy.academy.lessonsCompleted)} / 100{'\n'}
+                                    Completion: {String(userAcademy.academy.completionPct)}%{'\n'}
+                                    Quiz average: {userAcademy.academy.quizAverage == null ? '—' : `${Number(userAcademy.academy.quizAverage).toFixed(1)} / 10`}{'\n'}
+                                    Diagnostic: {userAcademy.academy.diagnosticCompleted ? `${userAcademy.academy.diagnosticScore} / ${userAcademy.academy.diagnosticTotal}` : 'Not completed'}{'\n'}
+                                    Diagnostic date: {userAcademy.academy.diagnosticDate ? new Date(String(userAcademy.academy.diagnosticDate)).toLocaleDateString() : '—'}{'\n'}
+                                    Time spent: {formatHours(Number(userAcademy.academy.timeSpentMs || 0))}{'\n'}
+                                    Last active: {userAcademy.academy.lastActiveAt ? new Date(String(userAcademy.academy.lastActiveAt)).toLocaleString() : '—'}{'\n'}
+                                    Current lesson: {userAcademy.academy.currentLesson ? `Lesson ${userAcademy.academy.currentLesson}` : '—'}{'\n'}
+                                    Rank-up tests passed: {String(userAcademy.academy.rankUpTestsPassed)}{'\n'}
+                                    Rank-up available: {userAcademy.academy.rankUpAvailable ? 'Yes' : 'Not yet taken / not eligible'}
+                                </p>
+                            </article>
+                        )}
+                        {!userAcademy && selectedUserId && <p className={styles.empty}>Loading profile…</p>}
+                    </>
+                )}
             </div>
         </main>
     );
+}
+
+function formatHours(ms: number) {
+    const totalMin = Math.round(ms / 60000);
+    const h = Math.floor(totalMin / 60);
+    const m = totalMin % 60;
+    return `${h}h ${m}m`;
 }

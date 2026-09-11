@@ -10,6 +10,22 @@ interface Message {
     content: string;
 }
 
+function academyLessonContext(): { lessonId?: number; lessonTitle?: string; lessonExcerpt?: string } {
+    if (typeof window === 'undefined') return {};
+    try {
+        const raw = sessionStorage.getItem('vestera_academy_lesson');
+        if (!raw) return {};
+        const parsed = JSON.parse(raw) as { id?: number; title?: string; excerpt?: string };
+        return {
+            lessonId: parsed.id,
+            lessonTitle: parsed.title,
+            lessonExcerpt: parsed.excerpt,
+        };
+    } catch {
+        return {};
+    }
+}
+
 function tickerFromWindow(): string {
     if (typeof window === 'undefined') return '';
     try {
@@ -47,6 +63,14 @@ function getChips(pathname: string): { label: string; text: string }[] {
         ];
     }
     if (pathname.startsWith('/learn')) {
+        const lesson = academyLessonContext();
+        if (lesson.lessonTitle) {
+            return [
+                { label: 'Explain simpler', text: `Explain "${lesson.lessonTitle}" in simpler words.` },
+                { label: 'Give me an example', text: `Give me an example for "${lesson.lessonTitle}".` },
+                { label: 'Quiz me', text: `Quiz me on "${lesson.lessonTitle}" without giving away the Academy quiz answers.` },
+            ];
+        }
         return [
             { label: 'Quiz me', text: 'Quiz me on what I just learned' },
             { label: 'Give me an example', text: 'Give me a real-world example' },
@@ -84,11 +108,19 @@ export default function SnapseWidget() {
     const inputRef = useRef<HTMLInputElement>(null);
     const messagesRef = useRef<Message[]>(messages);
     const pathname = usePathname();
+    const [academyTick, setAcademyTick] = useState(0);
 
     const isTrading = pathname.startsWith('/trade');
     const mode = isTrading ? 'TRADING' : 'TUTOR';
     const greeting = getGreeting(pathname);
     const chips = getChips(pathname);
+    void academyTick;
+
+    useEffect(() => {
+        const h = () => setAcademyTick(n => n + 1);
+        window.addEventListener('vestera:academy-lesson', h);
+        return () => window.removeEventListener('vestera:academy-lesson', h);
+    }, []);
 
     useLayoutEffect(() => {
         messagesRef.current = messages;
@@ -176,6 +208,7 @@ export default function SnapseWidget() {
                         route: pathname,
                         mode,
                         stockSymbol: tickerFromWindow(),
+                        ...academyLessonContext(),
                     },
                 }),
             });
