@@ -793,11 +793,18 @@ export async function startLesson(userId: string, lessonId: number) {
     if (status === 'locked') throw new Error('LOCKED');
     const t = nowIso();
     await touchAcademyActivity(userId, lessonId);
-    sqlite().prepare(
-        `INSERT INTO academy_lesson_progress (user_id, lesson_id, status, started_at, time_spent_ms, xp_awarded, attempts)
-         VALUES (?, ?, 'started', ?, 0, 0, 0)
-         ON CONFLICT(user_id, lesson_id) DO UPDATE SET started_at = COALESCE(academy_lesson_progress.started_at, excluded.started_at)`,
-    ).run(userId, lessonId, t);
+    // Local mirror row (used as the fallback source of truth if Supabase's academy tables are
+    // missing). This must never block a Supabase-backed user's request — if the local write fails
+    // for any reason, log it and keep going instead of 500ing the whole "start lesson" request.
+    try {
+        sqlite().prepare(
+            `INSERT INTO academy_lesson_progress (user_id, lesson_id, status, started_at, time_spent_ms, xp_awarded, attempts)
+             VALUES (?, ?, 'started', ?, 0, 0, 0)
+             ON CONFLICT(user_id, lesson_id) DO UPDATE SET started_at = COALESCE(academy_lesson_progress.started_at, excluded.started_at)`,
+        ).run(userId, lessonId, t);
+    } catch (err) {
+        console.error('academy start lesson sqlite mirror', err);
+    }
     if (useSqlite(userId)) return;
     try {
         const { data, error } = await sb().from('academy_lesson_progress').select('lesson_id').eq('user_id', userId).eq('lesson_id', lessonId).maybeSingle();

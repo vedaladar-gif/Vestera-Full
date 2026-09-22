@@ -1,17 +1,38 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import { initAcademySqlite } from './academy/schema';
 
 let db: Database.Database | null = null;
 
+function openAt(dbPath: string): Database.Database {
+    fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+    const instance = new Database(dbPath);
+    instance.pragma('journal_mode = WAL');
+    return instance;
+}
+
 export function getDb(): Database.Database {
     if (!db) {
-        const dbDir = path.join(process.cwd(), 'instance');
-        fs.mkdirSync(dbDir, { recursive: true });
-        const dbPath = path.join(dbDir, 'database.db');
-        db = new Database(dbPath);
-        db.pragma('journal_mode = WAL');
+        // Serverless hosts (e.g. Vercel Functions) ship a read-only filesystem — only /tmp is
+        // writable, and it's wiped on every cold start. Locally / on a persistent server,
+        // `instance/` is writable and survives restarts, so prefer it and only fall back when
+        // it actually fails, instead of crashing every route that touches the database.
+        const preferredPath = path.join(process.cwd(), 'instance', 'database.db');
+        try {
+            db = openAt(preferredPath);
+        } catch (err) {
+            console.error('[db] Could not open SQLite at', preferredPath, '— falling back to a writable tmp dir. Data will not persist across restarts until this is fixed.', err);
+            const fallbackPath = path.join(os.tmpdir(), 'vestera-instance', 'database.db');
+            try {
+                db = openAt(fallbackPath);
+            } catch (err2) {
+                console.error('[db] Tmp-dir fallback also failed — using an in-memory database as a last resort.', err2);
+                db = new Database(':memory:');
+                db.pragma('journal_mode = WAL');
+            }
+        }
         db.pragma('foreign_keys = ON');
         initDb(db);
     }

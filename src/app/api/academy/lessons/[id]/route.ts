@@ -11,23 +11,30 @@ export async function GET(_req: Request, ctx: Ctx) {
     const lessonId = Number(id);
     if (!Number.isInteger(lessonId)) return NextResponse.json({ error: 'Invalid lesson' }, { status: 400 });
 
-    const state = await getAcademyState(userId);
-    const status = lessonLockState(state, lessonId);
-    if (!state.diagnosticCompleted) return NextResponse.json({ error: 'DIAGNOSTIC_REQUIRED' }, { status: 403 });
-    if (status === 'locked') return NextResponse.json({ error: 'LOCKED' }, { status: 403 });
+    try {
+        const state = await getAcademyState(userId);
+        const status = lessonLockState(state, lessonId);
+        if (!state.diagnosticCompleted) return NextResponse.json({ error: 'DIAGNOSTIC_REQUIRED' }, { status: 403 });
+        if (status === 'locked') return NextResponse.json({ error: 'LOCKED' }, { status: 403 });
 
-    const lesson = await getLessonById(lessonId);
-    if (!lesson) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+        const lesson = await getLessonById(lessonId);
+        if (!lesson) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-    await touchAcademyActivity(userId, lessonId);
-    const { quiz: _q, ...rest } = lesson;
-    return NextResponse.json({
-        lesson: rest,
-        quizCount: lesson.quiz.length,
-        status,
-        alreadyCompleted: status === 'completed',
-        bestScore: state.bestScores[lessonId] ?? null,
-    });
+        await touchAcademyActivity(userId, lessonId);
+        const { quiz: _q, ...rest } = lesson;
+        return NextResponse.json({
+            lesson: rest,
+            quizCount: lesson.quiz.length,
+            status,
+            alreadyCompleted: status === 'completed',
+            bestScore: state.bestScores[lessonId] ?? null,
+        });
+    } catch (err) {
+        // Always return valid JSON here — the frontend calls res.json() unconditionally, and an
+        // empty/HTML 500 body throws a confusing "check your connection" error instead of a real one.
+        console.error('get lesson', err);
+        return NextResponse.json({ error: 'Could not open lesson.' }, { status: 500 });
+    }
 }
 
 export async function POST(_req: Request, ctx: Ctx) {
