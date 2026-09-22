@@ -5,11 +5,15 @@
 
 const GROQ_API_BASE = 'https://api.groq.com/openai/v1';
 
+// Groq periodically retires older model IDs (llama-3.x-*, llama3-70b-8192, and
+// mixtral-8x7b-32768 have all since been decommissioned). Keep this list to
+// currently-active, general-purpose text models — verify against
+// GET https://api.groq.com/openai/v1/models if chat starts failing with a
+// "has been decommissioned" error again.
 const DEFAULT_MODELS = [
-    'llama-3.3-70b-versatile',
-    'llama-3.1-70b-versatile',
-    'llama3-70b-8192',
-    'mixtral-8x7b-32768',
+    'openai/gpt-oss-120b',
+    'openai/gpt-oss-20b',
+    'qwen/qwen3.8-27b',
 ];
 
 export function getGrokApiKey(): string | null {
