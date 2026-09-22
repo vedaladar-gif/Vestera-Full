@@ -184,6 +184,10 @@ export default function LearningDashboard() {
     } | null>(null);
 
     const [lesson, setLesson] = useState<LessonPayload | null>(null);
+    // Tracks which lesson node the user just clicked so we can show instant feedback (spinner/disabled)
+    // while the start+fetch requests are in flight — without this, a slow connection makes clicking a
+    // lesson look like it did nothing until the network round trips finish.
+    const [openingLessonId, setOpeningLessonId] = useState<number | null>(null);
     const [tryPick, setTryPick] = useState<number | null>(null);
     const [quizQs, setQuizQs] = useState<PublicQ[]>([]);
     const [quizIndex, setQuizIndex] = useState(0);
@@ -352,28 +356,41 @@ export default function LearningDashboard() {
     };
 
     const openLesson = async (id: number) => {
+        if (openingLessonId != null) return; // already opening a lesson — avoid duplicate/overlapping requests
         const row = catalog.find(l => l.id === id);
         if (row?.status === 'locked') return;
-        heartbeatLesson.current = id;
-        await fetch(`/api/academy/lessons/${id}`, { method: 'POST', credentials: 'same-origin' });
-        const res = await fetch(`/api/academy/lessons/${id}`, { credentials: 'same-origin' });
-        const data = await res.json();
-        if (!res.ok) {
-            setError(data.error || 'Could not open lesson.');
-            return;
+        setOpeningLessonId(id);
+        setError('');
+        try {
+            heartbeatLesson.current = id;
+            await fetch(`/api/academy/lessons/${id}`, { method: 'POST', credentials: 'same-origin' });
+            const res = await fetch(`/api/academy/lessons/${id}`, { credentials: 'same-origin' });
+            const data = await res.json();
+            if (!res.ok) {
+                setError(
+                    res.status === 401
+                        ? 'Your session expired. Please log in again.'
+                        : data.error || 'Could not open lesson. Please try again.',
+                );
+                return;
+            }
+            setLesson(data.lesson);
+            setTryPick(null);
+            setComplete(null);
+            setView({ kind: 'lesson', id });
+            sessionStorage.setItem(
+                'vestera_academy_lesson',
+                JSON.stringify({
+                    id,
+                    title: data.lesson.title,
+                    excerpt: `${data.lesson.intro}\n${data.lesson.sections?.[0]?.body || ''}`,
+                }),
+            );
+        } catch {
+            setError('Could not open lesson. Check your connection and try again.');
+        } finally {
+            setOpeningLessonId(null);
         }
-        setLesson(data.lesson);
-        setTryPick(null);
-        setComplete(null);
-        setView({ kind: 'lesson', id });
-        sessionStorage.setItem(
-            'vestera_academy_lesson',
-            JSON.stringify({
-                id,
-                title: data.lesson.title,
-                excerpt: `${data.lesson.intro}\n${data.lesson.sections?.[0]?.body || ''}`,
-            }),
-        );
     };
 
     const startQuiz = async (id: number) => {
@@ -639,7 +656,14 @@ export default function LearningDashboard() {
                                     <p><strong>{nextLesson.title}</strong></p>
                                     <div className={styles.continueMeta}>{nextLesson.minutes} min · {nextLesson.xp} XP</div>
                                 </div>
-                                <button type="button" className={styles.primaryBtn} onClick={() => openLesson(nextLesson.id)}>Continue</button>
+                                <button
+                                    type="button"
+                                    className={styles.primaryBtn}
+                                    disabled={openingLessonId != null}
+                                    onClick={() => void openLesson(nextLesson.id)}
+                                >
+                                    {openingLessonId === nextLesson.id ? 'Opening…' : 'Continue'}
+                                </button>
                             </div>
                         )}
                         <div className={styles.searchWrap}>
@@ -656,10 +680,10 @@ export default function LearningDashboard() {
                                             key={h.id}
                                             type="button"
                                             className={styles.searchHit}
-                                            disabled={h.status === 'locked'}
-                                            onClick={() => openLesson(h.id)}
+                                            disabled={h.status === 'locked' || openingLessonId != null}
+                                            onClick={() => void openLesson(h.id)}
                                         >
-                                            Lesson {h.id} — {h.title} {h.status === 'locked' ? '🔒' : ''}
+                                            {openingLessonId === h.id ? 'Opening…' : `Lesson ${h.id} — ${h.title} ${h.status === 'locked' ? '🔒' : ''}`}
                                         </button>
                                     ))}
                                 </div>
@@ -680,11 +704,13 @@ export default function LearningDashboard() {
                                     <button
                                         type="button"
                                         className={`${styles.nodeCard} ${l.status === 'current' ? styles.nodeCardCurrent : ''} ${l.status === 'locked' ? styles.nodeCardLocked : ''}`}
-                                        onClick={() => openLesson(l.id)}
-                                        disabled={l.status === 'locked'}
+                                        onClick={() => void openLesson(l.id)}
+                                        disabled={l.status === 'locked' || openingLessonId != null}
                                     >
                                         <h3>Lesson {l.id} · {l.title}</h3>
-                                        <div className={styles.nodeMeta}>{l.minutes} min · {l.xp} XP · {l.difficulty}</div>
+                                        <div className={styles.nodeMeta}>
+                                            {openingLessonId === l.id ? 'Opening…' : `${l.minutes} min · ${l.xp} XP · ${l.difficulty}`}
+                                        </div>
                                         {l.status === 'locked' && (
                                             <div className={styles.lockNote}>🔒 Complete Rank {l.rankId - 1} to unlock</div>
                                         )}

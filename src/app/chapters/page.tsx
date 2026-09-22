@@ -9,8 +9,19 @@ export const metadata: Metadata = {
 
 const CHAPTERS = [
     {
+        name: 'Green Level High School',
+        location: 'Cary, NC',
+        presidentLabel: 'Co-Founders',
+        president: 'Sourish, Kiaan, and Vedant',
+        founded: '2026',
+        initials: 'GL',
+        gradient: 'linear-gradient(135deg, #3CA787 0%, #1F6E56 100%)',
+        isMain: true,
+    },
+    {
         name: 'John Fraser Secondary School',
         location: 'Mississauga, ON',
+        presidentLabel: 'President',
         president: 'Anton Park',
         founded: '2026',
         initials: 'JF',
@@ -19,6 +30,7 @@ const CHAPTERS = [
     {
         name: 'Independence High School',
         location: 'Frisco, TX',
+        presidentLabel: 'President',
         president: 'Priyansh M',
         founded: '2026',
         initials: 'IH',
@@ -48,14 +60,18 @@ export default function ChaptersPage() {
 
                     <div className={styles.chapterGrid}>
                         {CHAPTERS.map(c => (
-                            <div key={c.name} className={styles.chapterCard}>
+                            <div
+                                key={c.name}
+                                className={`${styles.chapterCard} ${c.isMain ? styles.chapterCardMain : ''}`}
+                            >
+                                {c.isMain && <div className={styles.mainBadge}>⭐ Main Chapter</div>}
                                 <div className={styles.chapterAvatar} style={{ background: c.gradient }}>
                                     {c.initials}
                                 </div>
                                 <div>
                                     <div className={styles.chapterName}>{c.name}</div>
                                     <div className={styles.chapterLocation}>{c.location}</div>
-                                    <div className={styles.chapterPresident}>President: {c.president}</div>
+                                    <div className={styles.chapterPresident}>{c.presidentLabel}: {c.president}</div>
                                     <div className={styles.chapterFounded}>Founded {c.founded}</div>
                                 </div>
                             </div>
@@ -65,15 +81,15 @@ export default function ChaptersPage() {
                     <div className={styles.statsBar}>
                         <div className={styles.statItem}>
                             <span className={styles.statIcon} aria-hidden>📍</span>
-                            <span className={styles.statValue}>2</span> Schools
+                            <span className={styles.statValue}>{CHAPTERS.length}</span> Schools
                         </div>
                         <div className={styles.statItem}>
                             <span className={styles.statIcon} aria-hidden>👥</span>
-                            <span className={styles.statValue}>2</span> Student Leaders
+                            <span className={styles.statValue}>5</span> Student Leaders
                         </div>
                         <div className={styles.statItem}>
                             <span className={styles.statIcon} aria-hidden>🏙️</span>
-                            <span className={styles.statValue}>2</span> Cities
+                            <span className={styles.statValue}>{CHAPTERS.length}</span> Cities
                         </div>
                     </div>
                 </div>
