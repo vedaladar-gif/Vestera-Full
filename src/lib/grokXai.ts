@@ -47,6 +47,9 @@ export async function grokChatCompletion(params: {
     apiKey: string;
     systemPrompt: string;
     messages: Array<{ role: ChatRole; content: string }>;
+    /** Caps response length. Defaults to 2048 (existing behavior) — callers that want shorter,
+     * punchier replies (e.g. the Vesta chat widget) can pass a smaller value. */
+    maxTokens?: number;
 }): Promise<{ text: string; modelUsed: string }> {
     const envModel = process.env.GROK_MODEL?.trim();
     const modelsToTry = envModel ? [envModel, ...DEFAULT_MODELS] : [...DEFAULT_MODELS];
@@ -73,7 +76,7 @@ export async function grokChatCompletion(params: {
                     model,
                     messages: bodyMessages,
                     temperature: 0.65,
-                    max_tokens: 2048,
+                    max_tokens: params.maxTokens ?? 2048,
                 }),
             });
 
