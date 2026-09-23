@@ -31,22 +31,6 @@
     text-decoration: none;
     flex-shrink: 0;
 }
-.sidebarBrandMark {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    background: var(--vt-vblue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.sidebarBrandWord {
-    font-size: 16px;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.3px;
-}
 
 .sidebarDivider {
     height: 1px;
@@ -250,12 +234,6 @@
     flex-shrink: 0;
 }
 .mobileBrand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-.mobileBrandMark {
-    width: 26px; height: 26px; border-radius: 7px;
-    background: var(--vt-vblue);
-    display: flex; align-items: center; justify-content: center;
-}
-.mobileBrandWord { font-size: 15px; font-weight: 800; color: #fff; }
 .mobileRight { display: flex; align-items: center; gap: 6px; }
 .mobileIconBtn {
     display: inline-flex; align-items: center; justify-content: center;

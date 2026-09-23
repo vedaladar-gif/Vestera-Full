@@ -180,12 +180,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
             {/* ── Desktop sidebar ── */}
             <aside className={styles.sidebar}>
                 <Link href="/" className={styles.sidebarBrand}>
-                    <span className={styles.sidebarBrandMark}>
-                        <svg width={15} height={15} viewBox="0 0 20 20" fill="none">
-                            <path d="M4 5.5L10 15L16 5.5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </span>
-                    <span className={styles.sidebarBrandWord}>Vestera</span>
+                    <VesteraLogo height={27} light />
                 </Link>
                 <div className={styles.sidebarDivider} />
                 <nav className={styles.sidebarNav}>
@@ -209,12 +204,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
                     </svg>
                 </button>
                 <Link href="/" className={styles.mobileBrand}>
-                    <span className={styles.mobileBrandMark}>
-                        <svg width={13} height={13} viewBox="0 0 20 20" fill="none">
-                            <path d="M4 5.5L10 15L16 5.5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </span>
-                    <span className={styles.mobileBrandWord}>Vestera</span>
+                    <VesteraLogo height={25} light />
                 </Link>
                 <Link href="/settings" className={styles.mobileIconBtn} aria-label="Profile">
                     <UserAvatar size={26} avatarUrl={me.avatarUrl} avatarColor={me.avatarColor} username={me.username} displayName={me.displayName} borderRadius={7} />
@@ -227,12 +217,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
             />
             <div className={`${styles.mobileDrawer} ${drawerOpen ? styles.mobileDrawerOpen : ''}`} aria-hidden={!drawerOpen}>
                 <div className={styles.sidebarBrand}>
-                    <span className={styles.sidebarBrandMark}>
-                        <svg width={15} height={15} viewBox="0 0 20 20" fill="none">
-                            <path d="M4 5.5L10 15L16 5.5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </span>
-                    <span className={styles.sidebarBrandWord}>Vestera</span>
+                    <VesteraLogo height={27} light />
                 </div>
                 <div className={styles.sidebarDivider} />
                 <nav className={styles.sidebarNav}>
