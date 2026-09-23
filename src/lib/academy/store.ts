@@ -43,8 +43,35 @@ function dayKey(d = new Date()) {
 /** Once Supabase academy tables are missing, keep using local SQLite so quizzes can finish. */
 let academySqliteForced = false;
 
+/**
+ * Per-user "sticky" cache of users whose academy progress already lives in
+ * local SQLite. Without this, a user whose diagnostic/lessons were saved to
+ * SQLite during a transient Supabase outage would flip back to Supabase on
+ * the next request (or after a server restart, since `academySqliteForced`
+ * only lives in memory for the current process) — Supabase would report "no
+ * row", a brand-new blank progress row would get created there, and the
+ * diagnostic + all lesson progress would appear to reset. Once we know a
+ * user's real data is in SQLite, keep reading/writing SQLite for that user
+ * forever, so progress is never silently masked or duplicated.
+ */
+const usersWithLocalProgress = new Set<string>();
+
+function hasLocalProgress(userId: string): boolean {
+    if (usersWithLocalProgress.has(userId)) return true;
+    try {
+        const row = sqlite().prepare('SELECT 1 FROM academy_progress WHERE user_id = ? LIMIT 1').get(userId);
+        if (row) {
+            usersWithLocalProgress.add(userId);
+            return true;
+        }
+    } catch {
+        /* ignore — treat as "no local row" */
+    }
+    return false;
+}
+
 function useSqlite(userId: string) {
-    return academySqliteForced || shouldUseLocalAuth() || isLocalUser(userId) || isDemo(userId);
+    return academySqliteForced || shouldUseLocalAuth() || isLocalUser(userId) || isDemo(userId) || hasLocalProgress(userId);
 }
 
 function sb() {
@@ -113,6 +140,7 @@ async function ensureProgress(userId: string): Promise<ProgressRow> {
 
 function ensureProgressSqliteFallback(userId: string): ProgressRow {
     academySqliteForced = true;
+    usersWithLocalProgress.add(userId);
     const db = sqlite();
     const existing = db.prepare('SELECT * FROM academy_progress WHERE user_id = ?').get(userId) as ProgressRow | undefined;
     if (existing) return existing;
@@ -491,6 +519,7 @@ function saveDiagnosticSqlite(
     aiSummary: string | null | undefined,
     rows: { question_id: string; selected_index: number; is_correct: boolean; topic: string }[],
 ) {
+    usersWithLocalProgress.add(userId);
     const db = sqlite();
     db.exec('BEGIN');
     try {
@@ -630,6 +659,7 @@ type QuizDetailRow = {
 };
 
 function syncSqliteProgressFromState(userId: string, state: AcademyUserState, t: string, xpDelta: number, lessonId: number) {
+    usersWithLocalProgress.add(userId);
     const db = sqlite();
     const existing = db.prepare('SELECT * FROM academy_progress WHERE user_id = ?').get(userId) as ProgressRow | undefined;
     const xp = (existing?.xp ?? state.xp ?? 0) + xpDelta;
