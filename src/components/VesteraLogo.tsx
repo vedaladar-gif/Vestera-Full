@@ -5,9 +5,11 @@
 
 interface VesteraLogoProps {
     height?: number;
+    /** Use on dark backgrounds (navy nav/sidebar/auth panels) — renders white wordmark text. */
+    light?: boolean;
 }
 
-export default function VesteraLogo({ height = 36 }: VesteraLogoProps) {
+export default function VesteraLogo({ height = 36, light = false }: VesteraLogoProps) {
     const box = Math.round(height * 0.95);
     const chevron = Math.round(box * 0.58);
     return (
@@ -43,7 +45,7 @@ export default function VesteraLogo({ height = 36 }: VesteraLogoProps) {
                 fontFamily: "'Inter', sans-serif",
                 fontWeight: 800,
                 fontSize: Math.round(height * 0.6),
-                color: '#20264D',
+                color: light ? '#FFFFFF' : '#20264D',
                 letterSpacing: '-0.3px',
                 lineHeight: 1,
             }}>

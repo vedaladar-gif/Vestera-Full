@@ -142,7 +142,7 @@ export default function RegisterPage() {
 
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 380 }}>
                     <div style={{ marginBottom: 40 }}>
-                        <VesteraLogo height={36} />
+                        <VesteraLogo height={36} light />
                     </div>
                     <h1 style={{ fontFamily: "'Inter', sans-serif", fontSize: 40, fontWeight: 800, color: '#fff', letterSpacing: -1.8, lineHeight: 1.1, margin: '0 0 16px' }}>
                         Your investing<br />journey starts here.

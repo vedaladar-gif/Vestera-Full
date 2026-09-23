@@ -282,6 +282,24 @@ body::after {
   background: rgba(10,18,32,0.99);
 }
 
+/* ── Dark-navy public navbar (marketing pages + homepage) ── */
+.navy-navbar {
+  background: var(--vt-navy) !important;
+  border-bottom: 1px solid var(--vt-navy-border) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.navy-hamburger span { background: var(--vt-navy-text); }
+.navy-drawer {
+  background: var(--vt-navy) !important;
+  border-left: 1px solid var(--vt-navy-border) !important;
+}
+.navy-drawer .nav-mobile-link { color: var(--vt-navy-text); }
+.navy-drawer .nav-mobile-link:hover { background: var(--vt-navy-hover); color: #fff; }
+.navy-drawer .nav-mobile-link[data-active='true'] { background: var(--vt-navy-active); color: #fff; }
+.navy-drawer .nav-mobile-username { color: #fff; }
+.navy-drawer .nav-mobile-divider { background: var(--vt-navy-border); }
+
 .nav-brand {
   font-family: 'Inter', sans-serif;
   font-size: 16px;

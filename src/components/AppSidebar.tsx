@@ -158,8 +158,14 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
     // Onboarding/auth screens render their own complete layout.
     if (noShell) return <>{children}</>;
 
-    // Auth state not resolved yet, or logged out — keep the existing public marketing navbar.
-    if (!authenticated) {
+    // The marketing homepage is always its own full-width page with the public
+    // navbar — never wrapped in the app sidebar, even when logged in. Clicking
+    // the Vestera logo anywhere in the app always lands here.
+    const isLanding = pathname === '/';
+
+    // Auth state not resolved yet, logged out, or on the homepage — keep the
+    // public marketing navbar instead of the app sidebar.
+    if (!authenticated || isLanding) {
         return (
             <>
                 <div className="nav-float-shell"><Navbar /></div>
@@ -173,7 +179,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
         <div className={styles.shellRoot}>
             {/* ── Desktop sidebar ── */}
             <aside className={styles.sidebar}>
-                <Link href="/trade" className={styles.sidebarBrand}>
+                <Link href="/" className={styles.sidebarBrand}>
                     <span className={styles.sidebarBrandMark}>
                         <svg width={15} height={15} viewBox="0 0 20 20" fill="none">
                             <path d="M4 5.5L10 15L16 5.5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -202,7 +208,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
                         <path d="M4 7h16M4 12h16M4 17h16" />
                     </svg>
                 </button>
-                <Link href="/trade" className={styles.mobileBrand}>
+                <Link href="/" className={styles.mobileBrand}>
                     <span className={styles.mobileBrandMark}>
                         <svg width={13} height={13} viewBox="0 0 20 20" fill="none">
                             <path d="M4 5.5L10 15L16 5.5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />

@@ -118,7 +118,7 @@ export default function LoginPage() {
 
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 380 }}>
                     <div style={{ marginBottom: 40 }}>
-                        <VesteraLogo height={36} />
+                        <VesteraLogo height={36} light />
                     </div>
 
                     <h1 style={{
