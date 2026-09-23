@@ -1,8 +1,8 @@
 /* ── Wrapper ── */
 .statsWrap {
     min-height: 100vh;
-    background: #EEF2FB;
-    font-family: 'Nunito', sans-serif;
+    background: #F5F7FA;
+    font-family: 'Inter', sans-serif;
     padding: 32px 40px 100px;
     position: relative;
     color: #20264D;
@@ -17,8 +17,8 @@
 }
 .spinner {
     width: 32px; height: 32px;
-    border: 2.5px solid rgba(79,124,255,0.15);
-    border-top-color: #4F7CFF;
+    border: 2.5px solid rgba(18,166,105,0.15);
+    border-top-color: #12A669;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -34,7 +34,7 @@
     flex-wrap: wrap;
 }
 .pageTitle {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 28px;
     font-weight: 800;
     color: #20264D;
@@ -72,13 +72,13 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     transition: all 0.2s;
     white-space: nowrap;
 }
-.tabBtn:hover { color: #20264D; background: #EEF2FB; }
+.tabBtn:hover { color: #20264D; background: #F5F7FA; }
 .tabBtnActive {
-    background: #EEF2FB !important;
+    background: #F5F7FA !important;
     color: #20264D !important;
     box-shadow: none;
 }
@@ -134,7 +134,7 @@
     flex-shrink: 0;
 }
 .statCardValue {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 26px;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -270,14 +270,14 @@
 }
 .tableRow:last-child td { border-bottom: none; }
 .tableRow:hover td { background: var(--vt-hover2); }
-.tableRowMe td { background: rgba(79,124,255,0.04); }
-.tableRowMe:hover td { background: rgba(79,124,255,0.07); }
+.tableRowMe td { background: rgba(18,166,105,0.04); }
+.tableRowMe:hover td { background: rgba(18,166,105,0.07); }
 
 .stockCell { display: flex; align-items: center; gap: 10px; }
 .stockDot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 .stockTicker { font-weight: 700; font-size: 14px; color: var(--vt-text); }
 .tdMuted { color: var(--vt-text2) !important; }
-.tdBlue { color: #4F7CFF !important; font-weight: 600 !important; }
+.tdBlue { color: #12A669 !important; font-weight: 600 !important; }
 .tdCenter { text-align: center !important; }
 
 .allocCell { display: flex; align-items: center; gap: 8px; }
@@ -313,7 +313,7 @@
     border-top: 3px solid #fbbf24 !important;
     padding-bottom: 28px;
 }
-.podiumMe { box-shadow: 0 0 0 2px rgba(79,124,255,0.4) !important; }
+.podiumMe { box-shadow: 0 0 0 2px rgba(18,166,105,0.4) !important; }
 .podiumMedal { font-size: 30px; margin-bottom: 14px; line-height: 1; }
 .podiumAvatar {
     width: 60px; height: 60px;
@@ -352,8 +352,8 @@
 .youChip {
     display: inline-block;
     padding: 2px 8px;
-    background: rgba(79,124,255,0.1);
-    color: #4F7CFF;
+    background: rgba(18,166,105,0.1);
+    color: #12A669;
     border-radius: 100px;
     font-size: 11px;
     font-weight: 600;
@@ -394,8 +394,8 @@
 .traderHandle { font-size: 11px; color: var(--vt-text3); margin-top: 1px; }
 .youTag {
     padding: 1px 6px;
-    background: rgba(79,124,255,0.1);
-    color: #4F7CFF;
+    background: rgba(18,166,105,0.1);
+    color: #12A669;
     border-radius: 4px;
     font-size: 10px;
     font-weight: 700;
@@ -410,12 +410,12 @@
 .medalText { font-size: 18px; }
 .myRankBadge {
     padding: 5px 14px;
-    background: rgba(79,124,255,0.1);
-    border: 1px solid rgba(79,124,255,0.2);
+    background: rgba(18,166,105,0.1);
+    border: 1px solid rgba(18,166,105,0.2);
     border-radius: 100px;
     font-size: 12px;
     font-weight: 600;
-    color: #4F7CFF;
+    color: #12A669;
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -423,10 +423,10 @@
 /* ── Utility ── */
 .ctaLink {
     padding: 7px 16px;
-    background: rgba(79,124,255,0.1);
-    border: 1px solid rgba(79,124,255,0.2);
+    background: rgba(18,166,105,0.1);
+    border: 1px solid rgba(18,166,105,0.2);
     border-radius: 8px;
-    color: #4F7CFF;
+    color: #12A669;
     font-size: 12px;
     font-weight: 600;
     text-decoration: none;
@@ -434,8 +434,8 @@
     white-space: nowrap;
     flex-shrink: 0;
 }
-.ctaLink:hover { background: rgba(79,124,255,0.18); }
-.link { color: #4F7CFF; text-decoration: none; font-weight: 600; }
+.ctaLink:hover { background: rgba(18,166,105,0.18); }
+.link { color: #12A669; text-decoration: none; font-weight: 600; }
 .link:hover { text-decoration: underline; }
 .emptyState { text-align: center; padding: 40px 0; }
 .emptyIcon { font-size: 32px; margin-bottom: 10px; }
@@ -590,7 +590,7 @@
 }
 .friendsSearchInput:focus {
     outline: none;
-    border-color: #4F7CFF;
+    border-color: #12A669;
 }
 .friendsSearchInput::placeholder { color: var(--vt-text3); }
 .friendsSearchResults {
@@ -626,11 +626,11 @@
     white-space: nowrap;
 }
 .friendsRowBtnPrimary {
-    background: rgba(79,124,255,0.15);
-    color: #4F7CFF;
-    border: 1px solid rgba(79,124,255,0.3);
+    background: rgba(18,166,105,0.15);
+    color: #12A669;
+    border: 1px solid rgba(18,166,105,0.3);
 }
-.friendsRowBtnPrimary:hover { background: rgba(79,124,255,0.22); }
+.friendsRowBtnPrimary:hover { background: rgba(18,166,105,0.22); }
 .friendsRowBtnMuted {
     background: transparent;
     color: var(--vt-text3);
@@ -688,8 +688,8 @@
     transition: border-color 0.2s, background 0.2s;
 }
 .friendCardClickable:hover {
-    border-color: rgba(79,124,255,0.35);
-    background: rgba(79,124,255,0.04);
+    border-color: rgba(18,166,105,0.35);
+    background: rgba(18,166,105,0.04);
 }
 .friendsShareHelper {
     font-size: 12px;
@@ -720,13 +720,13 @@
     border-color: var(--vt-border);
 }
 .friendsShareModeRowActive {
-    border-color: rgba(79,124,255,0.45);
-    background: rgba(79,124,255,0.08);
+    border-color: rgba(18,166,105,0.45);
+    background: rgba(18,166,105,0.08);
 }
 .friendsShareModeRadio {
     width: 16px;
     height: 16px;
-    accent-color: #4F7CFF;
+    accent-color: #12A669;
     margin-top: 2px;
     flex-shrink: 0;
 }
@@ -776,7 +776,7 @@
     cursor: pointer;
 }
 .friendsShareCheckRow input {
-    accent-color: #4F7CFF;
+    accent-color: #12A669;
     width: 15px;
     height: 15px;
     flex-shrink: 0;
@@ -787,7 +787,7 @@
     padding: 10px 14px;
     border-radius: 10px;
     border: none;
-    background: #4F7CFF;
+    background: #12A669;
     color: #fff;
     font-size: 13px;
     font-weight: 700;
@@ -808,7 +808,7 @@
     background: var(--vt-bg);
     padding: 48px 24px 80px;
     color: var(--vt-text);
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
 }
 .friendPageInner {
     max-width: 900px;
@@ -825,7 +825,7 @@
     margin-bottom: 20px;
 }
 .friendBackLink:hover {
-    color: #4F7CFF;
+    color: #12A669;
 }
 .friendProfileCard {
     background: var(--vt-surface);
@@ -896,7 +896,7 @@
     padding: 12px 18px;
     border-radius: 10px;
     border: none;
-    background: #4F7CFF;
+    background: #12A669;
     color: #fff;
     font-size: 14px;
     font-weight: 700;

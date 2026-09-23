@@ -1,7 +1,7 @@
 .dashWrap {
     min-height: 100vh;
-    background: #EEF2FB;
-    font-family: 'Nunito', sans-serif;
+    background: #F5F7FA;
+    font-family: 'Inter', sans-serif;
     position: relative;
     color: #20264D;
 }
@@ -25,7 +25,7 @@
     -webkit-backdrop-filter: blur(20px);
 }
 .brand {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
     font-size: 17px;
     font-weight: 800;
     color: var(--vt-text);
@@ -178,7 +178,7 @@
     font-size: 13px;
     font-weight: 800;
     color: #20264D;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     letter-spacing: -0.2px;
     line-height: 1.2;
 }
@@ -232,7 +232,7 @@
 }
 .tickerInfo h2 {
     margin: 0;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 24px;
     font-weight: 800;
     color: #20264D;
@@ -260,9 +260,9 @@
 .searchInput:focus,
 .searchInputWide:focus {
     outline: none;
-    border-color: #4C8DFF;
-    background: #EEF2FB;
-    box-shadow: 0 0 0 3px rgba(76,141,255,0.1);
+    border-color: #12A669;
+    background: #F5F7FA;
+    box-shadow: 0 0 0 3px rgba(18,166,105,0.1);
 }
 .searchInputWide:focus {
     width: min(360px, 42vw);
@@ -322,11 +322,11 @@
 }
 .assetSearchRow:last-child { border-bottom: none; }
 .assetSearchRow:hover {
-    background: rgba(79,124,255,0.08);
+    background: rgba(18,166,105,0.08);
 }
 .assetSearchRowHighlighted {
-    background: rgba(79,124,255,0.14);
-    outline: 1px solid rgba(79,124,255,0.25);
+    background: rgba(18,166,105,0.14);
+    outline: 1px solid rgba(18,166,105,0.25);
     outline-offset: -1px;
 }
 .assetSearchRowLeft {
@@ -379,9 +379,9 @@
     font-family: inherit;
     transition: background 0.2s;
 }
-.searchItem:hover { background: rgba(79,124,255,0.12); color: #a78bfa; }
+.searchItem:hover { background: rgba(18,166,105,0.12); color: #34D399; }
 .priceDisplay {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
     font-size: 20px;
     font-weight: 800;
     color: var(--vt-text);
@@ -429,8 +429,8 @@
     transition: background 0.2s;
 }
 .ohlcBarLocked {
-    background: rgba(79,124,255,0.06);
-    border-bottom-color: rgba(79,124,255,0.2);
+    background: rgba(18,166,105,0.06);
+    border-bottom-color: rgba(18,166,105,0.2);
 }
 .ohlcEmpty {
     font-size: 11.5px;
@@ -460,25 +460,25 @@
     font-size: 12.5px;
     font-weight: 700;
     color: var(--vt-text);
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
     letter-spacing: -0.2px;
 }
 .ohlcLockBtn {
     margin-left: auto;
     background: none;
-    border: 1px solid rgba(79,124,255,0.25);
+    border: 1px solid rgba(18,166,105,0.25);
     padding: 3px 10px;
     border-radius: 6px;
     font-size: 11px;
     font-weight: 600;
-    color: #4F7CFF;
+    color: #12A669;
     cursor: pointer;
     font-family: inherit;
-    background: rgba(79,124,255,0.06);
+    background: rgba(18,166,105,0.06);
     transition: background 0.15s;
     white-space: nowrap;
 }
-.ohlcLockBtn:hover { background: rgba(79,124,255,0.14); }
+.ohlcLockBtn:hover { background: rgba(18,166,105,0.14); }
 .ohlcHint {
     margin-left: auto;
     font-size: 11px;
@@ -523,7 +523,7 @@
 }
 .sideCard h3 {
     margin: 0 0 14px;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 700;
     color: #20264D;
@@ -548,7 +548,7 @@
 }
 .itemValue {
     display: block;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 800;
     color: #20264D;
@@ -574,11 +574,11 @@
     font-family: inherit;
     transition: all 0.2s;
 }
-.tradeInput:focus { outline: none; border: 1.5px solid #4C8DFF; box-shadow: 0 0 0 3px rgba(76,141,255,0.1); }
+.tradeInput:focus { outline: none; border: 1.5px solid #12A669; box-shadow: 0 0 0 3px rgba(18,166,105,0.1); }
 .tradeTotal { font-size: 13px; color: #8b90b0; text-align: right; }
 .tradeTotal strong {
     color: #20264D;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
 }
 .tradeBtns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -632,7 +632,7 @@
 }
 .holdingRow:hover { background: var(--vt-hover); color: var(--vt-text); }
 .holdingRow:focus-visible {
-    outline: 2px solid rgba(139, 92, 246, 0.45);
+    outline: 2px solid rgba(52,211,153, 0.45);
     outline-offset: 2px;
 }
 .holdingRowInner {
@@ -655,7 +655,7 @@
     min-width: 0;
 }
 .holdingTicker {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
     font-weight: 700;
     color: var(--vt-text);
     font-size: 13px;
@@ -702,7 +702,7 @@
     color: var(--vt-text2);
     font-variant-numeric: tabular-nums;
 }
-.holdingValue { font-weight: 600; color: #4F7CFF; }
+.holdingValue { font-weight: 600; color: #12A669; }
 /* Recent trades: single-line row (holdings use .holdingRow as stacked layout) */
 .recentTradeRow {
     display: flex;
@@ -734,22 +734,22 @@
     transition: border-color 0.2s;
     flex-shrink: 0;
 }
-.alertSelect:focus { outline: none; border-color: #4F7CFF; }
+.alertSelect:focus { outline: none; border-color: #12A669; }
 .alertPriceInput { flex: 1; min-width: 0; }
 .alertBtn {
     width: 100%;
     padding: 11px;
-    background: rgba(79,124,255,0.1);
-    border: 1px solid rgba(79,124,255,0.2);
+    background: rgba(18,166,105,0.1);
+    border: 1px solid rgba(18,166,105,0.2);
     border-radius: 9px;
-    color: #4F7CFF;
+    color: #12A669;
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
     transition: background 0.2s, transform 0.15s;
 }
-.alertBtn:hover:not(:disabled) { background: rgba(79,124,255,0.18); transform: translateY(-1px); }
+.alertBtn:hover:not(:disabled) { background: rgba(18,166,105,0.18); transform: translateY(-1px); }
 .alertBtn:disabled { opacity: 0.6; cursor: default; }
 .alertsList { margin-top: 14px; border-top: 1px solid var(--vt-border2); padding-top: 12px; }
 .alertsLabel {
@@ -827,7 +827,7 @@
     margin: 0 0 4px;
     font-size: 10px;
     font-weight: 700;
-    color: #a78bfa;
+    color: #34D399;
     text-transform: uppercase;
     letter-spacing: 0.8px;
 }
@@ -851,7 +851,7 @@
     right: -8px;
     width: 52px;
     height: 52px;
-    color: #a78bfa;
+    color: #34D399;
     opacity: 0.85;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     animation: chatHintBounce 1.4s ease-in-out infinite;

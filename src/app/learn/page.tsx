@@ -546,11 +546,15 @@ export default function LearningDashboard() {
     return (
         <div className={styles.learnWrap}>
             <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
-            <DashNav
-                onLogout={() => router.push('/')}
-                previewMode={!authenticated}
-                onExitPreview={isGuest ? () => { clearGuestMode(); router.push('/'); } : undefined}
-            />
+            {/* Authenticated users get nav from the global sidebar (AppFrame) — this
+                header is only needed for the logged-out guest preview flow. */}
+            {!authenticated && (
+                <DashNav
+                    onLogout={() => router.push('/')}
+                    previewMode
+                    onExitPreview={isGuest ? () => { clearGuestMode(); router.push('/'); } : undefined}
+                />
+            )}
             <div className={styles.content}>
                 {loading && <div className={styles.centerState}>Loading Academy…</div>}
                 {error && <p className={styles.centerState}>{error}</p>}

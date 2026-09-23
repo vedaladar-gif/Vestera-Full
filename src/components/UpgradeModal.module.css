@@ -70,7 +70,7 @@
     align-items: center;
     justify-content: center;
     padding: 12px 18px;
-    background: #8B5CF6;
+    background: #34D399;
     color: #fff;
     font-size: 14px;
     font-weight: 600;
@@ -82,7 +82,7 @@
 }
 
 .btnPrimary:hover {
-    background: #7C3AED;
+    background: #0F9D6B;
 }
 
 .btnClose {

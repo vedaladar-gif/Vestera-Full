@@ -65,7 +65,7 @@
 
 .videoTitle {
     margin: 0;
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
     font-size: 18px;
     font-weight: 800;
     color: var(--vt-text);

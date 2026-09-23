@@ -19,7 +19,7 @@ export default function VLogo({ size = 32, style }: VLogoProps) {
                 width: size,
                 height: size,
                 borderRadius: radius,
-                background: 'linear-gradient(135deg, #4f6ef7 0%, #9b5de5 100%)',
+                background: 'linear-gradient(135deg, #12A669 0%, #0F9D6B 100%)',
                 /* Edge definition only; outer glow comes from .logo-glow drop-shadow */
                 boxShadow: '0 0 0 1px rgba(79,110,247,0.35)',
                 display: 'inline-flex',

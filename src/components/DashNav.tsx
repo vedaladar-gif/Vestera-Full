@@ -92,7 +92,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                 top: 0,
                 zIndex: 200,
                 flexShrink: 0,
-                fontFamily: "'Nunito', sans-serif",
+                fontFamily: "'Inter', sans-serif",
             }}>
                 {/* Brand */}
                 <Link
@@ -130,7 +130,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                 style={{
                                     textDecoration: 'none', fontSize: 14, fontWeight: 700,
                                     padding: '8px 18px', borderRadius: 999,
-                                    background: '#4C8DFF', color: '#fff', transition: 'filter 0.2s',
+                                    background: '#12A669', color: '#fff', transition: 'filter 0.2s',
                                 }}
                             >
                                 Log In / Sign Up

@@ -19,8 +19,8 @@ interface HoldingEntry {
 }
 
 const ALLOC_COLORS = [
-    '#4f6ef7', '#9b5de5', '#4ade80', '#fbbf24',
-    '#f87171', '#06b6d4', '#a855f7', '#f97316',
+    '#12A669', '#0F9D6B', '#4ade80', '#fbbf24',
+    '#f87171', '#06b6d4', '#12A669', '#f97316',
 ];
 
 function PortfolioPage() {
@@ -285,7 +285,7 @@ function PortfolioPage() {
                                 { label: 'Invested Value', value: `$${portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: 'var(--vt-text)' },
                                 { label: 'Cash Available', value: `$${cash.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: 'var(--vt-text)' },
                                 { label: 'Open Positions', value: `${holdings.length}`, color: 'var(--vt-text)' },
-                                { label: 'Largest Position', value: bestHolding ? bestHolding.stock : '—', color: bestHolding ? '#4f6ef7' : 'var(--vt-text3)' },
+                                { label: 'Largest Position', value: bestHolding ? bestHolding.stock : '—', color: bestHolding ? '#12A669' : 'var(--vt-text3)' },
                                 { label: 'Leaderboard Rank', value: myRank ? `#${myRank}` : 'Unranked', color: myRank ? '#fbbf24' : 'var(--vt-text3)' },
                             ].map((row, i) => (
                                 <div key={i} className={styles.quickStatRow}>

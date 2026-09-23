@@ -1,14 +1,14 @@
 .page {
     min-height: 100vh;
-    background: #EEF2FB;
-    font-family: 'Nunito', sans-serif;
+    background: #F5F7FA;
+    font-family: 'Inter', sans-serif;
     padding: 32px 24px 100px;
 }
 .inner { max-width: 980px; margin: 0 auto; }
 
 .hero { text-align: center; margin-bottom: 28px; }
 .heroTitle {
-    font-family: 'Baloo 2', sans-serif; font-size: 30px; font-weight: 800; color: #20264D;
+    font-family: 'Inter', sans-serif; font-size: 30px; font-weight: 800; color: #20264D;
     letter-spacing: -0.5px; margin: 0 0 6px;
 }
 .heroSubtitle { font-size: 14.5px; color: #5c628a; font-weight: 600; margin: 0 0 24px; }
@@ -32,6 +32,6 @@
 
 .retryBtn {
     margin-top: 14px; padding: 8px 18px; border-radius: 10px; border: none;
-    background: #4C8DFF; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer;
-    font-family: 'Nunito', sans-serif;
+    background: #12A669; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }

@@ -70,15 +70,15 @@ export default function LoginPage() {
     };
 
     const inputBase: React.CSSProperties = {
-        padding: '13px 16px',
+        padding: '12px 15px',
         background: '#F8FAFC',
-        border: '1.5px solid #E8ECF3',
-        borderRadius: '14px',
+        border: '1px solid #E4E9F0',
+        borderRadius: '10px',
         color: '#111827',
-        fontSize: '15px',
+        fontSize: '14.5px',
         outline: 'none',
         width: '100%',
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        fontFamily: "'Inter', sans-serif",
         transition: 'border-color 0.18s, box-shadow 0.18s',
     };
 
@@ -95,12 +95,12 @@ export default function LoginPage() {
             background: 'var(--vt-bg)',
             display: 'flex',
             margin: '-32px -24px 0',
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
         }}>
             {/* ── LEFT PANEL — Illustration ── */}
             <div style={{
                 flex: '1',
-                background: 'linear-gradient(145deg, #3B5CF0 0%, #5B8EFF 50%, #10B981 100%)',
+                background: 'linear-gradient(160deg, #0B1C33 0%, #0F2340 55%, #123454 100%)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
@@ -122,7 +122,7 @@ export default function LoginPage() {
                     </div>
 
                     <h1 style={{
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        fontFamily: "'Inter', sans-serif",
                         fontSize: 40, fontWeight: 800, color: '#fff',
                         letterSpacing: -1.8, lineHeight: 1.1, margin: '0 0 16px',
                     }}>
@@ -136,10 +136,11 @@ export default function LoginPage() {
                         {features.map((f, i) => (
                             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                                 <div style={{
-                                    width: 38, height: 38, borderRadius: 11, flexShrink: 0,
-                                    background: 'rgba(255,255,255,0.15)',
+                                    width: 36, height: 36, borderRadius: 9, flexShrink: 0,
+                                    background: 'rgba(52,211,153,0.16)',
+                                    border: '1px solid rgba(52,211,153,0.25)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: 16,
+                                    fontSize: 15,
                                 }}>{f.icon}</div>
                                 <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{f.text}</span>
                             </div>
@@ -167,7 +168,7 @@ export default function LoginPage() {
                         <VesteraLogo height={32} />
                     </div>
 
-                    <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 26, fontWeight: 800, color: '#111827', margin: '0 0 6px', letterSpacing: -0.8 }}>
+                    <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: 26, fontWeight: 800, color: '#111827', margin: '0 0 6px', letterSpacing: -0.8 }}>
                         Welcome back
                     </h2>
                     <p style={{ fontSize: 14, color: '#6B7280', margin: '0 0 32px' }}>
@@ -181,7 +182,7 @@ export default function LoginPage() {
                         <div style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: '#DC2626', fontWeight: 500 }}>{error}</div>
                     )}
                     {info && (
-                        <div style={{ background: 'rgba(79,124,255,0.07)', border: '1px solid rgba(79,124,255,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: '#4F7CFF', fontWeight: 500 }}>{info}</div>
+                        <div style={{ background: 'rgba(18,166,105,0.07)', border: '1px solid rgba(18,166,105,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: '#12A669', fontWeight: 500 }}>{info}</div>
                     )}
 
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -192,7 +193,7 @@ export default function LoginPage() {
                                 onChange={e => setUsername(e.target.value)}
                                 placeholder="you@example.com" required autoComplete="email"
                                 style={inputBase}
-                                onFocus={e => { e.target.style.borderColor = '#5B8EFF'; e.target.style.boxShadow = '0 0 0 3px rgba(79,124,255,0.12)'; }}
+                                onFocus={e => { e.target.style.borderColor = '#12A669'; e.target.style.boxShadow = '0 0 0 3px rgba(18,166,105,0.12)'; }}
                                 onBlur={e => { e.target.style.borderColor = '#E8ECF3'; e.target.style.boxShadow = 'none'; }}
                             />
                         </div>
@@ -203,7 +204,7 @@ export default function LoginPage() {
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder="••••••••" required autoComplete="current-password"
                                 style={inputBase}
-                                onFocus={e => { e.target.style.borderColor = '#5B8EFF'; e.target.style.boxShadow = '0 0 0 3px rgba(79,124,255,0.12)'; }}
+                                onFocus={e => { e.target.style.borderColor = '#12A669'; e.target.style.boxShadow = '0 0 0 3px rgba(18,166,105,0.12)'; }}
                                 onBlur={e => { e.target.style.borderColor = '#E8ECF3'; e.target.style.boxShadow = 'none'; }}
                             />
                         </div>
@@ -211,16 +212,16 @@ export default function LoginPage() {
                         <button
                             type="submit" disabled={loading}
                             style={{
-                                padding: '14px',
-                                background: loading ? 'linear-gradient(135deg, #a78bfa, #8B5CF6)' : 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
-                                color: '#fff', border: 'none', borderRadius: '50px',
-                                fontSize: '15px', fontWeight: 800,
+                                padding: '13px',
+                                background: '#12A669',
+                                color: '#fff', border: 'none', borderRadius: '10px',
+                                fontSize: '14.5px', fontWeight: 700,
                                 cursor: loading ? 'not-allowed' : 'pointer',
                                 opacity: loading ? 0.85 : 1,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                boxShadow: '0 4px 18px rgba(139,92,246,0.32)',
-                                letterSpacing: '-0.2px',
+                                fontFamily: "'Inter', sans-serif",
+                                boxShadow: '0 2px 10px rgba(18,166,105,0.22)',
+                                letterSpacing: '-0.1px',
                             }}
                         >
                             {loading && <span style={{ width: 15, height: 15, border: '2px solid rgba(255,255,255,0.35)', borderTopColor: '#fff', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />}
@@ -230,13 +231,13 @@ export default function LoginPage() {
 
                     <button
                         type="button" onClick={handleForgotPassword}
-                        style={{ width: '100%', marginTop: 10, padding: '12px', background: 'none', border: '1.5px solid #E8ECF3', borderRadius: '50px', color: '#6B7280', fontSize: '14px', cursor: 'pointer', fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500 }}
+                        style={{ width: '100%', marginTop: 10, padding: '11px', background: 'none', border: '1px solid #E4E9F0', borderRadius: '10px', color: '#6B7280', fontSize: '13.5px', cursor: 'pointer', fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
                     >Forgot password?</button>
 
-                    <div style={{ marginTop: 28, padding: '18px 20px', background: '#F8FAFC', borderRadius: 16, textAlign: 'center' }}>
+                    <div style={{ marginTop: 26, padding: '16px 18px', background: '#F8FAFC', border: '1px solid #E4E9F0', borderRadius: 10, textAlign: 'center' }}>
                         <p style={{ margin: 0, fontSize: 14, color: '#6B7280' }}>
                             Don&apos;t have an account?{' '}
-                            <Link href="/register" style={{ color: '#4F7CFF', textDecoration: 'none', fontWeight: 700 }}>Create one free →</Link>
+                            <Link href="/register" style={{ color: '#12A669', textDecoration: 'none', fontWeight: 700 }}>Create one free →</Link>
                         </p>
                     </div>
                 </div>

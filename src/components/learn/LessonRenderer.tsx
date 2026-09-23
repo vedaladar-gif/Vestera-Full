@@ -336,9 +336,9 @@ function CandlestickDiagram() {
 function PortfolioPieChart() {
     // Simple donut chart for portfolio allocation
     const segments = [
-        { label: 'US Stocks',     pct: 45, color: '#4f6ef7' },
+        { label: 'US Stocks',     pct: 45, color: '#12A669' },
         { label: 'Bonds',         pct: 25, color: '#4ade80' },
-        { label: 'Intl Stocks',   pct: 20, color: '#a855f7' },
+        { label: 'Intl Stocks',   pct: 20, color: '#12A669' },
         { label: 'Cash/Other',    pct: 10, color: '#f97316' },
     ];
     // Build SVG arcs
@@ -472,17 +472,17 @@ function CompoundGrowthChart() {
                 <polyline points={flatPts} fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5,3" />
 
                 {/* Compound area fill */}
-                <polygon points={growthArea} fill="#4f6ef7" fillOpacity="0.12" />
+                <polygon points={growthArea} fill="#12A669" fillOpacity="0.12" />
                 {/* Compound line */}
-                <polyline points={growthPts} fill="none" stroke="#4f6ef7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <polyline points={growthPts} fill="none" stroke="#12A669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
                 {/* Data dots */}
                 {[[50,170],[107,163],[163,153],[220,137],[277,115],[333,82],[390,34]].map(([x,y],i) => (
-                    <circle key={i} cx={x} cy={y} r="3.5" fill="#4f6ef7" stroke="var(--vt-surface)" strokeWidth="2" />
+                    <circle key={i} cx={x} cy={y} r="3.5" fill="#12A669" stroke="var(--vt-surface)" strokeWidth="2" />
                 ))}
 
                 {/* End label: $100K */}
-                <rect x="294" y="20" width="98" height="22" rx="11" fill="#4f6ef722" stroke="#4f6ef744" />
+                <rect x="294" y="20" width="98" height="22" rx="11" fill="#12A66922" stroke="#12A66944" />
                 <text x="343" y="35" textAnchor="middle" fill="#7d9bff" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$100,627</text>
 
                 {/* End label: flat */}
@@ -499,7 +499,7 @@ function CompoundGrowthChart() {
                 <text x="40" y="38" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$100K</text>
             </svg>
             <div className={styles.chartLegend}>
-                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#4f6ef7' }} />Compounding at 8%/year (x10 growth in 30 years)</div>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#12A669' }} />Compounding at 8%/year (x10 growth in 30 years)</div>
                 <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />No investment (stays at $10,000)</div>
             </div>
             <div className={styles.chartNote}>💡 Time in the market beats timing the market</div>
@@ -509,10 +509,10 @@ function CompoundGrowthChart() {
 
 function OrderTypesVisual() {
     const orders = [
-        { icon: '⚡', name: 'Market Order', speed: 'Instant', price: 'Current price', risk: 'Price may vary', color: '#4f6ef7' },
+        { icon: '⚡', name: 'Market Order', speed: 'Instant', price: 'Current price', risk: 'Price may vary', color: '#12A669' },
         { icon: '🎯', name: 'Limit Order',  speed: 'When triggered', price: 'Your set price', risk: 'May not fill', color: '#4ade80' },
         { icon: '🛡️', name: 'Stop-Loss',    speed: 'Auto-triggers', price: 'Below entry', risk: 'Limits losses', color: '#f97316' },
-        { icon: '🔀', name: 'Stop-Limit',   speed: 'Two-stage',     price: 'Two levels', risk: 'Most precise', color: '#a855f7' },
+        { icon: '🔀', name: 'Stop-Limit',   speed: 'Two-stage',     price: 'Two levels', risk: 'Most precise', color: '#12A669' },
     ];
     return (
         <div className={styles.chartBox}>
@@ -550,7 +550,7 @@ function MovingAveragesChart() {
                 {/* Price line */}
                 <polyline points={price} fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeOpacity="0.7" />
                 {/* 20-day MA */}
-                <polyline points={ma20} fill="none" stroke="#4f6ef7" strokeWidth="2" strokeLinecap="round" />
+                <polyline points={ma20} fill="none" stroke="#12A669" strokeWidth="2" strokeLinecap="round" />
                 {/* 50-day MA */}
                 <polyline points={ma50} fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" />
 
@@ -562,8 +562,8 @@ function MovingAveragesChart() {
                 {/* Legend in chart */}
                 <rect x="28" y="148" width="70" height="14" rx="7" fill="#94a3b822" />
                 <text x="63" y="158" textAnchor="middle" fill="#94a3b8" fontSize="9" fontFamily="Inter,sans-serif">Price</text>
-                <rect x="104" y="148" width="56" height="14" rx="7" fill="#4f6ef722" />
-                <text x="132" y="158" textAnchor="middle" fill="#4f6ef7" fontSize="9" fontFamily="Inter,sans-serif">20-day MA</text>
+                <rect x="104" y="148" width="56" height="14" rx="7" fill="#12A66922" />
+                <text x="132" y="158" textAnchor="middle" fill="#12A669" fontSize="9" fontFamily="Inter,sans-serif">20-day MA</text>
                 <rect x="166" y="148" width="56" height="14" rx="7" fill="#f9731622" />
                 <text x="194" y="158" textAnchor="middle" fill="#f97316" fontSize="9" fontFamily="Inter,sans-serif">50-day MA</text>
             </svg>
@@ -595,7 +595,7 @@ function RiskRewardVisual() {
                 <text x="250" y="60" textAnchor="middle" fill="#4ade80" fontSize="10" fontFamily="Inter,sans-serif">Target</text>
 
                 {/* 2:1 badge */}
-                <rect x="155" y="65" width="40" height="22" rx="11" fill="#4f6ef7" fillOpacity="0.9" />
+                <rect x="155" y="65" width="40" height="22" rx="11" fill="#12A669" fillOpacity="0.9" />
                 <text x="175" y="80" textAnchor="middle" fill="white" fontSize="11" fontFamily="Inter,sans-serif" fontWeight="800">2 : 1</text>
             </svg>
             <div className={styles.chartNote}>💡 Even with a 40% win rate, a 2:1 R:R is profitable over time</div>
@@ -741,13 +741,13 @@ function SimpleVsCompoundChart() {
                 {/* Simple area */}
                 <polygon points={simpleArea} fill="#94a3b8" fillOpacity="0.12" />
                 {/* Compound area */}
-                <polygon points={compoundArea} fill="#4f6ef7" fillOpacity="0.12" />
+                <polygon points={compoundArea} fill="#12A669" fillOpacity="0.12" />
                 {/* Simple line */}
                 <polyline points={simplePts} fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 {/* Compound line */}
-                <polyline points={compoundPts} fill="none" stroke="#4f6ef7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <polyline points={compoundPts} fill="none" stroke="#12A669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 {/* End labels */}
-                <rect x="293" y="18" width="88" height="22" rx="11" fill="#4f6ef722" stroke="#4f6ef744" />
+                <rect x="293" y="18" width="88" height="22" rx="11" fill="#12A66922" stroke="#12A66944" />
                 <text x="337" y="33" textAnchor="middle" fill="#7d9bff" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$6,727</text>
                 <rect x="293" y="98" width="82" height="22" rx="11" fill="#94a3b822" stroke="#94a3b844" />
                 <text x="334" y="113" textAnchor="middle" fill="#94a3b8" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$3,000</text>
@@ -759,7 +759,7 @@ function SimpleVsCompoundChart() {
                 <text x="40" y="35" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$7K</text>
             </svg>
             <div className={styles.chartLegend}>
-                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#4f6ef7' }} />Compound interest ($6,727 after 20 years)</div>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#12A669' }} />Compound interest ($6,727 after 20 years)</div>
                 <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />Simple interest ($3,000 after 20 years)</div>
             </div>
             <div className={styles.chartNote}>💡 Compound interest produces 2.2× more than simple interest over 20 years at the same rate</div>
@@ -769,7 +769,7 @@ function SimpleVsCompoundChart() {
 
 function BudgetPieChart() {
     const segments = [
-        { label: 'Needs',    sub: 'Housing, food, transport', pct: 50, color: '#4f6ef7' },
+        { label: 'Needs',    sub: 'Housing, food, transport', pct: 50, color: '#12A669' },
         { label: 'Wants',    sub: 'Dining, fun, hobbies',     pct: 30, color: '#f97316' },
         { label: 'Savings',  sub: 'IRA, emergency fund',       pct: 20, color: '#4ade80' },
     ];
@@ -917,7 +917,7 @@ export function LessonRenderer({ content, unitId, levelId, accentColor, onTakeQu
     }
 
     return (
-        <div className={styles.renderer} style={{ '--accent': accentColor ?? '#4f6ef7' } as React.CSSProperties}>
+        <div className={styles.renderer} style={{ '--accent': accentColor ?? '#12A669' } as React.CSSProperties}>
             {rendered}
             <QuickCheckPrompt onTakeQuiz={onTakeQuiz} />
         </div>

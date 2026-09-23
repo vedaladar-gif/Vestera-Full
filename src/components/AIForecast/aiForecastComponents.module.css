@@ -7,8 +7,8 @@
 
 .spinner {
     width: 26px; height: 26px;
-    border: 2.5px solid rgba(76,141,255,0.15);
-    border-top-color: #4C8DFF;
+    border: 2.5px solid rgba(18,166,105,0.15);
+    border-top-color: #12A669;
     border-radius: 50%;
     animation: vtSpin 0.8s linear infinite;
 }
@@ -22,15 +22,15 @@
     padding: 14px 18px; box-shadow: 0 8px 30px rgba(32,38,77,0.06);
     transition: border-color 0.18s;
 }
-.searchInputWrap:focus-within { border-color: #4C8DFF; }
+.searchInputWrap:focus-within { border-color: #12A669; }
 .searchIcon { font-size: 16px; opacity: 0.6; }
 .searchInput {
     flex: 1; border: none; outline: none; background: transparent;
-    font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600; color: #20264D;
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: #20264D;
 }
 .searchInput::placeholder { color: #8b90b0; font-weight: 500; }
 .searchSpinner {
-    width: 16px; height: 16px; border: 2px solid rgba(76,141,255,0.2); border-top-color: #4C8DFF;
+    width: 16px; height: 16px; border: 2px solid rgba(18,166,105,0.2); border-top-color: #12A669;
     border-radius: 50%; animation: vtSpin 0.7s linear infinite; flex-shrink: 0;
 }
 .searchDropdown {
@@ -46,7 +46,7 @@
 .searchResultRow {
     width: 100%; display: flex; align-items: center; justify-content: space-between;
     padding: 10px 12px; border: none; background: transparent; border-radius: 10px;
-    cursor: pointer; text-align: left; font-family: 'Nunito', sans-serif;
+    cursor: pointer; text-align: left; font-family: 'Inter', sans-serif;
     transition: background 0.15s;
 }
 .searchResultRow:hover { background: #F4F6FC; }
@@ -62,7 +62,7 @@
 .headerTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
 .headerSymbolRow { display: flex; align-items: center; gap: 10px; }
 .headerSymbol {
-    font-family: 'Baloo 2', sans-serif; font-size: 30px; font-weight: 800; color: #20264D;
+    font-family: 'Inter', sans-serif; font-size: 30px; font-weight: 800; color: #20264D;
     margin: 0; letter-spacing: -0.5px;
 }
 .statusPill {
@@ -72,10 +72,10 @@
 .statusDot { width: 6px; height: 6px; border-radius: 50%; }
 .headerName { font-size: 14px; color: #5c628a; font-weight: 600; margin-top: 2px; }
 .headerPriceBlock { text-align: right; }
-.headerPrice { font-family: 'Baloo 2', sans-serif; font-size: 32px; font-weight: 800; color: #20264D; }
+.headerPrice { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #20264D; }
 .headerStatsGrid {
     display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 22px;
-    padding-top: 18px; border-top: 1px solid #EEF1FA;
+    padding-top: 18px; border-top: 1px solid #F5F7FA;
 }
 .headerStat { min-width: 0; }
 .headerStatLabel { font-size: 11px; color: #8b90b0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
@@ -96,22 +96,22 @@
 }
 .outlookLabel { font-size: 13px; font-weight: 800; color: #5c628a; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
 .aiTag {
-    font-size: 10px; font-weight: 700; color: #4C8DFF; background: rgba(76,141,255,0.1);
+    font-size: 10px; font-weight: 700; color: #12A669; background: rgba(18,166,105,0.1);
     padding: 2px 8px; border-radius: 100px; text-transform: none; letter-spacing: 0;
 }
-.outlookCategory { font-family: 'Baloo 2', sans-serif; font-size: 34px; font-weight: 800; margin-top: 6px; letter-spacing: -0.5px; }
+.outlookCategory { font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; margin-top: 6px; letter-spacing: -0.5px; }
 .outlookScoreRow { display: flex; align-items: baseline; gap: 6px; margin-top: 6px; }
-.outlookScoreBig { font-family: 'Baloo 2', sans-serif; font-size: 26px; font-weight: 800; }
+.outlookScoreBig { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; }
 .outlookScoreOutOf { font-size: 15px; color: #8b90b0; font-weight: 700; }
 .outlookBarTrack {
-    position: relative; height: 10px; background: #EEF1FA; border-radius: 100px; margin-top: 16px; overflow: hidden;
+    position: relative; height: 10px; background: #F5F7FA; border-radius: 100px; margin-top: 16px; overflow: hidden;
 }
 .outlookBarFill { height: 100%; border-radius: 100px; transition: width 0.4s ease; }
 .outlookBarMid { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 2px; background: #c7cce3; }
 .outlookBarLabels { display: flex; justify-content: space-between; font-size: 11px; color: #8b90b0; font-weight: 700; margin-top: 6px; }
 .outlookMetaRow { display: flex; gap: 40px; margin-top: 20px; }
 .outlookMetaLabel { font-size: 12px; color: #8b90b0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
-.outlookMetaValue { font-size: 20px; color: #20264D; font-weight: 800; margin-top: 2px; font-family: 'Baloo 2', sans-serif; }
+.outlookMetaValue { font-size: 20px; color: #20264D; font-weight: 800; margin-top: 2px; font-family: 'Inter', sans-serif; }
 
 /* ── Generic section card ── */
 .sectionCard {
@@ -119,28 +119,28 @@
     box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
 }
 .sectionHeader { margin-bottom: 18px; }
-.sectionTitle { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; color: #20264D; margin: 0 0 4px; }
+.sectionTitle { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; color: #20264D; margin: 0 0 4px; }
 .sectionSubtitle { font-size: 13px; color: #8b90b0; font-weight: 600; margin: 0; }
 
 /* ── Chart ── */
 .chartCard { background: #fff; border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px; }
 .chartHeader { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-.chartTitle { font-family: 'Baloo 2', sans-serif; font-size: 18px; font-weight: 800; color: #20264D; }
+.chartTitle { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: #20264D; }
 .chartRangeToggle { display: flex; gap: 2px; background: #F4F6FC; border-radius: 10px; padding: 3px; }
 .rangeBtn, .rangeBtnActive {
     border: none; background: transparent; padding: 6px 12px; border-radius: 8px;
-    font-size: 12px; font-weight: 700; color: #8b90b0; cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 12px; font-weight: 700; color: #8b90b0; cursor: pointer; font-family: 'Inter', sans-serif;
     transition: all 0.15s;
 }
 .rangeBtnActive { background: #fff; color: #20264D; box-shadow: 0 1px 4px rgba(32,38,77,0.1); }
 .chartLegend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #8b90b0; font-weight: 600; margin: 12px 0 4px; }
 .chartLegend span { display: inline-flex; align-items: center; gap: 6px; }
 .legendDotBlue, .legendDotOrange, .legendDotPurple { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.legendDotBlue { background: #4C8DFF; }
+.legendDotBlue { background: #12A669; }
 .legendDotOrange { background: #f0a94a; }
-.legendDotPurple { background: #9b5de5; }
-.legendDotDashed { width: 12px; height: 0; border-top: 2px dashed #4C8DFF; display: inline-block; }
-.legendDotDotted { width: 12px; height: 0; border-top: 2px dotted #7c3aed; display: inline-block; }
+.legendDotPurple { background: #0F9D6B; }
+.legendDotDashed { width: 12px; height: 0; border-top: 2px dashed #12A669; display: inline-block; }
+.legendDotDotted { width: 12px; height: 0; border-top: 2px dotted #0F9D6B; display: inline-block; }
 .chartCanvasWrap { position: relative; margin-top: 8px; }
 .chartCanvas { width: 100%; height: 420px; }
 .chartOverlay {
@@ -150,14 +150,14 @@
 
 /* ── Horizon forecasts ── */
 .horizonGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-.horizonCard { background: #F8FAFC; border: 1px solid #EEF1FA; border-radius: 16px; padding: 18px; }
+.horizonCard { background: #F8FAFC; border: 1px solid #F5F7FA; border-radius: 16px; padding: 18px; }
 .horizonLabel { font-size: 13px; font-weight: 800; color: #5c628a; }
-.horizonDirection { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; margin-top: 4px; }
+.horizonDirection { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; margin-top: 4px; }
 .horizonRange { font-size: 12.5px; color: #5c628a; font-weight: 600; margin-top: 6px; }
 .horizonBarRow { display: flex; justify-content: space-between; margin-top: 12px; font-size: 11.5px; font-weight: 700; color: #8b90b0; }
 .horizonBarLabel { color: #8b90b0; }
 .horizonBarValue { color: #20264D; }
-.horizonBarTrack { height: 6px; background: #EEF1FA; border-radius: 100px; margin-top: 4px; overflow: hidden; }
+.horizonBarTrack { height: 6px; background: #F5F7FA; border-radius: 100px; margin-top: 4px; overflow: hidden; }
 .horizonBarFill { height: 100%; border-radius: 100px; }
 .horizonBarFillMuted { height: 100%; border-radius: 100px; background: #b8bdd8; }
 .horizonFactors { margin: 12px 0 0; padding-left: 16px; font-size: 12px; color: #5c628a; font-weight: 600; line-height: 1.5; }
@@ -167,9 +167,9 @@
 .scenarioGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .scenarioCard { background: #F8FAFC; border-radius: 16px; padding: 18px; border-top: 3px solid; text-align: center; }
 .scenarioLabel { font-size: 13px; font-weight: 800; }
-.scenarioPrice { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: #20264D; margin-top: 6px; }
+.scenarioPrice { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; color: #20264D; margin-top: 6px; }
 .scenarioProbLabel { font-size: 11px; color: #8b90b0; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
-.scenarioProbTrack { height: 6px; background: #EEF1FA; border-radius: 100px; margin-top: 6px; overflow: hidden; }
+.scenarioProbTrack { height: 6px; background: #F5F7FA; border-radius: 100px; margin-top: 6px; overflow: hidden; }
 .scenarioProbFill { height: 100%; border-radius: 100px; }
 .scenarioProbValue { font-size: 13px; font-weight: 800; color: #20264D; margin-top: 6px; }
 
@@ -208,26 +208,26 @@
 .performanceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
 .performanceCard { background: #F8FAFC; border-radius: 14px; padding: 16px; }
 .performanceLabel { font-size: 12px; font-weight: 700; color: #5c628a; }
-.performanceValue { font-family: 'Baloo 2', sans-serif; font-size: 30px; font-weight: 800; color: #20264D; margin-top: 4px; }
+.performanceValue { font-family: 'Inter', sans-serif; font-size: 30px; font-weight: 800; color: #20264D; margin-top: 4px; }
 .performanceSub { font-size: 11.5px; color: #8b90b0; font-weight: 600; margin-top: 4px; }
 .methodologyNote { font-size: 12px; color: #8b90b0; font-weight: 600; margin: 16px 0 0; line-height: 1.6; }
 .errorText { font-size: 13px; color: #E0637A; font-weight: 700; }
 
 /* ── AI Summary ── */
 .summaryCard {
-    background: linear-gradient(135deg, rgba(76,141,255,0.06), rgba(124,58,237,0.04));
-    border: 1px solid rgba(76,141,255,0.15); border-radius: 20px; padding: 22px 26px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(18,166,105,0.06), rgba(15,157,107,0.04));
+    border: 1px solid rgba(18,166,105,0.15); border-radius: 20px; padding: 22px 26px; margin-bottom: 20px;
 }
-.summaryLabel { font-size: 13px; font-weight: 800; color: #4C8DFF; margin-bottom: 8px; }
+.summaryLabel { font-size: 13px; font-weight: 800; color: #12A669; margin-bottom: 8px; }
 .summaryText { font-size: 14.5px; line-height: 1.7; color: #20264D; font-weight: 600; margin: 0; }
 
 /* ── Loading state ── */
 .loadingWrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 90px 20px; text-align: center; }
 .loadingSpinner {
-    width: 44px; height: 44px; border: 3px solid rgba(76,141,255,0.15); border-top-color: #4C8DFF;
+    width: 44px; height: 44px; border: 3px solid rgba(18,166,105,0.15); border-top-color: #12A669;
     border-radius: 50%; animation: vtSpin 0.8s linear infinite; margin-bottom: 24px;
 }
-.loadingStep { font-family: 'Baloo 2', sans-serif; font-size: 17px; font-weight: 800; color: #20264D; margin-bottom: 20px; }
+.loadingStep { font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 800; color: #20264D; margin-bottom: 20px; }
 .loadingSteps { display: flex; flex-direction: column; gap: 8px; }
 .loadingStepDone, .loadingStepPending { font-size: 13px; font-weight: 700; }
 .loadingStepDone { color: #3CA787; }
@@ -244,11 +244,11 @@
 .integrationActions { display: flex; gap: 10px; flex-wrap: wrap; }
 .integrationBtnPrimary, .integrationBtnSecondary, .integrationBtnActive {
     padding: 9px 16px; border-radius: 12px; font-size: 13px; font-weight: 800;
-    text-decoration: none; cursor: pointer; font-family: 'Nunito', sans-serif; border: 1.5px solid transparent;
+    text-decoration: none; cursor: pointer; font-family: 'Inter', sans-serif; border: 1.5px solid transparent;
     transition: all 0.15s;
 }
-.integrationBtnPrimary { background: #4C8DFF; color: #fff; }
+.integrationBtnPrimary { background: #12A669; color: #fff; }
 .integrationBtnPrimary:hover { filter: brightness(1.05); }
 .integrationBtnSecondary { background: #F4F6FC; color: #20264D; border-color: #E4E9F7; }
-.integrationBtnSecondary:hover { background: #EEF1FA; }
+.integrationBtnSecondary:hover { background: #F5F7FA; }
 .integrationBtnActive { background: rgba(255,184,76,0.15); color: #b9790c; border-color: rgba(255,184,76,0.4); }

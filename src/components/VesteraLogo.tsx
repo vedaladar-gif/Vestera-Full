@@ -1,6 +1,6 @@
 /**
- * Vestera wordmark — blue rounded-square mark + "Vestera" Baloo 2 text.
- * Redesign 2026: flat blue square + navy text, no gradient.
+ * Vestera wordmark — emerald rounded-square mark + "Vestera" text.
+ * Fintech redesign 2026: flat emerald square + navy text, no gradient.
  */
 
 interface VesteraLogoProps {
@@ -16,7 +16,7 @@ export default function VesteraLogo({ height = 36 }: VesteraLogoProps) {
                 width: box,
                 height: box,
                 borderRadius: Math.round(height * 0.3),
-                background: '#4C8DFF',
+                background: '#12A669',
                 flexShrink: 0,
                 display: 'flex',
                 alignItems: 'center',
@@ -40,7 +40,7 @@ export default function VesteraLogo({ height = 36 }: VesteraLogoProps) {
                 </svg>
             </div>
             <span style={{
-                fontFamily: "'Baloo 2', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 800,
                 fontSize: Math.round(height * 0.6),
                 color: '#20264D',

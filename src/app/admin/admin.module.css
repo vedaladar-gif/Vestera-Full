@@ -1,6 +1,6 @@
 .page {
     min-height: 100vh;
-    background: #EEF2FB;
+    background: #F5F7FA;
     padding: 48px 24px;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .title {
-    font-family: 'Baloo 2', 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', 'Inter', sans-serif;
     font-size: 1.8rem;
     font-weight: 800;
     color: #20264D;
@@ -40,13 +40,13 @@
     padding: 9px 18px;
     border-radius: 999px;
     border: none;
-    background: linear-gradient(135deg, #6EA8FF 0%, #4C8DFF 100%);
+    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
     color: #fff;
     font-size: 13.5px;
     font-weight: 800;
     cursor: pointer;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(76,141,255,0.25);
+    box-shadow: 0 4px 14px rgba(18,166,105,0.25);
     flex-shrink: 0;
 }
 
@@ -56,8 +56,8 @@
     gap: 6px;
     padding: 5px 12px;
     border-radius: 999px;
-    background: rgba(76,141,255,0.12);
-    color: #4C8DFF;
+    background: rgba(18,166,105,0.12);
+    color: #12A669;
     font-size: 12.5px;
     font-weight: 800;
 }
@@ -161,7 +161,7 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    border-bottom: 1px solid #EEF2FB;
+    border-bottom: 1px solid #F5F7FA;
 }
 
 .table td {
@@ -203,7 +203,7 @@
 }
 
 .searchInput:focus {
-    border-color: #4C8DFF;
+    border-color: #12A669;
 }
 
 /* ── Login card ── */
@@ -238,20 +238,20 @@
     border-radius: 12px;
     color: #20264D;
     font-size: 14px;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     outline: none;
     margin-bottom: 12px;
 }
 
 .input:focus {
-    border-color: #4C8DFF;
-    box-shadow: 0 0 0 3px rgba(76,141,255,0.12);
+    border-color: #12A669;
+    box-shadow: 0 0 0 3px rgba(18,166,105,0.12);
 }
 
 .submitBtn {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #6EA8FF 0%, #4C8DFF 100%);
+    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
     color: #fff;
     border: none;
     border-radius: 999px;
@@ -294,8 +294,8 @@
 }
 
 .filterBtnActive {
-    background: #4C8DFF;
-    border-color: #4C8DFF;
+    background: #12A669;
+    border-color: #12A669;
     color: #fff;
 }
 
@@ -355,8 +355,8 @@
 }
 
 .badgePartnership {
-    background: rgba(76,141,255,0.12);
-    color: #4C8DFF;
+    background: rgba(18,166,105,0.12);
+    color: #12A669;
 }
 
 .badgeChapter {
@@ -371,7 +371,7 @@
 }
 
 .cardMeta a {
-    color: #4C8DFF;
+    color: #12A669;
     text-decoration: none;
 }
 
@@ -403,5 +403,5 @@
 }
 
 .clickRow:hover {
-    background: rgba(76, 141, 255, 0.06);
+    background: rgba(18,166,105, 0.06);
 }

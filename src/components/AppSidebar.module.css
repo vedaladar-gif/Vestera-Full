@@ -1,0 +1,298 @@
+/* ============================================================
+   AppSidebar — dark navy vertical nav for authenticated app pages
+   ============================================================ */
+
+.shellRoot {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background: var(--vt-bg);
+}
+
+/* ── Desktop sidebar ── */
+.sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--vt-navy);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.sidebarBrand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 20px 16px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+.sidebarBrandMark {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--vt-vblue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.sidebarBrandWord {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.3px;
+}
+
+.sidebarDivider {
+    height: 1px;
+    background: var(--vt-navy-border);
+    margin: 4px 16px 12px;
+    flex-shrink: 0;
+}
+
+.sidebarNav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 12px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border-radius: var(--vt-radius-md);
+    color: var(--vt-navy-text);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+.navItem svg { flex-shrink: 0; }
+.navItem:hover {
+    background: var(--vt-navy-hover);
+    color: var(--vt-navy-text-hover);
+}
+.navItemActive {
+    background: var(--vt-navy-active);
+    color: #fff;
+    font-weight: 600;
+}
+.navItemActive:hover {
+    background: var(--vt-navy-active);
+    color: #fff;
+}
+
+.sidebarBottom {
+    padding: 10px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--vt-navy-border);
+}
+
+.navItemButton {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border-radius: var(--vt-radius-md);
+    color: var(--vt-navy-text);
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    width: 100%;
+}
+.navItemButton:hover {
+    background: var(--vt-navy-hover);
+    color: var(--vt-navy-text-hover);
+}
+
+/* ── Content column (right of sidebar) ── */
+.contentCol {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ── Top bar ── */
+.topBar {
+    height: 56px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0 24px;
+    background: var(--vt-surface);
+    border-bottom: 1px solid var(--vt-border);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+.iconBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--vt-radius-md);
+    background: transparent;
+    border: none;
+    color: var(--vt-text3);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+}
+.iconBtn:hover {
+    background: var(--vt-hover);
+    color: var(--vt-text2);
+}
+
+.profileMenu {
+    position: relative;
+}
+.profileTrigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px 5px 6px;
+    border-radius: var(--vt-radius-md);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.profileTrigger:hover { background: var(--vt-hover2); }
+.profileName {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vt-text2);
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.profileChevron { color: var(--vt-text3); transition: transform 0.15s; }
+.profileMenuOpen .profileChevron { transform: rotate(180deg); }
+
+.profileDropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 190px;
+    background: var(--vt-surface);
+    border: 1px solid var(--vt-border);
+    border-radius: var(--vt-radius-lg);
+    box-shadow: var(--vt-shadow-lg);
+    padding: 6px;
+    z-index: 200;
+}
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: var(--vt-radius-sm);
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--vt-text2);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+}
+.dropdownItem:hover { background: var(--vt-hover); color: var(--vt-text); }
+.dropdownItemDanger { color: var(--vt-red); }
+.dropdownItemDanger:hover { background: rgba(220,38,38,0.08); color: var(--vt-red); }
+.dropdownDivider { height: 1px; background: var(--vt-border2); margin: 5px 4px; }
+
+.contentInner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+}
+
+/* ── Mobile top bar (replaces desktop sidebar under 960px) ── */
+.mobileTopBar {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 14px;
+    background: var(--vt-navy);
+    position: sticky;
+    top: 0;
+    z-index: 150;
+    flex-shrink: 0;
+}
+.mobileBrand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.mobileBrandMark {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--vt-vblue);
+    display: flex; align-items: center; justify-content: center;
+}
+.mobileBrandWord { font-size: 15px; font-weight: 800; color: #fff; }
+.mobileRight { display: flex; align-items: center; gap: 6px; }
+.mobileIconBtn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: var(--vt-radius-md);
+    background: transparent; border: none; color: var(--vt-navy-text); cursor: pointer;
+}
+.mobileIconBtn:hover { background: var(--vt-navy-hover); color: #fff; }
+
+.mobileOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6,11,20,0.5);
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.22s;
+    pointer-events: none;
+}
+.mobileOverlayShow { opacity: 1; pointer-events: auto; }
+
+.mobileDrawer {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: min(270px, 82vw);
+    background: var(--vt-navy);
+    z-index: 310;
+    transform: translateX(-100%);
+    transition: transform 0.26s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.mobileDrawerOpen { transform: translateX(0); }
+
+@media (max-width: 960px) {
+    .sidebar { display: none; }
+    .mobileTopBar { display: flex; }
+    .mobileOverlay { display: block; }
+    .topBar { padding: 0 16px; }
+}

@@ -64,8 +64,8 @@ export default function Navbar() {
     const linkStyle = (href: string): React.CSSProperties => ({
         color: isActive(href) ? '#20264D' : 'var(--vt-text2)',
         fontWeight: isActive(href) ? 700 : 600,
-        background: isActive(href) ? 'rgba(76,141,255,0.10)' : 'transparent',
-        fontFamily: "'Nunito', 'Plus Jakarta Sans', sans-serif",
+        background: isActive(href) ? 'rgba(18,166,105,0.10)' : 'transparent',
+        fontFamily: "'Inter', 'Inter', sans-serif",
     });
 
     return (
@@ -97,22 +97,22 @@ export default function Navbar() {
                                     display: 'flex', alignItems: 'center', gap: 8,
                                     padding: '5px 12px 5px 7px', borderRadius: 50,
                                     textDecoration: 'none',
-                                    background: isActive('/settings') ? 'rgba(76,141,255,0.10)' : 'rgba(32,38,77,0.04)',
+                                    background: isActive('/settings') ? 'rgba(18,166,105,0.10)' : 'rgba(32,38,77,0.04)',
                                     border: '1.5px solid var(--vt-border)',
                                     transition: 'all 0.18s',
                                 }}
-                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,141,255,0.35)'; (e.currentTarget as HTMLElement).style.background = 'rgba(76,141,255,0.08)'; }}
-                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--vt-border)'; (e.currentTarget as HTMLElement).style.background = isActive('/settings') ? 'rgba(76,141,255,0.10)' : 'rgba(32,38,77,0.04)'; }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(18,166,105,0.35)'; (e.currentTarget as HTMLElement).style.background = 'rgba(18,166,105,0.08)'; }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--vt-border)'; (e.currentTarget as HTMLElement).style.background = isActive('/settings') ? 'rgba(18,166,105,0.10)' : 'rgba(32,38,77,0.04)'; }}
                             >
                                 <UserAvatar size={26} avatarUrl={avatarUrl} avatarColor={avatarColor} username={username} displayName={displayName} borderRadius={50} />
-                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Nunito', sans-serif", letterSpacing: '-0.1px' }}>
+                                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Inter', sans-serif", letterSpacing: '-0.1px' }}>
                                     {username ? `@${username}` : 'Profile'}
                                 </span>
                             </Link>
 
                             <button
                                 onClick={handleLogout}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--vt-text3)', fontSize: 13, fontWeight: 600, padding: '7px 12px', fontFamily: "'Nunito', sans-serif", borderRadius: 12, transition: 'all 0.18s' }}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--vt-text3)', fontSize: 13, fontWeight: 600, padding: '7px 12px', fontFamily: "'Inter', sans-serif", borderRadius: 12, transition: 'all 0.18s' }}
                                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-red)'; (e.currentTarget as HTMLElement).style.background = 'rgba(224,99,122,0.08)'; }}
                                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-text3)'; (e.currentTarget as HTMLElement).style.background = 'none'; }}
                             >Logout</button>
@@ -126,7 +126,7 @@ export default function Navbar() {
                             <Link href="/chapters" style={{ ...linkStyle('/chapters'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Start a Chapter</Link>
                             <Link
                                 href="/login"
-                                style={{ textDecoration: 'none', padding: '7px 16px', borderRadius: 12, fontSize: 14, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Nunito', sans-serif", transition: 'all 0.18s' }}
+                                style={{ textDecoration: 'none', padding: '7px 16px', borderRadius: 12, fontSize: 14, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Inter', sans-serif", transition: 'all 0.18s' }}
                                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-text)'; (e.currentTarget as HTMLElement).style.background = 'var(--vt-hover)'; }}
                                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--vt-text2)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                             >Log in</Link>

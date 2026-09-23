@@ -1,7 +1,7 @@
 .learnWrap {
     min-height: 100vh;
     background: var(--vt-bg);
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Inter', sans-serif;
     position: relative;
     color: var(--vt-text);
     display: flex;
@@ -51,7 +51,7 @@
 }
 
 .journeyTitle {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.35rem;
     font-weight: 800;
     margin: 2px 0 0;
@@ -130,7 +130,7 @@
 .metaItem strong {
     display: block;
     font-size: 18px;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .metaItem span {
@@ -141,7 +141,7 @@
 
 .welcome { margin-bottom: 18px; }
 .welcome h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2rem;
     margin: 0;
 }
@@ -163,7 +163,7 @@
 .statCard b {
     display: block;
     font-size: 1.15rem;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .statCard span {
@@ -193,7 +193,7 @@
 }
 
 .continueCard h2 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 4px 0 8px;
     font-size: 1.45rem;
 }
@@ -270,7 +270,7 @@
 }
 
 .pathHead {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     margin: 8px 0 14px;
 }
@@ -356,7 +356,7 @@
 }
 
 .lessonTitle {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2rem;
     margin: 8px 0 18px;
 }
@@ -449,7 +449,7 @@
 
 .diagHero { text-align: center; margin-bottom: 22px; }
 .diagHero h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2rem;
     margin: 0 0 8px;
 }
@@ -487,7 +487,7 @@
 }
 
 .lockedCard h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2rem;
     margin: 0 0 10px;
 }
@@ -514,13 +514,13 @@
 }
 
 .modal h2 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.8rem;
     margin: 0 0 8px;
 }
 
 .xpBurst {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2rem;
     color: #3CA787;
     margin: 8px 0;
@@ -554,7 +554,7 @@
 }
 
 .scoreScreen h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2.1rem;
     margin: 8px 0 12px;
 }
@@ -568,7 +568,7 @@
     color: var(--vt-text3);
 }
 .successHero h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2.4rem;
     margin: 0 0 8px;
 }

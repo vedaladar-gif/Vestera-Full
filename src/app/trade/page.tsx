@@ -6,7 +6,6 @@ import styles from './trade.module.css';
 import { buildChartOptions, getChartColors, isThemeDark } from '@/lib/chartTheme';
 import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { isMarketOpen, MARKET_CLOSED_TRADE_MESSAGE } from '@/lib/marketStatus';
-import DashNav from '@/components/DashNav';
 import GuestGuard from '@/components/GuestGuard';
 import { useTradeAsset } from '@/hooks/useTradeAsset';
 import { useAssetSearch } from '@/hooks/useAssetSearch';
@@ -496,7 +495,7 @@ function TradingDashboard() {
                     );
                     seriesRef.current = s;
                 } else {
-                    const s = chart.addSeries(lc.LineSeries, { color: '#9b5de5', lineWidth: 2 });
+                    const s = chart.addSeries(lc.LineSeries, { color: '#0F9D6B', lineWidth: 2 });
                     s.setData(
                         bars.map(b => ({ time: t(b), value: b.close })) as Parameters<typeof s.setData>[0]
                     );
@@ -738,7 +737,7 @@ function TradingDashboard() {
                 <div style={{
                     width: 32, height: 32,
                     border: '2px solid rgba(79,110,247,0.15)',
-                    borderTopColor: '#4f6ef7',
+                    borderTopColor: '#12A669',
                     borderRadius: '50%',
                     animation: 'spin 0.8s linear infinite',
                 }} />
@@ -748,8 +747,6 @@ function TradingDashboard() {
 
     return (
         <div className={styles.dashWrap}>
-            <DashNav onLogout={() => router.push('/')} />
-
             <div className={`${styles.dashGrid} ${tutorialMode ? styles.tutorialGrid : ''}`}>
 
                 {/* ── Stock Watchlist Sidebar (left) ────────────────────── */}

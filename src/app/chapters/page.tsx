@@ -25,7 +25,7 @@ const CHAPTERS = [
         president: 'Anton Park',
         founded: '2026',
         initials: 'JF',
-        gradient: 'linear-gradient(135deg, #4C8DFF 0%, #2955C9 100%)',
+        gradient: 'linear-gradient(135deg, #12A669 0%, #2955C9 100%)',
     },
     {
         name: 'Independence High School',

@@ -20,7 +20,7 @@ function GuardSpinner() {
                     width: 36,
                     height: 36,
                     border: '3px solid var(--vt-border)',
-                    borderTopColor: '#4f6ef7',
+                    borderTopColor: '#12A669',
                     borderRadius: '50%',
                     animation: 'spin 0.7s linear infinite',
                 }}

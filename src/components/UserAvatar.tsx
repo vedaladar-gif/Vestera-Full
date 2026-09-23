@@ -58,7 +58,7 @@ export function UserAvatar({
                 color: '#fff',
                 fontSize,
                 fontWeight: 700,
-                fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif",
+                fontFamily: "'Inter', 'Inter', sans-serif",
                 letterSpacing: '-0.5px',
                 userSelect: 'none',
             }}

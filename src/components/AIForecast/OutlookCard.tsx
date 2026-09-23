@@ -4,7 +4,7 @@ import styles from './aiForecastComponents.module.css';
 
 const CATEGORY_META: Record<string, { color: string; glow: string }> = {
     'Strong Bullish': { color: '#3CA787', glow: 'rgba(60,167,135,0.15)' },
-    'Bullish': { color: '#4C8DFF', glow: 'rgba(76,141,255,0.12)' },
+    'Bullish': { color: '#12A669', glow: 'rgba(18,166,105,0.12)' },
     'Neutral': { color: '#8b90b0', glow: 'rgba(139,144,176,0.12)' },
     'Bearish': { color: '#FFB84C', glow: 'rgba(255,184,76,0.12)' },
     'Strong Bearish': { color: '#E0637A', glow: 'rgba(224,99,122,0.15)' },

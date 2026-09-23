@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import AppFrame from "@/components/AppSidebar";
 import ConditionalFooter from "@/components/ConditionalFooter";
 import TermsGate from "@/components/TermsGate";
 import SnapseWidget from "@/components/SnapseWidget";
@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         {/* Anti-FOUC: apply saved theme before first paint (default: light) */}
         <script dangerouslySetInnerHTML={{ __html: `document.documentElement.setAttribute('data-theme','light');` }} />
       </head>
@@ -35,14 +35,10 @@ export default function RootLayout({
           <div className="app-root">
             <ThemeProvider />
             <GuestModeSync />
-            <div className="nav-float-shell">
-              <Navbar />
-            </div>
             <TermsGate />
-            <div className="app-main">
+            <AppFrame footer={<ConditionalFooter />}>
               <div className="app-main-inner">{children}</div>
-              <ConditionalFooter />
-            </div>
+            </AppFrame>
             <SnapseWidget />
             <OnboardingTour />
           </div>
