@@ -330,7 +330,7 @@ export default function Home() {
                     transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
                 >
 
-                    <VestaBlob size={72} showDot animate />
+                    <VestaBlob size={72} showDot animate color="#4C8DFF" />
                     <h2 className={styles.askHeading}>Ask Vesta anything about the market</h2>
 
                     <div className={styles.accordion}>

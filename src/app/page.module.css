@@ -7,6 +7,16 @@
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
+    /* This page keeps the original light-blue marketing look, independent of the app theme. */
+    --vt-bg: #EEF2FB;
+    --vt-vblue: #4C8DFF;
+    --vt-text: #1B2559;
+    --vt-text2: #5C6578;
+    --vt-text3: #8B93A7;
+    --vt-surface: #FFFFFF;
+    --vt-border: #E4E9F7;
+    background: #EEF2FB;
+    color: #1B2559;
 }
 
 /* ================================================================

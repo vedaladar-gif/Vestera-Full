@@ -72,9 +72,6 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
         { href: previewMode ? '/restricted' : '/portfolio', label: 'Portfolio', activePath: '/portfolio', tour: 'nav-portfolio' },
         { href: previewMode ? '/restricted' : '/friends', label: 'Friends', activePath: '/friends', tour: 'nav-friends' },
         { href: '/learn', label: 'Academy', activePath: '/learn', tour: 'nav-academy' },
-        { href: '/ai-forecast', label: 'AI Forecast', activePath: '/ai-forecast', tour: 'nav-ai-forecast' },
-        { href: '/partners', label: 'Partnerships', activePath: '/partners', tour: 'nav-partnerships' },
-        { href: '/chapters', label: 'Start a Chapter', activePath: '/chapters', tour: 'nav-chapters' },
     ];
 
     return (
@@ -92,7 +89,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                 top: 0,
                 zIndex: 200,
                 flexShrink: 0,
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "'Nunito', sans-serif",
             }}>
                 {/* Brand */}
                 <Link
@@ -130,7 +127,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                 style={{
                                     textDecoration: 'none', fontSize: 14, fontWeight: 700,
                                     padding: '8px 18px', borderRadius: 999,
-                                    background: '#12A669', color: '#fff', transition: 'filter 0.2s',
+                                    background: '#4C8DFF', color: '#fff', transition: 'filter 0.2s',
                                 }}
                             >
                                 Log In / Sign Up

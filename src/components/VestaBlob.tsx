@@ -11,6 +11,8 @@ interface VestaBlobProps {
     animate?: boolean;
     showLabel?: boolean;
     mini?: boolean;
+    /** Body color. Defaults to the app accent so other pages stay unchanged. */
+    color?: string;
 }
 
 const BLUE = '#12A669';
@@ -25,6 +27,7 @@ export default function VestaBlob({
     animate = false,
     showLabel = false,
     mini = false,
+    color = BLUE,
 }: VestaBlobProps) {
     if (mini) {
         // Compact face — readable down to ~18px
@@ -38,7 +41,7 @@ export default function VestaBlob({
                 aria-hidden="true"
                 style={{ flexShrink: 0, display: 'inline-block' }}
             >
-                <circle cx="12" cy="12.5" r="11" fill={BLUE} />
+                <circle cx="12" cy="12.5" r="11" fill={color} />
                 <ellipse cx="12" cy="8.5" rx="6.5" ry="4" fill="#FFFFFF" opacity="0.16" />
                 {/* eyes */}
                 <ellipse cx="8.4" cy="11.4" rx="2.3" ry="2.7" fill="#fff" />
@@ -74,12 +77,12 @@ export default function VestaBlob({
                     }}
                 >
                     {/* ── Antenna + gold spark (behind the head) ── */}
-                    <path d="M48 34 L48 15" stroke={BLUE} strokeWidth="4" strokeLinecap="round" />
+                    <path d="M48 34 L48 15" stroke={color} strokeWidth="4" strokeLinecap="round" />
                     <circle cx="48" cy="10" r="6" fill={GOLD} />
                     <circle cx="45.8" cy="8" r="1.7" fill="#FFF" opacity="0.85" />
 
                     {/* ── Body ── */}
-                    <circle cx="48" cy="62" r="34" fill={BLUE} />
+                    <circle cx="48" cy="62" r="34" fill={color} />
                     {/* soft bottom shade for roundness */}
                     <path d="M20 74 A34 34 0 0 0 76 74 A46 46 0 0 1 20 74 Z" fill={BLUE_DK} opacity="0.35" />
                     {/* top sheen */}
