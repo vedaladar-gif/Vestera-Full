@@ -3,7 +3,7 @@ import { getSession } from '@/lib/session';
 import { supabase } from '@/lib/supabaseClient';
 
 export interface HistoryPoint {
-    date: string;  // YYYY-MM-DD
+    date: string; // YYYY-MM-DD
     value: number; // total portfolio value in USD
 }
 
@@ -33,7 +33,7 @@ export async function GET() {
     // but it gives an accurate picture of the impact of each trade decision.
 
     let cash = STARTING_CASH;
-    const shareMap: Record<string, number> = {};  // stock → current shares
+    const shareMap: Record<string, number> = {}; // stock → current shares
     const lastPrice: Record<string, number> = {}; // stock → most recent trade price
 
     const points: HistoryPoint[] = [];

@@ -71,7 +71,6 @@ export default function PartnersPage() {
                 <div className={styles.formCard}>
                     {submitted ? (
                         <div className={styles.successBox}>
-                            <div className={styles.successIcon}>📬</div>
                             <p className={styles.successTitle}>Thanks for reaching out!</p>
                             <p className={styles.successText}>
                                 We&apos;ve received your inquiry and will get back to you soon.

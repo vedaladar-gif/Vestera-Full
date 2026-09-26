@@ -35,5 +35,5 @@
 
 @media (max-width: 480px) {
     .inner { padding: 14px 12px 20px; }
-    .text  { font-size: 0.75rem; }
+    .text { font-size: 0.75rem; }
 }

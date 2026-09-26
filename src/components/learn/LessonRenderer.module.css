@@ -81,17 +81,10 @@
 }
 
 .conceptCard:hover {
-    border-color: var(--accent, #34D399);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(52,211,153,0.1);
+    border-color: var(--vt-vblue);
 }
 
-.conceptIcon {
-    font-size: 18px;
-    line-height: 1;
-    flex-shrink: 0;
-    margin-top: 1px;
-}
+.conceptIcon:empty { display: none; }
 
 .conceptBody {
     display: flex;
@@ -221,7 +214,7 @@
 .exampleBlock {
     background: rgba(168,85,247,0.05);
     border: 1px solid rgba(168,85,247,0.2);
-    border-left: 3px solid #12A669;
+    border-left: 3px solid #4576E7;
     border-radius: 10px;
     padding: 16px 18px;
     display: flex;
@@ -261,7 +254,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #12A669;
+    background: #4576E7;
     flex-shrink: 0;
 }
 
@@ -419,10 +412,7 @@
     gap: 7px;
 }
 
-.orderIcon {
-    font-size: 20px;
-    line-height: 1;
-}
+.orderIcon:empty { display: none; }
 
 .orderName {
     font-size: 12.5px;
@@ -493,7 +483,6 @@
 
 .quickCheckBtn:hover {
     background: rgba(52,211,153,0.2);
-    transform: translateX(2px);
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────── */

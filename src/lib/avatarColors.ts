@@ -1,11 +1,11 @@
 export const AVATAR_GRADIENTS: Record<string, string> = {
-    blue:   'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+    blue: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
     purple: 'linear-gradient(135deg, #A855F7, #9333EA)',
-    green:  'linear-gradient(135deg, #10B981, #059669)',
+    green: 'linear-gradient(135deg, #10B981, #059669)',
     orange: 'linear-gradient(135deg, #F97316, #EA580C)',
-    pink:   'linear-gradient(135deg, #EC4899, #DB2777)',
-    teal:   'linear-gradient(135deg, #14B8A6, #0D9488)',
-    red:    'linear-gradient(135deg, #EF4444, #DC2626)',
+    pink: 'linear-gradient(135deg, #EC4899, #DB2777)',
+    teal: 'linear-gradient(135deg, #14B8A6, #0D9488)',
+    red: 'linear-gradient(135deg, #EF4444, #DC2626)',
     yellow: 'linear-gradient(135deg, #F59E0B, #D97706)',
 };
 

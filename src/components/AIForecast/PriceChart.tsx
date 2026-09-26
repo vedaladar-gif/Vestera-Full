@@ -155,7 +155,7 @@ export default function PriceChart({ symbol }: { symbol: string }) {
                     created.push(sma20);
                 }
                 if (data.overlays?.sma50 && !intraday) {
-                    const sma50 = chart.addSeries(lc.LineSeries, { color: '#0F9D6B', lineWidth: 1 });
+                    const sma50 = chart.addSeries(lc.LineSeries, { color: '#3A66D0', lineWidth: 1 });
                     sma50.setData(
                         bars
                             .map((b, i) => ({ time: t(b), value: data.overlays.sma50[i] }))
@@ -168,15 +168,15 @@ export default function PriceChart({ symbol }: { symbol: string }) {
                     const lastReal = { time: t(bars[bars.length - 1]), value: bars[bars.length - 1].close };
                     const points: ForecastPoint[] = data.forecastCone.points;
 
-                    const mid = chart.addSeries(lc.LineSeries, { color: '#12A669', lineWidth: 2, lineStyle: 2 });
+                    const mid = chart.addSeries(lc.LineSeries, { color: '#4576E7', lineWidth: 2, lineStyle: 2 });
                     mid.setData([lastReal, ...points.map(p => ({ time: p.time, value: p.mid }))]);
                     created.push(mid);
 
-                    const high = chart.addSeries(lc.LineSeries, { color: 'rgba(18,166,105,0.45)', lineWidth: 1, lineStyle: 2 });
+                    const high = chart.addSeries(lc.LineSeries, { color: 'rgba(69,118,231,0.45)', lineWidth: 1, lineStyle: 2 });
                     high.setData([lastReal, ...points.map(p => ({ time: p.time, value: p.high }))]);
                     created.push(high);
 
-                    const low = chart.addSeries(lc.LineSeries, { color: 'rgba(18,166,105,0.45)', lineWidth: 1, lineStyle: 2 });
+                    const low = chart.addSeries(lc.LineSeries, { color: 'rgba(69,118,231,0.45)', lineWidth: 1, lineStyle: 2 });
                     low.setData([lastReal, ...points.map(p => ({ time: p.time, value: p.low }))]);
                     created.push(low);
 
@@ -193,7 +193,7 @@ export default function PriceChart({ symbol }: { symbol: string }) {
                     const points: PredictAITrajectoryPoint[] = predictAIHorizon.trajectory;
 
                     const predictAILine = chart.addSeries(lc.LineSeries, {
-                        color: '#0F9D6B',
+                        color: '#3A66D0',
                         lineWidth: 2,
                         lineStyle: 1, // Dotted — visually distinct from the existing model's dashed cone
                     });

@@ -28,14 +28,14 @@ const DIVIDER: React.CSSProperties = {
 type UnStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid' | 'error';
 
 export default function RegisterPage() {
-    const [email, setEmail]       = useState('');
+    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError]       = useState('');
-    const [loading, setLoading]   = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [unStatus, setUnStatus] = useState<UnStatus>('idle');
-    const [unError, setUnError]   = useState('');
+    const [unError, setUnError] = useState('');
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const checkUsername = (val: string) => {
@@ -99,8 +99,8 @@ export default function RegisterPage() {
         : '#E8ECF3';
 
     const focusIn = (e: React.FocusEvent<HTMLInputElement>) => {
-        e.target.style.borderColor = '#12A669';
-        e.target.style.boxShadow = '0 0 0 3px rgba(18,166,105,0.12)';
+        e.target.style.borderColor = '#4576E7';
+        e.target.style.boxShadow = '0 0 0 3px rgba(69,118,231,0.12)';
     };
     const focusOut = (e: React.FocusEvent<HTMLInputElement>) => {
         e.target.style.borderColor = '#E8ECF3';
@@ -108,10 +108,10 @@ export default function RegisterPage() {
     };
 
     const features = [
-        { icon: '💸', text: 'Start with $100,000 virtual portfolio' },
-        { icon: '📈', text: 'Trade 500+ real stocks with live data' },
-        { icon: '🤖', text: 'AI coach explains every market move' },
-        { icon: '🏆', text: 'Climb the leaderboard against friends' },
+        { icon: '', text: 'Start with $100,000 virtual portfolio' },
+        { icon: '', text: 'Trade 500+ real stocks with live data' },
+        { icon: '', text: 'AI coach explains every market move' },
+        { icon: '', text: 'Climb the leaderboard against friends' },
     ];
 
     return (
@@ -153,7 +153,6 @@ export default function RegisterPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                         {features.map((f, i) => (
                             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <div style={{ width: 36, height: 36, borderRadius: 9, flexShrink: 0, background: 'rgba(52,211,153,0.16)', border: '1px solid rgba(52,211,153,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15 }}>{f.icon}</div>
                                 <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{f.text}</span>
                             </div>
                         ))}
@@ -209,7 +208,7 @@ export default function RegisterPage() {
                                 onChange={e => { setUsername(e.target.value); checkUsername(e.target.value); }}
                                 placeholder="e.g. aarnav_trades" maxLength={20} required
                                 style={{ ...inputBase, borderColor: unBorder }}
-                                onFocus={e => { e.target.style.borderColor = unBorder !== '#E8ECF3' ? unBorder : '#12A669'; e.target.style.boxShadow = '0 0 0 3px rgba(18,166,105,0.12)'; }}
+                                onFocus={e => { e.target.style.borderColor = unBorder !== '#E8ECF3' ? unBorder : '#4576E7'; e.target.style.boxShadow = '0 0 0 3px rgba(69,118,231,0.12)'; }}
                                 onBlur={e => { e.target.style.borderColor = unBorder; e.target.style.boxShadow = 'none'; }}
                             />
                             <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6, minHeight: 18 }}>
@@ -238,7 +237,7 @@ export default function RegisterPage() {
                             disabled={loading || unStatus === 'taken' || unStatus === 'invalid'}
                             style={{
                                 padding: '13px',
-                                background: '#12A669',
+                                background: '#4576E7',
                                 color: '#fff', border: 'none', borderRadius: '10px',
                                 fontSize: '14.5px', fontWeight: 700,
                                 cursor: (loading || unStatus === 'taken' || unStatus === 'invalid') ? 'not-allowed' : 'pointer',
@@ -246,7 +245,7 @@ export default function RegisterPage() {
                                 marginTop: 6,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                                 fontFamily: "'Inter', sans-serif",
-                                boxShadow: '0 2px 10px rgba(18,166,105,0.22)',
+                                boxShadow: '0 2px 10px rgba(69,118,231,0.22)',
                                 letterSpacing: '-0.1px',
                             }}
                         >
@@ -258,7 +257,7 @@ export default function RegisterPage() {
                     <div style={{ marginTop: 24, padding: '16px 20px', background: '#F8FAFC', border: '1px solid #E4E9F0', borderRadius: 10, textAlign: 'center' }}>
                         <p style={{ margin: 0, fontSize: 14, color: '#6B7280' }}>
                             Already have an account?{' '}
-                            <Link href="/login" style={{ color: '#12A669', textDecoration: 'none', fontWeight: 700 }}>Sign in →</Link>
+                            <Link href="/login" style={{ color: '#4576E7', textDecoration: 'none', fontWeight: 700 }}>Sign in →</Link>
                         </p>
                     </div>
                     <p style={{ textAlign: 'center', marginTop: 14, fontSize: 11, color: '#94A3B8' }}>

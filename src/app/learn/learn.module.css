@@ -27,7 +27,7 @@
 .journeyCard {
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 24px;
+    border-radius: 12px;
     padding: 22px 22px 18px;
     box-shadow: var(--vt-shadow-md);
     margin-bottom: 22px;
@@ -59,15 +59,13 @@
 
 .rankUpBtn {
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     padding: 10px 16px;
     font-weight: 800;
     font-size: 13px;
-    color: #20264D;
-    background: linear-gradient(135deg, #FFD080, #FFB84C);
+    color: #fff;
+    background: #4576E7;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(255, 184, 76, 0.35);
-    animation: pulseGlow 1.8s ease-in-out infinite;
 }
 
 .rankUpHint {
@@ -85,7 +83,7 @@
 
 .seg {
     height: 14px;
-    border-radius: 999px;
+    border-radius: 8px;
     background: var(--vt-surface2);
     overflow: hidden;
     border: 1px solid var(--vt-border);
@@ -175,7 +173,7 @@
 .continueCard {
     background: linear-gradient(135deg, rgba(76, 141, 255, 0.12), rgba(124, 224, 198, 0.12));
     border: 1px solid var(--vt-border);
-    border-radius: 22px;
+    border-radius: 12px;
     padding: 22px;
     margin-bottom: 22px;
     display: flex;
@@ -206,7 +204,7 @@
 
 .primaryBtn, .ghostBtn {
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     padding: 12px 20px;
     font-weight: 800;
     font-size: 14px;
@@ -217,7 +215,7 @@
 .primaryBtn {
     background: var(--cta-grad);
     color: #fff;
-    box-shadow: 0 8px 20px rgba(76, 141, 255, 0.28);
+    box-shadow: none;
 }
 
 .ghostBtn {
@@ -261,8 +259,8 @@
 .searchHit:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .reviewBanner {
-    background: rgba(255, 184, 76, 0.12);
-    border: 1px solid rgba(255, 184, 76, 0.35);
+    background: rgba(69, 118, 231, 0.1);
+    border: 1px solid rgba(69, 118, 231, 0.28);
     border-radius: 16px;
     padding: 14px 16px;
     margin-bottom: 18px;
@@ -303,12 +301,12 @@
     z-index: 1;
 }
 
-.dotDone { background: #3CA787; border-color: #3CA787; color: #fff; }
+.dotDone { background: #4576E7; border-color: #4576E7; color: #fff; }
 .dotCurrent {
     background: var(--vt-vblue);
     border-color: var(--vt-vblue);
     color: #fff;
-    box-shadow: 0 0 0 6px rgba(76, 141, 255, 0.18);
+    box-shadow: 0 0 0 6px rgba(69, 118, 231, 0.18);
 }
 
 .line {
@@ -350,7 +348,7 @@
     font-size: 11px;
     font-weight: 800;
     padding: 5px 10px;
-    border-radius: 999px;
+    border-radius: 8px;
     background: var(--vt-surface2);
     color: var(--vt-text2);
 }
@@ -402,9 +400,9 @@
     cursor: pointer;
 }
 
-.optOn { border-color: var(--vt-vblue); background: rgba(76, 141, 255, 0.1); }
-.optGood { border-color: #3CA787; background: rgba(60, 167, 135, 0.12); }
-.optBad { border-color: var(--vt-red); background: rgba(224, 99, 122, 0.1); }
+.optOn { border-color: var(--vt-vblue); background: rgba(69, 118, 231, 0.1); }
+.optGood { border-color: #1C8C5A; background: rgba(28, 140, 90, 0.12); }
+.optBad { border-color: var(--vt-red); background: rgba(194, 69, 69, 0.1); }
 
 .feedback {
     margin: 10px 0 16px;
@@ -422,7 +420,7 @@
 .vestaBtn {
     border: 1px solid var(--vt-border);
     background: var(--vt-surface);
-    border-radius: 999px;
+    border-radius: 8px;
     padding: 8px 12px;
     font-size: 12.5px;
     font-weight: 800;
@@ -457,7 +455,7 @@
 .qCard {
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 22px;
+    border-radius: 12px;
     padding: 22px;
     box-shadow: var(--vt-shadow-md);
 }
@@ -479,7 +477,7 @@
 .lockedCard {
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 24px;
+    border-radius: 12px;
     padding: 36px 24px;
     text-align: center;
     max-width: 560px;
@@ -506,7 +504,7 @@
     width: min(440px, 100%);
     background: var(--vt-surface);
     color: var(--vt-text);
-    border-radius: 24px;
+    border-radius: 12px;
     padding: 28px 24px;
     text-align: center;
     border: 1px solid var(--vt-border);
@@ -522,21 +520,21 @@
 .xpBurst {
     font-family: 'Inter', sans-serif;
     font-size: 2rem;
-    color: #3CA787;
+    color: #4576E7;
     margin: 8px 0;
 }
 
 .barTrack {
     height: 12px;
     background: var(--vt-surface2);
-    border-radius: 999px;
+    border-radius: 8px;
     overflow: hidden;
     margin: 14px 0;
 }
 
 .barFill {
     height: 100%;
-    background: linear-gradient(90deg, #3CA787, #7CE0C6);
+    background: #4576E7;
     transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -546,7 +544,7 @@
     text-align: center;
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 24px;
+    border-radius: 12px;
     padding: 36px 24px;
     box-shadow: var(--vt-shadow-md);
     max-width: 520px;
@@ -571,11 +569,6 @@
     font-family: 'Inter', sans-serif;
     font-size: 2.4rem;
     margin: 0 0 8px;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { transform: translateY(0); box-shadow: 0 6px 18px rgba(255, 184, 76, 0.35); }
-    50% { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255, 184, 76, 0.5); }
 }
 
 @media (max-width: 800px) {

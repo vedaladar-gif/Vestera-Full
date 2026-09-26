@@ -12,7 +12,7 @@ function formatBig(n: number | null): string {
 }
 
 const STATUS_META: Record<QuoteData['marketStatus'], { label: string; color: string }> = {
-    OPEN: { label: 'Market Open', color: '#3CA787' },
+    OPEN: { label: 'Market Open', color: '#4576E7' },
     CLOSED: { label: 'Market Closed', color: '#8b90b0' },
     PRE_MARKET: { label: 'Pre-Market', color: '#FFB84C' },
     AFTER_HOURS: { label: 'After-Hours', color: '#FFB84C' },

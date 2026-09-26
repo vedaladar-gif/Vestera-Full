@@ -107,7 +107,7 @@ export default function SetupUsernamePage() {
     if (!authChecked) {
         return (
             <div style={{ minHeight: '100vh', background: 'var(--vt-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: 32, height: 32, border: '3px solid rgba(79,110,247,0.2)', borderTopColor: '#12A669', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+                <div style={{ width: 32, height: 32, border: '3px solid rgba(79,110,247,0.2)', borderTopColor: '#4576E7', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
             </div>
         );
     }
@@ -116,7 +116,7 @@ export default function SetupUsernamePage() {
     const initials = username ? getInitials(username) : '?';
 
     const progressDots = Array.from({ length: STEP_COUNT }, (_, i) => (
-        <div key={i} style={{ flex: 1, height: 4, borderRadius: 2, background: i < step ? '#12A669' : 'var(--vt-border)', transition: 'background 0.3s' }} />
+        <div key={i} style={{ flex: 1, height: 4, borderRadius: 2, background: i < step ? '#4576E7' : 'var(--vt-border)', transition: 'background 0.3s' }} />
     ));
 
     const inputStyle: React.CSSProperties = {
@@ -173,7 +173,7 @@ export default function SetupUsernamePage() {
                         <button
                             onClick={() => setStep(2)}
                             disabled={!canProceed1}
-                            style={{ width: '100%', padding: '12px', background: '#12A669', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: canProceed1 ? 'pointer' : 'not-allowed', opacity: canProceed1 ? 1 : 0.5, fontFamily: 'inherit' }}
+                            style={{ width: '100%', padding: '12px', background: '#4576E7', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: canProceed1 ? 'pointer' : 'not-allowed', opacity: canProceed1 ? 1 : 0.5, fontFamily: 'inherit' }}
                         >
                             Continue →
                         </button>
@@ -212,9 +212,9 @@ export default function SetupUsernamePage() {
                                         background: getAvatarGradient(color),
                                         cursor: 'pointer',
                                         border: `2px solid ${avatarColor === color ? '#fff' : 'transparent'}`,
-                                        boxShadow: avatarColor === color ? `0 0 0 2px #12A669` : 'none',
+                                        boxShadow: avatarColor === color ? `0 0 0 2px #4576E7` : 'none',
                                         transition: 'transform 0.1s, border-color 0.15s',
-                                        transform: avatarColor === color ? 'scale(1.06)' : 'scale(1)',
+                                        transform: 'scale(1)',
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                                         fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)',
                                         textTransform: 'capitalize',
@@ -227,7 +227,7 @@ export default function SetupUsernamePage() {
 
                         <div style={{ display: 'flex', gap: 10 }}>
                             <button onClick={() => setStep(1)} style={{ flex: 1, padding: '11px', background: 'var(--vt-input-bg)', border: '1px solid var(--vt-border)', borderRadius: '10px', fontSize: '14px', fontWeight: 600, color: 'var(--vt-text2)', cursor: 'pointer', fontFamily: 'inherit' }}>← Back</button>
-                            <button onClick={() => setStep(3)} style={{ flex: 2, padding: '12px', background: '#12A669', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Continue →</button>
+                            <button onClick={() => setStep(3)} style={{ flex: 2, padding: '12px', background: '#4576E7', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>Continue →</button>
                         </div>
                     </>
                 )}
@@ -261,7 +261,7 @@ export default function SetupUsernamePage() {
                             <button
                                 onClick={handleSave}
                                 disabled={saving}
-                                style={{ flex: 2, padding: '12px', background: '#12A669', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1, fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                                style={{ flex: 2, padding: '12px', background: '#4576E7', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1, fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
                             >
                                 {saving && <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />}
                                 {saving ? 'Saving…' : 'Go to Dashboard →'}

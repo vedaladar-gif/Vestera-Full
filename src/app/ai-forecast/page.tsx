@@ -86,7 +86,6 @@ function AIForecastInner() {
 
                 {!symbol && (
                     <div className={styles.emptyState}>
-                        <div className={styles.emptyIcon}>📊</div>
                         <div className={styles.emptyTitle}>Search a stock to get started</div>
                         <div className={styles.emptyText}>Try AAPL, NVDA, TSLA, MSFT, or SPY.</div>
                     </div>

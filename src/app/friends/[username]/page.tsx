@@ -76,7 +76,7 @@ function FriendProfileContent() {
                 setError(typeof body.error === 'string' ? body.error : 'Could not remove friend');
                 return;
             }
-            router.push('/friends');
+            router.push('/stats');
         } finally {
             setRemoveBusy(false);
         }
@@ -87,8 +87,8 @@ function FriendProfileContent() {
     return (
         <div className={styles.friendPageWrap}>
             <div className={styles.friendPageInner}>
-                <Link href="/friends" className={styles.friendBackLink}>
-                    ← Back to Friends
+                <Link href="/stats" className={styles.friendBackLink}>
+                    ← Back to Leaderboard
                 </Link>
 
                 {loading && (
@@ -135,7 +135,7 @@ function FriendProfileContent() {
                                     </Link>
                                 ) : (
                                     <div className={styles.friendProfileLocked}>
-                                        <span aria-hidden>🔒</span>
+                                        <span aria-hidden></span>
                                         <span>This portfolio is not shared with you.</span>
                                     </div>
                                 )}

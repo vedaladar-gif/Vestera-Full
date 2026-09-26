@@ -19,7 +19,7 @@ export default function TodayForecastCard({ forecast, symbol, modelVersion }: { 
         <div className={styles.todayCard}>
             <div className={styles.headerRow}>
                 <div className={styles.titleBlock}>
-                    <h2 className={styles.title}>⚡ Vestera Predict AI — Today&apos;s Forecast</h2>
+                    <h2 className={styles.title}>Vestera Predict AI — Today&apos;s Forecast</h2>
                     <p className={styles.subtitle}>{todayFormatted} · A separate, real-time market + breaking-news prediction engine</p>
                 </div>
                 <span className={styles.versionBadge}><span className={styles.versionDot} />Model {modelVersion}</span>
@@ -45,7 +45,7 @@ export default function TodayForecastCard({ forecast, symbol, modelVersion }: { 
                 </div>
                 <div className={styles.todayStat}>
                     <div className={styles.todayStatLabel}>Predicted Movement</div>
-                    <div className={styles.todayStatValue} style={{ color: forecast.predictedChangePct >= 0 ? '#3CA787' : '#E0637A' }}>
+                    <div className={styles.todayStatValue} style={{ color: forecast.predictedChangePct >= 0 ? '#4576E7' : '#E0637A' }}>
                         {sign}{forecast.predictedChangePct.toFixed(2)}%
                     </div>
                 </div>

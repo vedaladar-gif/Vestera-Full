@@ -62,7 +62,6 @@ export default function ChapterApplyForm() {
         <div className={styles.formCard}>
             {submitted ? (
                 <div className={styles.successBox}>
-                    <div className={styles.successIcon}>🎉</div>
                     <p className={styles.successTitle}>Application received!</p>
                     <p className={styles.successText}>
                         Thanks for your interest in starting a Vestera chapter — we&apos;ll be in touch soon.

@@ -26,23 +26,23 @@ const VESTA_PROMPTS = [
 ];
 
 const TICKER_TAPE = [
-    { sym: 'AAPL',  name: 'Apple',     pct: 1.24 },
-    { sym: 'TSLA',  name: 'Tesla',     pct: -2.08 },
-    { sym: 'NVDA',  name: 'NVIDIA',    pct: 4.03 },
-    { sym: 'DIS',   name: 'Disney',    pct: 0.62 },
-    { sym: 'GOOGL', name: 'Alphabet',  pct: 0.95 },
-    { sym: 'AMZN',  name: 'Amazon',    pct: -0.41 },
-    { sym: 'NFLX',  name: 'Netflix',   pct: 1.87 },
-    { sym: 'RBLX',  name: 'Roblox',    pct: 3.12 },
-    { sym: 'MSFT',  name: 'Microsoft', pct: 0.58 },
-    { sym: 'COIN',  name: 'Coinbase',  pct: -1.35 },
+    { sym: 'AAPL', name: 'Apple', pct: 1.24 },
+    { sym: 'TSLA', name: 'Tesla', pct: -2.08 },
+    { sym: 'NVDA', name: 'NVIDIA', pct: 4.03 },
+    { sym: 'DIS', name: 'Disney', pct: 0.62 },
+    { sym: 'GOOGL', name: 'Alphabet', pct: 0.95 },
+    { sym: 'AMZN', name: 'Amazon', pct: -0.41 },
+    { sym: 'NFLX', name: 'Netflix', pct: 1.87 },
+    { sym: 'RBLX', name: 'Roblox', pct: 3.12 },
+    { sym: 'MSFT', name: 'Microsoft', pct: 0.58 },
+    { sym: 'COIN', name: 'Coinbase', pct: -1.35 },
 ];
 
 const FAQ_ITEMS = [
-    { q: 'Is any of this real money?',          a: 'Never. Every trade uses your $100,000 of practice cash. Prices are real, risk is zero.' },
-    { q: 'What ages is Vestera for?',            a: 'Vestera is designed for students aged 10–18, but anyone curious about investing can learn here.' },
-    { q: 'Do I need a bank account or card?',   a: 'No. There\'s no real money involved. You start with virtual $100,000 from day one.' },
-    { q: 'Who is Vesta?',                        a: 'Vesta is your AI investing coach — she explains the market in plain English, no jargon.' },
+    { q: 'Is any of this real money?', a: 'Never. Every trade uses your $100,000 of practice cash. Prices are real, risk is zero.' },
+    { q: 'What ages is Vestera for?', a: 'Vestera is designed for students aged 10–18, but anyone curious about investing can learn here.' },
+    { q: 'Do I need a bank account or card?', a: 'No. There\'s no real money involved. You start with virtual $100,000 from day one.' },
+    { q: 'Who is Vesta?', a: 'Vesta is your AI investing coach — she explains the market in plain English, no jargon.' },
     { q: 'Can parents keep an eye on progress?', a: 'Yes! Parents can view their child\'s portfolio, trades, and lesson progress from the same account.' },
 ];
 
@@ -50,14 +50,14 @@ export default function Home() {
     const router = useRouter();
     const [authenticated, setAuthenticated] = useState(false);
     const [portfolioData, setPortfolioData] = useState<{ pl: number; pct: number; cash: number; portfolio_value: number } | null>(null);
-    const [loading, setLoading]     = useState(true);
-    const [nvdaData, setNvdaData]   = useState<NvdaData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [nvdaData, setNvdaData] = useState<NvdaData | null>(null);
     const [priceColor, setPriceColor] = useState('#fff');
     const prevPrice = useRef(0);
     const marketStatus = useMarketStatus();
 
     const [vestaOpen, setVestaOpen] = useState<number | null>(null);
-    const [faqOpen,   setFaqOpen]   = useState<number | null>(0);
+    const [faqOpen, setFaqOpen] = useState<number | null>(0);
     const [vestaInput, setVestaInput] = useState('');
     const [emailInput, setEmailInput] = useState('');
 
@@ -95,9 +95,9 @@ export default function Home() {
         return () => { alive = false; clearInterval(id); };
     }, []);
 
-    const pl    = portfolioData?.pl  ?? 0;
-    const pct   = portfolioData?.pct ?? 0;
-    const isUp  = pl >= 0;
+    const pl = portfolioData?.pl ?? 0;
+    const pct = portfolioData?.pct ?? 0;
+    const isUp = pl >= 0;
     const total = authenticated && portfolioData
         ? (portfolioData.portfolio_value ?? 0) + (portfolioData.cash ?? 0)
         : 103_240;
@@ -151,9 +151,6 @@ export default function Home() {
                 HERO
             ════════════════════════════ */}
             <section className={styles.heroSection}>
-                <div className={`${styles.auroraBlob} ${styles.auroraBlob1}`} />
-                <div className={`${styles.auroraBlob} ${styles.auroraBlob2}`} />
-                <div className={`${styles.auroraBlob} ${styles.auroraBlob3}`} />
                 <div className={styles.heroInner}>
 
                     {/* LEFT */}
@@ -215,7 +212,6 @@ export default function Home() {
                             style={{ position: 'static', transform: 'none', cursor: 'pointer' }}
                             initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.85, delay: 0.2, ease: [0.16,1,0.3,1] }}
-                            whileHover={{ y: -6, transition: { duration: 0.22 } }}
                         >
                             <div className={styles.scTop}>
                                 <div className={styles.scTicker}>
@@ -226,20 +222,20 @@ export default function Home() {
                                     </div>
                                 </div>
                                 <span className={styles.scBadge} style={{
-                                    background: marketStatus.open ? 'rgba(124,224,198,0.2)' : 'rgba(224,99,122,0.2)',
-                                    color: marketStatus.open ? '#7CE0C6' : '#E0637A',
+                                    background: marketStatus.open ? 'rgba(28,140,90,0.18)' : 'rgba(194,69,69,0.18)',
+                                    color: marketStatus.open ? '#8ED4B0' : '#F0A8A8',
                                 }}>
                                     + {marketStatus.label}
                                 </span>
                             </div>
 
                             <motion.div className={styles.scPrice} style={{ color: priceColor }}
-                                key={nvdaData?.price} animate={{ scale: [1,1.03,1] }} transition={{ duration: 0.3 }}>
+                                key={nvdaData?.price}>
                                 {nvdaData ? fmt$(nvdaData.price) : '$—'}
                             </motion.div>
 
                             <div className={styles.scChange}
-                                style={{ color: nvdaData && nvdaData.change >= 0 ? '#7CE0C6' : '#E0637A' }}>
+                                style={{ color: nvdaData && nvdaData.change >= 0 ? '#8ED4B0' : '#F0A8A8' }}>
                                 {nvdaData
                                     ? `${nvdaData.change >= 0 ? '▲' : '▼'} ${Math.abs(nvdaData.changePct).toFixed(2)}% today`
                                     : '▲ +3.4% today'}
@@ -249,12 +245,12 @@ export default function Home() {
                                 <svg viewBox="0 0 220 52" preserveAspectRatio="none">
                                     <defs>
                                         <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#FFB84C" stopOpacity="0.3"/>
-                                            <stop offset="100%" stopColor="#FFB84C" stopOpacity="0"/>
+                                            <stop offset="0%" stopColor="#4576E7" stopOpacity="0.3"/>
+                                            <stop offset="100%" stopColor="#4576E7" stopOpacity="0"/>
                                         </linearGradient>
                                     </defs>
                                     <path d="M0,44 L22,40 L44,36 L66,39 L88,28 L110,22 L132,18 L154,14 L176,8 L198,5 L220,2"
-                                        stroke="#FFB84C" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                                        stroke="#4576E7" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
                                     <path d="M0,44 L22,40 L44,36 L66,39 L88,28 L110,22 L132,18 L154,14 L176,8 L198,5 L220,2 L220,52 L0,52Z"
                                         fill="url(#cg)"/>
                                 </svg>
@@ -267,11 +263,10 @@ export default function Home() {
                         <motion.div className={styles.pfCard}
                             initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.85, delay: 0.35, ease: [0.16,1,0.3,1] }}
-                            whileHover={{ y: -4, transition: { duration: 0.2 } }}
                         >
                             <div className={styles.pfLabel}>YOUR PORTFOLIO</div>
                             <div className={styles.pfValue}>{fmtPortfolio(displayTotal)}</div>
-                            <div className={styles.pfChange} style={{ color: isUp ? '#3CA787' : '#E0637A' }}>
+                            <div className={styles.pfChange} style={{ color: isUp ? '#1C8C5A' : '#C24545' }}>
                                 {authenticated && portfolioData
                                     ? `${isUp ? '▲' : '▼'} ${isUp ? '+' : ''}${pct.toFixed(2)}% this week`
                                     : '▲ +2.2% this week'}
@@ -280,9 +275,9 @@ export default function Home() {
 
                         {/* Gold dollar badge */}
                         <motion.div className={styles.dollarBadge}
-                            initial={{ opacity: 0, scale: 0.6 }}
-                            animate={{ opacity: 1, scale: 1, y: [0, -9, 0] }}
-                            transition={{ opacity: { duration: 0.5, delay: 0.5 }, scale: { duration: 0.5, delay: 0.5 }, y: { duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 1 } }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.4, delay: 0.4 }}
                         >$</motion.div>
 
                         {/* Lesson chip */}
@@ -290,7 +285,6 @@ export default function Home() {
                             initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.6 }}
                         >
-                            <span className={styles.lcEmoji}>🎓</span>
                             <div>
                                 <div className={styles.lcLabel}>Today&apos;s Lesson</div>
                                 <div className={styles.lcTitle}>What&apos;s a P/E ratio?</div>
@@ -310,7 +304,7 @@ export default function Home() {
                         <div key={i} className={styles.tickerItem}>
                             <span className={styles.tickerSym}>{t.sym}</span>
                             <span className={styles.tickerName}>{t.name}</span>
-                            <span className={styles.tickerChange} style={{ color: t.pct >= 0 ? '#7CE0C6' : '#FF7BA6' }}>
+                            <span className={styles.tickerChange} style={{ color: t.pct >= 0 ? '#8ED4B0' : '#F0A8A8' }}>
                                 {t.pct >= 0 ? '▲' : '▼'} {Math.abs(t.pct).toFixed(2)}%
                             </span>
                             <span className={styles.tickerDot} />
@@ -330,7 +324,7 @@ export default function Home() {
                     transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
                 >
 
-                    <VestaBlob size={72} showDot animate color="#4C8DFF" />
+                    <VestaBlob size={72} showDot animate color="#4576E7" />
                     <h2 className={styles.askHeading}>Ask Vesta anything about the market</h2>
 
                     <div className={styles.accordion}>
@@ -352,7 +346,7 @@ export default function Home() {
                             value={vestaInput} onChange={e => setVestaInput(e.target.value)} />
                         <button type="submit" className={styles.askSend} aria-label="Send">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <circle cx="16" cy="16" r="16" fill="#20264D"/>
+                                <circle cx="16" cy="16" r="16" fill="#1E244E"/>
                                 <path d="M16 22V10M10 16l6-6 6 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>

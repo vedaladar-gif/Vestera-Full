@@ -40,7 +40,7 @@ const TYPEWRITER_SPEED_MS = 11;
 // Per-page contextual greetings
 function getGreeting(pathname: string): string {
     if (pathname === '/' || pathname.startsWith('/register') || pathname.startsWith('/login')) {
-        return "Hi, I'm Vesta! Want help picking your first stock? 👋";
+        return "Hi, I'm Vesta! Want help picking your first stock?";
     }
     if (pathname.startsWith('/trade')) {
         const ticker = tickerFromWindow();
@@ -51,7 +51,7 @@ function getGreeting(pathname: string): string {
     if (pathname.startsWith('/learn')) return "Stuck on a lesson? Ask me to explain it a different way!";
     if (pathname.startsWith('/stats')) return "Losses happen to everyone — want tips to bounce back?";
     if (pathname.startsWith('/settings')) return "Pick any color — you can always change it later!";
-    return "Hi, I'm Vesta! Want help picking your first stock? 👋";
+    return "Hi, I'm Vesta! Want help picking your first stock?";
 }
 
 // Per-page quick-reply chips

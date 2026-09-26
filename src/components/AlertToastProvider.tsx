@@ -10,8 +10,8 @@ import styles from './AlertToastProvider.module.css';
 // ── Types ──────────────────────────────────────────────────────────────────
 
 export interface AlertToastItem {
-    id: string;           // unique toast instance ID
-    alertId: string;      // database price_alert row ID
+    id: string; // unique toast instance ID
+    alertId: string; // database price_alert row ID
     ticker: string;
     condition: 'above' | 'below';
     targetPrice: number;
@@ -98,7 +98,7 @@ function Toast({ toast, onDismiss }: { toast: AlertToastItem; onDismiss: () => v
 
     const isAbove = toast.condition === 'above';
     const accent = isAbove ? 'var(--vt-green)' : 'var(--vt-red)';
-    const icon = isAbove ? '📈' : '📉';
+    const icon = isAbove ? '' : '';
     const verb = isAbove ? 'crossed above' : 'dropped below';
 
     return (

@@ -3,7 +3,7 @@
 import styles from './predictAI.module.css';
 import type { HorizonPredictionData } from './types';
 
-const COLOR: Record<string, string> = { UP: '#3CA787', DOWN: '#E0637A', NEUTRAL: '#8b90b0' };
+const COLOR: Record<string, string> = { UP: '#4576E7', DOWN: '#E0637A', NEUTRAL: '#8b90b0' };
 
 export default function HorizonStrip({ horizons }: { horizons: HorizonPredictionData[] }) {
     return (

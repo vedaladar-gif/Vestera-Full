@@ -20,23 +20,23 @@ export interface ChartColorConfig {
 export function getChartColors(isDark: boolean): ChartColorConfig {
     if (isDark) {
         return {
-            textColor:       '#94a3b8',
-            gridColor:       'rgba(255,255,255,0.07)',
-            borderColor:     'rgba(255,255,255,0.1)',
-            crosshairColor:  'rgba(255,255,255,0.2)',
-            areaTopColor:    'rgba(79,110,247,0.35)',
+            textColor: '#94a3b8',
+            gridColor: 'rgba(255,255,255,0.07)',
+            borderColor: 'rgba(255,255,255,0.1)',
+            crosshairColor: 'rgba(255,255,255,0.2)',
+            areaTopColor: 'rgba(79,110,247,0.35)',
             areaBottomColor: 'rgba(79,110,247,0.02)',
-            lineColor:       '#4f6ef7',
+            lineColor: '#4f6ef7',
         };
     }
     return {
-        textColor:       '#64748b',
-        gridColor:       'rgba(0,0,0,0.08)',
-        borderColor:     'rgba(0,0,0,0.12)',
-        crosshairColor:  'rgba(0,0,0,0.25)',
-        areaTopColor:    'rgba(79,110,247,0.2)',
+        textColor: '#64748b',
+        gridColor: 'rgba(0,0,0,0.08)',
+        borderColor: 'rgba(0,0,0,0.12)',
+        crosshairColor: 'rgba(0,0,0,0.25)',
+        areaTopColor: 'rgba(79,110,247,0.2)',
         areaBottomColor: 'rgba(79,110,247,0)',
-        lineColor:       '#4f6ef7',
+        lineColor: '#4f6ef7',
     };
 }
 

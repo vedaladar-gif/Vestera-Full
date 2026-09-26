@@ -15,7 +15,7 @@ const CHAPTERS = [
         president: 'Sourish, Kiaan, and Vedant',
         founded: '2026',
         initials: 'GL',
-        gradient: 'linear-gradient(135deg, #3CA787 0%, #1F6E56 100%)',
+        gradient: 'linear-gradient(135deg, #4576E7 0%, #1F6E56 100%)',
         isMain: true,
     },
     {
@@ -25,7 +25,7 @@ const CHAPTERS = [
         president: 'Anton Park',
         founded: '2026',
         initials: 'JF',
-        gradient: 'linear-gradient(135deg, #12A669 0%, #2955C9 100%)',
+        gradient: 'linear-gradient(135deg, #4576E7 0%, #2955C9 100%)',
     },
     {
         name: 'Independence High School',
@@ -64,7 +64,7 @@ export default function ChaptersPage() {
                                 key={c.name}
                                 className={`${styles.chapterCard} ${c.isMain ? styles.chapterCardMain : ''}`}
                             >
-                                {c.isMain && <div className={styles.mainBadge}>⭐ Main Chapter</div>}
+                                {c.isMain && <div className={styles.mainBadge}>Main Chapter</div>}
                                 <div className={styles.chapterAvatar} style={{ background: c.gradient }}>
                                     {c.initials}
                                 </div>
@@ -80,15 +80,12 @@ export default function ChaptersPage() {
 
                     <div className={styles.statsBar}>
                         <div className={styles.statItem}>
-                            <span className={styles.statIcon} aria-hidden>📍</span>
                             <span className={styles.statValue}>{CHAPTERS.length}</span> Schools
                         </div>
                         <div className={styles.statItem}>
-                            <span className={styles.statIcon} aria-hidden>👥</span>
                             <span className={styles.statValue}>5</span> Student Leaders
                         </div>
                         <div className={styles.statItem}>
-                            <span className={styles.statIcon} aria-hidden>🏙️</span>
                             <span className={styles.statValue}>{CHAPTERS.length}</span> Cities
                         </div>
                     </div>

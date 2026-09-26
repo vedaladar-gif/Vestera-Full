@@ -29,7 +29,7 @@
 
 .formCard {
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 12px;
     box-shadow: 0 12px 40px rgba(32,38,77,0.08);
     padding: 32px 32px 28px;
     max-width: 640px;
@@ -84,8 +84,8 @@
 
 .input:focus,
 .textarea:focus {
-    border-color: #12A669;
-    box-shadow: 0 0 0 3px rgba(18,166,105,0.12);
+    border-color: #4576E7;
+    box-shadow: 0 0 0 3px rgba(69,118,231,0.12);
 }
 
 .textarea {
@@ -97,22 +97,20 @@
 .submitBtn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
     color: #fff;
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     font-size: 15px;
     font-weight: 800;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
     transition: filter 0.18s, transform 0.18s;
     margin-top: 4px;
-    box-shadow: 0 6px 18px rgba(18,166,105,0.3);
+    box-shadow: 0 6px 18px rgba(69,118,231,0.3);
 }
 
 .submitBtn:hover {
-    filter: brightness(1.05);
-    transform: translateY(-1px);
 }
 
 .submitBtn:disabled {
@@ -202,15 +200,13 @@
 }
 
 .partnerCard:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(32,38,77,0.09);
 }
 
 .partnerLogo {
     width: 56px;
     height: 56px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
     color: #fff;
     display: flex;
     align-items: center;

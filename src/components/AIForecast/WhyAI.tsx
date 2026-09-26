@@ -11,7 +11,7 @@ export default function WhyAI({ positive, negative }: { positive: string[]; nega
             </div>
             <div className={styles.factorsGrid}>
                 <div>
-                    <div className={styles.factorsColLabel} style={{ color: '#3CA787' }}>Positive Factors</div>
+                    <div className={styles.factorsColLabel} style={{ color: '#4576E7' }}>Positive Factors</div>
                     {positive.length > 0 ? (
                         <ul className={styles.factorsList}>
                             {positive.map((f, i) => <li key={i} className={styles.factorItemPositive}>{f}</li>)}

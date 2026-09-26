@@ -9,7 +9,7 @@ export const ACADEMY_RANKS: AcademyRank[] = [
         tagline: 'Money, saving, and what a stock actually is.',
         lessonStart: 1,
         lessonEnd: 20,
-        color: '#3CA787',
+        color: '#4576E7',
         xpPerLesson: 50,
     },
     {
@@ -20,7 +20,7 @@ export const ACADEMY_RANKS: AcademyRank[] = [
         tagline: 'Funds, company numbers, and how trades work.',
         lessonStart: 21,
         lessonEnd: 40,
-        color: '#4C8DFF',
+        color: '#4576E7',
         xpPerLesson: 75,
     },
     {

@@ -271,7 +271,6 @@ export function FriendsTab() {
 
                     {friends.length === 0 ? (
                         <div className={styles.emptyState} style={{ padding: '28px 0' }}>
-                            <div className={styles.emptyIcon}>👋</div>
                             <p className={styles.emptyTitle}>No friends added yet</p>
                             <p className={styles.emptyText}>Search by @username on the right to send a request.</p>
                         </div>

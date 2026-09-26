@@ -2,10 +2,10 @@
 
 /**
  * AppFrame — decides the top-level chrome for every route:
- *   - "No shell" routes (auth/onboarding screens) render their own full-screen layout.
- *   - Authenticated app routes get the dark-navy left Sidebar + light TopBar.
- *   - Everything else (logged-out marketing/public pages) keeps the existing
- *     top Navbar.
+ * - "No shell" routes (auth/onboarding screens) render their own full-screen layout.
+ * - Authenticated app routes get the dark-navy left Sidebar + light TopBar.
+ * - Everything else (logged-out marketing/public pages) keeps the existing
+ * top Navbar.
  *
  * This replaces the old pattern where /trade and /learn each rendered their
  * own <DashNav/> header — navigation is now consistent across every
@@ -23,7 +23,6 @@ import {
     PortfolioIcon,
     LearnIcon,
     LeaderboardIcon,
-    FriendsIcon,
     ForecastIcon,
     ChaptersIcon,
     PartnersIcon,
@@ -51,7 +50,6 @@ const NAV_ITEMS: Array<{ href: string; label: string; icon: React.ComponentType<
     { href: '/portfolio', label: 'Portfolio', icon: PortfolioIcon },
     { href: '/learn', label: 'Learn', icon: LearnIcon },
     { href: '/stats', label: 'Leaderboard', icon: LeaderboardIcon },
-    { href: '/friends', label: 'Friends', icon: FriendsIcon },
     { href: '/ai-forecast', label: 'AI Forecast', icon: ForecastIcon },
     { href: '/chapters', label: 'Chapters', icon: ChaptersIcon },
     { href: '/partners', label: 'Partners', icon: PartnersIcon },

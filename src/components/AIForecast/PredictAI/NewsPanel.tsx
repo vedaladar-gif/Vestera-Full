@@ -43,7 +43,7 @@ export default function NewsPanel({ news, available }: { news: NewsAnalysisData[
                         const timeBadgeClass =
                             n.timeRelevance === 'BREAKING' ? styles.badgeBreaking : n.timeRelevance === 'RECENT' ? styles.badgeRecent : styles.badgeStale;
                         const sentimentClass = n.sentiment > 0.08 ? styles.sentimentPositive : n.sentiment < -0.08 ? styles.sentimentNegative : styles.sentimentNeutral;
-                        const impactColor = n.estimatedImpact > 0 ? '#3CA787' : n.estimatedImpact < 0 ? '#E0637A' : '#b8bdd8';
+                        const impactColor = n.estimatedImpact > 0 ? '#4576E7' : n.estimatedImpact < 0 ? '#E0637A' : '#b8bdd8';
                         return (
                             <div key={n.item.uuid} className={styles.newsItem}>
                                 <div className={styles.newsTopRow}>

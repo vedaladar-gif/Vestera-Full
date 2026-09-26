@@ -62,7 +62,6 @@ export default function StockSearch({ onSelect }: { onSelect: (symbol: string) =
     return (
         <div className={styles.searchBox} ref={boxRef}>
             <div className={styles.searchInputWrap}>
-                <span className={styles.searchIcon}>🔍</span>
                 <input
                     className={styles.searchInput}
                     placeholder="Search a stock or ticker… (AAPL, NVDA, TSLA…)"

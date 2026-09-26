@@ -1,7 +1,7 @@
 /* Vestera Predict AI — a second, additive prediction engine's UI. Reuses the same design tokens as aiForecastComponents.module.css for visual consistency. */
 
 .card {
-    background: #fff; border-radius: 20px; padding: 26px 28px;
+    background: #fff; border-radius: 12px; padding: 26px 28px;
     box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
 }
 
@@ -12,21 +12,21 @@
 .subtitle { font-size: 13px; color: #8b90b0; font-weight: 600; margin: 0; }
 .versionBadge {
     display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800;
-    color: #0F9D6B; background: rgba(15,157,107,0.1); padding: 5px 12px; border-radius: 100px; white-space: nowrap;
+    color: #3A66D0; background: rgba(15,157,107,0.1); padding: 5px 12px; border-radius: 8px; white-space: nowrap;
 }
-.versionDot { width: 6px; height: 6px; border-radius: 50%; background: #0F9D6B; }
+.versionDot { width: 6px; height: 6px; border-radius: 50%; background: #3A66D0; }
 
 /* ── Today's Forecast ── */
 .todayCard {
-    background: linear-gradient(135deg, rgba(15,157,107,0.06), rgba(18,166,105,0.05));
-    border: 1px solid rgba(15,157,107,0.15); border-radius: 20px; padding: 26px 28px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(15,157,107,0.06), rgba(69,118,231,0.05));
+    border: 1px solid rgba(15,157,107,0.15); border-radius: 12px; padding: 26px 28px; margin-bottom: 20px;
 }
 .directionRow { display: flex; align-items: center; gap: 16px; margin: 14px 0 10px; }
 .directionBadge {
     display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif;
     font-size: 30px; font-weight: 800; letter-spacing: -0.5px;
 }
-.directionUp { color: #3CA787; }
+.directionUp { color: #4576E7; }
 .directionDown { color: #E0637A; }
 .directionNeutral { color: #8b90b0; }
 .directionArrow { font-size: 30px; line-height: 1; }
@@ -45,20 +45,20 @@
 .newsItem { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid #F5F7FA; }
 .newsTopRow { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .newsTitleLink { font-size: 13.5px; font-weight: 700; color: #20264D; text-decoration: none; line-height: 1.4; }
-.newsTitleLink:hover { color: #12A669; text-decoration: underline; }
+.newsTitleLink:hover { color: #4576E7; text-decoration: underline; }
 .newsMetaRow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .newsSource { font-size: 11.5px; color: #8b90b0; font-weight: 700; }
 .newsTime { font-size: 11.5px; color: #8b90b0; font-weight: 600; }
-.badge { font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 100px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.3px; }
-.badgeEvent { background: rgba(18,166,105,0.1); color: #12A669; }
+.badge { font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 8px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.3px; }
+.badgeEvent { background: rgba(69,118,231,0.1); color: #4576E7; }
 .badgeBreaking { background: rgba(224,99,122,0.12); color: #E0637A; }
 .badgeRecent { background: rgba(255,184,76,0.15); color: #b9790c; }
 .badgeStale { background: #F5F7FA; color: #8b90b0; }
-.sentimentPositive { color: #3CA787; font-weight: 800; font-size: 12px; }
+.sentimentPositive { color: #4576E7; font-weight: 800; font-size: 12px; }
 .sentimentNegative { color: #E0637A; font-weight: 800; font-size: 12px; }
 .sentimentNeutral { color: #8b90b0; font-weight: 800; font-size: 12px; }
-.impactBarTrack { height: 5px; background: #F5F7FA; border-radius: 100px; margin-top: 10px; overflow: hidden; }
-.impactBarFill { height: 100%; border-radius: 100px; }
+.impactBarTrack { height: 5px; background: #F5F7FA; border-radius: 8px; margin-top: 10px; overflow: hidden; }
+.impactBarFill { height: 100%; border-radius: 8px; }
 .newsEmpty { font-size: 13px; color: #8b90b0; font-weight: 600; padding: 10px 0; }
 
 /* ── Prediction timeline ── */
@@ -66,8 +66,8 @@
 .timelineItem { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #F4F6FC; }
 .timelineItem:last-child { border-bottom: none; }
 .timelineDotWrap { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
-.timelineDot { width: 9px; height: 9px; border-radius: 50%; background: #12A669; flex-shrink: 0; }
-.timelineDotUp { background: #3CA787; }
+.timelineDot { width: 9px; height: 9px; border-radius: 50%; background: #4576E7; flex-shrink: 0; }
+.timelineDotUp { background: #4576E7; }
 .timelineDotDown { background: #E0637A; }
 .timelineContent { min-width: 0; flex: 1; }
 .timelineTime { font-size: 11.5px; color: #8b90b0; font-weight: 700; }
@@ -86,13 +86,13 @@
 
 .methodologyNote { font-size: 12px; color: #8b90b0; font-weight: 600; margin: 16px 0 0; line-height: 1.6; }
 .disclosureNote {
-    font-size: 12px; color: #0F9D6B; font-weight: 600; margin: 14px 0 0; line-height: 1.6;
+    font-size: 12px; color: #3A66D0; font-weight: 600; margin: 14px 0 0; line-height: 1.6;
     background: rgba(15,157,107,0.06); border-radius: 12px; padding: 12px 14px;
 }
 .errorText { font-size: 13px; color: #E0637A; font-weight: 700; }
 .loadingRow { display: flex; align-items: center; gap: 12px; padding: 20px 0; color: #5c628a; font-weight: 700; font-size: 13.5px; }
 .spinner {
-    width: 22px; height: 22px; border: 2.5px solid rgba(15,157,107,0.15); border-top-color: #0F9D6B;
+    width: 22px; height: 22px; border: 2.5px solid rgba(15,157,107,0.15); border-top-color: #3A66D0;
     border-radius: 50%; animation: predictAiSpin 0.8s linear infinite;
 }
 @keyframes predictAiSpin { to { transform: rotate(360deg); } }

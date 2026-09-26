@@ -19,13 +19,13 @@ import { listLocalUsersForLeaderboard } from '@/lib/localStore';
 // Practice bots shown on the leaderboard during the demo/tutorial. They always
 // rank below the demo user so the tutorial can show "you're #1".
 const DEMO_BOTS = [
-    { username: 'alpha_wolf',    displayName: 'Alpha Wolf',    avatarColor: 'purple', pct: -1.8 },
-    { username: 'diamond_dana',  displayName: 'Diamond Dana',  avatarColor: 'green',  pct: -3.2 },
-    { username: 'quant_kid',     displayName: 'Quant Kid',     avatarColor: 'cyan',   pct: -4.6 },
-    { username: 'bull_bella',    displayName: 'Bull Bella',    avatarColor: 'orange', pct: -6.1 },
-    { username: 'steady_eddie',  displayName: 'Steady Eddie',  avatarColor: 'blue',   pct: -7.9 },
-    { username: 'moon_max',      displayName: 'Moon Max',      avatarColor: 'red',    pct: -9.4 },
-    { username: 'vesta_bot_7',   displayName: 'VestaBot-7',    avatarColor: 'purple', pct: -12.3 },
+    { username: 'alpha_wolf', displayName: 'Alpha Wolf', avatarColor: 'purple', pct: -1.8 },
+    { username: 'diamond_dana', displayName: 'Diamond Dana', avatarColor: 'green', pct: -3.2 },
+    { username: 'quant_kid', displayName: 'Quant Kid', avatarColor: 'cyan', pct: -4.6 },
+    { username: 'bull_bella', displayName: 'Bull Bella', avatarColor: 'orange', pct: -6.1 },
+    { username: 'steady_eddie', displayName: 'Steady Eddie', avatarColor: 'blue', pct: -7.9 },
+    { username: 'moon_max', displayName: 'Moon Max', avatarColor: 'red', pct: -9.4 },
+    { username: 'vesta_bot_7', displayName: 'VestaBot-7', avatarColor: 'purple', pct: -12.3 },
 ];
 
 export async function GET(request: Request) {
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     const tutorialParam = new URL(request.url).searchParams.get('tutorial') === '1';
 
     // ── Demo/tutorial leaderboard: the current user at #1, practice bots below.
-    //    Works for the demo user AND real accounts running the onboarding tutorial. ──
+    // Works for the demo user AND real accounts running the onboarding tutorial. ──
     if (isDemo(session.userId) || tutorialParam) {
         const snap = await computeUserPortfolioSnapshot(session.userId);
         const meTotal = snap.total_account_value || STARTING_CASH;

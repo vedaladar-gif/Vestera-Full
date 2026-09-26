@@ -1,8 +1,8 @@
 /**
  * Username moderation constants.
  *
- * BLOCKED_TERMS   – content that is never allowed in a username (substring match
- *                   against the normalised form, see usernameValidation.ts).
+ * BLOCKED_TERMS – content that is never allowed in a username (substring match
+ * against the normalised form, see usernameValidation.ts).
  * PROTECTED_TERMS – platform-identity words; users cannot contain these.
  * KEYBOARD_MASH_PATTERNS – regex patterns that detect gibberish / spam strings.
  */
@@ -97,7 +97,7 @@ export const BLOCKED_TERMS: readonly string[] = [
   'terrorist', 'terrorism',
   'supremacist',
   'genocide',
-  'ethnic',        // only blocked here to catch 'ethniccleansing' patterns
+  'ethnic', // only blocked here to catch 'ethniccleansing' patterns
   'lynching', 'lynch',
   'rapist',
   'shooter',

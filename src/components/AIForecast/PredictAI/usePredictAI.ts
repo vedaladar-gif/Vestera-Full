@@ -6,7 +6,7 @@ import type { PredictAIResponse } from './types';
 const REFRESH_MS = 60_000; // poll for breaking news / price moves without hammering the server
 
 /** Shared fetch for Vestera Predict AI so the "Today's Forecast" card (above the chart) and the
- *  rest of the Predict AI panels (below, near model performance) stay in sync from one request. */
+ * rest of the Predict AI panels (below, near model performance) stay in sync from one request. */
 export function usePredictAI(symbol: string | null) {
     const [data, setData] = useState<PredictAIResponse | null>(null);
     const [error, setError] = useState<string | null>(null);

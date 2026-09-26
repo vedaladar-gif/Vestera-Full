@@ -56,15 +56,15 @@ const EARLY_CLOSE = new Set([
 ]);
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const OPEN_MINS  = 9 * 60 + 30; // 9:30 AM
-const CLOSE_MINS = 16 * 60;     // 4:00 PM
-const EARLY_MINS = 13 * 60;     // 1:00 PM (early close)
-const DAY_NAMES  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const OPEN_MINS = 9 * 60 + 30; // 9:30 AM
+const CLOSE_MINS = 16 * 60; // 4:00 PM
+const EARLY_MINS = 13 * 60; // 1:00 PM (early close)
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export interface MarketStatus {
   open: boolean;
-  label: string;  // "Market Open" | "Market Closed"
-  sub: string;    // supporting text e.g. "Closes at 4:00 PM ET"
+  label: string; // "Market Open" | "Market Closed"
+  sub: string; // supporting text e.g. "Closes at 4:00 PM ET"
 }
 
 // ── Date helpers (all operate on YYYY-MM-DD strings to avoid DST issues) ──────
@@ -115,10 +115,10 @@ function nextOpenText(todayStr: string): string {
  */
 export function getMarketStatus(now: Date = new Date()): MarketStatus {
   // Convert to ET by re-parsing the locale string — getHours/getDay then reflect ET
-  const etNow   = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-  const dateStr  = etDateStr(now);
+  const etNow = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  const dateStr = etDateStr(now);
   const timeMins = etNow.getHours() * 60 + etNow.getMinutes();
-  const dow      = etNow.getDay();
+  const dow = etNow.getDay();
 
   // Weekend
   if (dow === 0 || dow === 6) {
@@ -140,9 +140,9 @@ export function getMarketStatus(now: Date = new Date()): MarketStatus {
   }
 
   // Early-close day
-  const earlyClose  = EARLY_CLOSE.has(dateStr);
-  const closeMins   = earlyClose ? EARLY_MINS : CLOSE_MINS;
-  const closeLabel  = earlyClose ? '1:00 PM ET (early close)' : '4:00 PM ET';
+  const earlyClose = EARLY_CLOSE.has(dateStr);
+  const closeMins = earlyClose ? EARLY_MINS : CLOSE_MINS;
+  const closeLabel = earlyClose ? '1:00 PM ET (early close)' : '4:00 PM ET';
 
   // Market open
   if (timeMins < closeMins) {

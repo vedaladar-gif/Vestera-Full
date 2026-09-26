@@ -7,16 +7,15 @@
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
-    /* This page keeps the original light-blue marketing look, independent of the app theme. */
-    --vt-bg: #EEF2FB;
-    --vt-vblue: #4C8DFF;
-    --vt-text: #1B2559;
-    --vt-text2: #5C6578;
-    --vt-text3: #8B93A7;
+    --vt-bg: #EFF2FA;
+    --vt-vblue: #4576E7;
+    --vt-text: #1E244E;
+    --vt-text2: #4E5678;
+    --vt-text3: #7B849E;
     --vt-surface: #FFFFFF;
-    --vt-border: #E4E9F7;
-    background: #EEF2FB;
-    color: #1B2559;
+    --vt-border: #D9E0F0;
+    background: #EFF2FA;
+    color: #1E244E;
 }
 
 /* ================================================================
@@ -24,7 +23,7 @@
    ================================================================ */
 .heroSection {
     width: 100%;
-    background: var(--vt-bg);   /* #EEF2FB */
+    background: var(--vt-bg);
     padding: 0;
     position: relative;
     overflow: hidden;
@@ -42,32 +41,32 @@
 .auroraBlob1 {
     width: 420px; height: 420px;
     top: -160px; left: -120px;
-    background: radial-gradient(circle, rgba(76,141,255,0.35) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(69,118,231,0.28) 0%, transparent 70%);
     animation: auroraDrift1 16s ease-in-out infinite;
 }
 .auroraBlob2 {
     width: 380px; height: 380px;
     top: 20px; right: -140px;
-    background: radial-gradient(circle, rgba(124,224,198,0.30) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(69,118,231,0.16) 0%, transparent 70%);
     animation: auroraDrift2 20s ease-in-out infinite;
 }
 .auroraBlob3 {
     width: 300px; height: 300px;
     bottom: -140px; left: 32%;
-    background: radial-gradient(circle, rgba(255,184,76,0.28) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(30,36,78,0.08) 0%, transparent 70%);
     animation: auroraDrift3 18s ease-in-out infinite;
 }
 @keyframes auroraDrift1 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(40px, 30px) scale(1.12); }
+    50% { transform: translate(40px, 30px) scale(1.12); }
 }
 @keyframes auroraDrift2 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(-30px, 40px) scale(1.08); }
+    50% { transform: translate(-30px, 40px) scale(1.08); }
 }
 @keyframes auroraDrift3 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(24px, -24px) scale(1.15); }
+    50% { transform: translate(24px, -24px) scale(1.15); }
 }
 @media (prefers-reduced-motion: reduce) {
     .auroraBlob1, .auroraBlob2, .auroraBlob3 { animation: none; }
@@ -90,7 +89,7 @@
    ================================================================ */
 .tickerSection {
     width: 100%;
-    background: #171E3D;
+    background: #1E244E;
     overflow: hidden;
     padding: 14px 0;
     border-top: 1px solid rgba(255,255,255,0.06);
@@ -136,7 +135,7 @@
 }
 @keyframes tickerScroll {
     from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+    to { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
     .tickerTrack { animation: none; }
@@ -164,7 +163,7 @@
 }
 
 .heroBlue {
-    color: var(--vt-vblue);   /* #4C8DFF */
+    color: var(--vt-vblue);
     display: block;
 }
 
@@ -195,38 +194,15 @@
     font-family: 'Nunito', sans-serif;
     font-size: 15px;
     font-weight: 800;
-    border-radius: 999px;
+    border-radius: 8px;
     text-decoration: none;
     border: none;
     cursor: pointer;
     transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
-    box-shadow: 0 4px 18px rgba(76,141,255,0.32);
-    position: relative;
-    overflow: hidden;
-}
-.btnPrimary::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -60%;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
-    transform: skewX(-20deg);
-    animation: btnShine 3.6s ease-in-out infinite;
-}
-@keyframes btnShine {
-    0%   { left: -60%; }
-    45%  { left: 130%; }
-    100% { left: 130%; }
-}
-@media (prefers-reduced-motion: reduce) {
-    .btnPrimary::after { animation: none; display: none; }
+    box-shadow: none;
 }
 .btnPrimary:hover {
-    background: #3A7DE8;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(76,141,255,0.42);
+    background: #3A66D0;
 }
 
 .btnDemo {
@@ -239,7 +215,7 @@
     font-family: 'Nunito', sans-serif;
     font-size: 15px;
     font-weight: 800;
-    border-radius: 999px;
+    border-radius: 8px;
     border: 1.5px solid rgba(76,141,255,0.30);
     cursor: pointer;
     transition: background 0.18s, border-color 0.18s, transform 0.18s;
@@ -247,7 +223,6 @@
 .btnDemo:hover {
     background: rgba(76,141,255,0.16);
     border-color: rgba(76,141,255,0.55);
-    transform: translateY(-2px);
 }
 .btnDemo:disabled { opacity: 0.6; cursor: default; transform: none; }
 
@@ -290,15 +265,15 @@
     top: 0;
     right: 0;
     width: 252px;
-    background: #1E2D4E;
-    border-radius: 22px;
+    background: #1E244E;
+    border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 20px 60px rgba(30,45,78,0.38), 0 4px 16px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 20px rgba(30,36,78,0.14);
     z-index: 2;
     transform: rotate(4deg);
     cursor: default;
 }
-.stockCard:hover { transform: rotate(2deg) translateY(-6px); transition: transform 0.25s; }
+.stockCard:hover { transition: transform 0.25s; }
 
 .scTop {
     display: flex;
@@ -312,7 +287,7 @@
     background: rgba(76,141,255,0.18);
     border: 1px solid rgba(76,141,255,0.28);
     display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; color: #6EA8FF;
+    font-size: 13px; font-weight: 800; color: #8EAEF5;
     font-family: 'Baloo 2', sans-serif;
 }
 .scSym {
@@ -326,7 +301,7 @@
 .scBadge {
     font-family: 'Nunito', sans-serif;
     font-size: 10px; font-weight: 800;
-    padding: 3px 9px; border-radius: 999px; letter-spacing: 0.3px;
+    padding: 3px 9px; border-radius: 8px; letter-spacing: 0.3px;
 }
 .scPrice {
     font-family: 'Baloo 2', sans-serif;
@@ -351,12 +326,12 @@
     background: #fff;
     border-radius: 18px;
     padding: 18px 20px;
-    box-shadow: 0 12px 44px rgba(32,38,77,0.14), 0 2px 8px rgba(32,38,77,0.06);
+    box-shadow: 0 6px 16px rgba(30,36,78,0.08);
     z-index: 3;
     transform: rotate(-4deg);
     cursor: default;
 }
-.pfCard:hover { transform: rotate(-2deg) translateY(-4px); transition: transform 0.2s; }
+.pfCard:hover { transition: transform 0.2s; }
 .pfLabel {
     font-family: 'Nunito', sans-serif;
     font-size: 9.5px; font-weight: 800; color: var(--vt-text3);
@@ -374,12 +349,12 @@
     top: 168px;
     right: -4px;
     width: 70px; height: 70px;
-    background: linear-gradient(135deg, #FFD580 0%, #FFB84C 100%);
+    background: #4576E7;
     border-radius: 18px;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Baloo 2', sans-serif;
-    font-size: 28px; font-weight: 800; color: #7A4E00;
-    box-shadow: 0 8px 32px rgba(255,184,76,0.45);
+    font-size: 28px; font-weight: 800; color: #fff;
+    box-shadow: 0 4px 12px rgba(30,36,78,0.12);
     z-index: 4;
     transform: rotate(8deg);
 }
@@ -461,7 +436,7 @@
 }
 .accItem:last-child { border-bottom: none; }
 .accItem:hover { background: rgba(76,141,255,0.05); }
-.accItemOpen  { background: rgba(76,141,255,0.06); }
+.accItemOpen { background: rgba(76,141,255,0.06); }
 
 .accText {
     font-family: 'Nunito', sans-serif;
@@ -524,7 +499,7 @@
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.15s;
 }
-.askSend:hover { transform: scale(1.10); }
+.askSend:hover { }
 
 .askNote {
     font-family: 'Nunito', sans-serif;
@@ -562,7 +537,7 @@
    ================================================================ */
 .footerSection {
     width: 100%;
-    background: #20264D;
+    background: #1E244E;
     padding: 80px 24px 64px;
     text-align: center;
     margin-top: auto;
@@ -600,7 +575,7 @@
 .footerEmail {
     flex: 1; min-width: 180px;
     padding: 12px 20px;
-    border-radius: 999px; border: none;
+    border-radius: 8px; border: none;
     background: rgba(255,255,255,0.10);
     color: #fff; font-family: 'Nunito', sans-serif;
     font-size: 14px; font-weight: 500;
@@ -614,10 +589,10 @@
     background: var(--vt-vblue); color: #fff;
     font-family: 'Nunito', sans-serif;
     font-size: 14px; font-weight: 800;
-    border-radius: 999px; border: none; cursor: pointer;
+    border-radius: 8px; border: none; cursor: pointer;
     white-space: nowrap; transition: background 0.18s, transform 0.18s;
 }
-.footerBtn:hover { background: #3A7DE8; transform: translateY(-1px); }
+.footerBtn:hover { background: #3A66D0; }
 
 .footerLinks {
     display: flex; align-items: center; gap: 20px;
@@ -652,14 +627,14 @@
         margin: 0 auto;
     }
     .stockCard { width: 228px; }
-    .pfCard    { width: 188px; }
+    .pfCard { width: 188px; }
 }
 
 @media (max-width: 600px) {
     .heroInner { padding: 44px 20px 52px; }
     .heroRight { height: 310px; }
     .stockCard { width: 200px; top: 0; right: 0; }
-    .pfCard    { width: 162px; bottom: 10px; left: 0; }
+    .pfCard { width: 162px; bottom: 10px; left: 0; }
     .dollarBadge { width: 56px; height: 56px; font-size: 22px; top: 128px; right: -2px; }
     .lessonChip { display: none; }
 

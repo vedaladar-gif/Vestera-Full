@@ -1,14 +1,14 @@
 /* Shared styles for all AI Forecast presentational components. */
 
-.textGreen { color: #3CA787; font-weight: 700; }
+.textGreen { color: #4576E7; font-weight: 700; }
 .textRed { color: #E0637A; font-weight: 700; }
-.textGreenLg { color: #3CA787; font-weight: 800; font-size: 15px; }
+.textGreenLg { color: #4576E7; font-weight: 800; font-size: 15px; }
 .textRedLg { color: #E0637A; font-weight: 800; font-size: 15px; }
 
 .spinner {
     width: 26px; height: 26px;
-    border: 2.5px solid rgba(18,166,105,0.15);
-    border-top-color: #12A669;
+    border: 2.5px solid rgba(69,118,231,0.15);
+    border-top-color: #4576E7;
     border-radius: 50%;
     animation: vtSpin 0.8s linear infinite;
 }
@@ -22,7 +22,7 @@
     padding: 14px 18px; box-shadow: 0 8px 30px rgba(32,38,77,0.06);
     transition: border-color 0.18s;
 }
-.searchInputWrap:focus-within { border-color: #12A669; }
+.searchInputWrap:focus-within { border-color: #4576E7; }
 .searchIcon { font-size: 16px; opacity: 0.6; }
 .searchInput {
     flex: 1; border: none; outline: none; background: transparent;
@@ -30,7 +30,7 @@
 }
 .searchInput::placeholder { color: #8b90b0; font-weight: 500; }
 .searchSpinner {
-    width: 16px; height: 16px; border: 2px solid rgba(18,166,105,0.2); border-top-color: #12A669;
+    width: 16px; height: 16px; border: 2px solid rgba(69,118,231,0.2); border-top-color: #4576E7;
     border-radius: 50%; animation: vtSpin 0.7s linear infinite; flex-shrink: 0;
 }
 .searchDropdown {
@@ -56,7 +56,7 @@
 
 /* ── Stock Header ── */
 .headerCard {
-    background: #fff; border-radius: 20px; padding: 28px 28px 20px;
+    background: #fff; border-radius: 12px; padding: 28px 28px 20px;
     box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
 }
 .headerTop { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
@@ -67,7 +67,7 @@
 }
 .statusPill {
     display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
-    border-radius: 100px; font-size: 12px; font-weight: 800;
+    border-radius: 8px; font-size: 12px; font-weight: 800;
 }
 .statusDot { width: 6px; height: 6px; border-radius: 50%; }
 .headerName { font-size: 14px; color: #5c628a; font-weight: 600; margin-top: 2px; }
@@ -91,22 +91,22 @@
 
 /* ── Outlook card ── */
 .outlookCard {
-    background: #fff; border-radius: 20px; padding: 28px;
+    background: #fff; border-radius: 12px; padding: 28px;
     box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
 }
 .outlookLabel { font-size: 13px; font-weight: 800; color: #5c628a; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
 .aiTag {
-    font-size: 10px; font-weight: 700; color: #12A669; background: rgba(18,166,105,0.1);
-    padding: 2px 8px; border-radius: 100px; text-transform: none; letter-spacing: 0;
+    font-size: 10px; font-weight: 700; color: #4576E7; background: rgba(69,118,231,0.1);
+    padding: 2px 8px; border-radius: 8px; text-transform: none; letter-spacing: 0;
 }
 .outlookCategory { font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; margin-top: 6px; letter-spacing: -0.5px; }
 .outlookScoreRow { display: flex; align-items: baseline; gap: 6px; margin-top: 6px; }
 .outlookScoreBig { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; }
 .outlookScoreOutOf { font-size: 15px; color: #8b90b0; font-weight: 700; }
 .outlookBarTrack {
-    position: relative; height: 10px; background: #F5F7FA; border-radius: 100px; margin-top: 16px; overflow: hidden;
+    position: relative; height: 10px; background: #F5F7FA; border-radius: 8px; margin-top: 16px; overflow: hidden;
 }
-.outlookBarFill { height: 100%; border-radius: 100px; transition: width 0.4s ease; }
+.outlookBarFill { height: 100%; border-radius: 8px; transition: width 0.4s ease; }
 .outlookBarMid { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 2px; background: #c7cce3; }
 .outlookBarLabels { display: flex; justify-content: space-between; font-size: 11px; color: #8b90b0; font-weight: 700; margin-top: 6px; }
 .outlookMetaRow { display: flex; gap: 40px; margin-top: 20px; }
@@ -115,7 +115,7 @@
 
 /* ── Generic section card ── */
 .sectionCard {
-    background: #fff; border-radius: 20px; padding: 26px 28px;
+    background: #fff; border-radius: 12px; padding: 26px 28px;
     box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
 }
 .sectionHeader { margin-bottom: 18px; }
@@ -123,7 +123,7 @@
 .sectionSubtitle { font-size: 13px; color: #8b90b0; font-weight: 600; margin: 0; }
 
 /* ── Chart ── */
-.chartCard { background: #fff; border-radius: 20px; padding: 22px 24px; box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px; }
+.chartCard { background: #fff; border-radius: 12px; padding: 22px 24px; box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px; }
 .chartHeader { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .chartTitle { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: #20264D; }
 .chartRangeToggle { display: flex; gap: 2px; background: #F4F6FC; border-radius: 10px; padding: 3px; }
@@ -136,11 +136,11 @@
 .chartLegend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #8b90b0; font-weight: 600; margin: 12px 0 4px; }
 .chartLegend span { display: inline-flex; align-items: center; gap: 6px; }
 .legendDotBlue, .legendDotOrange, .legendDotPurple { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.legendDotBlue { background: #12A669; }
+.legendDotBlue { background: #4576E7; }
 .legendDotOrange { background: #f0a94a; }
-.legendDotPurple { background: #0F9D6B; }
-.legendDotDashed { width: 12px; height: 0; border-top: 2px dashed #12A669; display: inline-block; }
-.legendDotDotted { width: 12px; height: 0; border-top: 2px dotted #0F9D6B; display: inline-block; }
+.legendDotPurple { background: #3A66D0; }
+.legendDotDashed { width: 12px; height: 0; border-top: 2px dashed #4576E7; display: inline-block; }
+.legendDotDotted { width: 12px; height: 0; border-top: 2px dotted #3A66D0; display: inline-block; }
 .chartCanvasWrap { position: relative; margin-top: 8px; }
 .chartCanvas { width: 100%; height: 420px; }
 .chartOverlay {
@@ -157,9 +157,9 @@
 .horizonBarRow { display: flex; justify-content: space-between; margin-top: 12px; font-size: 11.5px; font-weight: 700; color: #8b90b0; }
 .horizonBarLabel { color: #8b90b0; }
 .horizonBarValue { color: #20264D; }
-.horizonBarTrack { height: 6px; background: #F5F7FA; border-radius: 100px; margin-top: 4px; overflow: hidden; }
-.horizonBarFill { height: 100%; border-radius: 100px; }
-.horizonBarFillMuted { height: 100%; border-radius: 100px; background: #b8bdd8; }
+.horizonBarTrack { height: 6px; background: #F5F7FA; border-radius: 8px; margin-top: 4px; overflow: hidden; }
+.horizonBarFill { height: 100%; border-radius: 8px; }
+.horizonBarFillMuted { height: 100%; border-radius: 8px; background: #b8bdd8; }
 .horizonFactors { margin: 12px 0 0; padding-left: 16px; font-size: 12px; color: #5c628a; font-weight: 600; line-height: 1.5; }
 .horizonFactors li { margin-bottom: 2px; }
 
@@ -169,8 +169,8 @@
 .scenarioLabel { font-size: 13px; font-weight: 800; }
 .scenarioPrice { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; color: #20264D; margin-top: 6px; }
 .scenarioProbLabel { font-size: 11px; color: #8b90b0; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
-.scenarioProbTrack { height: 6px; background: #F5F7FA; border-radius: 100px; margin-top: 6px; overflow: hidden; }
-.scenarioProbFill { height: 100%; border-radius: 100px; }
+.scenarioProbTrack { height: 6px; background: #F5F7FA; border-radius: 8px; margin-top: 6px; overflow: hidden; }
+.scenarioProbFill { height: 100%; border-radius: 8px; }
 .scenarioProbValue { font-size: 13px; font-weight: 800; color: #20264D; margin-top: 6px; }
 
 @media (max-width: 700px) {
@@ -181,7 +181,7 @@
 .factorsGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .factorsColLabel { font-size: 13px; font-weight: 800; margin-bottom: 10px; }
 .factorsList { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: #20264D; font-weight: 600; }
-.factorItemPositive::marker { color: #3CA787; }
+.factorItemPositive::marker { color: #4576E7; }
 .factorItemNegative::marker { color: #E0637A; }
 .factorsEmpty { font-size: 13px; color: #8b90b0; font-weight: 600; }
 
@@ -193,7 +193,7 @@
 .riskOverallRow { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; width: 100%; }
 .riskOverallBadge { display: flex; align-items: center; gap: 10px; }
 .riskOverallScore { font-size: 13px; font-weight: 800; color: #5c628a; }
-.riskPill { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 800; }
+.riskPill { padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; }
 .riskGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .riskRow { display: flex; align-items: center; gap: 12px; background: #F8FAFC; border-radius: 12px; padding: 12px 14px; }
 .riskRowLabel { font-size: 13px; font-weight: 700; color: #20264D; flex: 1; }
@@ -215,22 +215,22 @@
 
 /* ── AI Summary ── */
 .summaryCard {
-    background: linear-gradient(135deg, rgba(18,166,105,0.06), rgba(15,157,107,0.04));
-    border: 1px solid rgba(18,166,105,0.15); border-radius: 20px; padding: 22px 26px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(69,118,231,0.06), rgba(15,157,107,0.04));
+    border: 1px solid rgba(69,118,231,0.15); border-radius: 12px; padding: 22px 26px; margin-bottom: 20px;
 }
-.summaryLabel { font-size: 13px; font-weight: 800; color: #12A669; margin-bottom: 8px; }
+.summaryLabel { font-size: 13px; font-weight: 800; color: #4576E7; margin-bottom: 8px; }
 .summaryText { font-size: 14.5px; line-height: 1.7; color: #20264D; font-weight: 600; margin: 0; }
 
 /* ── Loading state ── */
 .loadingWrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 90px 20px; text-align: center; }
 .loadingSpinner {
-    width: 44px; height: 44px; border: 3px solid rgba(18,166,105,0.15); border-top-color: #12A669;
+    width: 44px; height: 44px; border: 3px solid rgba(69,118,231,0.15); border-top-color: #4576E7;
     border-radius: 50%; animation: vtSpin 0.8s linear infinite; margin-bottom: 24px;
 }
 .loadingStep { font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 800; color: #20264D; margin-bottom: 20px; }
 .loadingSteps { display: flex; flex-direction: column; gap: 8px; }
 .loadingStepDone, .loadingStepPending { font-size: 13px; font-weight: 700; }
-.loadingStepDone { color: #3CA787; }
+.loadingStepDone { color: #4576E7; }
 .loadingStepPending { color: #b8bdd8; }
 
 /* ── Integration bar ── */
@@ -239,7 +239,7 @@
     background: #fff; border-radius: 16px; padding: 16px 20px; box-shadow: 0 8px 30px rgba(32,38,77,0.06); margin-bottom: 20px;
 }
 .integrationLeft { display: flex; align-items: center; min-width: 0; }
-.positionBadge { font-size: 13px; font-weight: 800; color: #3CA787; }
+.positionBadge { font-size: 13px; font-weight: 800; color: #4576E7; }
 .positionBadgeMuted { font-size: 12.5px; font-weight: 600; color: #8b90b0; }
 .integrationActions { display: flex; gap: 10px; flex-wrap: wrap; }
 .integrationBtnPrimary, .integrationBtnSecondary, .integrationBtnActive {
@@ -247,8 +247,8 @@
     text-decoration: none; cursor: pointer; font-family: 'Inter', sans-serif; border: 1.5px solid transparent;
     transition: all 0.15s;
 }
-.integrationBtnPrimary { background: #12A669; color: #fff; }
-.integrationBtnPrimary:hover { filter: brightness(1.05); }
+.integrationBtnPrimary { background: #4576E7; color: #fff; }
+.integrationBtnPrimary:hover { }
 .integrationBtnSecondary { background: #F4F6FC; color: #20264D; border-color: #E4E9F7; }
 .integrationBtnSecondary:hover { background: #F5F7FA; }
 .integrationBtnActive { background: rgba(255,184,76,0.15); color: #b9790c; border-color: rgba(255,184,76,0.4); }

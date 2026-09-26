@@ -70,7 +70,6 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
         { href: previewMode ? '/restricted' : '/trade', label: 'Market', activePath: '/trade', tour: 'nav-market' },
         { href: previewMode ? '/restricted' : '/stats', label: 'Rankings', activePath: '/stats', tour: 'nav-rankings' },
         { href: previewMode ? '/restricted' : '/portfolio', label: 'Portfolio', activePath: '/portfolio', tour: 'nav-portfolio' },
-        { href: previewMode ? '/restricted' : '/friends', label: 'Friends', activePath: '/friends', tour: 'nav-friends' },
         { href: '/learn', label: 'Academy', activePath: '/learn', tour: 'nav-academy' },
     ];
 
@@ -126,8 +125,8 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                 href="/login"
                                 style={{
                                     textDecoration: 'none', fontSize: 14, fontWeight: 700,
-                                    padding: '8px 18px', borderRadius: 999,
-                                    background: '#4C8DFF', color: '#fff', transition: 'filter 0.2s',
+                                    padding: '8px 18px', borderRadius: 8,
+                                    background: '#4576E7', color: '#fff', transition: 'filter 0.2s',
                                 }}
                             >
                                 Log In / Sign Up
@@ -259,7 +258,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                 ) : (
                     <>
                         <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>
-                            👤 Profile
+                            Profile
                         </Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>
                             Logout

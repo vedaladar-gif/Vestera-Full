@@ -75,17 +75,16 @@ export default function Navbar() {
                 {/* ── Brand: Logo ── */}
                 <Link href="/" className="nav-brand" onClick={close} style={{ gap: 8 }}>
                     <VesteraLogo height={32} />
-                    <VestaBlob size={26} showDot={false} mini color="#4C8DFF" />
+                    <VestaBlob size={26} showDot={false} mini color="#4576E7" />
                 </Link>
 
                 {/* ── Desktop links ── */}
                 <div className="nav-links">
                     {authenticated ? (
                         <>
-                            <Link href="/trade"   style={{ ...linkStyle('/trade'),   textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Market</Link>
-                            <Link href="/stats"   style={{ ...linkStyle('/stats'),   textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
-                            <Link href="/learn"   style={{ ...linkStyle('/learn'),   textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
-                            <Link href="/friends" style={{ ...linkStyle('/friends'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Friends</Link>
+                            <Link href="/trade" style={{ ...linkStyle('/trade'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Market</Link>
+                            <Link href="/stats" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/learn" style={{ ...linkStyle('/learn'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
 
                             <div style={{ width: 1, height: 20, background: 'var(--vt-border)', margin: '0 6px', flexShrink: 0 }} />
 
@@ -117,8 +116,8 @@ export default function Navbar() {
                         </>
                     ) : (
                         <>
-                            <Link href="/learn"    style={{ ...linkStyle('/learn'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
-                            <Link href="/stats"    style={{ ...linkStyle('/stats'),    textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/learn" style={{ ...linkStyle('/learn'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
+                            <Link href="/stats" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
                             <Link href="/partners" style={{ ...linkStyle('/partners'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Partners</Link>
                             <Link
                                 href="/login"
@@ -155,12 +154,11 @@ export default function Navbar() {
                             </div>
                         </div>
                         <div className="nav-mobile-divider" />
-                        <Link href="/trade"   className="nav-mobile-link" onClick={close} data-active={isActive('/trade')   ? 'true' : 'false'}>Market</Link>
-                        <Link href="/stats"   className="nav-mobile-link" onClick={close} data-active={isActive('/stats')   ? 'true' : 'false'}>Rankings</Link>
-                        <Link href="/learn"   className="nav-mobile-link" onClick={close} data-active={isActive('/learn')   ? 'true' : 'false'}>Academy</Link>
-                        <Link href="/friends" className="nav-mobile-link" onClick={close} data-active={isActive('/friends') ? 'true' : 'false'}>Friends</Link>
+                        <Link href="/trade" className="nav-mobile-link" onClick={close} data-active={isActive('/trade') ? 'true' : 'false'}>Market</Link>
+                        <Link href="/stats" className="nav-mobile-link" onClick={close} data-active={isActive('/stats') ? 'true' : 'false'}>Rankings</Link>
+                        <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={isActive('/learn') ? 'true' : 'false'}>Academy</Link>
                         <div className="nav-mobile-divider" />
-                        <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>👤 Profile</Link>
+                        <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>Profile</Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>Logout</button>
                     </>
                 ) : (
@@ -169,10 +167,10 @@ export default function Navbar() {
                             <VesteraLogo height={28} />
                         </div>
                         <div className="nav-mobile-divider" />
-                        <Link href="/learn"    className="nav-mobile-link" onClick={close} data-active={isActive('/learn')    ? 'true' : 'false'}>🎓 Academy</Link>
-                        <Link href="/partners" className="nav-mobile-link" onClick={close} data-active={isActive('/partners') ? 'true' : 'false'}>🤝 Partners</Link>
+                        <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={isActive('/learn') ? 'true' : 'false'}>Academy</Link>
+                        <Link href="/partners" className="nav-mobile-link" onClick={close} data-active={isActive('/partners') ? 'true' : 'false'}>Partners</Link>
                         <div className="nav-mobile-divider" />
-                        <Link href="/login"    className="nav-mobile-link" onClick={close}>Log In</Link>
+                        <Link href="/login" className="nav-mobile-link" onClick={close}>Log In</Link>
                         <Link href="/register" className="nav-mobile-link nav-mobile-cta" onClick={close}>Get Started Free →</Link>
                     </>
                 )}

@@ -76,18 +76,18 @@ interface WatchItem {
 // ── Static watchlist (prices fetched dynamically) ─────────────────────────
 
 const WATCHLIST_BASE: WatchItem[] = [
-    { sym: 'AAPL',  name: 'Apple Inc.',       price: 0, change: 0, changePct: 0 },
-    { sym: 'NVDA',  name: 'NVIDIA Corp.',      price: 0, change: 0, changePct: 0 },
-    { sym: 'MSFT',  name: 'Microsoft Corp.',   price: 0, change: 0, changePct: 0 },
-    { sym: 'TSLA',  name: 'Tesla Inc.',        price: 0, change: 0, changePct: 0 },
-    { sym: 'GOOGL', name: 'Alphabet Inc.',     price: 0, change: 0, changePct: 0 },
-    { sym: 'AMZN',  name: 'Amazon.com',        price: 0, change: 0, changePct: 0 },
-    { sym: 'META',  name: 'Meta Platforms',    price: 0, change: 0, changePct: 0 },
-    { sym: 'JPM',   name: 'JPMorgan Chase',    price: 0, change: 0, changePct: 0 },
-    { sym: 'V',     name: 'Visa Inc.',         price: 0, change: 0, changePct: 0 },
-    { sym: 'NFLX',  name: 'Netflix Inc.',      price: 0, change: 0, changePct: 0 },
-    { sym: 'AMD',   name: 'AMD Inc.',          price: 0, change: 0, changePct: 0 },
-    { sym: 'INTC',  name: 'Intel Corp.',       price: 0, change: 0, changePct: 0 },
+    { sym: 'AAPL', name: 'Apple Inc.', price: 0, change: 0, changePct: 0 },
+    { sym: 'NVDA', name: 'NVIDIA Corp.', price: 0, change: 0, changePct: 0 },
+    { sym: 'MSFT', name: 'Microsoft Corp.', price: 0, change: 0, changePct: 0 },
+    { sym: 'TSLA', name: 'Tesla Inc.', price: 0, change: 0, changePct: 0 },
+    { sym: 'GOOGL', name: 'Alphabet Inc.', price: 0, change: 0, changePct: 0 },
+    { sym: 'AMZN', name: 'Amazon.com', price: 0, change: 0, changePct: 0 },
+    { sym: 'META', name: 'Meta Platforms', price: 0, change: 0, changePct: 0 },
+    { sym: 'JPM', name: 'JPMorgan Chase', price: 0, change: 0, changePct: 0 },
+    { sym: 'V', name: 'Visa Inc.', price: 0, change: 0, changePct: 0 },
+    { sym: 'NFLX', name: 'Netflix Inc.', price: 0, change: 0, changePct: 0 },
+    { sym: 'AMD', name: 'AMD Inc.', price: 0, change: 0, changePct: 0 },
+    { sym: 'INTC', name: 'Intel Corp.', price: 0, change: 0, changePct: 0 },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -287,7 +287,7 @@ function TradingDashboard() {
             const colors = getChartColors(dark);
 
             const chart = lc.createChart(chartRef.current, {
-                width:  chartRef.current.clientWidth,
+                width: chartRef.current.clientWidth,
                 height: chartRef.current.clientHeight || 440,
                 layout: {
                     background: { type: lc.ColorType.Solid, color: 'transparent' },
@@ -366,9 +366,9 @@ function TradingDashboard() {
                         : String(rawTime);
                 setOhlcBar({
                     time: timeLabel,
-                    open:  typeof data.open  === 'number' ? data.open  : undefined,
-                    high:  typeof data.high  === 'number' ? data.high  : undefined,
-                    low:   typeof data.low   === 'number' ? data.low   : undefined,
+                    open: typeof data.open === 'number' ? data.open : undefined,
+                    high: typeof data.high === 'number' ? data.high : undefined,
+                    low: typeof data.low === 'number' ? data.low : undefined,
                     close: typeof data.close === 'number' ? data.close : undefined,
                     value: typeof data.value === 'number' ? data.value : undefined,
                 });
@@ -391,9 +391,9 @@ function TradingDashboard() {
                                 : String(rawTime);
                         setOhlcBar({
                             time: timeLabel,
-                            open:  typeof data.open  === 'number' ? data.open  : undefined,
-                            high:  typeof data.high  === 'number' ? data.high  : undefined,
-                            low:   typeof data.low   === 'number' ? data.low   : undefined,
+                            open: typeof data.open === 'number' ? data.open : undefined,
+                            high: typeof data.high === 'number' ? data.high : undefined,
+                            low: typeof data.low === 'number' ? data.low : undefined,
                             close: typeof data.close === 'number' ? data.close : undefined,
                             value: typeof data.value === 'number' ? data.value : undefined,
                         });
@@ -485,17 +485,17 @@ function TradingDashboard() {
                     seriesRef.current = s;
                 } else if (chartType === 'area') {
                     const s = chart.addSeries(lc.AreaSeries, {
-                        topColor:    colors.areaTopColor,
+                        topColor: colors.areaTopColor,
                         bottomColor: colors.areaBottomColor,
-                        lineColor:   colors.lineColor,
-                        lineWidth:   2,
+                        lineColor: colors.lineColor,
+                        lineWidth: 2,
                     });
                     s.setData(
                         bars.map(b => ({ time: t(b), value: b.close })) as Parameters<typeof s.setData>[0]
                     );
                     seriesRef.current = s;
                 } else {
-                    const s = chart.addSeries(lc.LineSeries, { color: '#0F9D6B', lineWidth: 2 });
+                    const s = chart.addSeries(lc.LineSeries, { color: '#3A66D0', lineWidth: 2 });
                     s.setData(
                         bars.map(b => ({ time: t(b), value: b.close })) as Parameters<typeof s.setData>[0]
                     );
@@ -737,7 +737,7 @@ function TradingDashboard() {
                 <div style={{
                     width: 32, height: 32,
                     border: '2px solid rgba(79,110,247,0.15)',
-                    borderTopColor: '#12A669',
+                    borderTopColor: '#4576E7',
                     borderRadius: '50%',
                     animation: 'spin 0.8s linear infinite',
                 }} />
@@ -792,7 +792,7 @@ function TradingDashboard() {
                         ))}
                         {tutorialMode && (
                             <div className={styles.tutorialLockNote}>
-                                🔒 More stocks unlock after the tutorial
+                                More stocks unlock after the tutorial
                             </div>
                         )}
                     </div>
@@ -928,7 +928,7 @@ function TradingDashboard() {
 
                                 {ohlcLocked ? (
                                     <button className={styles.ohlcLockBtn} onClick={unlockOhlc}>
-                                        🔒 Click to unlock
+                                        Click to unlock
                                     </button>
                                 ) : (
                                     <span className={styles.ohlcHint}>Click chart to lock</span>

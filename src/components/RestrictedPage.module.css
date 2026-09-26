@@ -14,7 +14,7 @@
     text-align: center;
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 40px 32px;
     box-shadow: 0 24px 80px var(--vt-shadow);
 }
@@ -72,7 +72,7 @@
 }
 
 .btnPrimary:hover {
-    background: #0F9D6B;
+    background: #3A66D0;
 }
 
 .btnGhost {

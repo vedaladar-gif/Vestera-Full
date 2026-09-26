@@ -31,28 +31,26 @@
     align-items: center;
     gap: 8px;
     padding: 14px 28px;
-    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
     color: #fff;
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     font-size: 15px;
     font-weight: 800;
     font-family: 'Inter', sans-serif;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(18,166,105,0.3);
+    box-shadow: 0 6px 18px rgba(69,118,231,0.3);
     transition: filter 0.18s, transform 0.18s;
 }
 
 .ctaBtn:hover {
-    filter: brightness(1.05);
-    transform: translateY(-2px);
 }
 
 /* ── Apply form ── */
 .formCard {
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 12px;
     box-shadow: 0 12px 40px rgba(32,38,77,0.08);
     padding: 32px 32px 28px;
     max-width: 560px;
@@ -108,8 +106,8 @@
 
 .input:focus,
 .textarea:focus {
-    border-color: #12A669;
-    box-shadow: 0 0 0 3px rgba(18,166,105,0.12);
+    border-color: #4576E7;
+    box-shadow: 0 0 0 3px rgba(69,118,231,0.12);
 }
 
 .textarea {
@@ -121,21 +119,19 @@
 .submitBtn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
     color: #fff;
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     font-size: 15px;
     font-weight: 800;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
     transition: filter 0.18s, transform 0.18s;
-    box-shadow: 0 6px 18px rgba(18,166,105,0.3);
+    box-shadow: 0 6px 18px rgba(69,118,231,0.3);
 }
 
 .submitBtn:hover {
-    filter: brightness(1.05);
-    transform: translateY(-1px);
 }
 
 .submitBtn:disabled {
@@ -243,7 +239,7 @@
 /* ── Main / flagship chapter highlight ── */
 .chapterCardMain {
     grid-column: 1 / -1;
-    background: linear-gradient(135deg, rgba(60,167,135,0.10) 0%, rgba(18,166,105,0.06) 100%);
+    background: linear-gradient(135deg, rgba(60,167,135,0.10) 0%, rgba(69,118,231,0.06) 100%);
     border: 1.5px solid rgba(60,167,135,0.35);
     box-shadow: 0 8px 24px rgba(60,167,135,0.14);
     padding-top: 26px;
@@ -253,13 +249,13 @@
     position: absolute;
     top: -11px;
     left: 20px;
-    background: linear-gradient(135deg, #3CA787 0%, #1F6E56 100%);
+    background: linear-gradient(135deg, #4576E7 0%, #1F6E56 100%);
     color: #fff;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.3px;
     padding: 4px 12px;
-    border-radius: 999px;
+    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(31,110,86,0.35);
 }
 
@@ -267,7 +263,7 @@
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #34D399 0%, #12A669 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
     color: #fff;
     display: flex;
     align-items: center;

@@ -15,7 +15,7 @@ interface VestaBlobProps {
     color?: string;
 }
 
-const BLUE = '#12A669';
+const BLUE = '#4576E7';
 const BLUE_DK = '#3A78E6';
 const NAVY = '#20264D';
 const GOLD = '#FFB84C';
@@ -71,9 +71,9 @@ export default function VestaBlob({
                     aria-hidden="true"
                     style={{
                         display: 'block',
-                        animation: animate ? 'vestaBob 2.6s ease-in-out infinite' : undefined,
+                        animation: undefined,
                         overflow: 'visible',
-                        filter: 'drop-shadow(0 5px 10px rgba(18,166,105,0.28))',
+                        filter: 'drop-shadow(0 5px 10px rgba(69,118,231,0.28))',
                     }}
                 >
                     {/* ── Antenna + gold spark (behind the head) ── */}
@@ -114,7 +114,7 @@ export default function VestaBlob({
                     <style>{`
                         @keyframes vestaBob {
                             0%, 100% { transform: translateY(0); }
-                            50%       { transform: translateY(-6px); }
+                            50% { transform: translateY(-6px); }
                         }
                     `}</style>
                 )}
@@ -129,7 +129,7 @@ export default function VestaBlob({
                     fontWeight: 700,
                     fontSize: 12,
                     padding: '3px 10px',
-                    borderRadius: 999,
+                    borderRadius: 8,
                     lineHeight: 1.4,
                     whiteSpace: 'nowrap',
                 }}>

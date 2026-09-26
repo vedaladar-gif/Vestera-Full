@@ -204,7 +204,7 @@ export default function AdminPage() {
                         <h1 className={styles.title}>Admin Mode</h1>
                         <p className={styles.subtitle} style={{ marginBottom: 8 }}>Accounts and inbound submissions across Vestera.</p>
                         <span className={styles.userCountBadge}>
-                            👥 {totalUsers.toLocaleString()} total {totalUsers === 1 ? 'user' : 'users'}
+                            {totalUsers.toLocaleString()} total {totalUsers === 1 ? 'user' : 'users'}
                         </span>
                     </div>
                     <button className={styles.exitBtn} onClick={handleExit}>

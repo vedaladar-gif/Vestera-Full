@@ -13,7 +13,7 @@ export default function PredictAISection({ symbol, data, error }: { symbol: stri
         return (
             <div className={styles.card}>
                 <div className={styles.titleBlock}>
-                    <h2 className={styles.title}>⚡ Vestera Predict AI</h2>
+                    <h2 className={styles.title}>Vestera Predict AI</h2>
                 </div>
                 <p className={styles.errorText}>{error}</p>
             </div>

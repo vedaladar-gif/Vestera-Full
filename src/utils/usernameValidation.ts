@@ -2,8 +2,8 @@
  * Username validation and moderation utilities.
  *
  * Usage (frontend + backend):
- *   import { validateUsername, normalizeForModeration, generateUsernameSuggestions }
- *     from '@/utils/usernameValidation';
+ * import { validateUsername, normalizeForModeration, generateUsernameSuggestions }
+ * from '@/utils/usernameValidation';
  */
 
 import {
@@ -34,7 +34,7 @@ export const USERNAME_FORMAT_REGEX = /^[a-zA-Z0-9_.]{3,20}$/;
 // normalizeForModeration
 //
 // Produces a lowercase, separator-stripped, leet-decoded string used
-// exclusively for blocked-term matching.  The original format is preserved
+// exclusively for blocked-term matching. The original format is preserved
 // for display and storage purposes.
 // ---------------------------------------------------------------------------
 export function normalizeForModeration(username: string): string {
@@ -100,13 +100,13 @@ export function isSpammy(username: string): boolean {
 // ---------------------------------------------------------------------------
 // validateUsername
 //
-// Main entry point.  Runs every check in order and returns a result
+// Main entry point. Runs every check in order and returns a result
 // suitable for both frontend display and backend enforcement.
 //
 // Checks three surfaces:
-//   1. Original value  (format + spam)
-//   2. Lowercase original (protected-term match)
-//   3. Normalised value (bypass-resistant blocked-term match)
+// 1. Original value (format + spam)
+// 2. Lowercase original (protected-term match)
+// 3. Normalised value (bypass-resistant blocked-term match)
 // ---------------------------------------------------------------------------
 export function validateUsername(username: string): ValidationResult {
   if (!username) {

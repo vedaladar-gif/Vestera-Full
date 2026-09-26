@@ -6,16 +6,16 @@ import styles from './LessonRenderer.module.css';
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 interface ConceptItem { type: 'concept'; term: string; desc: string }
-interface PlainItem   { type: 'plain';   text: string }
+interface PlainItem { type: 'plain'; text: string }
 type SectionItem = ConceptItem | PlainItem;
 
 type Block =
-    | { kind: 'intro';    text: string }
-    | { kind: 'section';  heading: string; items: SectionItem[] }
+    | { kind: 'intro'; text: string }
+    | { kind: 'section'; heading: string; items: SectionItem[] }
     | { kind: 'concepts'; items: ConceptItem[] }
-    | { kind: 'steps';    heading?: string; items: string[] }
-    | { kind: 'bullets';  items: string[] }
-    | { kind: 'formula';  heading: string; body: string }
+    | { kind: 'steps'; heading?: string; items: string[] }
+    | { kind: 'bullets'; items: string[] }
+    | { kind: 'formula'; heading: string; body: string }
     | { kind: 'paragraph'; text: string };
 
 // ─── Content Parser ──────────────────────────────────────────────────────────
@@ -62,7 +62,7 @@ function parseContent(raw: string): Block[] {
             continue;
         }
 
-        // All lines are **Term:** desc  →  concept group
+        // All lines are **Term:** desc → concept group
         if (lines.length >= 1 && lines.every(l => /^\*\*[^*]+\*\*:\s*.+/.test(l))) {
             const items: ConceptItem[] = lines.map(l => {
                 const m = l.match(/^\*\*([^*]+)\*\*:\s*(.*)/);
@@ -123,21 +123,21 @@ function RichText({ text, className }: { text: string; className?: string }) {
 
 function conceptIcon(term: string): string {
     const t = term.toLowerCase();
-    if (/price|bid|ask|spread|premium/.test(t)) return '💱';
-    if (/risk|loss|stop|drawdown|danger|penalty|withdraw/.test(t)) return '⚠️';
-    if (/profit|gain|return|yield|dividend/.test(t)) return '📈';
-    if (/chart|candle|pattern|signal|trend/.test(t)) return '📊';
-    if (/strategy|plan|system|rule/.test(t)) return '🎯';
-    if (/market|exchange|stock|share|index|etf/.test(t)) return '🏛️';
-    if (/portfolio|diversif|allocat|asset/.test(t)) return '🎨';
-    if (/option|call|put|greek|delta|theta/.test(t)) return '⚙️';
-    if (/time|period|day|week|month|date/.test(t)) return '📅';
-    if (/formula|ratio|calc|p\/e|eps|interest|rate|principal|linear|compound|snowball/.test(t)) return '🧮';
-    if (/psychology|emotion|bias|fomo/.test(t)) return '🧠';
-    if (/ira|roth|traditional|retirement|pension|contribution/.test(t)) return '🏦';
-    if (/budget|expense|income|spend|need|want|saving|net worth|lifestyle/.test(t)) return '💵';
-    if (/frequen|growth|compound/.test(t)) return '📈';
-    return '💡';
+    if (/price|bid|ask|spread|premium/.test(t)) return '';
+    if (/risk|loss|stop|drawdown|danger|penalty|withdraw/.test(t)) return '';
+    if (/profit|gain|return|yield|dividend/.test(t)) return '';
+    if (/chart|candle|pattern|signal|trend/.test(t)) return '';
+    if (/strategy|plan|system|rule/.test(t)) return '';
+    if (/market|exchange|stock|share|index|etf/.test(t)) return '';
+    if (/portfolio|diversif|allocat|asset/.test(t)) return '';
+    if (/option|call|put|greek|delta|theta/.test(t)) return '';
+    if (/time|period|day|week|month|date/.test(t)) return '';
+    if (/formula|ratio|calc|p\/e|eps|interest|rate|principal|linear|compound|snowball/.test(t)) return '';
+    if (/psychology|emotion|bias|fomo/.test(t)) return '';
+    if (/ira|roth|traditional|retirement|pension|contribution/.test(t)) return '';
+    if (/budget|expense|income|spend|need|want|saving|net worth|lifestyle/.test(t)) return '';
+    if (/frequen|growth|compound/.test(t)) return '';
+    return '';
 }
 
 // ─── Block Renderers ──────────────────────────────────────────────────────────
@@ -243,7 +243,7 @@ function FormulaBlock({ heading, body }: { heading: string; body: string }) {
     const lines = body.split('\n').filter(Boolean);
     return (
         <div className={isExample ? styles.exampleBlock : styles.formulaBlock}>
-            <div className={styles.formulaLabel}>{isExample ? '📋 Example' : '🧮 Formula'}</div>
+            <div className={styles.formulaLabel}>{isExample ? 'Example' : 'Formula'}</div>
             {lines.map((line, i) => {
                 const bulletLine = line.replace(/^-\s*/, '');
                 return (
@@ -270,7 +270,7 @@ function ParagraphBlock({ text }: { text: string }) {
 function CandlestickDiagram() {
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>📊 Candlestick Anatomy</div>
+            <div className={styles.chartTitle}>Candlestick Anatomy</div>
             <div className={styles.chartSubtitle}>How to read a single candle</div>
             <svg viewBox="0 0 420 220" className={styles.chart} aria-label="Candlestick anatomy diagram">
                 {/* Grid lines */}
@@ -336,10 +336,10 @@ function CandlestickDiagram() {
 function PortfolioPieChart() {
     // Simple donut chart for portfolio allocation
     const segments = [
-        { label: 'US Stocks',     pct: 45, color: '#12A669' },
-        { label: 'Bonds',         pct: 25, color: '#4ade80' },
-        { label: 'Intl Stocks',   pct: 20, color: '#12A669' },
-        { label: 'Cash/Other',    pct: 10, color: '#f97316' },
+        { label: 'US Stocks', pct: 45, color: '#4576E7' },
+        { label: 'Bonds', pct: 25, color: '#4ade80' },
+        { label: 'Intl Stocks', pct: 20, color: '#4576E7' },
+        { label: 'Cash/Other', pct: 10, color: '#f97316' },
     ];
     // Build SVG arcs
     const cx = 100, cy = 100, r = 70, innerR = 42;
@@ -364,7 +364,7 @@ function PortfolioPieChart() {
 
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>🎨 Balanced Portfolio Allocation</div>
+            <div className={styles.chartTitle}>Balanced Portfolio Allocation</div>
             <div className={styles.chartSubtitle}>A classic diversified "moderate" portfolio example</div>
             <div className={styles.pieLayout}>
                 <svg viewBox="0 0 200 200" className={styles.pieChart} aria-label="Portfolio allocation pie chart">
@@ -386,7 +386,7 @@ function PortfolioPieChart() {
                     ))}
                 </div>
             </div>
-            <div className={styles.chartNote}>💡 Asset allocation determines ~90% of long-term portfolio returns</div>
+            <div className={styles.chartNote}>Asset allocation determines ~90% of long-term portfolio returns</div>
         </div>
     );
 }
@@ -394,7 +394,7 @@ function PortfolioPieChart() {
 function BullBearChart() {
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>📈 Bull vs Bear Market</div>
+            <div className={styles.chartTitle}>Bull vs Bear Market</div>
             <div className={styles.chartSubtitle}>Both are normal parts of the market cycle</div>
             <svg viewBox="0 0 400 180" className={styles.chart} aria-label="Bull and bear market chart">
                 {/* Grid */}
@@ -428,10 +428,10 @@ function BullBearChart() {
 
                 {/* Labels */}
                 <rect x="290" y="8" width="82" height="20" rx="10" fill="#4ade8022" stroke="#4ade8044" />
-                <text x="331" y="22" fill="#4ade80" fontSize="11" fontFamily="Inter,sans-serif" textAnchor="middle" fontWeight="700">🐂 BULL</text>
+                <text x="331" y="22" fill="#4ade80" fontSize="11" fontFamily="Inter,sans-serif" textAnchor="middle" fontWeight="700">BULL</text>
 
                 <rect x="288" y="154" width="84" height="20" rx="10" fill="#f8717122" stroke="#f8717144" />
-                <text x="330" y="168" fill="#f87171" fontSize="11" fontFamily="Inter,sans-serif" textAnchor="middle" fontWeight="700">🐻 BEAR</text>
+                <text x="330" y="168" fill="#f87171" fontSize="11" fontFamily="Inter,sans-serif" textAnchor="middle" fontWeight="700">BEAR</text>
 
                 {/* Y axis label */}
                 <text x="36" y="93" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif" textAnchor="end">0%</text>
@@ -457,7 +457,7 @@ function CompoundGrowthChart() {
 
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>📈 The Power of Compounding</div>
+            <div className={styles.chartTitle}>The Power of Compounding</div>
             <div className={styles.chartSubtitle}>$10,000 at 8% annual return vs. no investment</div>
             <svg viewBox="0 0 420 210" className={styles.chart} aria-label="Compound growth chart">
                 {/* Grid lines */}
@@ -472,17 +472,17 @@ function CompoundGrowthChart() {
                 <polyline points={flatPts} fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5,3" />
 
                 {/* Compound area fill */}
-                <polygon points={growthArea} fill="#12A669" fillOpacity="0.12" />
+                <polygon points={growthArea} fill="#4576E7" fillOpacity="0.12" />
                 {/* Compound line */}
-                <polyline points={growthPts} fill="none" stroke="#12A669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <polyline points={growthPts} fill="none" stroke="#4576E7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
                 {/* Data dots */}
                 {[[50,170],[107,163],[163,153],[220,137],[277,115],[333,82],[390,34]].map(([x,y],i) => (
-                    <circle key={i} cx={x} cy={y} r="3.5" fill="#12A669" stroke="var(--vt-surface)" strokeWidth="2" />
+                    <circle key={i} cx={x} cy={y} r="3.5" fill="#4576E7" stroke="var(--vt-surface)" strokeWidth="2" />
                 ))}
 
                 {/* End label: $100K */}
-                <rect x="294" y="20" width="98" height="22" rx="11" fill="#12A66922" stroke="#12A66944" />
+                <rect x="294" y="20" width="98" height="22" rx="11" fill="#4576E722" stroke="#4576E744" />
                 <text x="343" y="35" textAnchor="middle" fill="#7d9bff" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$100,627</text>
 
                 {/* End label: flat */}
@@ -499,24 +499,24 @@ function CompoundGrowthChart() {
                 <text x="40" y="38" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$100K</text>
             </svg>
             <div className={styles.chartLegend}>
-                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#12A669' }} />Compounding at 8%/year (x10 growth in 30 years)</div>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#4576E7' }} />Compounding at 8%/year (x10 growth in 30 years)</div>
                 <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />No investment (stays at $10,000)</div>
             </div>
-            <div className={styles.chartNote}>💡 Time in the market beats timing the market</div>
+            <div className={styles.chartNote}>Time in the market beats timing the market</div>
         </div>
     );
 }
 
 function OrderTypesVisual() {
     const orders = [
-        { icon: '⚡', name: 'Market Order', speed: 'Instant', price: 'Current price', risk: 'Price may vary', color: '#12A669' },
-        { icon: '🎯', name: 'Limit Order',  speed: 'When triggered', price: 'Your set price', risk: 'May not fill', color: '#4ade80' },
-        { icon: '🛡️', name: 'Stop-Loss',    speed: 'Auto-triggers', price: 'Below entry', risk: 'Limits losses', color: '#f97316' },
-        { icon: '🔀', name: 'Stop-Limit',   speed: 'Two-stage',     price: 'Two levels', risk: 'Most precise', color: '#12A669' },
+        { icon: '', name: 'Market Order', speed: 'Instant', price: 'Current price', risk: 'Price may vary', color: '#4576E7' },
+        { icon: '', name: 'Limit Order', speed: 'When triggered', price: 'Your set price', risk: 'May not fill', color: '#4ade80' },
+        { icon: '', name: 'Stop-Loss', speed: 'Auto-triggers', price: 'Below entry', risk: 'Limits losses', color: '#f97316' },
+        { icon: '', name: 'Stop-Limit', speed: 'Two-stage', price: 'Two levels', risk: 'Most precise', color: '#4576E7' },
     ];
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>📋 Order Types Compared</div>
+            <div className={styles.chartTitle}>Order Types Compared</div>
             <div className={styles.chartSubtitle}>When to use each type of order</div>
             <div className={styles.orderGrid}>
                 {orders.map((o, i) => (
@@ -536,12 +536,12 @@ function OrderTypesVisual() {
 function MovingAveragesChart() {
     // Simulate a stock price with 20-day and 50-day MAs
     // Golden cross at approximately x=280
-    const price   = "30,110 60,100 90,95 120,88 150,80 180,75 210,80 240,72 270,65 300,60 330,55 360,50 390,42";
-    const ma20    = "120,102 150,95 180,88 210,83 240,78 270,72 300,65 330,58 360,52 390,44";
-    const ma50    = "200,100 230,95 260,90 290,85 320,78 350,70 380,62 390,58";
+    const price = "30,110 60,100 90,95 120,88 150,80 180,75 210,80 240,72 270,65 300,60 330,55 360,50 390,42";
+    const ma20 = "120,102 150,95 180,88 210,83 240,78 270,72 300,65 330,58 360,52 390,44";
+    const ma50 = "200,100 230,95 260,90 290,85 320,78 350,70 380,62 390,58";
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>〰️ Moving Averages in Action</div>
+            <div className={styles.chartTitle}>〰Moving Averages in Action</div>
             <div className={styles.chartSubtitle}>Price vs 20-day MA vs 50-day MA — showing a Golden Cross</div>
             <svg viewBox="0 0 420 170" className={styles.chart} aria-label="Moving averages chart">
                 {[40, 80, 120].map(y => (
@@ -550,7 +550,7 @@ function MovingAveragesChart() {
                 {/* Price line */}
                 <polyline points={price} fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeOpacity="0.7" />
                 {/* 20-day MA */}
-                <polyline points={ma20} fill="none" stroke="#12A669" strokeWidth="2" strokeLinecap="round" />
+                <polyline points={ma20} fill="none" stroke="#4576E7" strokeWidth="2" strokeLinecap="round" />
                 {/* 50-day MA */}
                 <polyline points={ma50} fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" />
 
@@ -562,12 +562,12 @@ function MovingAveragesChart() {
                 {/* Legend in chart */}
                 <rect x="28" y="148" width="70" height="14" rx="7" fill="#94a3b822" />
                 <text x="63" y="158" textAnchor="middle" fill="#94a3b8" fontSize="9" fontFamily="Inter,sans-serif">Price</text>
-                <rect x="104" y="148" width="56" height="14" rx="7" fill="#12A66922" />
-                <text x="132" y="158" textAnchor="middle" fill="#12A669" fontSize="9" fontFamily="Inter,sans-serif">20-day MA</text>
+                <rect x="104" y="148" width="56" height="14" rx="7" fill="#4576E722" />
+                <text x="132" y="158" textAnchor="middle" fill="#4576E7" fontSize="9" fontFamily="Inter,sans-serif">20-day MA</text>
                 <rect x="166" y="148" width="56" height="14" rx="7" fill="#f9731622" />
                 <text x="194" y="158" textAnchor="middle" fill="#f97316" fontSize="9" fontFamily="Inter,sans-serif">50-day MA</text>
             </svg>
-            <div className={styles.chartNote}>🌟 Golden Cross: 50-day MA crosses above 200-day MA = bullish signal</div>
+            <div className={styles.chartNote}>Golden Cross: 50-day MA crosses above 200-day MA = bullish signal</div>
         </div>
     );
 }
@@ -575,7 +575,7 @@ function MovingAveragesChart() {
 function RiskRewardVisual() {
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>⚖️ Risk / Reward Ratio</div>
+            <div className={styles.chartTitle}>Risk / Reward Ratio</div>
             <div className={styles.chartSubtitle}>Why 2:1 R:R is a baseline requirement</div>
             <svg viewBox="0 0 400 160" className={styles.chart} aria-label="Risk reward visualization">
                 {/* Entry line */}
@@ -595,10 +595,10 @@ function RiskRewardVisual() {
                 <text x="250" y="60" textAnchor="middle" fill="#4ade80" fontSize="10" fontFamily="Inter,sans-serif">Target</text>
 
                 {/* 2:1 badge */}
-                <rect x="155" y="65" width="40" height="22" rx="11" fill="#12A669" fillOpacity="0.9" />
+                <rect x="155" y="65" width="40" height="22" rx="11" fill="#4576E7" fillOpacity="0.9" />
                 <text x="175" y="80" textAnchor="middle" fill="white" fontSize="11" fontFamily="Inter,sans-serif" fontWeight="800">2 : 1</text>
             </svg>
-            <div className={styles.chartNote}>💡 Even with a 40% win rate, a 2:1 R:R is profitable over time</div>
+            <div className={styles.chartNote}>Even with a 40% win rate, a 2:1 R:R is profitable over time</div>
         </div>
     );
 }
@@ -606,7 +606,7 @@ function RiskRewardVisual() {
 // ─── Personal Finance Charts ──────────────────────────────────────────────────
 
 function IRAEarlyChart() {
-    // $200/month at 7%, retiring at age 65.  Start at 18 → $525K, start at 30 → $222K.
+    // $200/month at 7%, retiring at age 65. Start at 18 → $525K, start at 30 → $222K.
     // Contributions: 47yr×12×$200 = $113K and 35yr×12×$200 = $84K.
     // Scale: 560K → 150 px height; bottomY = 185.
     const BY = 185;
@@ -614,13 +614,13 @@ function IRAEarlyChart() {
     const e = scale(525000); // 141
     const l = scale(222000); // 59
     const eC = scale(113000); // 30
-    const lC = scale(84000);  // 23
-    const g100  = BY - scale(100000);
-    const g300  = BY - scale(300000);
-    const g500  = BY - scale(500000);
+    const lC = scale(84000); // 23
+    const g100 = BY - scale(100000);
+    const g300 = BY - scale(300000);
+    const g500 = BY - scale(500000);
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>🏦 Early vs Late IRA Investor</div>
+            <div className={styles.chartTitle}>Early vs Late IRA Investor</div>
             <div className={styles.chartSubtitle}>$200/month at 7% annual return — both retire at age 65</div>
             <svg viewBox="0 0 380 215" className={styles.chart} aria-label="Early vs late IRA investor comparison">
                 {[BY, g100, g300, g500].map(y => (
@@ -651,14 +651,14 @@ function IRAEarlyChart() {
                 <div className={styles.legendItem}><span className={styles.legendDot} style={{ background: '#06b6d4' }} />Compound growth (returns on returns)</div>
                 <div className={styles.legendItem}><span className={styles.legendDot} style={{ background: '#06b6d455' }} />Your actual contributions</div>
             </div>
-            <div className={styles.chartNote}>💡 12 extra years of compounding more than doubles your retirement savings</div>
+            <div className={styles.chartNote}>12 extra years of compounding more than doubles your retirement savings</div>
         </div>
     );
 }
 
 function CompoundMonthlyChart() {
     // $100/month at 7%, compounded monthly over 40 years.
-    // x: 50→400 (350px / 40yr = 8.75px/yr).  y: 185→25 (160px / $265K).
+    // x: 50→400 (350px / 40yr = 8.75px/yr). y: 185→25 (160px / $265K).
     const pts = (arr: [number, number][]) => arr.map(([x, y]) => `${x},${y}`).join(' ');
     const totalPts: [number, number][] = [
         [50, 185], [94, 181], [138, 175], [181, 165],
@@ -680,7 +680,7 @@ function CompoundMonthlyChart() {
 
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>📈 Compound Growth in Action</div>
+            <div className={styles.chartTitle}>Compound Growth in Action</div>
             <div className={styles.chartSubtitle}>$100/month at 7% annual return — total value vs money contributed</div>
             <svg viewBox="0 0 430 210" className={styles.chart} aria-label="Compound monthly contribution growth chart">
                 {[185, 145, 105, 65, 25].map(y => (
@@ -715,15 +715,15 @@ function CompoundMonthlyChart() {
                 <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#06b6d4' }} />Total account value (with compound growth)</div>
                 <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />Amount you actually contributed</div>
             </div>
-            <div className={styles.chartNote}>💡 After 30 years your account is 3× your contributions — growth does the heavy lifting</div>
+            <div className={styles.chartNote}>After 30 years your account is 3× your contributions — growth does the heavy lifting</div>
         </div>
     );
 }
 
 function SimpleVsCompoundChart() {
     // $1,000 at 10% for 20 years.
-    // Simple: $1K + $100×t.  Compound: $1K × 1.10^t
-    // x: 50→390 (340px/20yr).  y: 175→25 (150px/$7K).
+    // Simple: $1K + $100×t. Compound: $1K × 1.10^t
+    // x: 50→390 (340px/20yr). y: 175→25 (150px/$7K).
     const simplePts = "50,154 135,143 220,132 305,121 390,111";
     const compoundPts = "50,154 135,141 220,119 305,86 390,31";
     const simpleArea = "50,175 50,154 135,143 220,132 305,121 390,111 390,175";
@@ -732,7 +732,7 @@ function SimpleVsCompoundChart() {
     const xPos = [50, 135, 220, 305, 390];
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>📐 Simple vs Compound Interest</div>
+            <div className={styles.chartTitle}>Simple vs Compound Interest</div>
             <div className={styles.chartSubtitle}>$1,000 at 10% — straight-line vs exponential growth over 20 years</div>
             <svg viewBox="0 0 420 200" className={styles.chart} aria-label="Simple vs compound interest comparison chart">
                 {[175, 140, 105, 70, 35].map(y => (
@@ -741,13 +741,13 @@ function SimpleVsCompoundChart() {
                 {/* Simple area */}
                 <polygon points={simpleArea} fill="#94a3b8" fillOpacity="0.12" />
                 {/* Compound area */}
-                <polygon points={compoundArea} fill="#12A669" fillOpacity="0.12" />
+                <polygon points={compoundArea} fill="#4576E7" fillOpacity="0.12" />
                 {/* Simple line */}
                 <polyline points={simplePts} fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 {/* Compound line */}
-                <polyline points={compoundPts} fill="none" stroke="#12A669" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <polyline points={compoundPts} fill="none" stroke="#4576E7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 {/* End labels */}
-                <rect x="293" y="18" width="88" height="22" rx="11" fill="#12A66922" stroke="#12A66944" />
+                <rect x="293" y="18" width="88" height="22" rx="11" fill="#4576E722" stroke="#4576E744" />
                 <text x="337" y="33" textAnchor="middle" fill="#7d9bff" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$6,727</text>
                 <rect x="293" y="98" width="82" height="22" rx="11" fill="#94a3b822" stroke="#94a3b844" />
                 <text x="334" y="113" textAnchor="middle" fill="#94a3b8" fontSize="11.5" fontWeight="700" fontFamily="Inter,sans-serif">$3,000</text>
@@ -759,19 +759,19 @@ function SimpleVsCompoundChart() {
                 <text x="40" y="35" textAnchor="end" fill="currentColor" fillOpacity="0.4" fontSize="9" fontFamily="Inter,sans-serif">$7K</text>
             </svg>
             <div className={styles.chartLegend}>
-                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#12A669' }} />Compound interest ($6,727 after 20 years)</div>
+                <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#4576E7' }} />Compound interest ($6,727 after 20 years)</div>
                 <div className={styles.legendItem}><span className={styles.legendLine} style={{ background: '#94a3b8', opacity: 0.6 }} />Simple interest ($3,000 after 20 years)</div>
             </div>
-            <div className={styles.chartNote}>💡 Compound interest produces 2.2× more than simple interest over 20 years at the same rate</div>
+            <div className={styles.chartNote}>Compound interest produces 2.2× more than simple interest over 20 years at the same rate</div>
         </div>
     );
 }
 
 function BudgetPieChart() {
     const segments = [
-        { label: 'Needs',    sub: 'Housing, food, transport', pct: 50, color: '#12A669' },
-        { label: 'Wants',    sub: 'Dining, fun, hobbies',     pct: 30, color: '#f97316' },
-        { label: 'Savings',  sub: 'IRA, emergency fund',       pct: 20, color: '#4ade80' },
+        { label: 'Needs', sub: 'Housing, food, transport', pct: 50, color: '#4576E7' },
+        { label: 'Wants', sub: 'Dining, fun, hobbies', pct: 30, color: '#f97316' },
+        { label: 'Savings', sub: 'IRA, emergency fund', pct: 20, color: '#4ade80' },
     ];
     const cx = 100, cy = 100, r = 70, innerR = 42;
     let cumDeg = -90;
@@ -794,7 +794,7 @@ function BudgetPieChart() {
     });
     return (
         <div className={styles.chartBox}>
-            <div className={styles.chartTitle}>💵 The 50/30/20 Budget Rule</div>
+            <div className={styles.chartTitle}>The 50/30/20 Budget Rule</div>
             <div className={styles.chartSubtitle}>A simple framework for every dollar you earn</div>
             <div className={styles.pieLayout}>
                 <svg viewBox="0 0 200 200" className={styles.pieChart} aria-label="50/30/20 budget breakdown pie chart">
@@ -816,7 +816,7 @@ function BudgetPieChart() {
                     ))}
                 </div>
             </div>
-            <div className={styles.chartNote}>💡 On $3,000/month: $1,500 needs · $900 wants · $600 saved and invested</div>
+            <div className={styles.chartNote}>On $3,000/month: $1,500 needs · $900 wants · $600 saved and invested</div>
         </div>
     );
 }
@@ -826,16 +826,16 @@ function BudgetPieChart() {
 function getChartForLesson(levelId: string, unitId: number): React.ReactNode | null {
     const key = `${levelId}-${unitId}`;
     switch (key) {
-        case 'beginner-3':  return <OrderTypesVisual />;
-        case 'beginner-4':  return <PortfolioPieChart />;
-        case 'beginner-5':  return <CandlestickDiagram />;
-        case 'beginner-6':  return <BullBearChart />;
-        case 'beginner-7':  return <CompoundGrowthChart />;
+        case 'beginner-3': return <OrderTypesVisual />;
+        case 'beginner-4': return <PortfolioPieChart />;
+        case 'beginner-5': return <CandlestickDiagram />;
+        case 'beginner-6': return <BullBearChart />;
+        case 'beginner-7': return <CompoundGrowthChart />;
         case 'intermediate-2': return <MovingAveragesChart />;
         case 'intermediate-8': return <RiskRewardVisual />;
-        case 'strategies-2':   return <RiskRewardVisual />;
-        case 'strategies-5':   return <RiskRewardVisual />;
-        case 'advanced-5':     return <CompoundGrowthChart />;
+        case 'strategies-2': return <RiskRewardVisual />;
+        case 'strategies-5': return <RiskRewardVisual />;
+        case 'advanced-5': return <CompoundGrowthChart />;
         case 'personal-finance-1': return <IRAEarlyChart />;
         case 'personal-finance-2': return <CompoundMonthlyChart />;
         case 'personal-finance-3': return <SimpleVsCompoundChart />;
@@ -850,7 +850,7 @@ function QuickCheckPrompt({ onTakeQuiz }: { onTakeQuiz?: () => void }) {
     const [answered, setAnswered] = useState(false);
     return (
         <div className={styles.quickCheck}>
-            <div className={styles.quickCheckLabel}>✅ Quick Check</div>
+            <div className={styles.quickCheckLabel}>Quick Check</div>
             <p className={styles.quickCheckText}>
                 Feeling confident? Test what you just learned with a quick quiz.
             </p>
@@ -917,7 +917,7 @@ export function LessonRenderer({ content, unitId, levelId, accentColor, onTakeQu
     }
 
     return (
-        <div className={styles.renderer} style={{ '--accent': accentColor ?? '#12A669' } as React.CSSProperties}>
+        <div className={styles.renderer} style={{ '--accent': accentColor ?? '#4576E7' } as React.CSSProperties}>
             {rendered}
             <QuickCheckPrompt onTakeQuiz={onTakeQuiz} />
         </div>

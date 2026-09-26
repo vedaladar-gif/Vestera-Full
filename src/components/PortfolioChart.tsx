@@ -166,7 +166,6 @@ export default function PortfolioChart({ data, loading, chartHeight = 240 }: Pro
 
             {!loading && safeData.length < 2 && (
                 <div className={styles.empty} style={{ minHeight: chartHeight, height: '100%' }}>
-                    <span className={styles.emptyIcon}>📈</span>
                     <p className={styles.emptyTitle}>No performance history yet</p>
                     <p className={styles.emptySub}>
                         Make your first trade to start tracking your portfolio over time.

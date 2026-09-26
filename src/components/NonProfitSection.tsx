@@ -8,9 +8,6 @@ export default function NonProfitSection() {
   return (
     <div className={styles.wrap}>
       <div className={styles.inner}>
-        <span className={styles.icon} aria-hidden>
-          🌱
-        </span>
         <div className={styles.copy}>
           <h3 className={styles.title}>
             Built as a <strong>non-profit</strong> for the <strong>next generation</strong>

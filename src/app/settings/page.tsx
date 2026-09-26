@@ -43,7 +43,7 @@ function SettingsPage() {
     const [userId, setUserId] = useState('');
 
     // Profile edit state
-    const [editUsername, setEditUsername]   = useState('');
+    const [editUsername, setEditUsername] = useState('');
     const [editDisplayName, setEditDisplayName] = useState('');
     const [editAvatarColor, setEditAvatarColor] = useState('blue');
     const [unStatus, setUnStatus] = useState<UnStatus>('idle');
@@ -94,10 +94,10 @@ function SettingsPage() {
                 }
                 setUserId(data.userId);
                 const p: Profile = {
-                    username:    data.username    || '',
+                    username: data.username || '',
                     displayName: data.displayName || null,
                     avatarColor: data.avatarColor || 'blue',
-                    theme:       data.theme       || 'light',
+                    theme: data.theme || 'light',
                 };
                 setProfile(p);
                 setEditUsername(p.username);
@@ -167,7 +167,7 @@ function SettingsPage() {
     if (!authChecked) {
         return (
             <div className={styles.wrap} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: 32, height: 32, border: '3px solid rgba(79,110,247,0.2)', borderTopColor: '#12A669', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+                <div style={{ width: 32, height: 32, border: '3px solid rgba(79,110,247,0.2)', borderTopColor: '#4576E7', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
             </div>
         );
     }
@@ -180,10 +180,10 @@ function SettingsPage() {
         : undefined;
 
     const tabs: { id: Tab; label: string; icon: string }[] = [
-        { id: 'profile',    label: 'Profile',    icon: '👤' },
-        { id: 'appearance', label: 'Appearance', icon: '🎨' },
-        { id: 'account',    label: 'Account',    icon: '🔒' },
-        { id: 'help',       label: 'Help',       icon: '❓' },
+        { id: 'profile', label: 'Profile', icon: '' },
+        { id: 'appearance', label: 'Appearance', icon: '' },
+        { id: 'account', label: 'Account', icon: '' },
+        { id: 'help', label: 'Help', icon: '' },
     ];
 
     const handleSupportCodeSubmit = async (e: React.FormEvent) => {
@@ -232,7 +232,6 @@ function SettingsPage() {
                         </div>
                         {tabs.map(t => (
                             <button key={t.id} className={`${styles['nav-btn']} ${tab === t.id ? styles.active : ''}`} onClick={() => setTab(t.id)}>
-                                <span style={{ fontSize: 15 }}>{t.icon}</span>
                                 {t.label}
                             </button>
                         ))}
@@ -334,7 +333,6 @@ function SettingsPage() {
                                 <div className={styles['panel-sub']}>Vestera uses light mode — clean, bright, and easy to read.</div>
 
                                 <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: 'var(--vt-surface2)', border: '1px solid var(--vt-border)', borderRadius: 12 }}>
-                                    <span style={{ fontSize: 20 }}>☀️</span>
                                     <div>
                                         <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--vt-text)' }}>Light Mode</div>
                                         <div style={{ fontSize: 12, color: 'var(--vt-text3)', fontWeight: 500 }}>Always on — best for learning and trading</div>

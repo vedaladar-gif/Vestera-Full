@@ -4,7 +4,7 @@ import styles from './aiForecastComponents.module.css';
 import type { HorizonForecastData } from './types';
 
 const DIRECTION_META: Record<string, { color: string; label: string }> = {
-    bullish: { color: '#3CA787', label: 'Bullish' },
+    bullish: { color: '#4576E7', label: 'Bullish' },
     bearish: { color: '#E0637A', label: 'Bearish' },
     neutral: { color: '#8b90b0', label: 'Neutral' },
 };

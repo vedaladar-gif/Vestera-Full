@@ -22,9 +22,9 @@ interface LeaderboardEntry {
 }
 
 const RANK_META: Record<number, { label: string; color: string; glow: string; borderColor: string; icon: string }> = {
-    1: { label: '1st Place', color: '#fbbf24', glow: 'rgba(251,191,36,0.15)', borderColor: 'rgba(251,191,36,0.5)', icon: '🥇' },
-    2: { label: '2nd Place', color: '#9ca3af', glow: 'rgba(156,163,175,0.15)', borderColor: 'rgba(156,163,175,0.4)', icon: '🥈' },
-    3: { label: '3rd Place', color: '#cd7c2f', glow: 'rgba(180,83,9,0.15)', borderColor: 'rgba(180,83,9,0.4)', icon: '🥉' },
+    1: { label: '1st Place', color: '#fbbf24', glow: 'rgba(251,191,36,0.15)', borderColor: 'rgba(251,191,36,0.5)', icon: '1' },
+    2: { label: '2nd Place', color: '#9ca3af', glow: 'rgba(156,163,175,0.15)', borderColor: 'rgba(156,163,175,0.4)', icon: '2' },
+    3: { label: '3rd Place', color: '#cd7c2f', glow: 'rgba(180,83,9,0.15)', borderColor: 'rgba(180,83,9,0.4)', icon: '3' },
 };
 
 function RankingsPage() {
@@ -100,7 +100,6 @@ function RankingsPage() {
 
                 {leaderboard.length === 0 ? (
                     <div className={styles.emptyState} style={{ paddingTop: 80, paddingBottom: 80 }}>
-                        <div className={styles.emptyIcon}>🏆</div>
                         <p className={styles.emptyTitle}>No rankings yet</p>
                         <p className={styles.emptyText}>Complete your username setup to appear on the leaderboard.</p>
                         <a href="/setup-username" className={styles.link}>Set up your profile →</a>

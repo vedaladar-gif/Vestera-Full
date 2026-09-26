@@ -19,8 +19,8 @@ interface HoldingEntry {
 }
 
 const ALLOC_COLORS = [
-    '#12A669', '#0F9D6B', '#4ade80', '#fbbf24',
-    '#f87171', '#06b6d4', '#12A669', '#f97316',
+    '#4576E7', '#3A66D0', '#4ade80', '#fbbf24',
+    '#f87171', '#06b6d4', '#4576E7', '#f97316',
 ];
 
 function PortfolioPage() {
@@ -142,7 +142,6 @@ function PortfolioPage() {
                     <div className={styles.statCard}>
                         <div className={styles.statCardTop}>
                             <span className={styles.statCardLabel}>Total Portfolio Value</span>
-                            <div className={styles.statCardIcon} style={{ background: 'rgba(79,110,247,0.1)' }}>💼</div>
                         </div>
                         <div className={styles.statCardValue} style={{ color: 'var(--vt-text)' }}>
                             ${totalAccount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -153,9 +152,6 @@ function PortfolioPage() {
                     <div className={styles.statCard}>
                         <div className={styles.statCardTop}>
                             <span className={styles.statCardLabel}>Total Gain / Loss</span>
-                            <div className={styles.statCardIcon} style={{ background: isUp ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)' }}>
-                                {isUp ? '📈' : '📉'}
-                            </div>
                         </div>
                         <div className={styles.statCardValue} style={{ color: isUp ? 'var(--vt-green)' : 'var(--vt-red)' }}>
                             {isUp ? '+' : ''}{pct.toFixed(1)}%
@@ -168,7 +164,6 @@ function PortfolioPage() {
                     <div className={styles.statCard}>
                         <div className={styles.statCardTop}>
                             <span className={styles.statCardLabel}>Available Cash</span>
-                            <div className={styles.statCardIcon} style={{ background: 'rgba(34,197,94,0.1)' }}>💵</div>
                         </div>
                         <div className={styles.statCardValue} style={{ color: 'var(--vt-text)' }}>
                             ${cash.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -181,7 +176,6 @@ function PortfolioPage() {
                     <div className={styles.statCard}>
                         <div className={styles.statCardTop}>
                             <span className={styles.statCardLabel}>Positions Held</span>
-                            <div className={styles.statCardIcon} style={{ background: 'rgba(155,93,229,0.1)' }}>📋</div>
                         </div>
                         <div className={styles.statCardValue} style={{ color: 'var(--vt-text)' }}>
                             {holdings.length}
@@ -285,7 +279,7 @@ function PortfolioPage() {
                                 { label: 'Invested Value', value: `$${portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: 'var(--vt-text)' },
                                 { label: 'Cash Available', value: `$${cash.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, color: 'var(--vt-text)' },
                                 { label: 'Open Positions', value: `${holdings.length}`, color: 'var(--vt-text)' },
-                                { label: 'Largest Position', value: bestHolding ? bestHolding.stock : '—', color: bestHolding ? '#12A669' : 'var(--vt-text3)' },
+                                { label: 'Largest Position', value: bestHolding ? bestHolding.stock : '—', color: bestHolding ? '#4576E7' : 'var(--vt-text3)' },
                                 { label: 'Leaderboard Rank', value: myRank ? `#${myRank}` : 'Unranked', color: myRank ? '#fbbf24' : 'var(--vt-text3)' },
                             ].map((row, i) => (
                                 <div key={i} className={styles.quickStatRow}>
@@ -371,7 +365,6 @@ function PortfolioPage() {
                         </div>
                     ) : (
                         <div className={styles.emptyState}>
-                            <div className={styles.emptyIcon}>📋</div>
                             <p className={styles.emptyTitle}>No holdings yet</p>
                             <p className={styles.emptyText}>Start trading to build your portfolio.</p>
                             <a href="/trade" className={styles.link}>Go to trading →</a>

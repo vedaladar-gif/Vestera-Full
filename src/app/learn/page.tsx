@@ -63,7 +63,7 @@ function MiniChart({ chart }: { chart: NonNullable<PublicQ['chart']> }) {
                         <div
                             style={{
                                 height: `${(v / max) * 72}px`,
-                                background: chart.kind === 'line' ? 'var(--vt-vblue)' : '#7CE0C6',
+                                background: chart.kind === 'line' ? 'var(--vt-vblue)' : '#B7CBF6',
                                 borderRadius: 8,
                             }}
                         />
@@ -687,7 +687,7 @@ export default function LearningDashboard() {
                                             disabled={h.status === 'locked' || openingLessonId != null}
                                             onClick={() => void openLesson(h.id)}
                                         >
-                                            {openingLessonId === h.id ? 'Opening…' : `Lesson ${h.id} — ${h.title} ${h.status === 'locked' ? '🔒' : ''}`}
+                                            {openingLessonId === h.id ? 'Opening…' : `Lesson ${h.id} — ${h.title} ${h.status === 'locked' ? '' : ''}`}
                                         </button>
                                     ))}
                                 </div>
@@ -701,7 +701,7 @@ export default function LearningDashboard() {
                                 <div key={l.id} className={styles.node}>
                                     <div className={styles.rail}>
                                         <div className={`${styles.dot} ${l.status === 'completed' ? styles.dotDone : ''} ${l.status === 'current' ? styles.dotCurrent : ''}`}>
-                                            {l.status === 'completed' ? '✓' : l.status === 'locked' ? '🔒' : l.id}
+                                            {l.status === 'completed' ? '✓' : l.status === 'locked' ? '' : l.id}
                                         </div>
                                         {i < arr.length - 1 && <div className={styles.line} />}
                                     </div>
@@ -716,7 +716,7 @@ export default function LearningDashboard() {
                                             {openingLessonId === l.id ? 'Opening…' : `${l.minutes} min · ${l.xp} XP · ${l.difficulty}`}
                                         </div>
                                         {l.status === 'locked' && (
-                                            <div className={styles.lockNote}>🔒 Complete Rank {l.rankId - 1} to unlock</div>
+                                            <div className={styles.lockNote}>Complete Rank {l.rankId - 1} to unlock</div>
                                         )}
                                     </button>
                                 </div>

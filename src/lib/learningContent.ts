@@ -4,9 +4,9 @@ export interface LessonUnit {
     title: string;
     content: string;
     quiz: { question: string; options: string[]; answer: number }[];
-    icon?: string;      // emoji for the card illustration
-    duration?: string;  // estimated read time, e.g. "8 min"
-    topics?: string[];  // topic tags
+    icon?: string; // emoji for the card illustration
+    duration?: string; // estimated read time, e.g. "8 min"
+    topics?: string[]; // topic tags
 }
 
 export interface Level {
@@ -14,8 +14,8 @@ export interface Level {
     name: string;
     emoji: string;
     color: string;
-    gradFrom?: string;  // card illustration gradient start
-    gradTo?: string;    // card illustration gradient end
+    gradFrom?: string; // card illustration gradient start
+    gradTo?: string; // card illustration gradient end
     units: LessonUnit[];
 }
 
@@ -23,14 +23,14 @@ export const LEVELS: Level[] = [
     {
         id: 'beginner',
         name: 'Beginner',
-        emoji: '🌱',
+        emoji: '',
         color: '#22c55e',
         gradFrom: 'rgba(34,197,94,0.18)',
         gradTo: 'rgba(34,197,94,0.04)',
         units: [
             {
                 id: 1,
-                icon: '🏛️',
+                icon: '',
                 duration: '6 min',
                 topics: ['Basics', 'Markets'],
                 title: 'What is the Stock Market?',
@@ -42,7 +42,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 2,
-                icon: '💹',
+                icon: '',
                 duration: '7 min',
                 topics: ['Basics', 'Pricing'],
                 title: 'Understanding Stock Prices',
@@ -54,7 +54,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 3,
-                icon: '📋',
+                icon: '',
                 duration: '6 min',
                 topics: ['Orders', 'Execution'],
                 title: 'Types of Orders',
@@ -66,7 +66,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 4,
-                icon: '💼',
+                icon: '',
                 duration: '7 min',
                 topics: ['Portfolio', 'Strategy'],
                 title: 'What is a Portfolio?',
@@ -78,7 +78,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 5,
-                icon: '📈',
+                icon: '',
                 duration: '8 min',
                 topics: ['Charts', 'Analysis'],
                 title: 'Reading Stock Charts',
@@ -90,7 +90,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 6,
-                icon: '🐂',
+                icon: '',
                 duration: '5 min',
                 topics: ['Markets', 'Sentiment'],
                 title: 'Bulls vs Bears',
@@ -102,7 +102,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 7,
-                icon: '💰',
+                icon: '',
                 duration: '6 min',
                 topics: ['Income', 'Dividends'],
                 title: 'Dividends',
@@ -144,54 +144,54 @@ export const LEVELS: Level[] = [
     {
         id: 'intermediate',
         name: 'Intermediate',
-        emoji: '📈',
+        emoji: '',
         color: '#5b84ff',
         gradFrom: 'rgba(91,132,255,0.18)',
         gradTo: 'rgba(91,132,255,0.04)',
         units: [
-            { id: 1, icon: '📉', duration: '9 min', topics: ['Technical', 'Analysis'], title: 'Technical Analysis Fundamentals', content: 'Technical analysis studies price patterns and trends to predict future movements.\n\n**Key Concepts:**\n- **Support:** Price level where buying pressure prevents further decline\n- **Resistance:** Price level where selling pressure prevents further rise\n- **Trend Lines:** Lines connecting highs or lows to show direction\n- **Volume:** Number of shares traded — confirms price movements\n\n**The three assumptions:**\n1. Market action discounts everything\n2. Prices move in trends\n3. History tends to repeat itself', quiz: [{ question: 'What is a support level?', options: ['Where price stops rising', 'Where buying prevents decline', 'Company headquarters', 'A trading fee'], answer: 1 }, { question: 'What does volume confirm?', options: ['Company profits', 'Price movements', 'Dividend payments', 'Market hours'], answer: 1 }] },
-            { id: 2, icon: '〰️', duration: '8 min', topics: ['Indicators', 'Trends'], title: 'Moving Averages', content: 'Moving averages smooth out price data to identify trends.\n\n**Types:**\n- **SMA (Simple):** Average of closing prices over N periods\n- **EMA (Exponential):** Weights recent prices more heavily\n\n**Common periods:** 20-day, 50-day, 200-day\n\n**Golden Cross:** 50-day MA crosses above 200-day MA (bullish)\n**Death Cross:** 50-day MA crosses below 200-day MA (bearish)', quiz: [{ question: 'What is a Golden Cross?', options: ['50-day crosses above 200-day', '200-day crosses above 50-day', 'Price hits all-time high', 'Volume doubles'], answer: 0 }, { question: 'EMA gives more weight to:', options: ['Oldest prices', 'Recent prices', 'Volume', 'All prices equally'], answer: 1 }] },
-            { id: 3, icon: '📊', duration: '10 min', topics: ['Fundamental', 'Valuation'], title: 'Fundamental Analysis', content: 'Fundamental analysis evaluates a company\'s financial health.\n\n**Key Metrics:**\n- **P/E Ratio:** Price / Earnings per share. Lower may indicate undervalued.\n- **Revenue:** Total sales\n- **EPS:** Earnings per share\n- **Debt-to-Equity:** Total debt / shareholders\' equity\n- **ROE:** Return on equity\n\n**Where to find data:** 10-K (annual report), 10-Q (quarterly), earnings calls', quiz: [{ question: 'A low P/E ratio may suggest:', options: ['Overvalued stock', 'Undervalued or slow growth', 'High debt', 'High dividends'], answer: 1 }, { question: 'What is EPS?', options: ['Earnings per stock', 'Earnings per share', 'Exchange price standard', 'Equity per shareholder'], answer: 1 }] },
-            { id: 4, icon: '🕯️', duration: '9 min', topics: ['Patterns', 'Charts'], title: 'Candlestick Patterns', content: 'Common patterns that signal potential reversals or continuations:\n\n**Bullish Patterns:**\n- **Hammer:** Small body at top, long lower wick\n- **Engulfing:** Large green candle engulfs previous red candle\n- **Morning Star:** Three-candle reversal pattern\n\n**Bearish Patterns:**\n- **Shooting Star:** Small body at bottom, long upper wick\n- **Bearish Engulfing:** Large red candle engulfs previous green\n- **Evening Star:** Three-candle reversal pattern\n\nConfirm patterns with volume!', quiz: [{ question: 'A hammer candlestick is:', options: ['Bearish', 'Bullish', 'Neutral', 'Only for crypto'], answer: 1 }, { question: 'Patterns should be confirmed with:', options: ['News articles', 'Volume', 'Social media', 'Gut feeling'], answer: 1 }] },
-            { id: 5, icon: '🗂️', duration: '7 min', topics: ['Sectors', 'Rotation'], title: 'Sector Analysis', content: 'The stock market is divided into 11 sectors:\n\n1. Technology\n2. Healthcare\n3. Financials\n4. Consumer Discretionary\n5. Communication Services\n6. Industrials\n7. Consumer Staples\n8. Energy\n9. Utilities\n10. Real Estate\n11. Materials\n\n**Sector Rotation:** Money flows between sectors based on economic cycles.', quiz: [{ question: 'How many market sectors are there?', options: ['5', '8', '11', '15'], answer: 2 }, { question: 'What is sector rotation?', options: ['Changing company names', 'Money flowing between sectors', 'Merging sectors', 'Creating new sectors'], answer: 1 }] },
-            { id: 6, icon: '⚙️', duration: '11 min', topics: ['Options', 'Derivatives'], title: 'Options Basics', content: 'Stock options give you the right (not obligation) to buy or sell at a specific price.\n\n**Call Option:** Right to BUY at a set price (strike price)\n**Put Option:** Right to SELL at a set price\n\n**Key terms:**\n- **Strike Price:** The agreed-upon price\n- **Expiration Date:** When the option expires\n- **Premium:** The price you pay for the option\n- **In the Money (ITM):** Option has intrinsic value\n- **Out of the Money (OTM):** No intrinsic value yet', quiz: [{ question: 'A call option gives you the right to:', options: ['Sell', 'Buy', 'Hold', 'Short'], answer: 1 }, { question: 'What is the premium?', options: ['The strike price', 'The cost of the option', 'The expiration date', 'The stock price'], answer: 1 }] },
-            { id: 7, icon: '🧺', duration: '8 min', topics: ['ETFs', 'Funds'], title: 'ETFs and Mutual Funds', content: 'Pooled investment vehicles that hold multiple assets.\n\n**ETFs:**\n- Trade like stocks on exchanges\n- Lower expense ratios\n- Tax-efficient\n- Examples: SPY (S&P 500), QQQ (NASDAQ)\n\n**Mutual Funds:**\n- Priced once daily after market close\n- Actively or passively managed\n- May have minimum investments\n\n**Index Funds:** Track a specific index (cheapest option)', quiz: [{ question: 'ETFs trade:', options: ['Once daily', 'Like stocks throughout the day', 'Only on weekends', 'Only at market close'], answer: 1 }, { question: 'SPY tracks which index?', options: ['Dow Jones', 'NASDAQ', 'S&P 500', 'Russell 2000'], answer: 2 }] },
-            { id: 8, icon: '⚖️', duration: '8 min', topics: ['Risk', 'Sizing'], title: 'Position Sizing', content: 'Determine how many shares to buy based on risk.\n\n**Formula:**\nPosition Size = (Account × Risk %) / (Entry - Stop Loss)\n\n**Example:**\n- Account: $10,000\n- Risk per trade: 1% = $100\n- Entry: $50, Stop Loss: $48\n- Risk per share: $2\n- Position Size: $100 / $2 = 50 shares\n\nNever risk more than 1-2% of your account per trade!', quiz: [{ question: 'With $10K account, 1% risk, and $2 risk per share, position size is:', options: ['25 shares', '50 shares', '100 shares', '200 shares'], answer: 1 }, { question: 'Max recommended risk per trade is:', options: ['5-10%', '3-5%', '1-2%', '10-20%'], answer: 2 }] },
-            { id: 9, icon: '🧠', duration: '9 min', topics: ['Psychology', 'Mindset'], title: 'Market Psychology', content: 'Emotions are the biggest enemy of successful trading.\n\n**Common psychological traps:**\n- **FOMO:** Fear of missing out — buying at tops\n- **Revenge Trading:** Trying to win back losses quickly\n- **Confirmation Bias:** Only seeing data that supports your view\n- **Anchoring:** Fixating on a specific price point\n\n**Solutions:**\n1. Have a written trading plan\n2. Use stop-losses religiously\n3. Take breaks after losses\n4. Journal every trade', quiz: [{ question: 'What is FOMO?', options: ['A chart pattern', 'Fear of missing out', 'A type of order', 'A market index'], answer: 1 }, { question: 'The best defense against emotional trading is:', options: ['More trades', 'Written trading plan', 'Following social media', 'Larger positions'], answer: 1 }] },
-            { id: 10, icon: '📅', duration: '8 min', topics: ['Earnings', 'Catalysts'], title: 'Earnings Reports', content: 'Quarterly earnings reports are major catalysts for stock prices.\n\n**Key things to watch:**\n- **Revenue vs Expectations:** Did the company beat or miss?\n- **EPS vs Expectations:** Earnings per share compared to analyst estimates\n- **Guidance:** Company\'s outlook for next quarter/year\n- **Cash Flow:** How much cash the business generates\n\n**Earnings Season:** Reports cluster in Jan, Apr, Jul, Oct\n\n**Tip:** Price often moves BEFORE and AFTER the report. The reaction to the report matters more than the numbers themselves.', quiz: [{ question: 'Earnings season occurs how many times per year?', options: ['1', '2', '4', '12'], answer: 2 }, { question: 'What often matters more than the earnings numbers?', options: ['The CEO name', 'The market reaction', 'The company logo', 'The ticker symbol'], answer: 1 }] },
+            { id: 1, icon: '', duration: '9 min', topics: ['Technical', 'Analysis'], title: 'Technical Analysis Fundamentals', content: 'Technical analysis studies price patterns and trends to predict future movements.\n\n**Key Concepts:**\n- **Support:** Price level where buying pressure prevents further decline\n- **Resistance:** Price level where selling pressure prevents further rise\n- **Trend Lines:** Lines connecting highs or lows to show direction\n- **Volume:** Number of shares traded — confirms price movements\n\n**The three assumptions:**\n1. Market action discounts everything\n2. Prices move in trends\n3. History tends to repeat itself', quiz: [{ question: 'What is a support level?', options: ['Where price stops rising', 'Where buying prevents decline', 'Company headquarters', 'A trading fee'], answer: 1 }, { question: 'What does volume confirm?', options: ['Company profits', 'Price movements', 'Dividend payments', 'Market hours'], answer: 1 }] },
+            { id: 2, icon: '〰', duration: '8 min', topics: ['Indicators', 'Trends'], title: 'Moving Averages', content: 'Moving averages smooth out price data to identify trends.\n\n**Types:**\n- **SMA (Simple):** Average of closing prices over N periods\n- **EMA (Exponential):** Weights recent prices more heavily\n\n**Common periods:** 20-day, 50-day, 200-day\n\n**Golden Cross:** 50-day MA crosses above 200-day MA (bullish)\n**Death Cross:** 50-day MA crosses below 200-day MA (bearish)', quiz: [{ question: 'What is a Golden Cross?', options: ['50-day crosses above 200-day', '200-day crosses above 50-day', 'Price hits all-time high', 'Volume doubles'], answer: 0 }, { question: 'EMA gives more weight to:', options: ['Oldest prices', 'Recent prices', 'Volume', 'All prices equally'], answer: 1 }] },
+            { id: 3, icon: '', duration: '10 min', topics: ['Fundamental', 'Valuation'], title: 'Fundamental Analysis', content: 'Fundamental analysis evaluates a company\'s financial health.\n\n**Key Metrics:**\n- **P/E Ratio:** Price / Earnings per share. Lower may indicate undervalued.\n- **Revenue:** Total sales\n- **EPS:** Earnings per share\n- **Debt-to-Equity:** Total debt / shareholders\' equity\n- **ROE:** Return on equity\n\n**Where to find data:** 10-K (annual report), 10-Q (quarterly), earnings calls', quiz: [{ question: 'A low P/E ratio may suggest:', options: ['Overvalued stock', 'Undervalued or slow growth', 'High debt', 'High dividends'], answer: 1 }, { question: 'What is EPS?', options: ['Earnings per stock', 'Earnings per share', 'Exchange price standard', 'Equity per shareholder'], answer: 1 }] },
+            { id: 4, icon: '', duration: '9 min', topics: ['Patterns', 'Charts'], title: 'Candlestick Patterns', content: 'Common patterns that signal potential reversals or continuations:\n\n**Bullish Patterns:**\n- **Hammer:** Small body at top, long lower wick\n- **Engulfing:** Large green candle engulfs previous red candle\n- **Morning Star:** Three-candle reversal pattern\n\n**Bearish Patterns:**\n- **Shooting Star:** Small body at bottom, long upper wick\n- **Bearish Engulfing:** Large red candle engulfs previous green\n- **Evening Star:** Three-candle reversal pattern\n\nConfirm patterns with volume!', quiz: [{ question: 'A hammer candlestick is:', options: ['Bearish', 'Bullish', 'Neutral', 'Only for crypto'], answer: 1 }, { question: 'Patterns should be confirmed with:', options: ['News articles', 'Volume', 'Social media', 'Gut feeling'], answer: 1 }] },
+            { id: 5, icon: '', duration: '7 min', topics: ['Sectors', 'Rotation'], title: 'Sector Analysis', content: 'The stock market is divided into 11 sectors:\n\n1. Technology\n2. Healthcare\n3. Financials\n4. Consumer Discretionary\n5. Communication Services\n6. Industrials\n7. Consumer Staples\n8. Energy\n9. Utilities\n10. Real Estate\n11. Materials\n\n**Sector Rotation:** Money flows between sectors based on economic cycles.', quiz: [{ question: 'How many market sectors are there?', options: ['5', '8', '11', '15'], answer: 2 }, { question: 'What is sector rotation?', options: ['Changing company names', 'Money flowing between sectors', 'Merging sectors', 'Creating new sectors'], answer: 1 }] },
+            { id: 6, icon: '', duration: '11 min', topics: ['Options', 'Derivatives'], title: 'Options Basics', content: 'Stock options give you the right (not obligation) to buy or sell at a specific price.\n\n**Call Option:** Right to BUY at a set price (strike price)\n**Put Option:** Right to SELL at a set price\n\n**Key terms:**\n- **Strike Price:** The agreed-upon price\n- **Expiration Date:** When the option expires\n- **Premium:** The price you pay for the option\n- **In the Money (ITM):** Option has intrinsic value\n- **Out of the Money (OTM):** No intrinsic value yet', quiz: [{ question: 'A call option gives you the right to:', options: ['Sell', 'Buy', 'Hold', 'Short'], answer: 1 }, { question: 'What is the premium?', options: ['The strike price', 'The cost of the option', 'The expiration date', 'The stock price'], answer: 1 }] },
+            { id: 7, icon: '', duration: '8 min', topics: ['ETFs', 'Funds'], title: 'ETFs and Mutual Funds', content: 'Pooled investment vehicles that hold multiple assets.\n\n**ETFs:**\n- Trade like stocks on exchanges\n- Lower expense ratios\n- Tax-efficient\n- Examples: SPY (S&P 500), QQQ (NASDAQ)\n\n**Mutual Funds:**\n- Priced once daily after market close\n- Actively or passively managed\n- May have minimum investments\n\n**Index Funds:** Track a specific index (cheapest option)', quiz: [{ question: 'ETFs trade:', options: ['Once daily', 'Like stocks throughout the day', 'Only on weekends', 'Only at market close'], answer: 1 }, { question: 'SPY tracks which index?', options: ['Dow Jones', 'NASDAQ', 'S&P 500', 'Russell 2000'], answer: 2 }] },
+            { id: 8, icon: '', duration: '8 min', topics: ['Risk', 'Sizing'], title: 'Position Sizing', content: 'Determine how many shares to buy based on risk.\n\n**Formula:**\nPosition Size = (Account × Risk %) / (Entry - Stop Loss)\n\n**Example:**\n- Account: $10,000\n- Risk per trade: 1% = $100\n- Entry: $50, Stop Loss: $48\n- Risk per share: $2\n- Position Size: $100 / $2 = 50 shares\n\nNever risk more than 1-2% of your account per trade!', quiz: [{ question: 'With $10K account, 1% risk, and $2 risk per share, position size is:', options: ['25 shares', '50 shares', '100 shares', '200 shares'], answer: 1 }, { question: 'Max recommended risk per trade is:', options: ['5-10%', '3-5%', '1-2%', '10-20%'], answer: 2 }] },
+            { id: 9, icon: '', duration: '9 min', topics: ['Psychology', 'Mindset'], title: 'Market Psychology', content: 'Emotions are the biggest enemy of successful trading.\n\n**Common psychological traps:**\n- **FOMO:** Fear of missing out — buying at tops\n- **Revenge Trading:** Trying to win back losses quickly\n- **Confirmation Bias:** Only seeing data that supports your view\n- **Anchoring:** Fixating on a specific price point\n\n**Solutions:**\n1. Have a written trading plan\n2. Use stop-losses religiously\n3. Take breaks after losses\n4. Journal every trade', quiz: [{ question: 'What is FOMO?', options: ['A chart pattern', 'Fear of missing out', 'A type of order', 'A market index'], answer: 1 }, { question: 'The best defense against emotional trading is:', options: ['More trades', 'Written trading plan', 'Following social media', 'Larger positions'], answer: 1 }] },
+            { id: 10, icon: '', duration: '8 min', topics: ['Earnings', 'Catalysts'], title: 'Earnings Reports', content: 'Quarterly earnings reports are major catalysts for stock prices.\n\n**Key things to watch:**\n- **Revenue vs Expectations:** Did the company beat or miss?\n- **EPS vs Expectations:** Earnings per share compared to analyst estimates\n- **Guidance:** Company\'s outlook for next quarter/year\n- **Cash Flow:** How much cash the business generates\n\n**Earnings Season:** Reports cluster in Jan, Apr, Jul, Oct\n\n**Tip:** Price often moves BEFORE and AFTER the report. The reaction to the report matters more than the numbers themselves.', quiz: [{ question: 'Earnings season occurs how many times per year?', options: ['1', '2', '4', '12'], answer: 2 }, { question: 'What often matters more than the earnings numbers?', options: ['The CEO name', 'The market reaction', 'The company logo', 'The ticker symbol'], answer: 1 }] },
         ],
     },
     {
         id: 'advanced',
         name: 'Advanced',
-        emoji: '🏆',
+        emoji: '',
         color: '#a855f7',
         gradFrom: 'rgba(168,85,247,0.18)',
         gradTo: 'rgba(168,85,247,0.04)',
         units: [
-            { id: 1, icon: '🔬', duration: '12 min', topics: ['Indicators', 'RSI', 'MACD'], title: 'Advanced Technical Indicators', content: 'Beyond basic indicators, advanced traders use:\n\n**RSI (Relative Strength Index):**\n- Measures momentum (0-100)\n- Above 70 = overbought, Below 30 = oversold\n\n**MACD:**\n- Shows trend direction and momentum\n- Signal line crossovers indicate buy/sell\n\n**Bollinger Bands:**\n- Price typically stays within 2 standard deviations of a moving average\n- Squeeze = low volatility, potential breakout\n\n**Fibonacci Retracements:**\n- Key levels: 23.6%, 38.2%, 50%, 61.8%\n- Used to identify support/resistance during pullbacks', quiz: [{ question: 'RSI above 70 suggests:', options: ['Oversold', 'Overbought', 'Neutral', 'Low volume'], answer: 1 }, { question: 'A Bollinger Band squeeze suggests:', options: ['High volatility', 'Low volatility, potential breakout', 'Market crash', 'Dividend payment'], answer: 1 }] },
-            { id: 2, icon: '🎰', duration: '14 min', topics: ['Options', 'Greeks'], title: 'Options Strategies', content: 'Advanced options strategies for different market conditions:\n\n**Covered Call:** Own stock + sell call. Income strategy.\n**Protective Put:** Own stock + buy put. Insurance strategy.\n**Iron Condor:** Sell OTM call spread + put spread. Profit from low volatility.\n**Straddle:** Buy call + put at same strike. Profit from big moves either way.\n**Vertical Spread:** Buy and sell options at different strikes, same expiration.\n\n**Greeks:**\n- Delta: Price sensitivity\n- Theta: Time decay\n- Vega: Volatility sensitivity\n- Gamma: Rate of delta change', quiz: [{ question: 'A covered call is:', options: ['Buying calls', 'Owning stock + selling call', 'Only puts', 'Shorting stock'], answer: 1 }, { question: 'Theta measures:', options: ['Price sensitivity', 'Time decay', 'Volatility', 'Volume'], answer: 1 }] },
-            { id: 3, icon: '📉', duration: '10 min', topics: ['Short', 'Advanced'], title: 'Short Selling', content: 'Short selling lets you profit from declining prices.\n\n**How it works:**\n1. Borrow shares from your broker\n2. Sell the borrowed shares\n3. Buy them back later at a lower price\n4. Return the shares and keep the difference\n\n**Risks:**\n- Unlimited loss potential (price can rise infinitely)\n- Short squeeze: rapid price rise forces shorts to cover\n- Margin requirements and interest costs\n\n**Short Interest:** Percentage of shares sold short. High short interest = potential squeeze.', quiz: [{ question: 'Short selling profits when:', options: ['Price goes up', 'Price goes down', 'Price stays the same', 'Volume increases'], answer: 1 }, { question: 'The maximum loss on a short sale is:', options: ['100%', '50%', 'Theoretically unlimited', 'The stock price'], answer: 2 }] },
-            { id: 4, icon: '🤖', duration: '11 min', topics: ['Algo', 'Automation'], title: 'Algorithmic Trading', content: 'Using algorithms and code to automate trading decisions.\n\n**Common strategies:**\n- **Mean Reversion:** Price returns to average\n- **Momentum:** Follow the trend\n- **Arbitrage:** Exploit price differences\n- **Market Making:** Provide liquidity, profit from spread\n\n**Tools:** Python, R, APIs, backtesting frameworks\n\n**Key concerns:**\n- Overfitting: Strategy works on historical data but not live\n- Latency: Speed matters in execution\n- Risk management: Automated doesn\'t mean risk-free', quiz: [{ question: 'Mean reversion strategies assume price will:', options: ['Always go up', 'Return to its average', 'Go to zero', 'Stay the same'], answer: 1 }, { question: 'Overfitting means:', options: ['Too much data', 'Strategy works on past but not future data', 'Trading too fast', 'High fees'], answer: 1 }] },
-            { id: 5, icon: '🧮', duration: '10 min', topics: ['MPT', 'Sharpe'], title: 'Portfolio Theory', content: 'Modern Portfolio Theory (MPT) by Harry Markowitz:\n\n**Key concepts:**\n- **Efficient Frontier:** Optimal portfolios offering highest return for given risk\n- **Correlation:** How assets move relative to each other (-1 to +1)\n- **Sharpe Ratio:** (Return - Risk-free) / Std Dev. Higher = better risk-adjusted returns\n- **Beta:** Volatility relative to the market. Beta > 1 = more volatile\n- **Alpha:** Excess return above a benchmark\n\n**Diversification works because:** Uncorrelated assets reduce overall portfolio risk.', quiz: [{ question: 'The Sharpe Ratio measures:', options: ['Total return', 'Risk-adjusted return', 'Dividend yield', 'Market cap'], answer: 1 }, { question: 'Beta > 1 means:', options: ['Less volatile than market', 'More volatile than market', 'No correlation', 'Guaranteed profit'], answer: 1 }] },
-            { id: 6, icon: '🌍', duration: '11 min', topics: ['Macro', 'Fed'], title: 'Macroeconomics & Markets', content: 'Key economic indicators that move markets:\n\n**Federal Reserve:**\n- Sets interest rates (Federal Funds Rate)\n- Higher rates = stocks down, bonds up (generally)\n- Quantitative Easing (QE) = injecting money\n\n**Key Indicators:**\n- **GDP:** Economic growth\n- **CPI/PPI:** Inflation measures\n- **Unemployment Rate:** Labor market health\n- **PMI:** Manufacturing/services activity\n\n**Yield Curve:** Difference between long and short-term bond rates. Inverted curve = recession signal.', quiz: [{ question: 'Higher interest rates typically cause stocks to:', options: ['Rise', 'Fall', 'Stay the same', 'Trade at higher volume'], answer: 1 }, { question: 'An inverted yield curve signals:', options: ['Bull market', 'Potential recession', 'High inflation', 'Low unemployment'], answer: 1 }] },
-            { id: 7, icon: '🗺️', duration: '9 min', topics: ['Global', 'ADRs'], title: 'International Markets', content: 'Trading beyond US borders.\n\n**Major Global Exchanges:**\n- **LSE:** London Stock Exchange\n- **TSE:** Tokyo Stock Exchange\n- **SSE:** Shanghai Stock Exchange\n- **HKEX:** Hong Kong\n- **Euronext:** Amsterdam, Paris, Lisbon\n\n**ADRs:** American Depositary Receipts let you buy foreign stocks on US exchanges.\n\n**Currency Risk:** Exchange rate fluctuations impact returns on international investments.\n\n**Emerging Markets:** Higher growth potential but more political and economic risk.', quiz: [{ question: 'ADRs allow you to:', options: ['Trade futures', 'Buy foreign stocks on US exchanges', 'Avoid taxes', 'Short sell only'], answer: 1 }, { question: 'Currency risk affects:', options: ['Only domestic stocks', 'Only bonds', 'International investments', 'Only ETFs'], answer: 2 }] },
-            { id: 8, icon: '📐', duration: '12 min', topics: ['VaR', 'Drawdown'], title: 'Risk Metrics & Analysis', content: 'Advanced risk measurement tools:\n\n**Value at Risk (VaR):**\n- Maximum expected loss over a time period at a confidence level\n- Example: 95% VaR of $10K means 5% chance of losing more than $10K\n\n**Maximum Drawdown:**\n- Largest peak-to-trough decline in portfolio value\n- Important for assessing worst-case scenarios\n\n**Sortino Ratio:** Like Sharpe but only considers downside volatility.\n\n**Kelly Criterion:** Optimal position size based on win rate and payoff ratio.\nf* = (bp - q) / b where b=payoff, p=win prob, q=loss prob', quiz: [{ question: '95% VaR means:', options: ['95% chance of profit', '5% chance of exceeding the loss amount', '95% of capital is at risk', 'Only 5% is invested'], answer: 1 }, { question: 'Maximum drawdown measures:', options: ['Total profit', 'Largest peak-to-trough decline', 'Daily returns', 'Trading volume'], answer: 1 }] },
-            { id: 9, icon: '🧩', duration: '10 min', topics: ['Bias', 'Psychology'], title: 'Behavioral Finance', content: 'How cognitive biases affect financial decisions:\n\n**Key Biases:**\n- **Loss Aversion:** Losses feel 2x worse than equivalent gains feel good\n- **Herding:** Following the crowd instead of your analysis\n- **Overconfidence:** Overestimating your ability to predict markets\n- **Recency Bias:** Overweighting recent events\n- **Sunk Cost Fallacy:** Holding losers because you already invested\n\n**Prospect Theory (Kahneman & Tversky):**\nPeople evaluate gains and losses relative to a reference point, and are risk-averse for gains but risk-seeking for losses.', quiz: [{ question: 'Loss aversion means:', options: ['Avoiding all risk', 'Losses feel worse than equal gains feel good', 'Never selling stocks', 'Only buying bonds'], answer: 1 }, { question: 'The sunk cost fallacy leads to:', options: ['Taking profits quickly', 'Holding losers too long', 'Diversifying more', 'Buying index funds'], answer: 1 }] },
-            { id: 10, icon: '🏗️', duration: '13 min', topics: ['System', 'Backtesting'], title: 'Building a Trading System', content: 'Creating a complete, systematic approach to trading:\n\n**Components:**\n1. **Market Selection:** Which markets/stocks to trade\n2. **Entry Rules:** Specific conditions to open a position\n3. **Exit Rules:** When to take profit and cut losses\n4. **Position Sizing:** How much to risk per trade\n5. **Risk Management:** Maximum drawdown, daily loss limits\n\n**Backtesting:** Test your system on historical data before risking real money.\n\n**Forward Testing:** Paper trade your system for 1-3 months.\n\n**Key Metrics:**\n- Win rate, average win/loss, profit factor, maximum drawdown\n\n**Remember:** The best system is one you can follow consistently.', quiz: [{ question: 'Backtesting involves:', options: ['Trading with real money first', 'Testing on historical data', 'Buying after hours', 'Asking for advice'], answer: 1 }, { question: 'A complete trading system includes:', options: ['Only entry rules', 'Only exit rules', 'Entry, exit, position sizing, and risk management', 'Just following the news'], answer: 2 }] },
+            { id: 1, icon: '', duration: '12 min', topics: ['Indicators', 'RSI', 'MACD'], title: 'Advanced Technical Indicators', content: 'Beyond basic indicators, advanced traders use:\n\n**RSI (Relative Strength Index):**\n- Measures momentum (0-100)\n- Above 70 = overbought, Below 30 = oversold\n\n**MACD:**\n- Shows trend direction and momentum\n- Signal line crossovers indicate buy/sell\n\n**Bollinger Bands:**\n- Price typically stays within 2 standard deviations of a moving average\n- Squeeze = low volatility, potential breakout\n\n**Fibonacci Retracements:**\n- Key levels: 23.6%, 38.2%, 50%, 61.8%\n- Used to identify support/resistance during pullbacks', quiz: [{ question: 'RSI above 70 suggests:', options: ['Oversold', 'Overbought', 'Neutral', 'Low volume'], answer: 1 }, { question: 'A Bollinger Band squeeze suggests:', options: ['High volatility', 'Low volatility, potential breakout', 'Market crash', 'Dividend payment'], answer: 1 }] },
+            { id: 2, icon: '', duration: '14 min', topics: ['Options', 'Greeks'], title: 'Options Strategies', content: 'Advanced options strategies for different market conditions:\n\n**Covered Call:** Own stock + sell call. Income strategy.\n**Protective Put:** Own stock + buy put. Insurance strategy.\n**Iron Condor:** Sell OTM call spread + put spread. Profit from low volatility.\n**Straddle:** Buy call + put at same strike. Profit from big moves either way.\n**Vertical Spread:** Buy and sell options at different strikes, same expiration.\n\n**Greeks:**\n- Delta: Price sensitivity\n- Theta: Time decay\n- Vega: Volatility sensitivity\n- Gamma: Rate of delta change', quiz: [{ question: 'A covered call is:', options: ['Buying calls', 'Owning stock + selling call', 'Only puts', 'Shorting stock'], answer: 1 }, { question: 'Theta measures:', options: ['Price sensitivity', 'Time decay', 'Volatility', 'Volume'], answer: 1 }] },
+            { id: 3, icon: '', duration: '10 min', topics: ['Short', 'Advanced'], title: 'Short Selling', content: 'Short selling lets you profit from declining prices.\n\n**How it works:**\n1. Borrow shares from your broker\n2. Sell the borrowed shares\n3. Buy them back later at a lower price\n4. Return the shares and keep the difference\n\n**Risks:**\n- Unlimited loss potential (price can rise infinitely)\n- Short squeeze: rapid price rise forces shorts to cover\n- Margin requirements and interest costs\n\n**Short Interest:** Percentage of shares sold short. High short interest = potential squeeze.', quiz: [{ question: 'Short selling profits when:', options: ['Price goes up', 'Price goes down', 'Price stays the same', 'Volume increases'], answer: 1 }, { question: 'The maximum loss on a short sale is:', options: ['100%', '50%', 'Theoretically unlimited', 'The stock price'], answer: 2 }] },
+            { id: 4, icon: '', duration: '11 min', topics: ['Algo', 'Automation'], title: 'Algorithmic Trading', content: 'Using algorithms and code to automate trading decisions.\n\n**Common strategies:**\n- **Mean Reversion:** Price returns to average\n- **Momentum:** Follow the trend\n- **Arbitrage:** Exploit price differences\n- **Market Making:** Provide liquidity, profit from spread\n\n**Tools:** Python, R, APIs, backtesting frameworks\n\n**Key concerns:**\n- Overfitting: Strategy works on historical data but not live\n- Latency: Speed matters in execution\n- Risk management: Automated doesn\'t mean risk-free', quiz: [{ question: 'Mean reversion strategies assume price will:', options: ['Always go up', 'Return to its average', 'Go to zero', 'Stay the same'], answer: 1 }, { question: 'Overfitting means:', options: ['Too much data', 'Strategy works on past but not future data', 'Trading too fast', 'High fees'], answer: 1 }] },
+            { id: 5, icon: '', duration: '10 min', topics: ['MPT', 'Sharpe'], title: 'Portfolio Theory', content: 'Modern Portfolio Theory (MPT) by Harry Markowitz:\n\n**Key concepts:**\n- **Efficient Frontier:** Optimal portfolios offering highest return for given risk\n- **Correlation:** How assets move relative to each other (-1 to +1)\n- **Sharpe Ratio:** (Return - Risk-free) / Std Dev. Higher = better risk-adjusted returns\n- **Beta:** Volatility relative to the market. Beta > 1 = more volatile\n- **Alpha:** Excess return above a benchmark\n\n**Diversification works because:** Uncorrelated assets reduce overall portfolio risk.', quiz: [{ question: 'The Sharpe Ratio measures:', options: ['Total return', 'Risk-adjusted return', 'Dividend yield', 'Market cap'], answer: 1 }, { question: 'Beta > 1 means:', options: ['Less volatile than market', 'More volatile than market', 'No correlation', 'Guaranteed profit'], answer: 1 }] },
+            { id: 6, icon: '', duration: '11 min', topics: ['Macro', 'Fed'], title: 'Macroeconomics & Markets', content: 'Key economic indicators that move markets:\n\n**Federal Reserve:**\n- Sets interest rates (Federal Funds Rate)\n- Higher rates = stocks down, bonds up (generally)\n- Quantitative Easing (QE) = injecting money\n\n**Key Indicators:**\n- **GDP:** Economic growth\n- **CPI/PPI:** Inflation measures\n- **Unemployment Rate:** Labor market health\n- **PMI:** Manufacturing/services activity\n\n**Yield Curve:** Difference between long and short-term bond rates. Inverted curve = recession signal.', quiz: [{ question: 'Higher interest rates typically cause stocks to:', options: ['Rise', 'Fall', 'Stay the same', 'Trade at higher volume'], answer: 1 }, { question: 'An inverted yield curve signals:', options: ['Bull market', 'Potential recession', 'High inflation', 'Low unemployment'], answer: 1 }] },
+            { id: 7, icon: '', duration: '9 min', topics: ['Global', 'ADRs'], title: 'International Markets', content: 'Trading beyond US borders.\n\n**Major Global Exchanges:**\n- **LSE:** London Stock Exchange\n- **TSE:** Tokyo Stock Exchange\n- **SSE:** Shanghai Stock Exchange\n- **HKEX:** Hong Kong\n- **Euronext:** Amsterdam, Paris, Lisbon\n\n**ADRs:** American Depositary Receipts let you buy foreign stocks on US exchanges.\n\n**Currency Risk:** Exchange rate fluctuations impact returns on international investments.\n\n**Emerging Markets:** Higher growth potential but more political and economic risk.', quiz: [{ question: 'ADRs allow you to:', options: ['Trade futures', 'Buy foreign stocks on US exchanges', 'Avoid taxes', 'Short sell only'], answer: 1 }, { question: 'Currency risk affects:', options: ['Only domestic stocks', 'Only bonds', 'International investments', 'Only ETFs'], answer: 2 }] },
+            { id: 8, icon: '', duration: '12 min', topics: ['VaR', 'Drawdown'], title: 'Risk Metrics & Analysis', content: 'Advanced risk measurement tools:\n\n**Value at Risk (VaR):**\n- Maximum expected loss over a time period at a confidence level\n- Example: 95% VaR of $10K means 5% chance of losing more than $10K\n\n**Maximum Drawdown:**\n- Largest peak-to-trough decline in portfolio value\n- Important for assessing worst-case scenarios\n\n**Sortino Ratio:** Like Sharpe but only considers downside volatility.\n\n**Kelly Criterion:** Optimal position size based on win rate and payoff ratio.\nf* = (bp - q) / b where b=payoff, p=win prob, q=loss prob', quiz: [{ question: '95% VaR means:', options: ['95% chance of profit', '5% chance of exceeding the loss amount', '95% of capital is at risk', 'Only 5% is invested'], answer: 1 }, { question: 'Maximum drawdown measures:', options: ['Total profit', 'Largest peak-to-trough decline', 'Daily returns', 'Trading volume'], answer: 1 }] },
+            { id: 9, icon: '', duration: '10 min', topics: ['Bias', 'Psychology'], title: 'Behavioral Finance', content: 'How cognitive biases affect financial decisions:\n\n**Key Biases:**\n- **Loss Aversion:** Losses feel 2x worse than equivalent gains feel good\n- **Herding:** Following the crowd instead of your analysis\n- **Overconfidence:** Overestimating your ability to predict markets\n- **Recency Bias:** Overweighting recent events\n- **Sunk Cost Fallacy:** Holding losers because you already invested\n\n**Prospect Theory (Kahneman & Tversky):**\nPeople evaluate gains and losses relative to a reference point, and are risk-averse for gains but risk-seeking for losses.', quiz: [{ question: 'Loss aversion means:', options: ['Avoiding all risk', 'Losses feel worse than equal gains feel good', 'Never selling stocks', 'Only buying bonds'], answer: 1 }, { question: 'The sunk cost fallacy leads to:', options: ['Taking profits quickly', 'Holding losers too long', 'Diversifying more', 'Buying index funds'], answer: 1 }] },
+            { id: 10, icon: '', duration: '13 min', topics: ['System', 'Backtesting'], title: 'Building a Trading System', content: 'Creating a complete, systematic approach to trading:\n\n**Components:**\n1. **Market Selection:** Which markets/stocks to trade\n2. **Entry Rules:** Specific conditions to open a position\n3. **Exit Rules:** When to take profit and cut losses\n4. **Position Sizing:** How much to risk per trade\n5. **Risk Management:** Maximum drawdown, daily loss limits\n\n**Backtesting:** Test your system on historical data before risking real money.\n\n**Forward Testing:** Paper trade your system for 1-3 months.\n\n**Key Metrics:**\n- Win rate, average win/loss, profit factor, maximum drawdown\n\n**Remember:** The best system is one you can follow consistently.', quiz: [{ question: 'Backtesting involves:', options: ['Trading with real money first', 'Testing on historical data', 'Buying after hours', 'Asking for advice'], answer: 1 }, { question: 'A complete trading system includes:', options: ['Only entry rules', 'Only exit rules', 'Entry, exit, position sizing, and risk management', 'Just following the news'], answer: 2 }] },
         ],
     },
     {
         id: 'strategies',
         name: 'Strategies',
-        emoji: '🎯',
+        emoji: '',
         color: '#f97316',
         gradFrom: 'rgba(249,115,22,0.18)',
         gradTo: 'rgba(249,115,22,0.04)',
         units: [
             {
                 id: 1,
-                icon: '⚡',
+                icon: '',
                 duration: '11 min',
                 topics: ['Day Trading', 'Scalping'],
                 title: 'Day Trading Strategies',
@@ -204,7 +204,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 2,
-                icon: '🎯',
+                icon: '',
                 duration: '9 min',
                 topics: ['Swing Trading', 'Trends'],
                 title: 'Swing Trading Techniques',
@@ -217,7 +217,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 3,
-                icon: '📐',
+                icon: '',
                 duration: '13 min',
                 topics: ['Technical', 'Patterns', 'Indicators'],
                 title: 'Technical Analysis Deep Dive',
@@ -230,7 +230,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 4,
-                icon: '📑',
+                icon: '',
                 duration: '12 min',
                 topics: ['Fundamental', 'Valuation', 'DCF'],
                 title: 'Fundamental Analysis Deep Dive',
@@ -243,7 +243,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 5,
-                icon: '🛡️',
+                icon: '',
                 duration: '10 min',
                 topics: ['Risk', 'Management', 'Position Sizing'],
                 title: 'Advanced Risk Management',
@@ -256,7 +256,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 6,
-                icon: '🎲',
+                icon: '',
                 duration: '14 min',
                 topics: ['Options', 'Calls', 'Puts', 'Strategies'],
                 title: 'Options Trading Strategies',
@@ -269,7 +269,7 @@ export const LEVELS: Level[] = [
             },
             {
                 id: 7,
-                icon: '🏛️',
+                icon: '',
                 duration: '11 min',
                 topics: ['MPT', 'Diversification', 'Factor Investing'],
                 title: 'Portfolio Theory & Construction',
@@ -285,14 +285,14 @@ export const LEVELS: Level[] = [
     {
         id: 'personal-finance',
         name: 'Personal Finance',
-        emoji: '💵',
+        emoji: '',
         color: '#06b6d4',
         gradFrom: 'rgba(6,182,212,0.18)',
         gradTo: 'rgba(6,182,212,0.04)',
         units: [
             {
                 id: 1,
-                icon: '🏦',
+                icon: '',
                 duration: '8 min',
                 topics: ['IRAs', 'Retirement', 'Tax-Free'],
                 title: 'Understanding IRAs',
@@ -334,7 +334,7 @@ Opening a Roth IRA at 18 with just $100/month can grow into over $400,000 by ret
             },
             {
                 id: 2,
-                icon: '📊',
+                icon: '',
                 duration: '9 min',
                 topics: ['Compound Interest', 'Growth', 'Time'],
                 title: 'The Power of Compound Interest',
@@ -382,7 +382,7 @@ Compound interest also works against you on debt. A credit card at 24% APR compo
             },
             {
                 id: 3,
-                icon: '🧮',
+                icon: '',
                 duration: '6 min',
                 topics: ['Simple Interest', 'Loans', 'Formula'],
                 title: 'Simple Interest Basics',
@@ -427,7 +427,7 @@ When borrowing, knowing whether interest is simple or compound can save you thou
             },
             {
                 id: 4,
-                icon: '💰',
+                icon: '',
                 duration: '8 min',
                 topics: ['Budgeting', '50/30/20', 'Money Management'],
                 title: 'Budgeting & Controlling Your Money',

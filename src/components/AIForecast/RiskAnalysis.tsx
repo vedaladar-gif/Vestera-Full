@@ -4,8 +4,8 @@ import styles from './aiForecastComponents.module.css';
 import type { RiskBreakdownData } from './types';
 
 const LEVEL_COLOR: Record<string, string> = {
-    'Very Low': '#3CA787',
-    'Low': '#7CE0C6',
+    'Very Low': '#4576E7',
+    'Low': '#B7CBF6',
     'Moderate': '#FFB84C',
     'High': '#FF8A5B',
     'Very High': '#E0637A',

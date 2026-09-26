@@ -14,14 +14,14 @@
     max-width: 440px;
     background: var(--vt-surface);
     border: 1px solid var(--vt-border);
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 40px 36px 36px;
 }
 
 .brand {
     width: 44px;
     height: 44px;
-    background: linear-gradient(135deg, #34D399, #0F9D6B);
+    background: linear-gradient(135deg, #34D399, #3A66D0);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -77,8 +77,6 @@
 
 .loginBox:hover {
     opacity: 0.95;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(79, 110, 247, 0.45);
 }
 
 .secondary {
