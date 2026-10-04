@@ -13,13 +13,14 @@ const protectedApiPaths = [
     '/api/friends/username',
     '/api/chat',
     '/api/academy',
+    '/api/games',
 ];
 
 /**
  * App routes that require a signed-in user. Unauthenticated visitors are sent to
  * `/restricted` (explains why) instead of `/login`.
  */
-const restrictedShellPaths = ['/trade', '/stats', '/settings', '/portfolio', '/leaderboard', '/friends'];
+const restrictedShellPaths = ['/trade', '/stats', '/settings', '/portfolio', '/leaderboard', '/friends', '/games'];
 
 /** Always require iron-session (onboarding / legacy paths). */
 const authOnlyPaths = ['/setup-username', '/learn-unit', '/learn-quiz', '/dashboard'];
@@ -88,6 +89,8 @@ export const config = {
         '/leaderboard/:path*',
         '/friends',
         '/friends/:path*',
+        '/games',
+        '/games/:path*',
         '/setup-username',
         '/setup-username/:path*',
         '/learn-unit/:path*',
@@ -102,6 +105,7 @@ export const config = {
         '/api/chat',
         '/api/chat/:path*',
         '/api/academy/:path*',
+        '/api/games/:path*',
         '/api/analyze-stock/:path*',
         '/api/delete-account/:path*',
         '/api/snapse',

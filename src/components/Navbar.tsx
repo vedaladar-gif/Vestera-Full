@@ -85,6 +85,7 @@ export default function Navbar() {
                             <Link href="/trade" style={{ ...linkStyle('/trade'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Market</Link>
                             <Link href="/stats" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
                             <Link href="/learn" style={{ ...linkStyle('/learn'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
+                            <Link href="/games" style={{ ...linkStyle('/games'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Games</Link>
 
                             <div style={{ width: 1, height: 20, background: 'var(--vt-border)', margin: '0 6px', flexShrink: 0 }} />
 
@@ -118,6 +119,7 @@ export default function Navbar() {
                         <>
                             <Link href="/learn" style={{ ...linkStyle('/learn'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
                             <Link href="/stats" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
+                            <Link href="/games" style={{ ...linkStyle('/games'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Games</Link>
                             <Link href="/partners" style={{ ...linkStyle('/partners'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Partners</Link>
                             <Link
                                 href="/login"
@@ -157,6 +159,7 @@ export default function Navbar() {
                         <Link href="/trade" className="nav-mobile-link" onClick={close} data-active={isActive('/trade') ? 'true' : 'false'}>Market</Link>
                         <Link href="/stats" className="nav-mobile-link" onClick={close} data-active={isActive('/stats') ? 'true' : 'false'}>Rankings</Link>
                         <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={isActive('/learn') ? 'true' : 'false'}>Academy</Link>
+                        <Link href="/games" className="nav-mobile-link" onClick={close} data-active={isActive('/games') ? 'true' : 'false'}>Games</Link>
                         <div className="nav-mobile-divider" />
                         <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>Profile</Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>Logout</button>
@@ -168,6 +171,7 @@ export default function Navbar() {
                         </div>
                         <div className="nav-mobile-divider" />
                         <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={isActive('/learn') ? 'true' : 'false'}>Academy</Link>
+                        <Link href="/games" className="nav-mobile-link" onClick={close} data-active={isActive('/games') ? 'true' : 'false'}>Games</Link>
                         <Link href="/partners" className="nav-mobile-link" onClick={close} data-active={isActive('/partners') ? 'true' : 'false'}>Partners</Link>
                         <div className="nav-mobile-divider" />
                         <Link href="/login" className="nav-mobile-link" onClick={close}>Log In</Link>

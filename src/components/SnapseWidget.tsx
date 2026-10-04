@@ -261,7 +261,7 @@ export default function SnapseWidget() {
 
     const hasMessages = messages.length > 0;
 
-    if (tourActive) return null;
+    if (tourActive || pathname.startsWith('/games/wall-street-challenge')) return null;
 
     return (
         <div className={styles.widget}>

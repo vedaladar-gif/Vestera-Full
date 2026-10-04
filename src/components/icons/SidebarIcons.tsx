@@ -45,6 +45,15 @@ export function LearnIcon({ size = 18, className }: IconProps) {
     );
 }
 
+export function GamesIcon({ size = 18, className }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" className={className} {...base}>
+            <path d="M7.5 9h9a4.5 4.5 0 0 1 4.35 5.65l-.75 2.8a2.1 2.1 0 0 1-3.55.9L14.8 16.5H9.2l-1.75 1.85a2.1 2.1 0 0 1-3.55-.9l-.75-2.8A4.5 4.5 0 0 1 7.5 9Z" />
+            <path d="M7 12v3M5.5 13.5h3M16.5 12.5h.01M18.5 14.5h.01" />
+        </svg>
+    );
+}
+
 export function LeaderboardIcon({ size = 18, className }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 24 24" className={className} {...base}>

@@ -22,6 +22,7 @@ import {
     TradeIcon,
     PortfolioIcon,
     LearnIcon,
+    GamesIcon,
     LeaderboardIcon,
     ForecastIcon,
     ChaptersIcon,
@@ -43,12 +44,14 @@ const NO_SHELL_PREFIXES = [
     '/reset-password',
     '/restricted',
     '/admin',
+    '/games/wall-street-challenge',
 ];
 
 const NAV_ITEMS: Array<{ href: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }> = [
     { href: '/trade', label: 'Trade', icon: TradeIcon },
     { href: '/portfolio', label: 'Portfolio', icon: PortfolioIcon },
     { href: '/learn', label: 'Learn', icon: LearnIcon },
+    { href: '/games', label: 'Games', icon: GamesIcon },
     { href: '/stats', label: 'Leaderboard', icon: LeaderboardIcon },
     { href: '/ai-forecast', label: 'AI Forecast', icon: ForecastIcon },
     { href: '/chapters', label: 'Chapters', icon: ChaptersIcon },
