@@ -1,129 +1,139 @@
 .page {
     min-height: 100vh;
-    background: #F5F7FA;
+    background: #F4F6FC;
+    font-family: 'Nunito', 'Inter', sans-serif;
 }
 
 /* ── Hero / Form section ── */
 .hero {
-    padding: 64px 24px 56px;
+    padding: 56px 24px 64px;
     text-align: center;
 }
 
 .title {
-    font-family: 'Inter', 'Inter', sans-serif;
-    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    font-family: 'Nunito', 'Inter', sans-serif;
+    font-size: clamp(2.25rem, 5vw, 3.6rem);
     font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #20264D;
-    line-height: 1.15;
-    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    color: #141A33;
+    line-height: 1.1;
+    margin: 0 0 22px;
 }
 
 .lead {
-    font-size: 15px;
-    line-height: 1.7;
-    color: #5c628a;
-    max-width: 36rem;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.65;
+    color: #4A5068;
+    max-width: 46rem;
     margin: 0 auto;
 }
 
 .formCard {
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 12px 40px rgba(32,38,77,0.08);
-    padding: 32px 32px 28px;
-    max-width: 640px;
-    margin: 36px auto 0;
+    border: 1px solid #E3E7F2;
+    border-radius: 22px;
+    padding: 40px 42px 36px;
+    max-width: 774px;
+    margin: 60px auto 0;
     text-align: left;
 }
 
 .formRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-}
-
-@media (max-width: 560px) {
-    .formRow {
-        grid-template-columns: 1fr;
-    }
+    gap: 26px;
+    margin-bottom: 22px;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 12px;
 }
 
 .field:not(.formRow .field) {
-    margin-bottom: 16px;
+    margin-bottom: 22px;
 }
 
 .label {
-    font-size: 12px;
+    font-size: 17px;
     font-weight: 700;
-    color: #5c628a;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #262C45;
+    text-transform: none;
+    letter-spacing: normal;
 }
 
 .input,
 .textarea {
-    padding: 12px 14px;
-    background: #F8FAFC;
-    border: 1.5px solid #E4E9F7;
-    border-radius: 12px;
-    color: #20264D;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
+    padding: 16px 18px;
+    background: #ffffff;
+    border: 1.5px solid #E1E5EF;
+    border-radius: 14px;
+    color: #141A33;
+    font-size: 18px;
+    font-family: 'Nunito', 'Inter', sans-serif;
     outline: none;
     transition: border-color 0.18s, box-shadow 0.18s;
     width: 100%;
 }
 
+.input::placeholder,
+.textarea::placeholder {
+    color: #8A90A6;
+}
+
 .input:focus,
 .textarea:focus {
     border-color: #4576E7;
-    box-shadow: 0 0 0 3px rgba(69,118,231,0.12);
+    box-shadow: 0 0 0 3px rgba(69, 118, 231, 0.12);
 }
 
 .textarea {
     resize: vertical;
-    min-height: 96px;
-    font-family: 'Inter', sans-serif;
+    min-height: 168px;
+}
+
+.formFoot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.formNote {
+    margin: 0;
+    font-size: 16px;
+    color: #6B7189;
+}
+
+.formError {
+    margin: 0 0 16px;
+    font-size: 15px;
+    color: #C24545;
 }
 
 .submitBtn {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
+    flex-shrink: 0;
+    padding: 16px 36px;
+    background: #4576E7;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 999px;
+    font-size: 19px;
     font-weight: 800;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', 'Inter', sans-serif;
     cursor: pointer;
-    transition: filter 0.18s, transform 0.18s;
-    margin-top: 4px;
-    box-shadow: 0 6px 18px rgba(69,118,231,0.3);
+    transition: background 0.18s;
 }
 
 .submitBtn:hover {
+    background: #3A66CF;
 }
 
 .submitBtn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    transform: none;
-}
-
-.formNote {
-    margin-top: 12px;
-    font-size: 12.5px;
-    color: #8b90b0;
-    text-align: center;
 }
 
 .successBox {
@@ -131,29 +141,40 @@
     padding: 24px 0 8px;
 }
 
-.successIcon {
-    font-size: 2.25rem;
-    margin-bottom: 10px;
-}
-
 .successTitle {
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 800;
-    color: #20264D;
+    color: #141A33;
     margin-bottom: 6px;
 }
 
 .successText {
-    font-size: 14px;
-    color: #5c628a;
+    font-size: 16px;
+    color: #4A5068;
     line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+    .formCard {
+        padding: 28px 22px 26px;
+        margin-top: 40px;
+    }
+    .formRow {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+    .formFoot {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        text-align: center;
+    }
 }
 
 /* ── Our Partners section ── */
 .partnersSection {
     background: #ffffff;
     padding: 56px 24px 72px;
-    border-top: 1px solid rgba(32,38,77,0.06);
+    border-top: 1px solid #E3E7F2;
 }
 
 .partnersInner {
@@ -162,20 +183,19 @@
 }
 
 .sectionTitle {
-    font-family: 'Inter', 'Inter', sans-serif;
-    font-size: 1.5rem;
+    font-family: 'Nunito', 'Inter', sans-serif;
+    font-size: 1.9rem;
     font-weight: 800;
-    color: #20264D;
+    color: #141A33;
     text-align: center;
-    letter-spacing: -0.02em;
     margin-bottom: 8px;
 }
 
 .sectionSub {
-    font-size: 14px;
-    color: #8b90b0;
+    font-size: 16px;
+    color: #6B7189;
     text-align: center;
-    max-width: 32rem;
+    max-width: 34rem;
     margin: 0 auto 32px;
     line-height: 1.6;
 }
@@ -188,30 +208,31 @@
 }
 
 .partnerCard {
-    background: #F4F6FC;
-    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #E3E7F2;
+    border-radius: 18px;
     padding: 22px 20px;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
     text-decoration: none;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: border-color 0.18s;
 }
 
 .partnerCard:hover {
+    border-color: #4576E7;
 }
 
 .partnerLogo {
     width: 56px;
     height: 56px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
+    background: #1E244E;
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Inter', sans-serif;
     font-weight: 800;
     font-size: 20px;
     margin-bottom: 14px;
@@ -219,14 +240,14 @@
 }
 
 .partnerName {
-    font-size: 14.5px;
+    font-size: 16px;
     font-weight: 800;
-    color: #20264D;
+    color: #141A33;
     margin-bottom: 6px;
 }
 
 .partnerDesc {
-    font-size: 12.5px;
+    font-size: 14px;
     line-height: 1.55;
-    color: #5c628a;
+    color: #4A5068;
 }

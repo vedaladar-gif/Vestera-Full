@@ -13,30 +13,34 @@ const CHAPTERS = [
         location: 'Cary, NC',
         presidentLabel: 'Co-Founders',
         president: 'Sourish, Kiaan, and Vedant',
+        leaderCount: 3,
         founded: '2026',
         initials: 'GL',
-        gradient: 'linear-gradient(135deg, #4576E7 0%, #1F6E56 100%)',
-        isMain: true,
+        isFounding: true,
     },
     {
         name: 'John Fraser Secondary School',
         location: 'Mississauga, ON',
         presidentLabel: 'President',
         president: 'Anton Park',
+        leaderCount: 1,
         founded: '2026',
         initials: 'JF',
-        gradient: 'linear-gradient(135deg, #4576E7 0%, #2955C9 100%)',
     },
     {
         name: 'Independence High School',
         location: 'Frisco, TX',
         presidentLabel: 'President',
         president: 'Priyansh M',
+        leaderCount: 1,
         founded: '2026',
         initials: 'IH',
-        gradient: 'linear-gradient(135deg, #5B4B8A 0%, #241B3B 100%)',
     },
 ];
+
+const SCHOOL_COUNT = CHAPTERS.length;
+const LEADER_COUNT = CHAPTERS.reduce((sum, c) => sum + c.leaderCount, 0);
+const CITY_COUNT = new Set(CHAPTERS.map(c => c.location)).size;
 
 export default function ChaptersPage() {
     return (
@@ -51,44 +55,44 @@ export default function ChaptersPage() {
                 <ChapterApplyForm />
             </section>
 
-            <section className={styles.chaptersSection}>
-                <div className={styles.chaptersInner}>
-                    <h2 className={styles.sectionTitle}>Current Chapters</h2>
-                    <p className={styles.sectionSub}>
+            <section className={styles.listSection}>
+                <div className={styles.listInner}>
+                    <div className={styles.listHeader}>
+                        <h2 className={styles.listTitle}>Current Chapters</h2>
+                        <p className={styles.listMeta}>
+                            {SCHOOL_COUNT} schools · {LEADER_COUNT} student leaders · {CITY_COUNT} cities
+                        </p>
+                    </div>
+                    <p className={styles.listSub}>
                         Join a growing network of student leaders bringing financial literacy to their schools.
                     </p>
 
-                    <div className={styles.chapterGrid}>
+                    <ul className={styles.chapterList}>
                         {CHAPTERS.map(c => (
-                            <div
-                                key={c.name}
-                                className={`${styles.chapterCard} ${c.isMain ? styles.chapterCardMain : ''}`}
-                            >
-                                {c.isMain && <div className={styles.mainBadge}>Main Chapter</div>}
-                                <div className={styles.chapterAvatar} style={{ background: c.gradient }}>
+                            <li key={c.name} className={styles.chapterRow}>
+                                <div className={styles.rowAvatar} aria-hidden="true">
                                     {c.initials}
                                 </div>
-                                <div>
-                                    <div className={styles.chapterName}>{c.name}</div>
-                                    <div className={styles.chapterLocation}>{c.location}</div>
-                                    <div className={styles.chapterPresident}>{c.presidentLabel}: {c.president}</div>
-                                    <div className={styles.chapterFounded}>Founded {c.founded}</div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
 
-                    <div className={styles.statsBar}>
-                        <div className={styles.statItem}>
-                            <span className={styles.statValue}>{CHAPTERS.length}</span> Schools
-                        </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statValue}>5</span> Student Leaders
-                        </div>
-                        <div className={styles.statItem}>
-                            <span className={styles.statValue}>{CHAPTERS.length}</span> Cities
-                        </div>
-                    </div>
+                                <div className={styles.rowBody}>
+                                    <div className={styles.rowNameLine}>
+                                        <span className={styles.rowName}>{c.name}</span>
+                                        {c.isFounding && (
+                                            <span className={styles.foundingBadge}>Founding chapter</span>
+                                        )}
+                                    </div>
+                                    <div className={styles.rowLeaders}>
+                                        {c.presidentLabel}: {c.president}
+                                    </div>
+                                </div>
+
+                                <div className={styles.rowSide}>
+                                    <div className={styles.rowLocation}>{c.location}</div>
+                                    <div className={styles.rowFounded}>Founded {c.founded}</div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </section>
         </main>

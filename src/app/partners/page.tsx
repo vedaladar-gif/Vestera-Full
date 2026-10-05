@@ -78,10 +78,10 @@ export default function PartnersPage() {
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit}>
-                            {error && <p className={styles.formNote} style={{ color: '#E0455B', marginTop: 0, marginBottom: 12 }}>{error}</p>}
+                            {error && <p className={styles.formError}>{error}</p>}
                             <div className={styles.formRow}>
                                 <div className={styles.field}>
-                                    <label className={styles.label} htmlFor="fullName">Full Name</label>
+                                    <label className={styles.label} htmlFor="fullName">Full name</label>
                                     <input
                                         id="fullName"
                                         className={styles.input}
@@ -105,7 +105,7 @@ export default function PartnersPage() {
                             </div>
 
                             <div className={styles.field}>
-                                <label className={styles.label} htmlFor="email">Email Address</label>
+                                <label className={styles.label} htmlFor="email">Email address</label>
                                 <input
                                     id="email"
                                     type="email"
@@ -129,12 +129,14 @@ export default function PartnersPage() {
                                 />
                             </div>
 
-                            <button type="submit" className={styles.submitBtn} disabled={sending}>
-                                {sending ? 'Sending…' : 'Send Inquiry'}
-                            </button>
-                            <p className={styles.formNote}>
-                                We typically respond within 2-3 business days.
-                            </p>
+                            <div className={styles.formFoot}>
+                                <p className={styles.formNote}>
+                                    We typically respond within 2-3 business days.
+                                </p>
+                                <button type="submit" className={styles.submitBtn} disabled={sending}>
+                                    {sending ? 'Sending…' : 'Send Inquiry'}
+                                </button>
+                            </div>
                         </form>
                     )}
                 </div>
