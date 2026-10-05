@@ -1,13 +1,14 @@
+odule · CSS
 .page {
     min-height: 100vh;
     background: #F5F7FA;
 }
-
+ 
 .hero {
     padding: 64px 24px 48px;
     text-align: center;
 }
-
+ 
 .title {
     font-family: 'Inter', 'Inter', sans-serif;
     font-size: clamp(1.9rem, 4vw, 2.5rem);
@@ -17,7 +18,7 @@
     line-height: 1.15;
     margin-bottom: 12px;
 }
-
+ 
 .lead {
     font-size: 15px;
     line-height: 1.7;
@@ -25,13 +26,13 @@
     max-width: 34rem;
     margin: 0 auto 28px;
 }
-
+ 
 .ctaBtn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 14px 28px;
-    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
+    background: #4576E7;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -43,10 +44,10 @@
     box-shadow: 0 6px 18px rgba(69,118,231,0.3);
     transition: filter 0.18s, transform 0.18s;
 }
-
+ 
 .ctaBtn:hover {
 }
-
+ 
 /* ── Apply form ── */
 .formCard {
     background: #ffffff;
@@ -57,31 +58,31 @@
     margin: 32px auto 0;
     text-align: left;
 }
-
+ 
 .formRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-bottom: 16px;
 }
-
+ 
 @media (max-width: 560px) {
     .formRow {
         grid-template-columns: 1fr;
     }
 }
-
+ 
 .field {
     display: flex;
     flex-direction: column;
     gap: 7px;
     margin-bottom: 16px;
 }
-
+ 
 .formRow .field {
     margin-bottom: 0;
 }
-
+ 
 .label {
     font-size: 12px;
     font-weight: 700;
@@ -89,7 +90,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
+ 
 .input,
 .textarea {
     padding: 12px 14px;
@@ -103,19 +104,19 @@
     transition: border-color 0.18s, box-shadow 0.18s;
     width: 100%;
 }
-
+ 
 .input:focus,
 .textarea:focus {
     border-color: #4576E7;
     box-shadow: 0 0 0 3px rgba(69,118,231,0.12);
 }
-
+ 
 .textarea {
     resize: vertical;
     min-height: 88px;
     font-family: 'Inter', sans-serif;
 }
-
+ 
 .submitBtn {
     width: 100%;
     padding: 14px;
@@ -130,46 +131,46 @@
     transition: filter 0.18s, transform 0.18s;
     box-shadow: 0 6px 18px rgba(69,118,231,0.3);
 }
-
+ 
 .submitBtn:hover {
 }
-
+ 
 .submitBtn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
-
+ 
 .errorText {
     color: #E0455B;
     font-size: 13px;
     margin: 0 0 12px;
     text-align: center;
 }
-
+ 
 .successBox {
     text-align: center;
     padding: 20px 0 6px;
 }
-
+ 
 .successIcon {
     font-size: 2.25rem;
     margin-bottom: 10px;
 }
-
+ 
 .successTitle {
     font-size: 17px;
     font-weight: 800;
     color: #20264D;
     margin-bottom: 6px;
 }
-
+ 
 .successText {
     font-size: 14px;
     color: #5c628a;
     line-height: 1.6;
 }
-
+ 
 .closeBtn {
     background: none;
     border: none;
@@ -180,19 +181,19 @@
     display: block;
     margin: 16px auto 0;
 }
-
+ 
 /* ── Current Chapters ── */
 .chaptersSection {
     background: #ffffff;
     padding: 56px 24px 72px;
     border-top: 1px solid rgba(32,38,77,0.06);
 }
-
+ 
 .chaptersInner {
     max-width: 900px;
     margin: 0 auto;
 }
-
+ 
 .sectionTitle {
     font-family: 'Inter', 'Inter', sans-serif;
     font-size: 1.5rem;
@@ -202,7 +203,7 @@
     letter-spacing: -0.02em;
     margin-bottom: 8px;
 }
-
+ 
 .sectionSub {
     font-size: 14px;
     color: #8b90b0;
@@ -211,20 +212,20 @@
     margin: 0 auto 32px;
     line-height: 1.6;
 }
-
+ 
 .chapterGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin-bottom: 32px;
 }
-
+ 
 @media (max-width: 640px) {
     .chapterGrid {
         grid-template-columns: 1fr;
     }
 }
-
+ 
 .chapterCard {
     background: #F4F6FC;
     border-radius: 16px;
@@ -235,7 +236,7 @@
     position: relative;
     border: 1.5px solid transparent;
 }
-
+ 
 /* ── Main / flagship chapter highlight ── */
 .chapterCardMain {
     grid-column: 1 / -1;
@@ -244,7 +245,7 @@
     box-shadow: 0 8px 24px rgba(60,167,135,0.14);
     padding-top: 26px;
 }
-
+ 
 .mainBadge {
     position: absolute;
     top: -11px;
@@ -258,7 +259,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(31,110,86,0.35);
 }
-
+ 
 .chapterAvatar {
     width: 46px;
     height: 46px;
@@ -274,33 +275,33 @@
     letter-spacing: 0.3px;
     flex-shrink: 0;
 }
-
+ 
 .chapterName {
     font-size: 14px;
     font-weight: 800;
     color: #20264D;
     margin-bottom: 2px;
 }
-
+ 
 .chapterLocation {
     font-size: 12px;
     color: #8b90b0;
     margin-bottom: 3px;
 }
-
+ 
 .chapterPresident {
     font-size: 12px;
     color: #5c628a;
     font-weight: 600;
 }
-
+ 
 .chapterFounded {
     font-size: 11px;
     color: #b0b4cc;
     font-weight: 600;
     margin-top: 2px;
 }
-
+ 
 /* ── Empty state ── */
 .emptyState {
     background: #F4F6FC;
@@ -310,20 +311,20 @@
     text-align: center;
     margin-bottom: 32px;
 }
-
+ 
 .emptyIcon {
     font-size: 2rem;
     margin-bottom: 12px;
     opacity: 0.7;
 }
-
+ 
 .emptyTitle {
     font-size: 15px;
     font-weight: 800;
     color: #5c628a;
     margin-bottom: 6px;
 }
-
+ 
 .emptyText {
     font-size: 13.5px;
     color: #8b90b0;
@@ -331,7 +332,7 @@
     max-width: 26rem;
     margin: 0 auto;
 }
-
+ 
 /* ── Stats bar ── */
 .statsBar {
     display: flex;
@@ -339,7 +340,7 @@
     gap: 40px;
     flex-wrap: wrap;
 }
-
+ 
 .statItem {
     display: flex;
     align-items: center;
@@ -348,32 +349,27 @@
     font-weight: 700;
     color: #5c628a;
 }
-
+ 
 .statIcon {
     font-size: 15px;
 }
-
+ 
 .statValue {
     color: #20264D;
     font-weight: 800;
 }
-/* ─────────────────────────────────────────────────────────────
-   Current Chapters list
-   Paste this at the BOTTOM of chapters.module.css.
-   Do not replace the file: the hero and apply form still use
-   the styles that are already in there.
-   ───────────────────────────────────────────────────────────── */
-
-   .listSection {
+ 
+/* ── Current Chapters list ── */
+.listSection {
     padding: 24px 24px 96px;
 }
-
+ 
 .listInner {
     max-width: 1026px;
     margin: 0 auto;
     text-align: left;
 }
-
+ 
 .listHeader {
     display: flex;
     flex-wrap: wrap;
@@ -381,7 +377,7 @@
     justify-content: space-between;
     gap: 8px 24px;
 }
-
+ 
 .listTitle {
     margin: 0;
     font-size: 32px;
@@ -390,20 +386,20 @@
     letter-spacing: -0.01em;
     color: #14162e;
 }
-
+ 
 .listMeta {
     margin: 0;
     font-size: 15px;
     color: #8a90a2;
 }
-
+ 
 .listSub {
     margin: 12px 0 0;
     font-size: 18px;
     line-height: 1.5;
     color: #50566b;
 }
-
+ 
 /* The white card that holds every row */
 .chapterList {
     list-style: none;
@@ -415,18 +411,18 @@
     border-radius: 20px;
     box-shadow: 0 1px 2px rgba(20, 22, 46, 0.04);
 }
-
+ 
 .chapterRow {
     display: flex;
     align-items: center;
     gap: 22px;
     padding: 26px 28px;
 }
-
+ 
 .chapterRow + .chapterRow {
     border-top: 1px solid #eceef5;
 }
-
+ 
 .rowAvatar {
     flex: none;
     display: grid;
@@ -440,26 +436,26 @@
     font-weight: 800;
     letter-spacing: 0.02em;
 }
-
+ 
 .rowBody {
     flex: 1;
     min-width: 0;
 }
-
+ 
 .rowNameLine {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 6px 12px;
 }
-
+ 
 .rowName {
     font-size: 20px;
     font-weight: 800;
     line-height: 1.3;
     color: #14162e;
 }
-
+ 
 .foundingBadge {
     padding: 3px 12px;
     border: 1px solid #dfe3ec;
@@ -470,50 +466,50 @@
     color: #2b2f45;
     white-space: nowrap;
 }
-
+ 
 .rowLeaders {
     margin-top: 4px;
     font-size: 16px;
     color: #50566b;
 }
-
+ 
 .rowSide {
     flex: none;
     text-align: right;
 }
-
+ 
 .rowLocation {
     font-size: 16px;
     font-weight: 700;
     color: #2b2f45;
 }
-
+ 
 .rowFounded {
     margin-top: 2px;
     font-size: 15px;
     color: #8a90a2;
 }
-
+ 
 /* Phones: city and year drop under the school name */
 @media (max-width: 640px) {
     .listSection {
         padding: 16px 16px 64px;
     }
-
+ 
     .listTitle {
         font-size: 26px;
     }
-
+ 
     .listSub {
         font-size: 16px;
     }
-
+ 
     .chapterRow {
         flex-wrap: wrap;
         gap: 12px 16px;
         padding: 20px;
     }
-
+ 
     .rowSide {
         display: flex;
         flex-basis: 100%;
@@ -522,8 +518,9 @@
         padding-left: 68px; /* avatar width + gap, so it lines up with the name */
         text-align: left;
     }
-
+ 
     .rowFounded {
         margin-top: 0;
     }
 }
+ 
