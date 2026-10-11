@@ -95,6 +95,35 @@
     font-weight: 600;
 }
 
+/* Piggy Bank Boss card visual: you vs. the boss health bars */
+.versus {
+    height: 82px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+}
+
+.versusEmoji {
+    font-size: 34px;
+    line-height: 1;
+}
+
+.versusBars {
+    flex: 1;
+    display: grid;
+    gap: 10px;
+}
+
+.versusBars i {
+    display: block;
+    height: 10px;
+    border-radius: 999px;
+}
+
+.barYou { width: 82%; background: #8ED4B0; }
+.barBoss { width: 54%; background: #F2A7A7; }
+
 .placeholder {
     display: flex;
     align-items: flex-end;
