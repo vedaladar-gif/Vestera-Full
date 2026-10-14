@@ -99,30 +99,33 @@
 .versus {
     height: 82px;
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
     border-bottom: 1px solid rgba(255, 255, 255, .2);
 }
 
-.versusEmoji {
-    font-size: 34px;
-    line-height: 1;
+.versusRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.versusBars {
-    flex: 1;
-    display: grid;
-    gap: 10px;
+.versusRow span {
+    width: 58px;
+    color: #D6E2FB;
+    font-size: 12px;
+    font-weight: 600;
 }
 
-.versusBars i {
+.versusRow i {
     display: block;
-    height: 10px;
+    height: 8px;
     border-radius: 999px;
 }
 
-.barYou { width: 82%; background: #8ED4B0; }
-.barBoss { width: 54%; background: #F2A7A7; }
+.barYou { width: 70%; background: #8ED4B0; }
+.barBoss { width: 46%; background: #F2A7A7; }
 
 .placeholder {
     display: flex;

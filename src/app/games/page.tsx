@@ -33,12 +33,14 @@ export default function GamesPage() {
                 <article className={styles.card}>
                     <div className={styles.cardVisual}>
                         <div className={styles.versus} aria-hidden>
-                            <span className={styles.versusEmoji}>🐷</span>
-                            <div className={styles.versusBars}>
+                            <div className={styles.versusRow}>
+                                <span>You</span>
                                 <i className={styles.barYou} />
+                            </div>
+                            <div className={styles.versusRow}>
+                                <span>Gobbles</span>
                                 <i className={styles.barBoss} />
                             </div>
-                            <span className={styles.versusEmoji}>👾</span>
                         </div>
                         <div className={styles.visualLabel}>10 weeks · About 5 minutes</div>
                     </div>
