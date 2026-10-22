@@ -1,51 +1,51 @@
-odule · CSS
 .page {
     min-height: 100vh;
-    background: #F5F7FA;
+    background: #F4F6FC;
+    font-family: 'Nunito', 'Inter', sans-serif;
 }
- 
+
 .hero {
-    padding: 64px 24px 48px;
+    padding: 56px 24px 28px;
     text-align: center;
 }
- 
+
 .title {
-    font-family: 'Inter', 'Inter', sans-serif;
-    font-size: clamp(1.9rem, 4vw, 2.5rem);
+    font-family: 'Nunito', 'Inter', sans-serif;
+    font-size: clamp(2.25rem, 5vw, 3.6rem);
     font-weight: 800;
-    letter-spacing: -0.03em;
-    color: #20264D;
-    line-height: 1.15;
-    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    color: #141A33;
+    line-height: 1.1;
+    margin: 0 0 22px;
 }
- 
+
 .lead {
-    font-size: 15px;
-    line-height: 1.7;
-    color: #5c628a;
-    max-width: 34rem;
-    margin: 0 auto 28px;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.65;
+    color: #4A5068;
+    max-width: 40rem;
+    margin: 0 auto 36px;
 }
- 
+
 .ctaBtn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 14px 28px;
+    padding: 16px 32px;
     background: #4576E7;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 999px;
+    font-size: 18px;
     font-weight: 800;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', 'Inter', sans-serif;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(69,118,231,0.3);
-    transition: filter 0.18s, transform 0.18s;
+    transition: background 0.18s;
 }
- 
+
 .ctaBtn:hover {
+    background: #3A66CF;
 }
  
 /* ── Apply form ── */
@@ -380,6 +380,7 @@ odule · CSS
  
 .listTitle {
     margin: 0;
+    font-family: 'Nunito', 'Inter', sans-serif;
     font-size: 32px;
     font-weight: 800;
     line-height: 1.2;
