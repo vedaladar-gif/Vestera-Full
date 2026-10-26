@@ -52,15 +52,20 @@ export default function GamesPage() {
                     </div>
                 </article>
 
-                <article className={`${styles.card} ${styles.comingSoon}`}>
-                    <div className={styles.placeholder}>
-                        <span>Game 3</span>
+                <article className={styles.card}>
+                    <div className={styles.cardVisual}>
+                        <div className={styles.bankMark} aria-hidden>
+                            <span />
+                            <span />
+                            <i />
+                        </div>
+                        <div className={styles.visualLabel}>3 levels · About 6–8 minutes</div>
                     </div>
                     <div className={styles.cardBody}>
-                        <span className={styles.unavailable}>In development</span>
-                        <h2>Coming Soon</h2>
-                        <p>More investing games are on the way.</p>
-                        <span className={styles.soonButton}>Coming Soon</span>
+                        <span className={styles.available}>Available now</span>
+                        <h2>Bank Rush!</h2>
+                        <p>A classroom runs one bank on the big screen. Help customers deposit, sort checking and savings, and stop the Money Muncher.</p>
+                        <Link href="/games/bank-rush" className={styles.playButton}>Play Now</Link>
                     </div>
                 </article>
             </section>
