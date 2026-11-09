@@ -15,9 +15,9 @@ interface VestaBlobProps {
     color?: string;
 }
 
-const BLUE = '#4576E7';
+const BLUE = '#4175e8';
 const BLUE_DK = '#3A78E6';
-const NAVY = '#20264D';
+const NAVY = '#1b2850';
 const GOLD = '#FFB84C';
 const MINT = '#5FD068';
 
@@ -73,7 +73,7 @@ export default function VestaBlob({
                         display: 'block',
                         animation: undefined,
                         overflow: 'visible',
-                        filter: 'drop-shadow(0 5px 10px rgba(69,118,231,0.28))',
+                        filter: 'drop-shadow(0 5px 10px rgba(65,117,232,0.28))',
                     }}
                 >
                     {/* ── Antenna + gold spark (behind the head) ── */}

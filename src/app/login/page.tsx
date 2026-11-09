@@ -175,7 +175,7 @@ export default function LoginPage() {
                         <div style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: '#DC2626', fontWeight: 500 }}>{error}</div>
                     )}
                     {info && (
-                        <div style={{ background: 'rgba(69,118,231,0.07)', border: '1px solid rgba(69,118,231,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: '#4576E7', fontWeight: 500 }}>{info}</div>
+                        <div style={{ background: 'rgba(65,117,232,0.07)', border: '1px solid rgba(65,117,232,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, fontSize: 13, color: '#4175e8', fontWeight: 500 }}>{info}</div>
                     )}
 
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -186,7 +186,7 @@ export default function LoginPage() {
                                 onChange={e => setUsername(e.target.value)}
                                 placeholder="you@example.com" required autoComplete="email"
                                 style={inputBase}
-                                onFocus={e => { e.target.style.borderColor = '#4576E7'; e.target.style.boxShadow = '0 0 0 3px rgba(69,118,231,0.12)'; }}
+                                onFocus={e => { e.target.style.borderColor = '#4175e8'; e.target.style.boxShadow = '0 0 0 3px rgba(65,117,232,0.12)'; }}
                                 onBlur={e => { e.target.style.borderColor = '#E8ECF3'; e.target.style.boxShadow = 'none'; }}
                             />
                         </div>
@@ -197,7 +197,7 @@ export default function LoginPage() {
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder="••••••••" required autoComplete="current-password"
                                 style={inputBase}
-                                onFocus={e => { e.target.style.borderColor = '#4576E7'; e.target.style.boxShadow = '0 0 0 3px rgba(69,118,231,0.12)'; }}
+                                onFocus={e => { e.target.style.borderColor = '#4175e8'; e.target.style.boxShadow = '0 0 0 3px rgba(65,117,232,0.12)'; }}
                                 onBlur={e => { e.target.style.borderColor = '#E8ECF3'; e.target.style.boxShadow = 'none'; }}
                             />
                         </div>
@@ -206,14 +206,14 @@ export default function LoginPage() {
                             type="submit" disabled={loading}
                             style={{
                                 padding: '13px',
-                                background: '#4576E7',
+                                background: '#4175e8',
                                 color: '#fff', border: 'none', borderRadius: '10px',
                                 fontSize: '14.5px', fontWeight: 700,
                                 cursor: loading ? 'not-allowed' : 'pointer',
                                 opacity: loading ? 0.85 : 1,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                                 fontFamily: "'Inter', sans-serif",
-                                boxShadow: '0 2px 10px rgba(69,118,231,0.22)',
+                                boxShadow: '0 2px 10px rgba(65,117,232,0.22)',
                                 letterSpacing: '-0.1px',
                             }}
                         >
@@ -230,7 +230,7 @@ export default function LoginPage() {
                     <div style={{ marginTop: 26, padding: '16px 18px', background: '#F8FAFC', border: '1px solid #E4E9F0', borderRadius: 10, textAlign: 'center' }}>
                         <p style={{ margin: 0, fontSize: 14, color: '#6B7280' }}>
                             Don&apos;t have an account?{' '}
-                            <Link href="/register" style={{ color: '#4576E7', textDecoration: 'none', fontWeight: 700 }}>Create one free →</Link>
+                            <Link href="/register" style={{ color: '#4175e8', textDecoration: 'none', fontWeight: 700 }}>Create one free →</Link>
                         </p>
                     </div>
                 </div>

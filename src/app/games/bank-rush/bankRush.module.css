@@ -1,8 +1,8 @@
 .shell {
-    --navy: #1E244E;
-    --blue: #4576E7;
+    --navy: #1b2850;
+    --blue: #4175e8;
     --gold: #E2B043;
-    --ink: #1E244E;
+    --ink: #1b2850;
     --paper: #F7F4EC;
     --sky: #D5E4FF;
     min-height: calc(100vh - 60px);
@@ -111,7 +111,7 @@
     cursor: pointer;
 }
 
-.primary:hover { background: #3A66D0; }
+.primary:hover { background: #315fd1; }
 
 .titleScreen,
 .panel {

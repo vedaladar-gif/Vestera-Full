@@ -33,8 +33,8 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     const isLearnPath = pathname === '/learn' || pathname.startsWith('/learn/');
-    // Classroom workshops open Bank Rush on a shared screen. No student or presenter account.
-    if (pathname === '/games/bank-rush' || pathname.startsWith('/games/bank-rush/')) {
+    // The catalog and classroom Bank Rush are public; other games retain their sign-in rules.
+    if (pathname === '/games' || pathname === '/games/bank-rush' || pathname.startsWith('/games/bank-rush/')) {
         return NextResponse.next();
     }
     const isProtectedApi = protectedApiPaths.some(p => pathname === p || pathname.startsWith(p + '/'));

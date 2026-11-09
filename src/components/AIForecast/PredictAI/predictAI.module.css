@@ -8,17 +8,17 @@
 /* ── Header / version badge (shared across Predict AI sections) ── */
 .headerRow { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
 .titleBlock { min-width: 0; }
-.title { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; color: #20264D; margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
+.title { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 800; color: #1b2850; margin: 0 0 4px; display: flex; align-items: center; gap: 8px; }
 .subtitle { font-size: 13px; color: #8b90b0; font-weight: 600; margin: 0; }
 .versionBadge {
     display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800;
-    color: #3A66D0; background: rgba(15,157,107,0.1); padding: 5px 12px; border-radius: 8px; white-space: nowrap;
+    color: #315fd1; background: rgba(15,157,107,0.1); padding: 5px 12px; border-radius: 8px; white-space: nowrap;
 }
-.versionDot { width: 6px; height: 6px; border-radius: 50%; background: #3A66D0; }
+.versionDot { width: 6px; height: 6px; border-radius: 50%; background: #315fd1; }
 
 /* ── Today's Forecast ── */
 .todayCard {
-    background: linear-gradient(135deg, rgba(15,157,107,0.06), rgba(69,118,231,0.05));
+    background: linear-gradient(135deg, rgba(15,157,107,0.06), rgba(65,117,232,0.05));
     border: 1px solid rgba(15,157,107,0.15); border-radius: 12px; padding: 26px 28px; margin-bottom: 20px;
 }
 .directionRow { display: flex; align-items: center; gap: 16px; margin: 14px 0 10px; }
@@ -26,7 +26,7 @@
     display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter', sans-serif;
     font-size: 30px; font-weight: 800; letter-spacing: -0.5px;
 }
-.directionUp { color: #4576E7; }
+.directionUp { color: #4175e8; }
 .directionDown { color: #E0637A; }
 .directionNeutral { color: #8b90b0; }
 .directionArrow { font-size: 30px; line-height: 1; }
@@ -34,7 +34,7 @@
 .todayStatsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding-top: 16px; border-top: 1px solid rgba(15,157,107,0.12); }
 .todayStat { min-width: 0; }
 .todayStatLabel { font-size: 11px; color: #8b90b0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
-.todayStatValue { font-size: 17px; color: #20264D; font-weight: 800; margin-top: 4px; font-family: 'Inter', sans-serif; }
+.todayStatValue { font-size: 17px; color: #1b2850; font-weight: 800; margin-top: 4px; font-family: 'Inter', sans-serif; }
 
 @media (max-width: 700px) {
     .todayStatsGrid { grid-template-columns: repeat(2, 1fr); }
@@ -42,41 +42,41 @@
 
 /* ── News panel ── */
 .newsList { display: flex; flex-direction: column; gap: 10px; }
-.newsItem { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid #F5F7FA; }
+.newsItem { background: #F8FAFC; border-radius: 14px; padding: 14px 16px; border: 1px solid #f8faff; }
 .newsTopRow { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.newsTitleLink { font-size: 13.5px; font-weight: 700; color: #20264D; text-decoration: none; line-height: 1.4; }
-.newsTitleLink:hover { color: #4576E7; text-decoration: underline; }
+.newsTitleLink { font-size: 13.5px; font-weight: 700; color: #1b2850; text-decoration: none; line-height: 1.4; }
+.newsTitleLink:hover { color: #4175e8; text-decoration: underline; }
 .newsMetaRow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 .newsSource { font-size: 11.5px; color: #8b90b0; font-weight: 700; }
 .newsTime { font-size: 11.5px; color: #8b90b0; font-weight: 600; }
 .badge { font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 8px; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.3px; }
-.badgeEvent { background: rgba(69,118,231,0.1); color: #4576E7; }
+.badgeEvent { background: rgba(65,117,232,0.1); color: #4175e8; }
 .badgeBreaking { background: rgba(224,99,122,0.12); color: #E0637A; }
 .badgeRecent { background: rgba(255,184,76,0.15); color: #b9790c; }
-.badgeStale { background: #F5F7FA; color: #8b90b0; }
-.sentimentPositive { color: #4576E7; font-weight: 800; font-size: 12px; }
+.badgeStale { background: #f8faff; color: #8b90b0; }
+.sentimentPositive { color: #4175e8; font-weight: 800; font-size: 12px; }
 .sentimentNegative { color: #E0637A; font-weight: 800; font-size: 12px; }
 .sentimentNeutral { color: #8b90b0; font-weight: 800; font-size: 12px; }
-.impactBarTrack { height: 5px; background: #F5F7FA; border-radius: 8px; margin-top: 10px; overflow: hidden; }
+.impactBarTrack { height: 5px; background: #f8faff; border-radius: 8px; margin-top: 10px; overflow: hidden; }
 .impactBarFill { height: 100%; border-radius: 8px; }
 .newsEmpty { font-size: 13px; color: #8b90b0; font-weight: 600; padding: 10px 0; }
 
 /* ── Prediction timeline ── */
 .timeline { display: flex; flex-direction: column; gap: 0; }
-.timelineItem { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #F4F6FC; }
+.timelineItem { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f3f6ff; }
 .timelineItem:last-child { border-bottom: none; }
 .timelineDotWrap { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
-.timelineDot { width: 9px; height: 9px; border-radius: 50%; background: #4576E7; flex-shrink: 0; }
-.timelineDotUp { background: #4576E7; }
+.timelineDot { width: 9px; height: 9px; border-radius: 50%; background: #4175e8; flex-shrink: 0; }
+.timelineDotUp { background: #4175e8; }
 .timelineDotDown { background: #E0637A; }
 .timelineContent { min-width: 0; flex: 1; }
 .timelineTime { font-size: 11.5px; color: #8b90b0; font-weight: 700; }
-.timelineNote { font-size: 13px; color: #20264D; font-weight: 600; margin-top: 3px; line-height: 1.5; }
+.timelineNote { font-size: 13px; color: #1b2850; font-weight: 600; margin-top: 3px; line-height: 1.5; }
 .timelineEmpty { font-size: 13px; color: #8b90b0; font-weight: 600; }
 
 /* ── Horizon strip (compact multi-timeframe summary) ── */
 .horizonStrip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-.horizonChip { background: #F8FAFC; border-radius: 12px; padding: 12px 10px; text-align: center; border: 1px solid #F5F7FA; }
+.horizonChip { background: #F8FAFC; border-radius: 12px; padding: 12px 10px; text-align: center; border: 1px solid #f8faff; }
 .horizonChipLabel { font-size: 10.5px; color: #8b90b0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
 .horizonChipValue { font-size: 14px; font-weight: 800; margin-top: 5px; font-family: 'Inter', sans-serif; }
 
@@ -86,13 +86,13 @@
 
 .methodologyNote { font-size: 12px; color: #8b90b0; font-weight: 600; margin: 16px 0 0; line-height: 1.6; }
 .disclosureNote {
-    font-size: 12px; color: #3A66D0; font-weight: 600; margin: 14px 0 0; line-height: 1.6;
+    font-size: 12px; color: #315fd1; font-weight: 600; margin: 14px 0 0; line-height: 1.6;
     background: rgba(15,157,107,0.06); border-radius: 12px; padding: 12px 14px;
 }
 .errorText { font-size: 13px; color: #E0637A; font-weight: 700; }
 .loadingRow { display: flex; align-items: center; gap: 12px; padding: 20px 0; color: #5c628a; font-weight: 700; font-size: 13.5px; }
 .spinner {
-    width: 22px; height: 22px; border: 2.5px solid rgba(15,157,107,0.15); border-top-color: #3A66D0;
+    width: 22px; height: 22px; border: 2.5px solid rgba(15,157,107,0.15); border-top-color: #315fd1;
     border-radius: 50%; animation: predictAiSpin 0.8s linear infinite;
 }
 @keyframes predictAiSpin { to { transform: rotate(360deg); } }

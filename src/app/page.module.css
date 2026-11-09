@@ -7,15 +7,15 @@
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
-    --vt-bg: #EFF2FA;
-    --vt-vblue: #4576E7;
-    --vt-text: #1E244E;
+    --vt-bg: #edf2ff;
+    --vt-vblue: #4175e8;
+    --vt-text: #1b2850;
     --vt-text2: #4E5678;
     --vt-text3: #7B849E;
     --vt-surface: #FFFFFF;
     --vt-border: #D9E0F0;
-    background: #EFF2FA;
-    color: #1E244E;
+    background: #edf2ff;
+    color: #1b2850;
 }
 
 /* ================================================================
@@ -41,13 +41,13 @@
 .auroraBlob1 {
     width: 420px; height: 420px;
     top: -160px; left: -120px;
-    background: radial-gradient(circle, rgba(69,118,231,0.28) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(65,117,232,0.28) 0%, transparent 70%);
     animation: auroraDrift1 16s ease-in-out infinite;
 }
 .auroraBlob2 {
     width: 380px; height: 380px;
     top: 20px; right: -140px;
-    background: radial-gradient(circle, rgba(69,118,231,0.16) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(65,117,232,0.16) 0%, transparent 70%);
     animation: auroraDrift2 20s ease-in-out infinite;
 }
 .auroraBlob3 {
@@ -89,7 +89,7 @@
    ================================================================ */
 .tickerSection {
     width: 100%;
-    background: #1E244E;
+    background: #1b2850;
     overflow: hidden;
     padding: 14px 0;
     border-top: 1px solid rgba(255,255,255,0.06);
@@ -202,7 +202,7 @@
     box-shadow: none;
 }
 .btnPrimary:hover {
-    background: #3A66D0;
+    background: #315fd1;
 }
 
 .btnDemo {
@@ -265,7 +265,7 @@
     top: 0;
     right: 0;
     width: 252px;
-    background: #1E244E;
+    background: #1b2850;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 8px 20px rgba(30,36,78,0.14);
@@ -349,7 +349,7 @@
     top: 168px;
     right: -4px;
     width: 70px; height: 70px;
-    background: #4576E7;
+    background: #4175e8;
     border-radius: 18px;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Baloo 2', sans-serif;
@@ -537,7 +537,7 @@
    ================================================================ */
 .footerSection {
     width: 100%;
-    background: #1E244E;
+    background: #1b2850;
     padding: 80px 24px 64px;
     text-align: center;
     margin-top: auto;
@@ -592,7 +592,7 @@
     border-radius: 8px; border: none; cursor: pointer;
     white-space: nowrap; transition: background 0.18s, transform 0.18s;
 }
-.footerBtn:hover { background: #3A66D0; }
+.footerBtn:hover { background: #315fd1; }
 
 .footerLinks {
     display: flex; align-items: center; gap: 20px;

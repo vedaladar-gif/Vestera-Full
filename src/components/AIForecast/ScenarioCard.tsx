@@ -5,8 +5,8 @@ import type { ScenarioSetData } from './types';
 
 export default function ScenarioCard({ scenarios }: { scenarios: ScenarioSetData }) {
     const rows = [
-        { label: 'Bull Case', color: '#4576E7', data: scenarios.bull },
-        { label: 'Base Case', color: '#4576E7', data: scenarios.base },
+        { label: 'Bull Case', color: '#4175e8', data: scenarios.bull },
+        { label: 'Base Case', color: '#4175e8', data: scenarios.base },
         { label: 'Bear Case', color: '#E0637A', data: scenarios.bear },
     ];
 

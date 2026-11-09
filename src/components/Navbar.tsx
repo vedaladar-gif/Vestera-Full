@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import VesteraLogo from './VesteraLogo';
-import VestaBlob from './VestaBlob';
 import { UserAvatar } from './UserAvatar';
 
 const SELF_NAV = ['/trade', '/learn'];
@@ -63,7 +62,7 @@ export default function Navbar() {
     const close = () => setMobileOpen(false);
 
     const linkStyle = (href: string): React.CSSProperties => ({
-        color: isActive(href) ? '#20264D' : 'var(--vt-text2)',
+        color: isActive(href) ? '#1b2850' : 'var(--vt-text2)',
         fontWeight: isActive(href) ? 700 : 600,
         background: isActive(href) ? 'rgba(76,141,255,0.10)' : 'transparent',
         fontFamily: "'Nunito', 'Plus Jakarta Sans', sans-serif",
@@ -75,7 +74,6 @@ export default function Navbar() {
                 {/* ── Brand: Logo ── */}
                 <Link href="/" className="nav-brand" onClick={close} style={{ gap: 8 }}>
                     <VesteraLogo height={32} />
-                    <VestaBlob size={26} showDot={false} mini color="#4576E7" />
                 </Link>
 
                 {/* ── Desktop links ── */}

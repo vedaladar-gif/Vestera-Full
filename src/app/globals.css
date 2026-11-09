@@ -1,54 +1,54 @@
 /* ============================================================
    VESTERA DESIGN SYSTEM v6 — 2026
    Fintech / financial-education platform
-   Navy #1E244E · blue #4576E7 · background #EFF2FA · white surfaces
+   Navy #1b2850 · blue #4175e8 · background #edf2ff · white surfaces
    Font: Inter
    ============================================================ */
 
 /* ── Shared Brand Tokens ── */
 :root {
   /* Brand — Vestera navy + blue. Green/red stay reserved for market moves. */
-  --brand-from: #4576E7;
-  --brand-to: #1E244E;
-  --brand-grad: linear-gradient(135deg, #6B93F0 0%, #4576E7 100%);
-  --brand-grad2: linear-gradient(135deg, #4576E7 0%, #1E244E 100%);
+  --brand-from: #4175e8;
+  --brand-to: #1b2850;
+  --brand-grad: linear-gradient(135deg, #7297f1 0%, #4175e8 100%);
+  --brand-grad2: linear-gradient(135deg, #4175e8 0%, #1b2850 100%);
 
-  --cta-grad: #4576E7;
-  --cta-grad-hover: #3A66D0;
+  --cta-grad: #4175e8;
+  --cta-grad-hover: #315fd1;
 
-  --outer-bg: #EFF2FA;
+  --outer-bg: #edf2ff;
 
-  --vt-bg: #EFF2FA;
-  --vt-bg2: #E4E9F6;
+  --vt-bg: #edf2ff;
+  --vt-bg2: #dbe6ff;
   --vt-surface: #FFFFFF;
   --vt-surface2: #F7F9FD;
   --vt-input-bg: #FFFFFF;
-  --vt-hover: rgba(69,118,231,0.10);
-  --vt-hover2: rgba(69,118,231,0.05);
+  --vt-hover: rgba(65,117,232,0.10);
+  --vt-hover2: rgba(65,117,232,0.05);
 
   --vt-border: #D9E0F0;
   --vt-border2: rgba(30,36,78,0.08);
   --vt-border3: rgba(30,36,78,0.05);
 
-  --vt-text: #1E244E;
+  --vt-text: #1b2850;
   --vt-text2: #4E5678;
   --vt-text3: #7B849E;
   --vt-text4: #C5CCDC;
 
-  --vt-vblue: #4576E7;
-  --vt-purple: #4576E7;
-  --vt-secondary: #4576E7;
-  --vt-mint: #D6E2FB;
+  --vt-vblue: #4175e8;
+  --vt-purple: #4175e8;
+  --vt-secondary: #4175e8;
+  --vt-mint: #c6d5ff;
   --vt-green: #1C8C5A;
   --vt-red: #C24545;
   --vt-red2: #D46565;
   --vt-yellow: #8A93A8;
   --vt-gold: #8A93A8;
 
-  --vt-navy: #1E244E;
+  --vt-navy: #1b2850;
   --vt-navy-2: #2A3166;
   --vt-navy-hover: #2C3468;
-  --vt-navy-active: rgba(69,118,231,0.28);
+  --vt-navy-active: rgba(65,117,232,0.28);
   --vt-navy-border: rgba(255,255,255,0.10);
   --vt-navy-text: #C5D0EA;
   --vt-navy-text-hover: #E7EDF5;
@@ -82,8 +82,8 @@
   --vt-surface: #111B2D;
   --vt-surface2: #16223A;
   --vt-input-bg: rgba(255,255,255,0.04);
-  --vt-hover: rgba(69,118,231,0.12);
-  --vt-hover2: rgba(69,118,231,0.06);
+  --vt-hover: rgba(65,117,232,0.12);
+  --vt-hover2: rgba(65,117,232,0.06);
   --vt-border: rgba(255,255,255,0.08);
   --vt-border2: rgba(255,255,255,0.06);
   --vt-border3: rgba(255,255,255,0.04);
@@ -91,8 +91,8 @@
   --vt-text2: #9AA7BC;
   --vt-text3: #647085;
   --vt-text4: #303E56;
-  --vt-vblue: #6B93F0;
-  --vt-purple: #6B93F0;
+  --vt-vblue: #7297f1;
+  --vt-purple: #7297f1;
   --vt-mint: #243056;
   --vt-green: #3DDC97;
   --vt-red: #F87171;
@@ -113,24 +113,24 @@
 }
 
 [data-theme="light"] {
-  --outer-bg: #EFF2FA;
-  --vt-bg: #EFF2FA;
-  --vt-bg2: #E4E9F6;
+  --outer-bg: #edf2ff;
+  --vt-bg: #edf2ff;
+  --vt-bg2: #dbe6ff;
   --vt-surface: #FFFFFF;
   --vt-surface2: #F7F9FD;
   --vt-input-bg: #FFFFFF;
-  --vt-hover: rgba(69,118,231,0.10);
-  --vt-hover2: rgba(69,118,231,0.05);
+  --vt-hover: rgba(65,117,232,0.10);
+  --vt-hover2: rgba(65,117,232,0.05);
   --vt-border: #D9E0F0;
   --vt-border2: rgba(30,36,78,0.08);
   --vt-border3: rgba(30,36,78,0.05);
-  --vt-text: #1E244E;
+  --vt-text: #1b2850;
   --vt-text2: #4E5678;
   --vt-text3: #7B849E;
   --vt-text4: #C5CCDC;
-  --vt-vblue: #4576E7;
-  --vt-purple: #4576E7;
-  --vt-mint: #D6E2FB;
+  --vt-vblue: #4175e8;
+  --vt-purple: #4175e8;
+  --vt-mint: #c6d5ff;
   --vt-green: #1C8C5A;
   --vt-red: #C24545;
   --vt-red2: #EF4444;
@@ -200,7 +200,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: radial-gradient(circle, rgba(69,118,231,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(65,117,232,0.06) 1px, transparent 1px);
   background-size: 32px 32px;
   opacity: 0;
 }
@@ -439,14 +439,14 @@ p {
 .btn:active { filter: brightness(0.97); }
 
 .btn-secondary {
-  background: rgba(69,118,231,0.08);
+  background: rgba(65,117,232,0.08);
   color: var(--vt-vblue);
-  border: 1px solid rgba(69,118,231,0.25);
+  border: 1px solid rgba(65,117,232,0.25);
   box-shadow: none;
 }
 .btn-secondary:hover {
-  background: rgba(69,118,231,0.13);
-  border-color: rgba(69,118,231,0.4);
+  background: rgba(65,117,232,0.13);
+  border-color: rgba(65,117,232,0.4);
 }
 
 .btn-ghost {
@@ -457,7 +457,7 @@ p {
 }
 .btn-ghost:hover {
   background: var(--vt-hover);
-  border-color: rgba(69,118,231,0.3);
+  border-color: rgba(65,117,232,0.3);
   color: var(--vt-vblue);
 }
 
@@ -559,7 +559,7 @@ input::placeholder, textarea::placeholder { color: var(--vt-text3); }
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--vt-vblue);
-  box-shadow: 0 0 0 3px rgba(69,118,231,0.14);
+  box-shadow: 0 0 0 3px rgba(65,117,232,0.14);
 }
 
 /* ============================================================
@@ -720,7 +720,7 @@ input:focus, select:focus, textarea:focus {
 }
 .nav-mobile-logout { color: var(--vt-red); }
 .nav-mobile-logout:hover { background: rgba(220,38,38,0.07) !important; color: var(--vt-red) !important; }
-.nav-mobile-cta { background: rgba(69,118,231,0.1); color: var(--vt-vblue); font-weight: 700; }
+.nav-mobile-cta { background: rgba(65,117,232,0.1); color: var(--vt-vblue); font-weight: 700; }
 
 /* ============================================================
    RESPONSIVE
@@ -738,3 +738,11 @@ input:focus, select:focus, textarea:focus {
 @media (max-width: 1180px) {
   .dashnav-links { display: none !important; }
 }
+
+/* Shared navigation from the approved Vestera review. */
+.nav-float-shell{padding:12px 24px;background:rgba(237,242,255,.88);backdrop-filter:blur(18px)}
+.navbar,.navbar.nav-scrolled{width:min(1220px,100%);min-height:66px;height:66px;margin:auto;padding:8px 12px 8px 17px;border:1px solid rgba(27,40,80,.12);border-radius:19px;background:rgba(255,255,255,.94);box-shadow:0 10px 28px rgba(27,40,80,.08)}
+.nav-pill-cta{background:#4175e8;color:#fff!important;border-radius:999px}
+.nav-pill-cta:hover{background:#315fd1}
+@media(max-width:1180px){.nav-float-shell{padding:10px 16px}.navbar,.navbar.nav-scrolled{height:62px;min-height:62px;padding:7px 12px;border-radius:17px}}
+@media(max-width:560px){.nav-float-shell{padding:8px 12px}.navbar,.navbar.nav-scrolled{height:58px;min-height:58px}}

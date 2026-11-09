@@ -495,7 +495,7 @@ function TradingDashboard() {
                     );
                     seriesRef.current = s;
                 } else {
-                    const s = chart.addSeries(lc.LineSeries, { color: '#3A66D0', lineWidth: 2 });
+                    const s = chart.addSeries(lc.LineSeries, { color: '#315fd1', lineWidth: 2 });
                     s.setData(
                         bars.map(b => ({ time: t(b), value: b.close })) as Parameters<typeof s.setData>[0]
                     );
@@ -737,7 +737,7 @@ function TradingDashboard() {
                 <div style={{
                     width: 32, height: 32,
                     border: '2px solid rgba(79,110,247,0.15)',
-                    borderTopColor: '#4576E7',
+                    borderTopColor: '#4175e8',
                     borderRadius: '50%',
                     animation: 'spin 0.8s linear infinite',
                 }} />

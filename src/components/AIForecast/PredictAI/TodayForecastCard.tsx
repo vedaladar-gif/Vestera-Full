@@ -45,7 +45,7 @@ export default function TodayForecastCard({ forecast, symbol, modelVersion }: { 
                 </div>
                 <div className={styles.todayStat}>
                     <div className={styles.todayStatLabel}>Predicted Movement</div>
-                    <div className={styles.todayStatValue} style={{ color: forecast.predictedChangePct >= 0 ? '#4576E7' : '#E0637A' }}>
+                    <div className={styles.todayStatValue} style={{ color: forecast.predictedChangePct >= 0 ? '#4175e8' : '#E0637A' }}>
                         {sign}{forecast.predictedChangePct.toFixed(2)}%
                     </div>
                 </div>

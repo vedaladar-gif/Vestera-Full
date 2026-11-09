@@ -1,6 +1,6 @@
 .page {
     min-height: 100vh;
-    background: #F4F6FC;
+    background: #f3f6ff;
     font-family: 'Nunito', 'Inter', sans-serif;
 }
 
@@ -32,7 +32,7 @@
     align-items: center;
     gap: 8px;
     padding: 16px 32px;
-    background: #4576E7;
+    background: #4175e8;
     color: #fff;
     border: none;
     border-radius: 999px;
@@ -97,7 +97,7 @@
     background: #F8FAFC;
     border: 1.5px solid #E4E9F7;
     border-radius: 12px;
-    color: #20264D;
+    color: #1b2850;
     font-size: 14px;
     font-family: 'Inter', sans-serif;
     outline: none;
@@ -107,8 +107,8 @@
  
 .input:focus,
 .textarea:focus {
-    border-color: #4576E7;
-    box-shadow: 0 0 0 3px rgba(69,118,231,0.12);
+    border-color: #4175e8;
+    box-shadow: 0 0 0 3px rgba(65,117,232,0.12);
 }
  
 .textarea {
@@ -120,7 +120,7 @@
 .submitBtn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4175e8 100%);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -129,7 +129,7 @@
     font-family: 'Inter', sans-serif;
     cursor: pointer;
     transition: filter 0.18s, transform 0.18s;
-    box-shadow: 0 6px 18px rgba(69,118,231,0.3);
+    box-shadow: 0 6px 18px rgba(65,117,232,0.3);
 }
  
 .submitBtn:hover {
@@ -161,7 +161,7 @@
 .successTitle {
     font-size: 17px;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
     margin-bottom: 6px;
 }
  
@@ -198,7 +198,7 @@
     font-family: 'Inter', 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
     text-align: center;
     letter-spacing: -0.02em;
     margin-bottom: 8px;
@@ -227,7 +227,7 @@
 }
  
 .chapterCard {
-    background: #F4F6FC;
+    background: #f3f6ff;
     border-radius: 16px;
     padding: 18px 20px;
     display: flex;
@@ -240,7 +240,7 @@
 /* ── Main / flagship chapter highlight ── */
 .chapterCardMain {
     grid-column: 1 / -1;
-    background: linear-gradient(135deg, rgba(60,167,135,0.10) 0%, rgba(69,118,231,0.06) 100%);
+    background: linear-gradient(135deg, rgba(60,167,135,0.10) 0%, rgba(65,117,232,0.06) 100%);
     border: 1.5px solid rgba(60,167,135,0.35);
     box-shadow: 0 8px 24px rgba(60,167,135,0.14);
     padding-top: 26px;
@@ -250,7 +250,7 @@
     position: absolute;
     top: -11px;
     left: 20px;
-    background: linear-gradient(135deg, #4576E7 0%, #1F6E56 100%);
+    background: linear-gradient(135deg, #4175e8 0%, #1F6E56 100%);
     color: #fff;
     font-size: 11px;
     font-weight: 800;
@@ -264,7 +264,7 @@
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #34D399 0%, #4576E7 100%);
+    background: linear-gradient(135deg, #34D399 0%, #4175e8 100%);
     color: #fff;
     display: flex;
     align-items: center;
@@ -279,7 +279,7 @@
 .chapterName {
     font-size: 14px;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
     margin-bottom: 2px;
 }
  
@@ -304,7 +304,7 @@
  
 /* ── Empty state ── */
 .emptyState {
-    background: #F4F6FC;
+    background: #f3f6ff;
     border: 1px dashed #DDE5F5;
     border-radius: 16px;
     padding: 44px 24px;
@@ -355,7 +355,7 @@
 }
  
 .statValue {
-    color: #20264D;
+    color: #1b2850;
     font-weight: 800;
 }
  
@@ -432,7 +432,7 @@
     height: 52px;
     border-radius: 12px;
     background: #e8eefc;
-    color: #4576e7;
+    color: #4175e8;
     font-size: 17px;
     font-weight: 800;
     letter-spacing: 0.02em;

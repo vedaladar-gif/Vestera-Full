@@ -53,12 +53,12 @@ function useRoll(from: number, to: number, active: boolean, skip: boolean) {
 }
 
 const LOOK: Record<Look, { skin: string; hair: string; shirt: string; style: 'long' | 'short' | 'pigtail' | 'bob' | 'curly' }> = {
-    maya: { skin: '#F6C7A4', hair: '#4A2C17', shirt: '#4576E7', style: 'long' },
+    maya: { skin: '#F6C7A4', hair: '#4A2C17', shirt: '#4175e8', style: 'long' },
     jordan: { skin: '#8D5524', hair: '#1B1B1B', shirt: '#1C8C5A', style: 'short' },
     ava: { skin: '#F3D0B5', hair: '#C45C26', shirt: '#E2B043', style: 'pigtail' },
     emma: { skin: '#E7B48A', hair: '#2A1A12', shirt: '#6E63C6', style: 'bob' },
     leo: { skin: '#C68642', hair: '#5A3A28', shirt: '#2F6F8F', style: 'curly' },
-    sophia: { skin: '#F6C7A4', hair: '#1E244E', shirt: '#C24545', style: 'long' },
+    sophia: { skin: '#F6C7A4', hair: '#1b2850', shirt: '#C24545', style: 'long' },
 };
 
 function Person({ look, mood }: { look: Look; mood: 'wait' | 'happy' | 'oops' }) {
@@ -78,11 +78,11 @@ function Person({ look, mood }: { look: Look; mood: 'wait' | 'happy' | 'oops' })
             <path d="M36 100h48v48a12 12 0 0 1-12 12H48a12 12 0 0 1-12-12z" fill={p.shirt} />
             <circle cx="60" cy="70" r="28" fill={p.skin} />
             {hair}
-            <circle cx="50" cy="70" r="3" fill="#1E244E" />
-            <circle cx="70" cy="70" r="3" fill="#1E244E" />
+            <circle cx="50" cy="70" r="3" fill="#1b2850" />
+            <circle cx="70" cy="70" r="3" fill="#1b2850" />
             {mood === 'oops'
-                ? <path d="M50 86q10-8 20 0" fill="none" stroke="#1E244E" strokeWidth="2.5" strokeLinecap="round" />
-                : <path d="M50 84q10 10 20 0" fill="none" stroke="#1E244E" strokeWidth="2.5" strokeLinecap="round" />}
+                ? <path d="M50 86q10-8 20 0" fill="none" stroke="#1b2850" strokeWidth="2.5" strokeLinecap="round" />
+                : <path d="M50 84q10 10 20 0" fill="none" stroke="#1b2850" strokeWidth="2.5" strokeLinecap="round" />}
         </svg>
     );
 }
@@ -93,8 +93,8 @@ function Muncher({ pose }: { pose: 'peek' | 'taunt' | 'gone' }) {
             <ellipse cx="70" cy="78" rx="52" ry="36" fill="#5C4D92" />
             <circle cx="48" cy="62" r="8" fill="#fff" />
             <circle cx="92" cy="62" r="8" fill="#fff" />
-            <circle cx="50" cy="64" r="3.5" fill="#1E244E" />
-            <circle cx="94" cy="64" r="3.5" fill="#1E244E" />
+            <circle cx="50" cy="64" r="3.5" fill="#1b2850" />
+            <circle cx="94" cy="64" r="3.5" fill="#1b2850" />
             <path d="M40 86h60l-8 16H48z" fill="#2A2348" />
             <circle cx="52" cy="96" r="6" fill="#E2B043" />
             <circle cx="70" cy="100" r="6" fill="#F6D56B" />

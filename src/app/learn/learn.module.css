@@ -64,7 +64,7 @@
     font-weight: 800;
     font-size: 13px;
     color: #fff;
-    background: #4576E7;
+    background: #4175e8;
     cursor: pointer;
 }
 
@@ -171,7 +171,7 @@
 }
 
 .continueCard {
-    background: linear-gradient(135deg, rgba(76, 141, 255, 0.12), rgba(124, 224, 198, 0.12));
+    background: linear-gradient(135deg, #e0eaff, #f3f6ff);
     border: 1px solid var(--vt-border);
     border-radius: 12px;
     padding: 22px;
@@ -259,8 +259,8 @@
 .searchHit:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .reviewBanner {
-    background: rgba(69, 118, 231, 0.1);
-    border: 1px solid rgba(69, 118, 231, 0.28);
+    background: rgba(65, 117, 232, 0.1);
+    border: 1px solid rgba(65, 117, 232, 0.28);
     border-radius: 16px;
     padding: 14px 16px;
     margin-bottom: 18px;
@@ -301,12 +301,12 @@
     z-index: 1;
 }
 
-.dotDone { background: #4576E7; border-color: #4576E7; color: #fff; }
+.dotDone { background: #4175e8; border-color: #4175e8; color: #fff; }
 .dotCurrent {
     background: var(--vt-vblue);
     border-color: var(--vt-vblue);
     color: #fff;
-    box-shadow: 0 0 0 6px rgba(69, 118, 231, 0.18);
+    box-shadow: 0 0 0 6px rgba(65, 117, 232, 0.18);
 }
 
 .line {
@@ -400,7 +400,7 @@
     cursor: pointer;
 }
 
-.optOn { border-color: var(--vt-vblue); background: rgba(69, 118, 231, 0.1); }
+.optOn { border-color: var(--vt-vblue); background: rgba(65, 117, 232, 0.1); }
 .optGood { border-color: #1C8C5A; background: rgba(28, 140, 90, 0.12); }
 .optBad { border-color: var(--vt-red); background: rgba(194, 69, 69, 0.1); }
 
@@ -520,7 +520,7 @@
 .xpBurst {
     font-family: 'Inter', sans-serif;
     font-size: 2rem;
-    color: #4576E7;
+    color: #4175e8;
     margin: 8px 0;
 }
 
@@ -534,7 +534,7 @@
 
 .barFill {
     height: 100%;
-    background: #4576E7;
+    background: #4175e8;
     transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -582,3 +582,27 @@
 @media (max-width: 560px) {
     .welcome h1 { font-size: 1.55rem; }
 }
+
+/* Approved learning dashboard direction: spacious cards and one blue accent. */
+.content:has(.statGrid){max-width:1180px;padding-top:52px}
+.welcome{margin-bottom:28px}
+.welcome h1{margin-top:9px;font:500 clamp(42px,4vw,62px)/1.04 Georgia,serif;letter-spacing:-.055em;color:#1b2850}
+.journeyKicker{color:#4175e8;letter-spacing:.13em}
+.statGrid{gap:14px;margin:0 0 25px}
+.statCard{min-height:122px;padding:22px 24px;border-color:#dbe6ff;border-radius:19px;background:#fff}
+.statCard span{color:#7a87a3;font-size:11px;letter-spacing:.09em;text-transform:uppercase}
+.statCard b{margin-top:13px;font:500 30px Georgia,serif;letter-spacing:-.04em;color:#1b2850}
+.journeyCard{padding:26px;border-color:#dbe6ff;border-radius:22px;box-shadow:0 10px 32px rgba(27,40,80,.05)}
+.continueCard{min-height:235px;padding:32px;border:0;border-radius:23px;background:linear-gradient(125deg,#dbe6ff,#edf2ff 70%,#f8faff)}
+.continueCard h2{margin:10px 0;font:500 34px Georgia,serif;letter-spacing:-.04em}
+.continueCard p{font-size:17px}
+.primaryBtn{border-radius:999px;background:#4175e8;color:#fff}
+.primaryBtn:hover{background:#315fd1}
+.searchWrap{margin:28px 0 34px}
+.searchInput{min-height:51px;border-radius:13px}
+.pathHead{margin:0 0 18px;font:500 29px Georgia,serif;letter-spacing:-.03em}
+.nodeCard{min-height:83px;padding:17px 20px;border-color:#dbe6ff;border-radius:15px}
+.nodeCardCurrent{border-color:#4175e8;background:#f3f6ff}
+.nodeCard h3{font-size:18px;font-weight:700}
+@media(max-width:800px){.content:has(.statGrid){padding:28px 16px 80px}.statCard{min-height:105px;padding:17px}.statCard b{font-size:25px}.continueCard{min-height:0;padding:25px}.welcome h1{font-size:44px}}
+@media(max-width:560px){.welcome h1{font-size:38px}.statGrid{gap:9px}.statCard span{font-size:9px}.statCard b{font-size:21px}.continueCard h2{font-size:28px}}

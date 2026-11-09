@@ -1,9 +1,9 @@
 .dashWrap {
     min-height: 100vh;
-    background: #F5F7FA;
+    background: #f8faff;
     font-family: 'Inter', sans-serif;
     position: relative;
-    color: #20264D;
+    color: #1b2850;
 }
 
 /* Ambient glow blobs — disabled in redesign */
@@ -145,9 +145,9 @@
     margin: 2px 4px;
     width: calc(100% - 8px);
 }
-.stockItem:hover { background: #F4F6FC; }
+.stockItem:hover { background: #f3f6ff; }
 .stockItemActive {
-    background: #F4F6FC !important;
+    background: #f3f6ff !important;
 }
 .stockItemActive::before { display: none; }
 .stockItemLeft { flex: 1; min-width: 0; }
@@ -155,11 +155,11 @@
     display: block;
     font-size: 13px;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
     letter-spacing: -0.2px;
     line-height: 1.2;
 }
-.stockItemActive .stockSym { color: #20264D; }
+.stockItemActive .stockSym { color: #1b2850; }
 .stockName {
     display: block;
     font-size: 11px;
@@ -175,7 +175,7 @@
     display: block;
     font-size: 13px;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.2px;
     line-height: 1.2;
@@ -233,14 +233,14 @@
     font-family: 'Inter', sans-serif;
     font-size: 24px;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
     letter-spacing: -0.5px;
 }
 .searchBox { position: relative; z-index: 60; }
 .searchInput,
 .searchInputWide {
     padding: 10px 14px;
-    background: #F4F6FC;
+    background: #f3f6ff;
     border: none;
     border-radius: 10px;
     color: #8b90b0;
@@ -258,9 +258,9 @@
 .searchInput:focus,
 .searchInputWide:focus {
     outline: none;
-    border-color: #4576E7;
-    background: #F5F7FA;
-    box-shadow: 0 0 0 3px rgba(69,118,231,0.1);
+    border-color: #4175e8;
+    background: #f8faff;
+    box-shadow: 0 0 0 3px rgba(65,117,232,0.1);
 }
 .searchInputWide:focus {
     width: min(360px, 42vw);
@@ -320,11 +320,11 @@
 }
 .assetSearchRow:last-child { border-bottom: none; }
 .assetSearchRow:hover {
-    background: rgba(69,118,231,0.08);
+    background: rgba(65,117,232,0.08);
 }
 .assetSearchRowHighlighted {
-    background: rgba(69,118,231,0.14);
-    outline: 1px solid rgba(69,118,231,0.25);
+    background: rgba(65,117,232,0.14);
+    outline: 1px solid rgba(65,117,232,0.25);
     outline-offset: -1px;
 }
 .assetSearchRowLeft {
@@ -377,7 +377,7 @@
     font-family: inherit;
     transition: background 0.2s;
 }
-.searchItem:hover { background: rgba(69,118,231,0.12); color: #34D399; }
+.searchItem:hover { background: rgba(65,117,232,0.12); color: #34D399; }
 .priceDisplay {
     font-family: 'Inter', 'Inter', sans-serif;
     font-size: 20px;
@@ -411,8 +411,8 @@
     transition: all 0.2s;
     font-family: inherit;
 }
-.ctrlBtn.active { background: #20264D; color: #fff; }
-.ctrlBtn:hover { color: #20264D; }
+.ctrlBtn.active { background: #1b2850; color: #fff; }
+.ctrlBtn:hover { color: #1b2850; }
 
 /* ── OHLC info bar ───────────────────────────────────────── */
 .ohlcBar {
@@ -427,8 +427,8 @@
     transition: background 0.2s;
 }
 .ohlcBarLocked {
-    background: rgba(69,118,231,0.06);
-    border-bottom-color: rgba(69,118,231,0.2);
+    background: rgba(65,117,232,0.06);
+    border-bottom-color: rgba(65,117,232,0.2);
 }
 .ohlcEmpty {
     font-size: 11.5px;
@@ -464,19 +464,19 @@
 .ohlcLockBtn {
     margin-left: auto;
     background: none;
-    border: 1px solid rgba(69,118,231,0.25);
+    border: 1px solid rgba(65,117,232,0.25);
     padding: 3px 10px;
     border-radius: 6px;
     font-size: 11px;
     font-weight: 600;
-    color: #4576E7;
+    color: #4175e8;
     cursor: pointer;
     font-family: inherit;
-    background: rgba(69,118,231,0.06);
+    background: rgba(65,117,232,0.06);
     transition: background 0.15s;
     white-space: nowrap;
 }
-.ohlcLockBtn:hover { background: rgba(69,118,231,0.14); }
+.ohlcLockBtn:hover { background: rgba(65,117,232,0.14); }
 .ohlcHint {
     margin-left: auto;
     font-size: 11px;
@@ -522,13 +522,13 @@
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 700;
-    color: #20264D;
+    color: #1b2850;
     letter-spacing: -0.2px;
 }
 .portfolioGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .portfolioItem {
     padding: 10px;
-    background: #F4F6FC;
+    background: #f3f6ff;
     border: none;
     border-radius: 10px;
     text-align: center;
@@ -547,7 +547,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 800;
-    color: #20264D;
+    color: #1b2850;
 }
 .tradeForm { display: flex; flex-direction: column; gap: 12px; }
 .tradeLabel {
@@ -562,18 +562,18 @@
 }
 .tradeInput {
     padding: 10px;
-    background: #F4F6FC;
+    background: #f3f6ff;
     border: none;
     border-radius: 10px;
-    color: #20264D;
+    color: #1b2850;
     font-size: 15px;
     font-family: inherit;
     transition: all 0.2s;
 }
-.tradeInput:focus { outline: none; border: 1.5px solid #4576E7; box-shadow: 0 0 0 3px rgba(69,118,231,0.1); }
+.tradeInput:focus { outline: none; border: 1.5px solid #4175e8; box-shadow: 0 0 0 3px rgba(65,117,232,0.1); }
 .tradeTotal { font-size: 13px; color: #8b90b0; text-align: right; }
 .tradeTotal strong {
-    color: #20264D;
+    color: #1b2850;
     font-family: 'Inter', sans-serif;
     font-size: 16px;
 }
@@ -590,7 +590,7 @@
     letter-spacing: 0.2px;
 }
 .buyBtn {
-    background: #4576E7;
+    background: #4175e8;
     color: #fff;
 }
 .buyBtn:hover { }
@@ -698,7 +698,7 @@
     color: var(--vt-text2);
     font-variant-numeric: tabular-nums;
 }
-.holdingValue { font-weight: 600; color: #4576E7; }
+.holdingValue { font-weight: 600; color: #4175e8; }
 /* Recent trades: single-line row (holdings use .holdingRow as stacked layout) */
 .recentTradeRow {
     display: flex;
@@ -730,22 +730,22 @@
     transition: border-color 0.2s;
     flex-shrink: 0;
 }
-.alertSelect:focus { outline: none; border-color: #4576E7; }
+.alertSelect:focus { outline: none; border-color: #4175e8; }
 .alertPriceInput { flex: 1; min-width: 0; }
 .alertBtn {
     width: 100%;
     padding: 11px;
-    background: rgba(69,118,231,0.1);
-    border: 1px solid rgba(69,118,231,0.2);
+    background: rgba(65,117,232,0.1);
+    border: 1px solid rgba(65,117,232,0.2);
     border-radius: 9px;
-    color: #4576E7;
+    color: #4175e8;
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
     transition: background 0.2s, transform 0.15s;
 }
-.alertBtn:hover:not(:disabled) { background: rgba(69,118,231,0.18); }
+.alertBtn:hover:not(:disabled) { background: rgba(65,117,232,0.18); }
 .alertBtn:disabled { opacity: 0.6; cursor: default; }
 .alertsList { margin-top: 14px; border-top: 1px solid var(--vt-border2); padding-top: 12px; }
 .alertsLabel {

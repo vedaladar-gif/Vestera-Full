@@ -59,7 +59,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
     const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
 
     const linkStyle = (href: string): React.CSSProperties => ({
-        color: isActive(href) ? '#20264D' : '#5c628a',
+        color: isActive(href) ? '#1b2850' : '#5c628a',
         fontWeight: isActive(href) ? 700 : 600,
         background: 'transparent',
     });
@@ -126,7 +126,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                 style={{
                                     textDecoration: 'none', fontSize: 14, fontWeight: 700,
                                     padding: '8px 18px', borderRadius: 8,
-                                    background: '#4576E7', color: '#fff', transition: 'filter 0.2s',
+                                    background: '#4175e8', color: '#fff', transition: 'filter 0.2s',
                                 }}
                             >
                                 Log In / Sign Up
@@ -154,7 +154,7 @@ export default function DashNav({ onLogout, previewMode, onExitPreview }: DashNa
                                     display: 'flex', alignItems: 'center', gap: 7,
                                     padding: '5px 10px 5px 6px', borderRadius: 10,
                                     textDecoration: 'none', transition: 'background 0.2s',
-                                    background: isActive('/settings') ? '#F4F6FC' : 'transparent',
+                                    background: isActive('/settings') ? '#f3f6ff' : 'transparent',
                                 }}
                             >
                                 <div style={{

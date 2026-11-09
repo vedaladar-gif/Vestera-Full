@@ -1,6 +1,6 @@
 .page {
     min-height: 100vh;
-    background: #F4F6FC;
+    background: #f3f6ff;
     font-family: 'Nunito', 'Inter', sans-serif;
 }
 
@@ -84,8 +84,8 @@
 
 .input:focus,
 .textarea:focus {
-    border-color: #4576E7;
-    box-shadow: 0 0 0 3px rgba(69, 118, 231, 0.12);
+    border-color: #4175e8;
+    box-shadow: 0 0 0 3px rgba(65, 117, 232, 0.12);
 }
 
 .textarea {
@@ -116,7 +116,7 @@
 .submitBtn {
     flex-shrink: 0;
     padding: 16px 36px;
-    background: #4576E7;
+    background: #4175e8;
     color: #fff;
     border: none;
     border-radius: 999px;
@@ -221,14 +221,14 @@
 }
 
 .partnerCard:hover {
-    border-color: #4576E7;
+    border-color: #4175e8;
 }
 
 .partnerLogo {
     width: 56px;
     height: 56px;
     border-radius: 14px;
-    background: #1E244E;
+    background: #1b2850;
     color: #fff;
     display: flex;
     align-items: center;

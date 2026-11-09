@@ -1,438 +1,247 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import styles from './page.module.css';
-import VestaBlob from '@/components/VestaBlob';
-import { useMarketStatus } from '@/hooks/useMarketStatus';
-import { enterGuestMode } from '@/lib/guestMode';
+import { useEffect, useState } from 'react';
 import { startTour } from '@/lib/onboarding';
+import './approved-home.css';
 
-/* ── types & formatters ── */
-interface NvdaData { price: number; change: number; changePct: number; }
-const fmt$ = (n: number) => `$${n.toFixed(2)}`;
-const fmtPortfolio = (n: number) =>
-    '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const markup = `
+<main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-art" role="img" aria-label="Students exploring a colorful town filled with places to learn about money"></div>
+        <div class="hero-shade"></div>
+        <div class="hero-content page-width">
+          <div class="eyebrow"><span class="spark">✦</span> Money skills for real life</div>
+          <h1 id="hero-title">Grow smart with <em>money.</em></h1>
+          <p class="hero-copy">Learn how money works through stories, challenges, and games built for curious minds—not finance experts.</p>
+          <div class="hero-actions">
+            <a class="primary-button" href="/learn">Start exploring <span aria-hidden="true">→</span></a>
+            <button class="watch-button" type="button" data-scroll="#path">
+              <span class="play" aria-hidden="true">▶</span>
+              See how it works
+            </button>
+          </div>
+          <button class="demo-link" type="button" data-demo-tour>Try the guided trading demo →</button>
+          <div class="proof">
+            <div class="avatars" aria-hidden="true">
+              <span>AM</span><span>JL</span><span>SK</span>
+            </div>
+            <p><strong>Built for real decisions</strong><br />Made for every learner</p>
+          </div>
+        </div>
 
-/* ── content ── */
-const VESTA_PROMPTS = [
-    'Quiz me on how P/E ratios work',
-    'Explain why this stock went up today',
-    'Help me build my first practice portfolio',
-    'Strategies for spotting a good company',
-    'Show me a beginner trade to try',
-];
+        <aside class="weekly-card" aria-label="Weekly learning progress">
+          <div class="weekly-head">
+            <span>Example week</span>
+            <span class="streak">🔥 4 day streak</span>
+          </div>
+          <div class="weekly-score">
+            <strong>3</strong><span>of 5<br />missions</span>
+          </div>
+          <div class="progress-track"><i></i></div>
+          <div class="next-up">
+            <span class="next-icon">$</span>
+            <span><small>Up next</small><strong>Build a smart budget</strong></span>
+            <span aria-hidden="true">→</span>
+          </div>
+        </aside>
+      </section>
 
-const TICKER_TAPE = [
-    { sym: 'AAPL', name: 'Apple', pct: 1.24 },
-    { sym: 'TSLA', name: 'Tesla', pct: -2.08 },
-    { sym: 'NVDA', name: 'NVIDIA', pct: 4.03 },
-    { sym: 'DIS', name: 'Disney', pct: 0.62 },
-    { sym: 'GOOGL', name: 'Alphabet', pct: 0.95 },
-    { sym: 'AMZN', name: 'Amazon', pct: -0.41 },
-    { sym: 'NFLX', name: 'Netflix', pct: 1.87 },
-    { sym: 'RBLX', name: 'Roblox', pct: 3.12 },
-    { sym: 'MSFT', name: 'Microsoft', pct: 0.58 },
-    { sym: 'COIN', name: 'Coinbase', pct: -1.35 },
-];
+      <section class="trust-strip" aria-label="Vestera learning benefits">
+        <div class="page-width trust-grid">
+          <p>One learning world.<br /><strong>Skills that grow with you.</strong></p>
+          <div><span>01</span><strong>Learn it</strong><small>Short, clear lessons</small></div>
+          <div><span>02</span><strong>Try it</strong><small>Decisions that matter</small></div>
+          <div><span>03</span><strong>Play it</strong><small>Games with a purpose</small></div>
+        </div>
+      </section>
 
-const FAQ_ITEMS = [
-    { q: 'Is any of this real money?', a: 'Never. Every trade uses your $100,000 of practice cash. Prices are real, risk is zero.' },
-    { q: 'What ages is Vestera for?', a: 'Vestera is designed for students aged 10–18, but anyone curious about investing can learn here.' },
-    { q: 'Do I need a bank account or card?', a: 'No. There\'s no real money involved. You start with virtual $100,000 from day one.' },
-    { q: 'Who is Vesta?', a: 'Vesta is your AI investing coach — she explains the market in plain English, no jargon.' },
-    { q: 'Can parents keep an eye on progress?', a: 'Yes! Parents can view their child\'s portfolio, trades, and lesson progress from the same account.' },
-];
+      <section class="learning-section page-width" id="learn">
+        <div class="section-kicker"><span>01</span> Your learning world</div>
+        <div class="section-heading">
+          <h2>Learn by making<br /><em>real choices.</em></h2>
+          <p>Every path turns a big money idea into a story you can understand, a choice you can make, and a skill you can use.</p>
+        </div>
+
+        <div class="lesson-grid" id="path">
+          <article class="lesson-card sky">
+            <div class="card-top"><span>Start here</span><span>6 lessons</span></div>
+            <div class="lesson-art wallet-art" aria-hidden="true">
+              <div class="money-in-card">
+                <span>Money in</span>
+                <strong>+$20</strong>
+                <small>Weekend job</small>
+              </div>
+              <div class="flow-branch"><i></i><b></b><b></b></div>
+              <div class="money-choice save-choice">
+                <span><i>↓</i> Save</span>
+                <strong>$8</strong>
+                <small>Future goal</small>
+              </div>
+              <div class="money-choice spend-choice">
+                <span><i>→</i> Spend</span>
+                <strong>$12</strong>
+                <small>Today</small>
+              </div>
+              <div class="money-rule">Every dollar has a job <span>✓</span></div>
+            </div>
+            <div class="card-copy">
+              <span class="number">01</span>
+              <h3>Money basics</h3>
+              <p>Earn, save, spend, and understand where money goes.</p>
+              <a href="/learn">Explore the path <span>→</span></a>
+            </div>
+          </article>
+
+          <article class="lesson-card green">
+            <div class="card-top"><span>Next step</span><span>8 lessons</span></div>
+            <div class="lesson-art goal-art" aria-hidden="true">
+              <div class="goal-summary">
+                <span>Saving for</span>
+                <strong>My first big goal</strong>
+                <div class="goal-meter"><i></i></div>
+                <small><b>$84</b> of $120 saved</small>
+              </div>
+              <div class="goal-jar">
+                <div class="jar-lid"></div>
+                <div class="jar-shine"></div>
+                <div class="jar-fill"><i>$</i><i>¢</i><i>$</i><i>¢</i></div>
+                <strong>70%</strong>
+              </div>
+              <div class="milestone-line"><i></i><span class="done">✓</span><span class="done">✓</span><span>★</span></div>
+            </div>
+            <div class="card-copy">
+              <span class="number">02</span>
+              <h3>Goals & saving</h3>
+              <p>Make a plan, handle tradeoffs, and reach something meaningful.</p>
+              <a href="/learn">Explore the path <span>→</span></a>
+            </div>
+          </article>
+
+          <article class="lesson-card gold">
+            <div class="card-top"><span>Level up</span><span>7 lessons</span></div>
+            <div class="lesson-art growth-art" aria-hidden="true">
+              <div class="growth-dashboard">
+                <div class="growth-heading"><span>Compound growth</span><b>↗ 18%</b></div>
+                <svg viewBox="0 0 300 125" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#4175e8" stop-opacity=".38" />
+                      <stop offset="1" stop-color="#4175e8" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path class="growth-area" d="M0,112 C42,105 54,92 82,93 C116,94 121,70 155,68 C191,65 194,48 226,43 C255,38 268,17 300,8 L300,125 L0,125 Z" />
+                  <path class="growth-line" d="M0,112 C42,105 54,92 82,93 C116,94 121,70 155,68 C191,65 194,48 226,43 C255,38 268,17 300,8" />
+                  <circle cx="82" cy="93" r="4" /><circle cx="155" cy="68" r="4" /><circle cx="226" cy="43" r="4" /><circle cx="300" cy="8" r="5" />
+                </svg>
+                <div class="growth-years"><span>Today</span><span>Year 5</span><span>Year 10</span></div>
+              </div>
+              <div class="growth-coins"><span><i></i></span><span><i></i><i></i></span><span><i></i><i></i><i></i></span></div>
+            </div>
+            <div class="card-copy">
+              <span class="number">03</span>
+              <h3>Growing money</h3>
+              <p>Meet investing, risk, and the quiet power of time.</p>
+              <a href="/learn">Explore the path <span>→</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="game-section" id="games">
+        <div class="page-width game-grid">
+          <div class="game-copy">
+            <div class="section-kicker light"><span>02</span> Games that teach</div>
+            <h2>Make the call.<br /><em>See what happens.</em></h2>
+            <p>Vestera games turn financial choices into missions. The answer is not always obvious—and that is the point.</p>
+            <a class="cream-button" href="/games">Enter the arcade <span>→</span></a>
+          </div>
+
+          <div class="game-browser" id="game-preview">
+            <div class="browser-bar"><i></i><i></i><i></i><span>vestera / games</span></div>
+            <div class="game-screen">
+              <div class="game-score"><span>LEVEL 2</span><strong>720 <small>XP</small></strong></div>
+              <div class="game-title"><small>Bank Rush</small><strong>Which account<br />should Emma use?</strong></div>
+              <div class="account-row">
+                <button type="button" class="account active"><span>Everyday</span><strong>$39</strong><small>For spending</small></button>
+                <button type="button" class="account"><span>Savings</span><strong>$85</strong><small>For later</small></button>
+              </div>
+              <div class="game-footer"><span>Think about what the money is for.</span><a href="/games/bank-rush" class="game-play-link">Play Bank Rush →</a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="progress-section page-width" id="progress">
+        <div class="progress-intro">
+          <div class="section-kicker"><span>03</span> Progress you can feel</div>
+          <h2>A path that grows<br /><em>with every win.</em></h2>
+          <p>No confusing charts. Students see the skill they gained, why it matters, and what they are ready to try next.</p>
+        </div>
+
+        <div class="progress-panel">
+          <div class="profile-line">
+            <div class="profile-avatar">K</div>
+            <div><small>Example learning path</small><strong>Money Explorer</strong></div>
+            <span class="level-chip">Level 4</span>
+          </div>
+          <div class="skill-ring-wrap">
+            <div class="skill-ring"><span><strong>68%</strong>complete</span></div>
+            <div class="skill-copy">
+              <small>Strongest skill</small>
+              <strong>Smart spending</strong>
+              <p>You compare choices before you buy.</p>
+            </div>
+          </div>
+          <div class="skill-bars">
+            <div><span>Saving</span><i><b style="width: 82%"></b></i><strong>82</strong></div>
+            <div><span>Budgeting</span><i><b style="width: 66%"></b></i><strong>66</strong></div>
+            <div><span>Investing</span><i><b style="width: 41%"></b></i><strong>41</strong></div>
+          </div>
+          <a class="panel-button" href="/stats">View full progress <span>↗</span></a>
+        </div>
+      </section>
+
+      <section class="family-section" id="families">
+        <div class="page-width family-card">
+          <div class="family-copy">
+            <span class="mini-label">For families & educators</span>
+            <h2>Money conversations<br />start right here.</h2>
+            <p>Give young people a safe place to practice before the choices become real.</p>
+            <a href="/partners">Bring Vestera home <span>→</span></a>
+          </div>
+          <div class="family-quote">
+            <span class="quote-mark">✦</span>
+            <p>Practice together, then talk through the choices that matter.</p>
+            <div><strong>For families</strong><span>A shared starting point</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+`;
 
 export default function Home() {
-    const router = useRouter();
-    const [authenticated, setAuthenticated] = useState(false);
-    const [portfolioData, setPortfolioData] = useState<{ pl: number; pct: number; cash: number; portfolio_value: number } | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [nvdaData, setNvdaData] = useState<NvdaData | null>(null);
-    const [priceColor, setPriceColor] = useState('#fff');
-    const prevPrice = useRef(0);
-    const marketStatus = useMarketStatus();
-
-    const [vestaOpen, setVestaOpen] = useState<number | null>(null);
-    const [faqOpen, setFaqOpen] = useState<number | null>(0);
-    const [vestaInput, setVestaInput] = useState('');
-    const [emailInput, setEmailInput] = useState('');
-
-    /* auth */
-    useEffect(() => {
-        fetch('/api/auth/me', { credentials: 'same-origin' })
-            .then(r => r.json())
-            .then(async d => {
-                setAuthenticated(d.authenticated);
-                if (d.authenticated) {
-                    const h = await fetch('/api/holdings').then(r => r.json());
-                    setPortfolioData(h);
-                }
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
-    }, []);
-
-    /* NVDA */
-    useEffect(() => {
-        let alive = true;
-        const go = async () => {
-            try {
-                const d: NvdaData = await fetch('/api/quote/NVDA').then(r => r.json());
-                if (!alive) return;
-                if (prevPrice.current && d.price !== prevPrice.current)
-                    setPriceColor(d.price > prevPrice.current ? 'var(--vt-green)' : 'var(--vt-red)');
-                setTimeout(() => { if (alive) setPriceColor('#fff'); }, 700);
-                prevPrice.current = d.price;
-                setNvdaData(d);
-            } catch { /* ignore */ }
-        };
-        go();
-        const id = setInterval(go, 30_000);
-        return () => { alive = false; clearInterval(id); };
-    }, []);
-
-    const pl = portfolioData?.pl ?? 0;
-    const pct = portfolioData?.pct ?? 0;
-    const isUp = pl >= 0;
-    const total = authenticated && portfolioData
-        ? (portfolioData.portfolio_value ?? 0) + (portfolioData.cash ?? 0)
-        : 103_240;
-
-    /* count-up animation for the portfolio number */
-    const [displayTotal, setDisplayTotal] = useState(0);
-    useEffect(() => {
-        let raf: number;
-        const startTime = performance.now();
-        const duration = 1100;
-        const tick = (now: number) => {
-            const p = Math.min((now - startTime) / duration, 1);
-            const eased = 1 - Math.pow(1 - p, 3);
-            setDisplayTotal(total * eased);
-            if (p < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-        return () => cancelAnimationFrame(raf);
-    }, [total]);
-
-    const openVesta = (msg: string) =>
-        window.dispatchEvent(new CustomEvent('openVestaChat', { detail: { message: msg } }));
-
-    const handleVestaSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (vestaInput.trim()) { openVesta(vestaInput.trim()); setVestaInput(''); }
-    };
-
-    const handleEmailSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        router.push(`/register${emailInput ? `?email=${encodeURIComponent(emailInput)}` : ''}`);
-    };
-
-    /* Launch the no-signup demo + guided tutorial (starts on the trade page) */
-    const [demoLoading, setDemoLoading] = useState(false);
-    const startDemoTour = async () => {
+  const [demoLoading, setDemoLoading] = useState(false);
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.closest('[data-demo-tour]')) {
         if (demoLoading) return;
         setDemoLoading(true);
-        try {
-            await fetch('/api/auth/demo-login', { method: 'POST', credentials: 'same-origin' });
-        } catch { /* ignore — tutorial still runs */ }
-        startTour();
-        window.location.assign('/trade'); // load the Market as the demo user, then the tutorial begins
+        void fetch('/api/auth/demo-login', { method: 'POST', credentials: 'same-origin' })
+          .catch(() => undefined)
+          .finally(() => { startTour(); window.location.assign('/trade'); });
+        return;
+      }
+      const button = target.closest<HTMLButtonElement>('[data-scroll]');
+      if (button) document.querySelector(button.dataset.scroll || '')?.scrollIntoView({ behavior: 'smooth' });
+      const account = target.closest<HTMLButtonElement>('.account');
+      if (account) {
+        account.parentElement?.querySelectorAll('.account').forEach(item => item.classList.remove('active'));
+        account.classList.add('active');
+      }
     };
-
-    /* ── render ── */
-    return (
-        <div className={styles.page}>
-
-            {/* ════════════════════════════
-                HERO
-            ════════════════════════════ */}
-            <section className={styles.heroSection}>
-                <div className={styles.heroInner}>
-
-                    {/* LEFT */}
-                    <motion.div
-                        className={styles.heroLeft}
-                        initial="hidden"
-                        animate="show"
-                        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
-                    >
-                        <motion.h1 className={styles.heroTitle}
-                            variants={{ hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16,1,0.3,1] } } }}
-                        >
-                            Stocks made simple.<br />
-                            <span className={styles.heroBlue}>Vesta explains it all.</span>
-                        </motion.h1>
-
-                        <motion.p className={styles.heroSub}
-                            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.65, delay: 0.1 } } }}
-                        >
-                            Trade real companies with $100,000 in play money.
-                            Whenever you&apos;re stuck, Vesta breaks it down in plain
-                            English — no real risk, real understanding.
-                        </motion.p>
-
-                        <motion.div className={styles.heroBtns}
-                            variants={{ hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 } } }}
-                        >
-                            <Link href={authenticated ? '/trade' : '/register'} className={styles.btnPrimary} data-tour="start-trading">
-                                {authenticated ? 'Open Market' : 'Start Playing'} →
-                            </Link>
-                            {!authenticated && (
-                                <button type="button" className={styles.btnDemo}
-                                    onClick={startDemoTour} disabled={demoLoading}>
-                                    {demoLoading ? 'Starting…' : '▶ Try the tutorial — no signup'}
-                                </button>
-                            )}
-                            <button type="button" className={styles.btnText}
-                                onClick={() => { enterGuestMode(); router.push('/learn'); }}>
-                                Browse Lessons
-                            </button>
-                        </motion.div>
-
-                        <motion.p className={styles.heroMeta}
-                            variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { delay: 0.35 } } }}
-                        >
-                            Free to start · No real money, ever
-                        </motion.p>
-                    </motion.div>
-
-                    {/* RIGHT — floating cards */}
-                    <div className={styles.heroRight}>
-
-                        {/* Dark stock card — click opens NVDA in Market */}
-                        <Link
-                            href={authenticated ? '/trade?ticker=NVDA' : '/register'}
-                            style={{ textDecoration: 'none', position: 'absolute', top: 0, right: 0, zIndex: 2, transform: 'rotate(4deg)' }}
-                        >
-                        <motion.div className={styles.stockCard}
-                            style={{ position: 'static', transform: 'none', cursor: 'pointer' }}
-                            initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.85, delay: 0.2, ease: [0.16,1,0.3,1] }}
-                        >
-                            <div className={styles.scTop}>
-                                <div className={styles.scTicker}>
-                                    <div className={styles.scIcon}>N</div>
-                                    <div>
-                                        <div className={styles.scSym}>NVDA</div>
-                                        <div className={styles.scName}>NVIDIA Corp.</div>
-                                    </div>
-                                </div>
-                                <span className={styles.scBadge} style={{
-                                    background: marketStatus.open ? 'rgba(28,140,90,0.18)' : 'rgba(194,69,69,0.18)',
-                                    color: marketStatus.open ? '#8ED4B0' : '#F0A8A8',
-                                }}>
-                                    + {marketStatus.label}
-                                </span>
-                            </div>
-
-                            <motion.div className={styles.scPrice} style={{ color: priceColor }}
-                                key={nvdaData?.price}>
-                                {nvdaData ? fmt$(nvdaData.price) : '$—'}
-                            </motion.div>
-
-                            <div className={styles.scChange}
-                                style={{ color: nvdaData && nvdaData.change >= 0 ? '#8ED4B0' : '#F0A8A8' }}>
-                                {nvdaData
-                                    ? `${nvdaData.change >= 0 ? '▲' : '▼'} ${Math.abs(nvdaData.changePct).toFixed(2)}% today`
-                                    : '▲ +3.4% today'}
-                            </div>
-
-                            <div className={styles.scChart}>
-                                <svg viewBox="0 0 220 52" preserveAspectRatio="none">
-                                    <defs>
-                                        <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#4576E7" stopOpacity="0.3"/>
-                                            <stop offset="100%" stopColor="#4576E7" stopOpacity="0"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <path d="M0,44 L22,40 L44,36 L66,39 L88,28 L110,22 L132,18 L154,14 L176,8 L198,5 L220,2"
-                                        stroke="#4576E7" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-                                    <path d="M0,44 L22,40 L44,36 L66,39 L88,28 L110,22 L132,18 L154,14 L176,8 L198,5 L220,2 L220,52 L0,52Z"
-                                        fill="url(#cg)"/>
-                                </svg>
-                            </div>
-                            <div className={styles.scHint}>Tap to open NVDA in Market →</div>
-                        </motion.div>
-                        </Link>
-
-                        {/* White portfolio card */}
-                        <motion.div className={styles.pfCard}
-                            initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.85, delay: 0.35, ease: [0.16,1,0.3,1] }}
-                        >
-                            <div className={styles.pfLabel}>YOUR PORTFOLIO</div>
-                            <div className={styles.pfValue}>{fmtPortfolio(displayTotal)}</div>
-                            <div className={styles.pfChange} style={{ color: isUp ? '#1C8C5A' : '#C24545' }}>
-                                {authenticated && portfolioData
-                                    ? `${isUp ? '▲' : '▼'} ${isUp ? '+' : ''}${pct.toFixed(2)}% this week`
-                                    : '▲ +2.2% this week'}
-                            </div>
-                        </motion.div>
-
-                        {/* Gold dollar badge */}
-                        <motion.div className={styles.dollarBadge}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.4, delay: 0.4 }}
-                        >$</motion.div>
-
-                        {/* Lesson chip */}
-                        <motion.div className={styles.lessonChip}
-                            initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                        >
-                            <div>
-                                <div className={styles.lcLabel}>Today&apos;s Lesson</div>
-                                <div className={styles.lcTitle}>What&apos;s a P/E ratio?</div>
-                            </div>
-                        </motion.div>
-
-                    </div>
-                </div>
-            </section>
-
-            {/* ════════════════════════════
-                TICKER TAPE
-            ════════════════════════════ */}
-            <section className={styles.tickerSection}>
-                <div className={styles.tickerTrack}>
-                    {[...TICKER_TAPE, ...TICKER_TAPE].map((t, i) => (
-                        <div key={i} className={styles.tickerItem}>
-                            <span className={styles.tickerSym}>{t.sym}</span>
-                            <span className={styles.tickerName}>{t.name}</span>
-                            <span className={styles.tickerChange} style={{ color: t.pct >= 0 ? '#8ED4B0' : '#F0A8A8' }}>
-                                {t.pct >= 0 ? '▲' : '▼'} {Math.abs(t.pct).toFixed(2)}%
-                            </span>
-                            <span className={styles.tickerDot} />
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* ════════════════════════════
-                ASK VESTA
-            ════════════════════════════ */}
-            <section className={styles.askSection}>
-                <motion.div className={styles.askInner}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
-                >
-
-                    <VestaBlob size={72} showDot animate color="#4576E7" />
-                    <h2 className={styles.askHeading}>Ask Vesta anything about the market</h2>
-
-                    <div className={styles.accordion}>
-                        {VESTA_PROMPTS.map((p, i) => (
-                            <div key={i} className={styles.accItem}
-                                onClick={() => setVestaOpen(vestaOpen === i ? null : i)}>
-                                <span className={styles.accText}>{p}</span>
-                                <button type="button" className={styles.accBtn}
-                                    onClick={e => { e.stopPropagation(); openVesta(p); }}>
-                                    {vestaOpen === i ? '−' : '+'}
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-
-                    <form className={styles.askForm} onSubmit={handleVestaSubmit}>
-                        <input type="text" className={styles.askInput}
-                            placeholder="Ask Vesta anything…"
-                            value={vestaInput} onChange={e => setVestaInput(e.target.value)} />
-                        <button type="submit" className={styles.askSend} aria-label="Send">
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <circle cx="16" cy="16" r="16" fill="#1E244E"/>
-                                <path d="M16 22V10M10 16l6-6 6 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                        </button>
-                    </form>
-
-                    <p className={styles.askNote}>Vesta can make mistakes. This is practice money, not real advice.</p>
-                </motion.div>
-            </section>
-
-            {/* ════════════════════════════
-                FAQ
-            ════════════════════════════ */}
-            <section className={styles.faqSection}>
-                <motion.div className={styles.faqInner}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
-                >
-                    <h2 className={styles.faqHeading}>Frequently Asked Questions</h2>
-
-                    <div className={styles.accordion}>
-                        {FAQ_ITEMS.map((item, i) => (
-                            <div key={i}
-                                className={`${styles.accItem} ${faqOpen === i ? styles.accItemOpen : ''}`}
-                                onClick={() => setFaqOpen(faqOpen === i ? null : i)}
-                            >
-                                <span className={styles.accText}>{item.q}</span>
-                                <span className={styles.accBtn}>{faqOpen === i ? '−' : '+'}</span>
-                                <AnimatePresence>
-                                    {faqOpen === i && (
-                                        <motion.div className={styles.accAnswer}
-                                            initial={{ opacity: 0, height: 0 }}
-                                            animate={{ opacity: 1, height: 'auto' }}
-                                            exit={{ opacity: 0, height: 0 }}
-                                            transition={{ duration: 0.22 }}
-                                        >
-                                            {item.a}
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-            </section>
-
-            {/* ════════════════════════════
-                FOOTER CTA
-            ════════════════════════════ */}
-            <section className={styles.footerSection}>
-                <motion.div className={styles.footerInner}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
-                >
-                    <h2 className={styles.footerHeading}>Ready to start playing?</h2>
-                    <p className={styles.footerSub}>Free forever to start. No card, no real money, ever.</p>
-
-                    {!loading && !authenticated ? (
-                        <form className={styles.footerForm} onSubmit={handleEmailSubmit}>
-                            <input type="email" className={styles.footerEmail}
-                                placeholder="you@email.com"
-                                value={emailInput} onChange={e => setEmailInput(e.target.value)} />
-                            <button type="submit" className={styles.footerBtn}>Create Free Account</button>
-                        </form>
-                    ) : authenticated ? (
-                        <Link href="/trade" className={styles.footerBtn} style={{ textDecoration: 'none', display: 'inline-block' }}>
-                            Go to Market →
-                        </Link>
-                    ) : null}
-
-                    <nav className={styles.footerLinks}>
-                        <Link href={authenticated ? '/trade' : '/register'}>Play</Link>
-                        <Link href="/learn">Learn</Link>
-                        <Link href="/stats">Rankings</Link>
-                        <Link href="/partners">Partnerships</Link>
-                        <Link href="/chapters">Start a Chapter</Link>
-                        <Link href="/privacy">Privacy</Link>
-                        <Link href="/terms">Terms</Link>
-                    </nav>
-                    <p className={styles.footerCopy}>© 2026 Vestera. Practice trading, real learning.</p>
-                </motion.div>
-            </section>
-
-        </div>
-    );
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, [demoLoading]);
+  return <div className="approved-home" dangerouslySetInnerHTML={{ __html: markup }} />;
 }

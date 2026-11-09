@@ -3,8 +3,8 @@
 .page {
     min-height: calc(100vh - 60px);
     padding: 34px 32px 56px;
-    background: #EFF2FA;
-    color: #1E244E;
+    background: #edf2ff;
+    color: #1b2850;
     font-family: Inter, sans-serif;
     font-variant-numeric: tabular-nums;
 }
@@ -22,7 +22,7 @@
     font-weight: 700;
     text-decoration: none;
 }
-.back:hover { color: #4576E7; }
+.back:hover { color: #4175e8; }
 
 .card {
     padding: 28px 24px 24px;
@@ -34,14 +34,14 @@
 .card h1,
 .card h2 {
     margin: 0 0 10px;
-    color: #1E244E;
+    color: #1b2850;
     font-family: Inter, sans-serif;
     font-weight: 800;
     line-height: 1.15;
     letter-spacing: -.03em;
 }
 .card h1 { font-size: clamp(30px, 6vw, 38px); }
-.card h1 em { color: #4576E7; font-style: normal; }
+.card h1 em { color: #4175e8; font-style: normal; }
 .card h2 { margin-top: 20px; font-size: 22px; }
 .card > h2:first-child { margin-top: 0; }
 
@@ -54,13 +54,13 @@
 
 .eyebrow {
     margin: 0 0 6px;
-    color: #4576E7;
+    color: #4175e8;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .08em;
     text-transform: uppercase;
 }
-.card p.eyebrow { margin-bottom: 6px; color: #4576E7; font-size: 11px; line-height: 1.4; }
+.card p.eyebrow { margin-bottom: 6px; color: #4175e8; font-size: 11px; line-height: 1.4; }
 
 .footnote {
     margin: 14px 0 0;
@@ -73,19 +73,19 @@
 .mascot { margin-bottom: 12px; }
 
 /* how it works */
-.how { margin: 4px 0 20px; border-top: 1px solid #E4E9F6; }
-.how > div { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid #E4E9F6; }
-.how strong { color: #1E244E; font-size: 15px; }
+.how { margin: 4px 0 20px; border-top: 1px solid #dbe6ff; }
+.how > div { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid #dbe6ff; }
+.how strong { color: #1b2850; font-size: 15px; }
 .how span { color: #4E5678; font-size: 14px; line-height: 1.5; }
 
 /* progress and stats */
 .hud { display: grid; gap: 14px; margin-bottom: 4px; }
 .progress span { display: block; margin-bottom: 8px; color: #4E5678; font-size: 13px; font-weight: 700; }
-.track { height: 6px; overflow: hidden; background: #E4E9F6; border-radius: 999px; }
-.track i { display: block; height: 100%; background: #4576E7; border-radius: 999px; transition: width .3s ease; }
+.track { height: 6px; overflow: hidden; background: #dbe6ff; border-radius: 999px; }
+.track i { display: block; height: 100%; background: #4175e8; border-radius: 999px; transition: width .3s ease; }
 
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 4px; }
-.stat { padding: 12px 14px; background: #F7F9FD; border: 1px solid #E4E9F6; border-radius: 10px; }
+.stat { padding: 12px 14px; background: #F7F9FD; border: 1px solid #dbe6ff; border-radius: 10px; }
 .stat span {
     display: block;
     color: #7B849E;
@@ -94,7 +94,7 @@
     letter-spacing: .08em;
     text-transform: uppercase;
 }
-.stat b { display: block; margin-top: 2px; color: #1E244E; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+.stat b { display: block; margin-top: 2px; color: #1b2850; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
 .stat small { display: block; margin-top: 2px; color: #4E5678; font-size: 12px; font-weight: 600; }
 
 /* buttons */
@@ -111,27 +111,27 @@
     min-height: 46px;
     margin-top: 18px;
     padding: 0 20px;
-    background: #4576E7;
+    background: #4175e8;
     border: 0;
     border-radius: 8px;
     color: #fff;
     font-size: 15px;
     font-weight: 700;
 }
-.primary:hover { background: #3A66D0; }
-.card .attack { background: #1E244E; }
+.primary:hover { background: #315fd1; }
+.card .attack { background: #1b2850; }
 .card .attack:hover { background: #2C3468; }
 
 /* week results and fight log */
-.events { margin: 4px 0 6px; border-top: 1px solid #E4E9F6; }
+.events { margin: 4px 0 6px; border-top: 1px solid #dbe6ff; }
 .ev {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
     padding: 12px 0;
-    border-bottom: 1px solid #E4E9F6;
-    color: #1E244E;
+    border-bottom: 1px solid #dbe6ff;
+    color: #1b2850;
     font-size: 15px;
     font-weight: 600;
 }
@@ -147,9 +147,9 @@
     margin: 0;
     padding: 10px 14px;
     background: #F7F9FD;
-    border: 1px solid #E4E9F6;
+    border: 1px solid #dbe6ff;
     border-radius: 10px;
-    color: #1E244E;
+    color: #1b2850;
     font-size: 14px;
     font-weight: 600;
     line-height: 1.5;
@@ -157,7 +157,7 @@
 .vestaName {
     display: block;
     margin-bottom: 2px;
-    color: #4576E7;
+    color: #4175e8;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .08em;
@@ -166,12 +166,12 @@
 
 /* boss fight */
 .arena { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 14px; }
-.fighter { position: relative; padding: 14px; background: #F7F9FD; border: 1px solid #E4E9F6; border-radius: 10px; }
+.fighter { position: relative; padding: 14px; background: #F7F9FD; border: 1px solid #dbe6ff; border-radius: 10px; }
 .role { color: #7B849E; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-.fighterName { margin-top: 2px; color: #1E244E; font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
-.hpNumber { margin: 8px 0; color: #1E244E; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.fighterName { margin-top: 2px; color: #1b2850; font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
+.hpNumber { margin: 8px 0; color: #1b2850; font-size: 28px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 .hpNumber small { color: #7B849E; font-size: 13px; font-weight: 700; letter-spacing: 0; }
-.bar { height: 8px; overflow: hidden; background: #E4E9F6; border-radius: 999px; }
+.bar { height: 8px; overflow: hidden; background: #dbe6ff; border-radius: 999px; }
 .bar i { display: block; height: 100%; background: #1C8C5A; border-radius: 999px; transition: width .45s ease; }
 .boss .bar i { background: #C24545; }
 
@@ -188,14 +188,14 @@
     letter-spacing: .06em;
     text-transform: uppercase;
 }
-.chartBox { margin-top: 12px; padding: 28px 16px 14px; background: #1E244E; border-radius: 10px; }
+.chartBox { margin-top: 12px; padding: 28px 16px 14px; background: #1b2850; border-radius: 10px; }
 .chart { display: flex; align-items: flex-end; justify-content: center; gap: 5px; height: 96px; }
 .chart div {
     position: relative;
     flex: 1;
     max-width: 36px;
     min-height: 6px;
-    background: #6B93F0;
+    background: #7297f1;
     border-radius: 4px 4px 0 0;
 }
 .chart div span { position: absolute; top: -20px; left: 0; right: 0; color: #fff; font-size: 12px; font-weight: 700; text-align: center; }
@@ -213,7 +213,7 @@
     background: #fff;
     border: 1px solid #C5D0EA;
     border-radius: 10px;
-    color: #1E244E;
+    color: #1b2850;
     text-align: left;
 }
 .cardBtn strong { font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
@@ -231,7 +231,7 @@
     letter-spacing: .04em;
     text-transform: uppercase;
 }
-.cardBtn:hover:not(:disabled) { border-color: #4576E7; background: #F7F9FD; }
+.cardBtn:hover:not(:disabled) { border-color: #4175e8; background: #F7F9FD; }
 .cardRisky em { background: #FDECEC; color: #C24545; }
 .card .cardBtn:disabled { opacity: .5; cursor: not-allowed; }
 
@@ -246,12 +246,12 @@
 }
 
 /* last week recap */
-.recap { margin: 16px 0 4px; padding: 4px 14px 12px; background: #F7F9FD; border: 1px solid #E4E9F6; border-radius: 10px; }
+.recap { margin: 16px 0 4px; padding: 4px 14px 12px; background: #F7F9FD; border: 1px solid #dbe6ff; border-radius: 10px; }
 .recapTitle { display: block; padding-top: 10px; color: #7B849E; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .recap .events { margin: 6px 0 0; border-top: 0; }
 .recap .ev { padding: 8px 0; font-size: 14px; }
 .card .recap p.recapTip { margin: 8px 0 0; font-size: 13px; line-height: 1.5; }
-.recapTip b { color: #4576E7; }
+.recapTip b { color: #4175e8; }
 
 .stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 8px; }
 
@@ -261,15 +261,15 @@
     gap: 2px;
     margin: 0 0 12px;
     padding: 12px 14px;
-    border: 1px solid #E4E9F6;
+    border: 1px solid #dbe6ff;
     border-left-width: 4px;
     border-radius: 10px;
     background: #F7F9FD;
 }
 .intentLabel { color: #7B849E; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-.intent strong { color: #1E244E; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+.intent strong { color: #1b2850; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
 .intent span:last-child { color: #4E5678; font-size: 13px; font-weight: 600; line-height: 1.45; }
-.intent_hit { border-left-color: #4576E7; }
+.intent_hit { border-left-color: #4175e8; }
 .intent_big { border-left-color: #C24545; background: #FDF3F3; }
 .intent_count { border-left-color: #1C8C5A; background: #F0F9F4; }
 
@@ -288,12 +288,12 @@
 }
 .moveBtn strong { font-size: 15px; font-weight: 800; }
 .moveBtn span { font-size: 12px; font-weight: 600; line-height: 1.35; opacity: .9; }
-.move_attack { background: #4576E7; }
-.move_attack:hover:not(:disabled) { background: #3A66D0; }
-.move_strike { background: #1E244E; }
+.move_attack { background: #4175e8; }
+.move_attack:hover:not(:disabled) { background: #315fd1; }
+.move_strike { background: #1b2850; }
 .move_strike:hover:not(:disabled) { background: #2C3468; }
-.move_guard { background: #fff; border-color: #C5D0EA; color: #1E244E; }
-.move_guard:hover:not(:disabled) { border-color: #4576E7; }
+.move_guard { background: #fff; border-color: #C5D0EA; color: #1b2850; }
+.move_guard:hover:not(:disabled) { border-color: #4175e8; }
 .card .moveBtn:disabled { opacity: .45; cursor: not-allowed; }
 
 /* floating damage numbers */
@@ -315,17 +315,17 @@
 }
 
 /* score */
-.scoreTable { margin: 4px 0 6px; border-top: 1px solid #E4E9F6; }
-.scoreTable > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #E4E9F6; color: #4E5678; font-size: 14px; font-weight: 600; }
-.scoreTable b { color: #1E244E; font-weight: 800; }
-.scoreTable .scoreTotal { color: #1E244E; font-size: 16px; font-weight: 800; }
-.scoreTotal b { color: #4576E7; font-size: 20px; }
+.scoreTable { margin: 4px 0 6px; border-top: 1px solid #dbe6ff; }
+.scoreTable > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #dbe6ff; color: #4E5678; font-size: 14px; font-weight: 600; }
+.scoreTable b { color: #1b2850; font-weight: 800; }
+.scoreTable .scoreTotal { color: #1b2850; font-size: 16px; font-weight: 800; }
+.scoreTotal b { color: #4175e8; font-size: 20px; }
 .card p.bestLine { margin: 6px 0 0; color: #315AB8; font-size: 13px; font-weight: 700; }
 .bestLine:empty { display: none; }
 
 .endButtons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.card .ghost { background: #fff; border: 1px solid #C5D0EA; color: #1E244E; }
-.card .ghost:hover { border-color: #4576E7; background: #F7F9FD; }
+.card .ghost { background: #fff; border: 1px solid #C5D0EA; color: #1b2850; }
+.card .ghost:hover { border-color: #4175e8; background: #F7F9FD; }
 
 @media (max-width: 640px) {
     .page { padding: 24px 14px 40px; }
