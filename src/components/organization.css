@@ -1,7 +1,7 @@
 .org-site {background:#f7f8fa;color:#17212e}
 .org-head {position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid #d3ddd7}
 .org-bar {max-width:var(--page-width);margin:auto;height:64px;padding:0 var(--page-gutter);display:flex;align-items:center;gap:28px}
-.org-bar nav,.org-bar nav.expanded {display:flex;align-items:center;gap:24px;margin-left:auto}
+.org-bar nav {display:flex;align-items:center;gap:24px;margin-left:auto}
 .org-bar a,.org-bar button,.org-foot a {text-decoration:none;color:inherit;font:600 14px/1.45 Inter,sans-serif}
 .org-bar button {border:0;background:transparent;cursor:pointer;padding:8px 0}
 .org-bar button:hover,.org-bar nav a:hover {color:var(--vestera-blue)}
@@ -10,7 +10,10 @@
 .org-dropdown a {display:block;padding:12px}
 .org-site a.org-launch {display:inline-block;background:var(--vestera-blue);color:white;text-decoration:none;padding:11px 18px;border-radius:999px;font-weight:650}
 .org-site a.org-launch:hover {background:var(--vestera-blue)}
-.org-toggle {display:none}
+.org-group {display:flex;align-items:center}
+.org-group button {min-width:26px}
+.org-bar nav a[aria-current="page"] {color:#315fc7;text-decoration:underline;text-underline-offset:5px}
+.org-dropdown {left:0;z-index:1}
 .org-page {max-width:var(--page-width);margin:auto;padding:0 var(--page-gutter) 65px}
 .org-page header {padding:clamp(52px,7vw,100px) 0 52px}
 .org-page section {border-top:1px solid #bdcec5;padding:42px 0 20px;scroll-margin-top:74px}
@@ -36,11 +39,12 @@
 .org-site .approved-home .hero h1 em {color:var(--vestera-blue)}
 .org-site .approved-home .eyebrow {text-transform:none;letter-spacing:.01em}
 @media(max-width:780px){
-.org-bar {gap:12px;padding:0 16px}
-.org-toggle {display:block;margin-left:auto}
-.org-bar nav {display:none}
-.org-bar nav.expanded {position:absolute;top:64px;left:0;right:0;display:grid;background:white;padding:18px;gap:10px;border-bottom:1px solid #ccd8d1}
-.org-dropdown {position:static;box-shadow:none;border:none;border-left:2px solid var(--vestera-blue)}
+.org-bar {height:auto;display:grid;grid-template-columns:1fr auto;gap:0;padding:8px 16px 0}
+.org-bar .org-launch {grid-column:2;grid-row:1}
+.org-bar nav {grid-column:1/-1;grid-row:2;width:100%;display:flex;justify-content:space-between;gap:4px;margin:4px 0 0;min-height:40px}
+.org-bar nav a {font-size:13px}
+.org-bar nav .org-group:nth-child(2) .org-dropdown {left:50%;transform:translateX(-50%)}
+.org-site {--public-header-height:100px}
 .org-foot {grid-template-columns:1fr;gap:25px}
 .org-portraits {gap:10px}
 .org-directory>div {grid-template-columns:1fr;gap:4px}
@@ -70,7 +74,7 @@
 }
 
 .org-head {border-bottom:1px solid #e5e7eb}
-.org-page [id] {scroll-margin-top:76px}
+.org-page [id] {scroll-margin-top:calc(var(--public-header-height,64px) + 12px)}
 .org-launch, .press-kit button {cursor:pointer}
 .org-form {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:860px;margin:20px 0}
 .org-form>label,.org-form legend {font-size:14px;font-weight:650;color:#273650}
@@ -80,9 +84,9 @@
 .org-form fieldset label {display:inline-flex;gap:6px;margin:8px 14px 0 0;align-items:center}
 .org-form .org-launch {grid-column:1/-1;justify-self:start;border:0;background:var(--vestera-blue);color:white;padding:13px 20px;border-radius:99px;font-weight:700}
 .org-form .sent {background:#e4f6e9;color:#175631;padding:12px}
-.program-tabs {position:sticky;top:64px;z-index:10;padding:10px 0;display:flex;gap:8px;background:#f7f8fa}
+.program-tabs {position:sticky;top:var(--public-header-height,64px);z-index:10;padding:10px 0;display:flex;gap:8px;background:#f7f8fa}
 .program-tabs a {padding:8px 12px;background:white;border:1px solid #c9d4e2;border-radius:99px;font-size:14px;text-decoration:none}
-.program-page section[id] {scroll-margin-top:135px}
+.program-page section[id] {scroll-margin-top:calc(var(--public-header-height,64px) + 75px)}
 .table-frame {overflow-x:auto;margin:20px 0}
 .table-frame table {width:100%;border-collapse:collapse;text-align:left;font-size:14px}
 .table-frame :is(td,th) {padding:14px 12px;border-bottom:1px solid #d7dee6;vertical-align:top}

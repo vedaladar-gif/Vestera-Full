@@ -1,38 +1,39 @@
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import VesteraLogo from './VesteraLogo';
 import './organization.css';
 
 const groups = [
-  { title: 'About', links: [['Mission & Leadership', '/about#team'], ['Impact, Awards & Press', '/about#impact']] },
-  { title: 'Programs & Partners', links: [['Partner Schools & Chapters', '/programs#partners'], ['Bring Vestera to Your School', '/programs#schools'], ['Start a Chapter', '/programs#chapters']] },
+  { title: 'About', href: '/about', links: [['Mission & Leadership', '/about#team'], ['Impact, Awards & Press', '/about#impact']] },
+  { title: 'Programs & Partners', href: '/programs', links: [['Partner Schools & Chapters', '/programs#partners'], ['Bring Vestera to Your School', '/programs#schools'], ['Start a Chapter', '/programs#chapters']] },
 ];
 const quick = [['Mission & Team','/about#team'],['Impact & Gallery','/about#impact'],['Partner Schools','/programs#partners'],['Start a Chapter','/programs#chapters'],['Sponsors','/sponsors']];
 
 export default function OrganizationFrame({children}: {children: React.ReactNode}) {
   const instagram = 'vesteratrading';
-  const [mobile, setMobile] = useState(false);
+  const pathname = usePathname();
   const [open, setOpen] = useState('');
   const header = useRef<HTMLElement>(null);
-  const close = () => { setMobile(false); setOpen(''); };
+  const close = () => setOpen('');
   return <div className="org-site">
     <header ref={header} className="org-head" onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) close();}} onKeyDown={e => {
-      if (e.key === 'Escape') {
-        header.current?.querySelector<HTMLButtonElement>(open ? '[data-dropdown][aria-expanded=true]' : '.org-toggle')?.focus();
-        if (open) setOpen(''); else close();
+      if (e.key === 'Escape' && open) {
+        header.current?.querySelector<HTMLButtonElement>('[data-dropdown][aria-expanded=true]')?.focus();
+        close();
       }
     }}>
       <div className="org-bar"><Link href="/" aria-label="Vestera home" onClick={close}><VesteraLogo height={32}/></Link>
-      <button className="org-toggle" aria-expanded={mobile} aria-controls="org-nav" onClick={() => setMobile(!mobile)}>Menu ☰</button>
-      <nav id="org-nav" aria-label="Organization" className={mobile ? 'expanded' : ''}>
+      <nav id="org-nav" aria-label="Organization">
         {groups.map(group => <div className="org-group" key={group.title}
           onPointerEnter={e => {if (e.pointerType === 'mouse') setOpen(group.title);}}
           onPointerLeave={e => {if (e.pointerType === 'mouse' && !e.currentTarget.contains(document.activeElement)) setOpen('');}}>
-          <button data-dropdown aria-expanded={open === group.title} onClick={e => setOpen(e.detail && !mobile ? group.title : open === group.title ? '' : group.title)}>{group.title} <span aria-hidden>⌄</span></button>
+          <Link href={group.href} aria-current={pathname === group.href ? 'page' : undefined} onClick={close}>{group.title}</Link>
+          <button data-dropdown aria-label={group.title + ' sections'} aria-expanded={open === group.title} onClick={() => setOpen(open === group.title ? '' : group.title)}><span aria-hidden>⌄</span></button>
           {open === group.title && <div className="org-dropdown">{group.links.map(([name,href]) => <Link key={href} href={href} onClick={close}>{name}</Link>)}</div>}
         </div>)}
-        <Link href="/sponsors" onClick={close}>Sponsors</Link>
+        <Link href="/sponsors" aria-current={pathname === '/sponsors' ? 'page' : undefined} onClick={close}>Sponsors</Link>
       </nav><Link className="org-launch" href="/games" onClick={close}>Launch App →</Link></div>
     </header>
     {children}
