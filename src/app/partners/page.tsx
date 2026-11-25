@@ -23,6 +23,7 @@ const EMPTY_FORM: FormState = { fullName: '', organization: '', email: '', messa
 
 export default function PartnersPage() {
     const [form, setForm] = useState<FormState>(EMPTY_FORM);
+    const [notice, setNotice] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [sending, setSending] = useState(false);
     const [error, setError] = useState('');
@@ -50,6 +51,7 @@ export default function PartnersPage() {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) throw new Error(data?.error || 'Something went wrong. Please try again.');
+            setNotice(data.notice || '');
             setSubmitted(true);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -73,7 +75,7 @@ export default function PartnersPage() {
                         <div className={styles.successBox}>
                             <p className={styles.successTitle}>Thanks for reaching out!</p>
                             <p className={styles.successText}>
-                                We&apos;ve received your inquiry and will get back to you soon.
+                                {notice || 'We’ve received your inquiry and will get back to you soon.'}
                             </p>
                         </div>
                     ) : (

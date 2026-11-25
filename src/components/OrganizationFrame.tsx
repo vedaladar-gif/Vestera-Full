@@ -13,6 +13,10 @@ const groups = [
 ];
 const quick = [['Mission & Team','/about#team'],['Impact & Gallery','/about#impact'],['Partner Schools','/programs#partners'],['Start a Chapter','/programs#chapters'],['Sponsors','/sponsors']];
 
+const primaryPaths = new Set(['/learn', '/games', '/trade']);
+const primaryLinks = platformLinks.filter(link => primaryPaths.has(link.href));
+const moreLinks = platformLinks.filter(link => !primaryPaths.has(link.href));
+
 export function SiteHeader({authenticated}: {authenticated: boolean | null}) {
   const { isGuest, clearGuestMode } = useGuestMode();
   const pathname = usePathname();
@@ -34,7 +38,7 @@ export function SiteHeader({authenticated}: {authenticated: boolean | null}) {
       <button type="button" className="org-menu-toggle" ref={menuButton} aria-controls="org-nav" aria-expanded={menuOpen}
         onClick={() => { setOpen(''); setMenuOpen(!menuOpen); }}>Menu</button>
       <nav id="org-nav" aria-label="Main navigation" data-open={menuOpen}>
-        {platformLinks.map(({href, label}) => <Link key={href} href={href} onClick={close}
+        {primaryLinks.map(({href, label}) => <Link key={href} href={href} onClick={close}
           aria-current={pathname === href || pathname.startsWith(href + '/') ? 'page' : undefined}>{label}</Link>)}
         {groups.map(group => <div className="org-group" key={group.title}
           onPointerEnter={e => {if (e.pointerType === 'mouse') setOpen(group.title);}}
@@ -43,13 +47,21 @@ export function SiteHeader({authenticated}: {authenticated: boolean | null}) {
           <button data-dropdown aria-label={group.title + ' sections'} aria-expanded={open === group.title} onClick={() => setOpen(open === group.title ? '' : group.title)}><span aria-hidden>⌄</span></button>
           {open === group.title && <div className="org-dropdown">{group.links.map(([name,href]) => <Link key={href} href={href} onClick={close}>{name}</Link>)}</div>}
         </div>)}
-        <Link href="/sponsors" aria-current={pathname === '/sponsors' ? 'page' : undefined} onClick={close}>Sponsors</Link>
-          <span className="account-tabs">
-            {authenticated ? <Link href="/settings" onClick={close}>Profile</Link> : <><Link href="/login" onClick={close}>Log in</Link><Link href="/register" onClick={close}>Get started</Link></>}
-            {isGuest && pathname === '/learn' && <Link href="/" onClick={clearGuestMode}>Exit preview</Link>}
-          </span>
+        <div className="org-group">
+          <button type="button" data-dropdown aria-expanded={open === 'More'} aria-controls="more-links"
+            onClick={() => setOpen(open === 'More' ? '' : 'More')}>More <span aria-hidden>⌄</span></button>
+          <div id="more-links" className="org-dropdown org-more" hidden={open !== 'More'}>
+            {moreLinks.map(({href, label}) =>
+              <Link key={href} href={href} aria-current={pathname === href ? 'page' : undefined} onClick={close}>{label}</Link>)}
+            <Link href="/sponsors" onClick={close}>Sponsors</Link>
+            {!authenticated && <Link href="/login" onClick={close}>Log in</Link>}
+            {isGuest && pathname === '/learn' && <Link href="/" onClick={() => {clearGuestMode(); close();}}>Exit preview</Link>}
+          </div>
+        </div>
       </nav>
-      <Link className="org-launch" href="/games" onClick={close}>Launch App →</Link></div>
+      <Link className="org-launch" href={authenticated ? '/settings' : '/register'} onClick={close}>
+        {authenticated ? 'Profile' : 'Get started'}
+      </Link></div>
     </header>;
 }
 

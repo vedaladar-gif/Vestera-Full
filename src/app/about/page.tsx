@@ -26,7 +26,7 @@ export default function About() {
         <figure><Image src="/images/workshops/banking.webp" width={900} height={675} alt="Mentor comparing debit and credit cards on a classroom screen"/><figcaption>Banking lesson · Comparing debit and credit cards</figcaption></figure>
         <figure><Image src="/images/workshops/curriculum.webp" width={900} height={675} alt="Two Vestera presenters beside the Curriculum Night screen"/><figcaption>Curriculum Night · Introducing the program</figcaption></figure>
       </div>
-      <h2>Milestones</h2><ol className="milestones"><li><b>2026</b> Expanded outreach across six Wake County elementary schools and YMCA of the Triangle.</li><li><b>2026</b> Launched the four-session after-school curriculum at Apex Elementary School.</li><li><b>2025–2026</b> Recognition through regional DECA and youth entrepreneurship initiatives, and founding sponsorship from Winnie Beach CPA.</li></ol>
+      <h2>Awards &amp; milestones</h2><ol className="milestones"><li>Vestera won the <strong>YCS Impact Award</strong>.</li><li><b>2026</b> Expanded outreach across six Wake County elementary schools and YMCA of the Triangle.</li><li><b>2026</b> Launched the four-session after-school curriculum at Apex Elementary School.</li><li><b>2025–2026</b> Recognition through regional DECA and youth entrepreneurship initiatives, and founding sponsorship from Winnie Beach CPA.</li></ol>
       <PressKit/><p><Link href="/programs#partners">Explore the partner directory →</Link></p></section>
   </main>;
 }

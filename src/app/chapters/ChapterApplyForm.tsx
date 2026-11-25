@@ -15,6 +15,7 @@ const EMPTY_FORM: FormState = { fullName: '', organization: '', email: '', messa
 export default function ChapterApplyForm() {
     const [open, setOpen] = useState(false);
     const [form, setForm] = useState<FormState>(EMPTY_FORM);
+    const [notice, setNotice] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [sending, setSending] = useState(false);
     const [error, setError] = useState('');
@@ -42,6 +43,7 @@ export default function ChapterApplyForm() {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) throw new Error(data?.error || 'Something went wrong. Please try again.');
+            setNotice(data.notice || '');
             setSubmitted(true);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -64,7 +66,7 @@ export default function ChapterApplyForm() {
                 <div className={styles.successBox}>
                     <p className={styles.successTitle}>Application received!</p>
                     <p className={styles.successText}>
-                        Thanks for your interest in starting a Vestera chapter — we&apos;ll be in touch soon.
+                        {notice || 'Thanks for your interest in starting a Vestera chapter. We’ll be in touch soon.'}
                     </p>
                 </div>
             ) : (

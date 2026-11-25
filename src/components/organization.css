@@ -117,10 +117,10 @@
 }
 
 .org-head {color:#17212e}
-.account-tabs {display:flex;align-items:center;gap:12px;padding-left:12px;border-left:1px solid #d7dee6}
+.org-more {left:auto;right:0;min-width:158px}
 .org-menu-toggle {display:none}
 .org-with-sidebar {--public-header-height:56px}
-@media(max-width:1160px) {
+@media(max-width:850px) {
   .org-bar {justify-content:space-between}
   .org-bar .org-menu-toggle {display:block;margin-left:auto;padding:10px}
   .org-bar nav {display:none;position:absolute;top:100%;left:0;right:0;background:white;border-block:1px solid #e5e7eb;padding:12px var(--page-gutter);max-height:calc(100dvh - 65px);overflow-y:auto}
@@ -129,7 +129,7 @@
   .org-group {flex-wrap:wrap}
   .org-group button {min-width:40px}
   .org-dropdown {position:static;min-width:0;width:100%;white-space:normal;box-shadow:none;border:0;border-left:2px solid #d7dee6}
-  .account-tabs {grid-column:1/-1;border:0;border-top:1px solid #d7dee6;padding:0;gap:16px}
+
 }
 .org-page .mission-intro {display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:clamp(28px,4vw,56px);row-gap:14px;align-items:baseline;padding-block:clamp(36px,5vw,72px)}
 .mission-intro .org-caption {grid-column:1/-1}
