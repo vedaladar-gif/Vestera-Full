@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { submitInquiry } from '@/lib/submitInquiry';
 import styles from './partners.module.css';
 
 const PARTNERS = [
@@ -38,19 +39,8 @@ export default function PartnersPage() {
         setError('');
 
         try {
-            const res = await fetch('/api/inquiries', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'partnership',
-                    fullName: form.fullName,
-                    organization: form.organization,
-                    email: form.email,
-                    message: form.message,
-                }),
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(data?.error || 'Something went wrong. Please try again.');
+            const data = await submitInquiry({ ...form, type: 'partnership' });
+            if (data.navigating) return;
             setNotice(data.notice || '');
             setSubmitted(true);
         } catch (err) {

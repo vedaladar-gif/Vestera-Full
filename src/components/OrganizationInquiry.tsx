@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { submitInquiry } from '@/lib/submitInquiry';
 
 type Field = {label: string; type?: string; required?: boolean; options?: string[]; hint?: string};
 type FormDefinition = {nameField: string; organizationField: string; button: string; fields: Field[]};
@@ -36,13 +37,11 @@ export default function OrganizationInquiry({kind}:{kind:keyof typeof forms}) {
     setBusy(true);
     setNotice('');
     try {
-      const response = await fetch('/api/inquiries', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({type:kind, fullName:data.get(nameField), organization:data.get(organizationField),
-          email:data.get(emailField), message:details})
+      const result = await submitInquiry({
+        type:kind, fullName:String(data.get(nameField) || ''), organization:String(data.get(organizationField) || ''),
+        email:String(data.get(emailField) || ''), message:details,
       });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Your request could not be submitted. Please try again.');
+      if (result.navigating) return;
       form.reset();
       setNotice(result.notice || 'Thanks! Your inquiry was submitted to the Vestera team.');
     } catch (error) {setNotice(error instanceof Error ? error.message : 'Please try again or email vesteratrading@gmail.com.');}
@@ -55,7 +54,7 @@ export default function OrganizationInquiry({kind}:{kind:keyof typeof forms}) {
         : field.type === 'textarea' ? <textarea name={field.label} rows={3} maxLength={1800} placeholder={field.hint}/>
         : <input name={field.label} type={field.type || 'text'} required={field.required} maxLength={200} placeholder={field.hint}/>}
       </label>)}
-    <small>Send your inquiry to vesteratrading@gmail.com.</small>
+    <small>Complete the verification on the next screen to email vesteratrading@gmail.com.</small>
     <button className="org-launch" disabled={busy}>{busy ? 'Sending…' : button}</button>
     {notice && <p role="status" className={notice.startsWith('Thanks')?'sent':''}>{notice}</p>}
   </form>;

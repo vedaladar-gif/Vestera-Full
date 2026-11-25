@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { submitInquiry } from '@/lib/submitInquiry';
 import styles from './chapters.module.css';
 
 interface FormState {
@@ -30,19 +31,8 @@ export default function ChapterApplyForm() {
         setError('');
 
         try {
-            const res = await fetch('/api/inquiries', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'chapter',
-                    fullName: form.fullName,
-                    organization: form.organization,
-                    email: form.email,
-                    message: form.message,
-                }),
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(data?.error || 'Something went wrong. Please try again.');
+            const data = await submitInquiry({ ...form, type: 'chapter' });
+            if (data.navigating) return;
             setNotice(data.notice || '');
             setSubmitted(true);
         } catch (err) {

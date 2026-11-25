@@ -9,6 +9,14 @@ const subjects = {
     sponsor: 'Vestera sponsorship inquiry',
 };
 
+function deliveryFields(subject: string, inquiry: NewInquiry) {
+    return {
+        _subject: subject, _url: 'https://vestera.app/programs',
+        name: inquiry.fullName, email: inquiry.email,
+        organization: inquiry.organization || '', message: inquiry.message || subject,
+    };
+}
+
 async function emailInquiry(subject: string, inquiry: NewInquiry) {
     const formId = process.env.NEXT_PUBLIC_VESTERA_FORMSPREE_ID;
     const formUrl = 'https://vestera.app/programs';
@@ -17,10 +25,7 @@ async function emailInquiry(subject: string, inquiry: NewInquiry) {
     const response = await fetch(url, {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json', Referer: formUrl },
-        body: JSON.stringify({
-            _subject: subject, _url: formUrl, name: inquiry.fullName, email: inquiry.email,
-            organization: inquiry.organization, message: inquiry.message || subject,
-        }),
+        body: JSON.stringify(deliveryFields(subject, inquiry)),
         signal: AbortSignal.timeout(12000),
     });
     if (!response.ok) throw new Error('Email service rejected inquiry');
@@ -64,6 +69,17 @@ export async function POST(request: NextRequest) {
     const record = type === 'school' || type === 'sponsor'
         ? { ...inquiry, message: [subject, inquiry.message].filter(Boolean).join('\n') }
         : inquiry;
+    // Native form navigation lets FormSubmit show its visitor verification step.
+    if (body.delivery === 'browser' && !process.env.NEXT_PUBLIC_VESTERA_FORMSPREE_ID) {
+        try {
+            await createInquiry(record);
+        } catch {
+            console.error('Inquiry storage failed before browser delivery');
+        }
+        return NextResponse.json({ fields: deliveryFields(subject, inquiry) }, {
+            headers: { 'Cache-Control': 'no-store' },
+        });
+    }
     const [storage, mail] = await Promise.allSettled([createInquiry(record), emailInquiry(subject, inquiry)]);
     if (storage.status === 'rejected') console.error('Inquiry storage failed');
     if (mail.status === 'fulfilled') return NextResponse.json({ ok: true });
