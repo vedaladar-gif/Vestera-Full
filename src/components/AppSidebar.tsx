@@ -118,7 +118,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
     const [drawerOpen, setDrawerOpen] = useState(false);
     const profileRef = useRef<HTMLDivElement>(null);
 
-    const organizationPage = ['/about', '/programs', '/sponsors', '/partners', '/chapters', '/privacy', '/terms'].includes(pathname);
+    const organizationPage = ['/', '/about', '/programs', '/sponsors', '/partners', '/chapters', '/privacy', '/terms'].includes(pathname);
     const noShell = NO_SHELL_PREFIXES.some(p => pathname === p || pathname.startsWith(p + '/'));
 
     useEffect(() => {

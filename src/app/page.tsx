@@ -8,7 +8,7 @@ const markup = `
 <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-content page-width">
-          <div class="eyebrow"><span class="spark">✦</span> Money skills for real life</div>
+          <div class="eyebrow"><span class="spark">✦</span> Student-Led Financial Literacy · Wake &amp; Chatham County, NC</div>
           <h1 id="hero-title">Grow smart with <em>money.</em></h1>
           <p class="hero-copy">Learn how money works through stories, challenges, and games built for curious minds—not finance experts.</p>
           <div class="hero-actions">
@@ -44,6 +44,12 @@ const markup = `
         </aside>
       </section>
 
+      <section class="impact-strip" aria-label="Community impact">
+        <div><strong>7</strong>Partner schools &amp; youth organizations</div>
+        <div><strong>4-part</strong>Interactive investing &amp; money curriculum</div>
+        <div><strong>100%</strong>Free for schools, PTAs &amp; families</div>
+        <div><strong>Wake &amp; Chatham</strong>Active regional footprint</div>
+      </section>
       <section class="trust-strip" aria-label="Vestera learning benefits">
         <div class="page-width trust-grid">
           <p>One learning world.<br /><strong>Skills that grow with you.</strong></p>
@@ -214,6 +220,9 @@ const markup = `
           </div>
         </div>
       </section>
+      <section class="partner-wall page-width"><h2>Proudly partnering with local schools &amp; community leaders</h2>
+      <ul><li>Winnie Beach CPA <small>Founding community sponsor</small></li><li>YMCA of the Triangle</li><li>Apex Elementary School</li><li>Southeast Raleigh Elementary</li><li>Alston Ridge Elementary</li><li>Davis Drive Elementary</li><li>Wakefield Elementary</li></ul>
+      <p>Want to bring Vestera to your school or sponsor a chapter? <a href="/programs#schools">Partner with us →</a></p></section>
     </main>
 `;
 

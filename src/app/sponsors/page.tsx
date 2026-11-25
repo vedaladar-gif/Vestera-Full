@@ -1,17 +1,14 @@
-import Link from 'next/link';
-export const metadata = { title: 'Community Sponsorship | Vestera' };
-const email = 'mailto:vesteratrading@gmail.com?subject=Community%20sponsorship%20inquiry';
-
-export default function Sponsors() {
-  return <main className="org-page">
-    <header className="sponsor-intro"><div><p className="org-caption">Community sponsorship</p><h1>Help a chapter run its next workshop.</h1></div>
-      <div><p>A local business, PTA, or community group can help with one practical part of a session. Start with what you have to offer and the community you want to reach.</p><a className="org-launch" href={email}>Contact the team →</a></div>
-    </header>
-    <section><h2>What support can look like</h2><dl className="support-list">
-      <div><dt>Materials</dt><dd>Offer printing for a budgeting exercise or supplies students can use to record their choices during a game.</dd></div>
-      <div><dt>A place to meet</dt><dd>Suggest a library room, classroom, or community space. Include the location, seating capacity, and whether there is a shared screen.</dd></div>
-      <div><dt>Time with a professional</dt><dd>Volunteer for a classroom Q&amp;A. Pick a subject students can connect to daily life, such as reading a paycheck or planning for a purchase.</dd></div>
-    </dl></section>
-    <section className="org-spread"><h2>Arranging support &amp; recognition</h2><div><p>Email your organization’s name, the support you can offer, and any dates you have in mind. The team can discuss a chapter, workshop format, and how your contribution should be credited.</p><a href={email}>vesteratrading@gmail.com</a><p><Link href="/programs#schools">See a sample workshop →</Link></p></div></section>
-  </main>;
-}
+import OrganizationInquiry from '@/components/OrganizationInquiry';
+export const metadata={title:'Community Sponsorship | Vestera'};
+const benefits=[
+ ['Logo & link on vestera.app','Sponsors page','Featured spotlight','Homepage and sponsors page'],
+ ['Instagram recognition','One thank-you post','Dedicated spotlight post','Co-branded campaign and stories'],
+ ['Logo on workshop slides','—','Included','Title slide partner'],
+ ['Mention in PTA and parent recaps','—','Included','Included'],
+ ['End-of-semester impact report','—','—','Custom metrics and photos']
+];
+export default function Sponsors(){return <main className="org-page">
+ <header><p className="org-caption">Sponsors</p><h1>Community support for free financial education.</h1></header>
+ <section className="sponsor-feature"><div><small>Founding community sponsor</small><strong>Winnie Beach CPA</strong></div><div><h2>Thank you to Winnie Beach CPA for powering youth financial literacy.</h2><p>Winnie Beach CPA’s generous sponsorship directly supports Vestera’s free workshops, printed student workbooks, and digital learning tools for elementary students across Wake County.</p><a href="https://winniebeachcpa.com/" target="_blank" rel="noopener noreferrer">Visit Winnie Beach CPA ↗</a></div></section>
+ <section><h2>Sponsorship opportunities</h2><div className="table-frame"><table><thead><tr><th>Benefit</th><th>Classroom Supporter</th><th>Chapter Sponsor <small>Most popular</small></th><th>Regional Presenting Partner</th></tr></thead><tbody>{benefits.map(([name,...values])=><tr key={name}><th scope="row">{name}</th>{values.map((value,i)=><td key={i}>{value}</td>)}</tr>)}</tbody></table></div><a className="org-launch" href="/sponsor-one-pager.pdf" download>Download sponsor one-pager (PDF) ↓</a><p>Questions? <a href="mailto:vesteratrading@gmail.com">Email vesteratrading@gmail.com</a></p></section>
+ <section className="org-spread"><h2>Become a sponsor</h2><OrganizationInquiry kind="sponsor"/></section></main>;}
