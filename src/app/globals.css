@@ -1,19 +1,23 @@
 /* ============================================================
    VESTERA DESIGN SYSTEM v6 — 2026
    Fintech / financial-education platform
-   Navy #1b2850 · blue #4175e8 · background #edf2ff · white surfaces
+   Navy #1b2850 · blue var(--vestera-blue) · background #edf2ff · white surfaces
    Font: Inter
    ============================================================ */
 
 /* ── Shared Brand Tokens ── */
 :root {
+  --vestera-blue: #4175e8;
+  --page-width: 1200px;
+  --page-gutter: clamp(16px, 4vw, 52px);
+  --interface-font: Inter, system-ui, sans-serif;
   /* Brand — Vestera navy + blue. Green/red stay reserved for market moves. */
-  --brand-from: #4175e8;
+  --brand-from: var(--vestera-blue);
   --brand-to: #1b2850;
-  --brand-grad: linear-gradient(135deg, #7297f1 0%, #4175e8 100%);
-  --brand-grad2: linear-gradient(135deg, #4175e8 0%, #1b2850 100%);
+  --brand-grad: linear-gradient(135deg, #7297f1 0%, var(--vestera-blue) 100%);
+  --brand-grad2: linear-gradient(135deg, var(--vestera-blue) 0%, #1b2850 100%);
 
-  --cta-grad: #4175e8;
+  --cta-grad: var(--vestera-blue);
   --cta-grad-hover: #315fd1;
 
   --outer-bg: #edf2ff;
@@ -35,9 +39,9 @@
   --vt-text3: #7B849E;
   --vt-text4: #C5CCDC;
 
-  --vt-vblue: #4175e8;
-  --vt-purple: #4175e8;
-  --vt-secondary: #4175e8;
+  --vt-vblue: var(--vestera-blue);
+  --vt-purple: var(--vestera-blue);
+  --vt-secondary: var(--vestera-blue);
   --vt-mint: #c6d5ff;
   --vt-green: #1C8C5A;
   --vt-red: #C24545;
@@ -128,8 +132,8 @@
   --vt-text2: #4E5678;
   --vt-text3: #7B849E;
   --vt-text4: #C5CCDC;
-  --vt-vblue: #4175e8;
-  --vt-purple: #4175e8;
+  --vt-vblue: var(--vestera-blue);
+  --vt-purple: var(--vestera-blue);
   --vt-mint: #c6d5ff;
   --vt-green: #1C8C5A;
   --vt-red: #C24545;
@@ -742,7 +746,17 @@ input:focus, select:focus, textarea:focus {
 /* Shared navigation from the approved Vestera review. */
 .nav-float-shell{padding:12px 24px;background:rgba(237,242,255,.88);backdrop-filter:blur(18px)}
 .navbar,.navbar.nav-scrolled{width:min(1220px,100%);min-height:66px;height:66px;margin:auto;padding:8px 12px 8px 17px;border:1px solid rgba(27,40,80,.12);border-radius:19px;background:rgba(255,255,255,.94);box-shadow:0 10px 28px rgba(27,40,80,.08)}
-.nav-pill-cta{background:#4175e8;color:#fff!important;border-radius:999px}
+.nav-pill-cta{background:var(--vestera-blue);color:#fff!important;border-radius:999px}
 .nav-pill-cta:hover{background:#315fd1}
 @media(max-width:1180px){.nav-float-shell{padding:10px 16px}.navbar,.navbar.nav-scrolled{height:62px;min-height:62px;padding:7px 12px;border-radius:17px}}
 @media(max-width:560px){.nav-float-shell{padding:8px 12px}.navbar,.navbar.nav-scrolled{height:58px;min-height:58px}}
+
+/* A common type hierarchy across marketing, account, and dashboard layouts. */
+.app-root .app-main-inner:not(:has(.approved-home)) :is(h1,h2,h3) {
+  font-family: var(--interface-font);
+  letter-spacing: -.035em;
+}
+.app-root :where(a,button,input,select,textarea):focus-visible {
+  outline: 3px solid var(--vestera-blue);
+  outline-offset: 3px;
+}

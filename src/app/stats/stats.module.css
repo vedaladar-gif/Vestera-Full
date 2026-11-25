@@ -2,7 +2,7 @@
 .statsWrap {
     min-height: 100vh;
     background: #f8faff;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     padding: 32px 40px 100px;
     position: relative;
     color: #1b2850;
@@ -10,7 +10,7 @@
 .statsWrap::before { content: none; }
 .statsWrap::after { content: none; }
 .statsInner {
-    max-width: 1200px;
+    max-width: var(--page-width);
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -18,7 +18,7 @@
 .spinner {
     width: 32px; height: 32px;
     border: 2.5px solid rgba(65,117,232,0.15);
-    border-top-color: #4175e8;
+    border-top-color: var(--vestera-blue);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -34,7 +34,7 @@
     flex-wrap: wrap;
 }
 .pageTitle {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 28px;
     font-weight: 800;
     color: #1b2850;
@@ -72,7 +72,7 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     transition: all 0.2s;
     white-space: nowrap;
 }
@@ -132,7 +132,7 @@
     flex-shrink: 0;
 }
 .statCardValue {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 26px;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -275,7 +275,7 @@
 .stockDot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 .stockTicker { font-weight: 700; font-size: 14px; color: var(--vt-text); }
 .tdMuted { color: var(--vt-text2) !important; }
-.tdBlue { color: #4175e8 !important; font-weight: 600 !important; }
+.tdBlue { color: var(--vestera-blue) !important; font-weight: 600 !important; }
 .tdCenter { text-align: center !important; }
 
 .allocCell { display: flex; align-items: center; gap: 8px; }
@@ -351,7 +351,7 @@
     display: inline-block;
     padding: 2px 8px;
     background: rgba(65,117,232,0.1);
-    color: #4175e8;
+    color: var(--vestera-blue);
     border-radius: 8px;
     font-size: 11px;
     font-weight: 600;
@@ -393,7 +393,7 @@
 .youTag {
     padding: 1px 6px;
     background: rgba(65,117,232,0.1);
-    color: #4175e8;
+    color: var(--vestera-blue);
     border-radius: 4px;
     font-size: 10px;
     font-weight: 700;
@@ -413,7 +413,7 @@
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
-    color: #4175e8;
+    color: var(--vestera-blue);
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -424,7 +424,7 @@
     background: rgba(65,117,232,0.1);
     border: 1px solid rgba(65,117,232,0.2);
     border-radius: 8px;
-    color: #4175e8;
+    color: var(--vestera-blue);
     font-size: 12px;
     font-weight: 600;
     text-decoration: none;
@@ -433,7 +433,7 @@
     flex-shrink: 0;
 }
 .ctaLink:hover { background: rgba(65,117,232,0.18); }
-.link { color: #4175e8; text-decoration: none; font-weight: 600; }
+.link { color: var(--vestera-blue); text-decoration: none; font-weight: 600; }
 .link:hover { text-decoration: underline; }
 .emptyState { text-align: center; padding: 40px 0; }
 .emptyIcon { font-size: 32px; margin-bottom: 10px; }
@@ -588,7 +588,7 @@
 }
 .friendsSearchInput:focus {
     outline: none;
-    border-color: #4175e8;
+    border-color: var(--vestera-blue);
 }
 .friendsSearchInput::placeholder { color: var(--vt-text3); }
 .friendsSearchResults {
@@ -625,7 +625,7 @@
 }
 .friendsRowBtnPrimary {
     background: rgba(65,117,232,0.15);
-    color: #4175e8;
+    color: var(--vestera-blue);
     border: 1px solid rgba(65,117,232,0.3);
 }
 .friendsRowBtnPrimary:hover { background: rgba(65,117,232,0.22); }
@@ -724,7 +724,7 @@
 .friendsShareModeRadio {
     width: 16px;
     height: 16px;
-    accent-color: #4175e8;
+    accent-color: var(--vestera-blue);
     margin-top: 2px;
     flex-shrink: 0;
 }
@@ -774,7 +774,7 @@
     cursor: pointer;
 }
 .friendsShareCheckRow input {
-    accent-color: #4175e8;
+    accent-color: var(--vestera-blue);
     width: 15px;
     height: 15px;
     flex-shrink: 0;
@@ -785,7 +785,7 @@
     padding: 10px 14px;
     border-radius: 10px;
     border: none;
-    background: #4175e8;
+    background: var(--vestera-blue);
     color: #fff;
     font-size: 13px;
     font-weight: 700;
@@ -822,7 +822,7 @@
     margin-bottom: 20px;
 }
 .friendBackLink:hover {
-    color: #4175e8;
+    color: var(--vestera-blue);
 }
 .friendProfileCard {
     background: var(--vt-surface);
@@ -893,7 +893,7 @@
     padding: 12px 18px;
     border-radius: 10px;
     border: none;
-    background: #4175e8;
+    background: var(--vestera-blue);
     color: #fff;
     font-size: 14px;
     font-weight: 700;

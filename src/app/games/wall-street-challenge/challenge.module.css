@@ -19,7 +19,7 @@
 .entryOption, .mode, .modeOn { padding: 18px; border: 1px solid #D9E0F0; border-radius: 12px; background: #fff; color: #1b2850; text-align: left; font: inherit; }
 button.entryOption, .mode, .modeOn { cursor: pointer; }
 button.entryOption:hover, .mode:hover { border-color: #8EA9E9; }
-.modeOn { border-color: #4175e8; background: #F4F7FE; }
+.modeOn { border-color: var(--vestera-blue); background: #F4F7FE; }
 .entryOption strong, .mode strong, .modeOn strong { display: block; margin-bottom: 6px; font-size: 17px; }
 .entryOption span, .mode span, .modeOn span { color: #4E5678; font-size: 14px; line-height: 1.45; }
 .joinRow { display: flex; gap: 8px; margin-top: 14px; }
@@ -38,7 +38,7 @@ button.entryOption:hover, .mode:hover { border-color: #8EA9E9; }
 .avatarRival { background: #1b2850; color: #fff; }
 
 /* Shared */
-.eyebrow, .label { margin: 0 0 6px; color: #4175e8; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.eyebrow, .label { margin: 0 0 6px; color: var(--vestera-blue); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .label { display: block; color: #1b2850; }
 .muted { color: #7B849E; font-size: 13px; line-height: 1.45; }
 .up { color: #1C8C5A; }
@@ -59,7 +59,7 @@ button.entryOption:hover, .mode:hover { border-color: #8EA9E9; }
     align-items: center;
     justify-content: center;
 }
-.primary, .primaryWide { border: 1px solid #4175e8; background: #4175e8; color: #fff; }
+.primary, .primaryWide { border: 1px solid var(--vestera-blue); background: var(--vestera-blue); color: #fff; }
 .primary:hover, .primaryWide:hover { background: #315fd1; }
 .primaryWide { width: 100%; margin-top: 14px; }
 .secondary { border: 1px solid #C5D0EA; background: #fff; color: #1b2850; }
@@ -92,7 +92,7 @@ button.moneyLabel:hover { color: #fff; }
 .panelNav button:hover, .panelNav .navOn { color: #8EA9E9; }
 .caret { margin-right: 8px; font-size: 9px; }
 .navIcon { position: relative; display: inline-flex; color: #B5C1E6; }
-.navIcon em { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 99px; background: #4175e8; color: #fff; font-size: 10px; font-style: normal; line-height: 16px; text-align: center; }
+.navIcon em { position: absolute; top: -6px; right: -8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 99px; background: var(--vestera-blue); color: #fff; font-size: 10px; font-style: normal; line-height: 16px; text-align: center; }
 .panelFoot { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #B5C1E6; font-size: 11px; font-weight: 700; }
 .panelFoot a { color: #B5C1E6; text-decoration: none; }
 .panelFoot a:hover { color: #fff; }
@@ -105,8 +105,8 @@ button.moneyLabel:hover { color: #fff; }
 .cardTitle { margin: 0 0 6px; padding: 0 16px; color: #1b2850; line-height: 1.3; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-align: center; text-transform: uppercase; }
 .cornerHelp { position: absolute; top: 8px; right: 10px; }
 .helpButton { width: 18px; height: 18px; padding: 0; border: 0; background: none; color: #1b2850; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
-.helpButton:hover { color: #4175e8; }
-.newTag { position: absolute; top: 9px; left: 10px; padding: 2px 6px; border-radius: 4px; background: #4175e8; color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+.helpButton:hover { color: var(--vestera-blue); }
+.newTag { position: absolute; top: 9px; left: 10px; padding: 2px 6px; border-radius: 4px; background: var(--vestera-blue); color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
 .cardVisual { flex: 1; display: grid; place-items: center; min-height: 64px; color: #1b2850; }
 .area { width: 100%; max-width: 170px; height: 60px; }
 .areaUp { fill: #1C8C5A; }
@@ -114,11 +114,11 @@ button.moneyLabel:hover { color: #fff; }
 .valueRow { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 8px 0 12px; padding-bottom: 5px; border-bottom: 1.5px dotted #9AA4C4; }
 .valueRow strong { font-size: 16px; font-weight: 800; }
 .toggle { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: none; color: #1b2850; font: inherit; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
-.toggle:hover { color: #4175e8; }
+.toggle:hover { color: var(--vestera-blue); }
 .buttons { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .buttonsCenter { justify-content: center; }
 .gameBtn, .gameBtnPrimary { min-width: 74px; height: 30px; padding: 0 12px; border: 1.5px solid #1b2850; border-radius: 6px; background: #fff; color: #1b2850; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; box-shadow: 3px 3px 0 #1b2850; }
-.gameBtnPrimary { background: #4175e8; border-color: #1b2850; color: #fff; }
+.gameBtnPrimary { background: var(--vestera-blue); border-color: #1b2850; color: #fff; }
 .gameBtn:hover:not(:disabled) { background: #F4F7FE; }
 .gameBtnPrimary:hover:not(:disabled) { background: #315fd1; }
 .gameBtn:active:not(:disabled), .gameBtnPrimary:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #1b2850; }
@@ -138,7 +138,7 @@ button.moneyLabel:hover { color: #fff; }
 
 .stocksPanel { padding-bottom: 16px; }
 .stockGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 4px; }
-.stockNew { position: absolute; top: -8px; right: 8px; padding: 1px 6px; border-radius: 4px; background: #4175e8; color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+.stockNew { position: absolute; top: -8px; right: 8px; padding: 1px 6px; border-radius: 4px; background: var(--vestera-blue); color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
 .stockCard { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 8px 10px; border: 1.5px dashed #9AA4C4; border-radius: 8px; }
 .stockName { margin: 0; overflow: hidden; color: #1b2850; line-height: 1.3; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; font-weight: 800; letter-spacing: .03em; text-align: center; text-transform: uppercase; }
 .stockCard .priceLine { margin: 4px 0 6px; font-size: 11.5px; }
@@ -158,18 +158,18 @@ button.moneyLabel:hover { color: #fff; }
 .slide { display: grid; grid-template-columns: 36px minmax(0, 440px) 36px; align-items: center; gap: 12px; }
 .slideBody { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 .slideKicker { margin: 0; color: #8EA9E9; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-.helpFrame .slideKicker { color: #4175e8; }
+.helpFrame .slideKicker { color: var(--vestera-blue); }
 .slideTitle { margin: 0; color: inherit; line-height: 1.3; font-size: 20px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .slideText { margin: 0; color: inherit; font-size: 14.5px; line-height: 1.6; }
 .slideText u { color: #8EA9E9; text-underline-offset: 3px; }
-.helpFrame .slideText u { color: #4175e8; }
+.helpFrame .slideText u { color: var(--vestera-blue); }
 .slideList { width: 100%; margin: 0; padding: 0; list-style: none; }
 .slideList li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, .12); font-size: 13.5px; }
 .helpFrame .slideList li { border-top-color: #EEF1F8; }
 .arrow { width: 36px; height: 36px; padding: 0; border: 0; background: none; color: inherit; font: inherit; font-size: 22px; cursor: pointer; }
 .arrow:disabled { opacity: .25; cursor: default; }
-.gotIt { height: 30px; padding: 0 16px; border: 1.5px solid #fff; border-radius: 6px; background: #fff; color: #1b2850; font: inherit; font-size: 12.5px; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0 #4175e8; }
-.gotIt:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #4175e8; }
+.gotIt { height: 30px; padding: 0 16px; border: 1.5px solid #fff; border-radius: 6px; background: #fff; color: #1b2850; font: inherit; font-size: 12.5px; font-weight: 800; cursor: pointer; box-shadow: 3px 3px 0 var(--vestera-blue); }
+.gotIt:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--vestera-blue); }
 .helpFrame .gotIt { border-color: #1b2850; box-shadow: 3px 3px 0 #1b2850; }
 .dots { display: flex; justify-content: center; gap: 10px; margin-top: 26px; }
 .dot, .dotOn { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .3); cursor: pointer; }
@@ -241,7 +241,7 @@ button.moneyLabel:hover { color: #fff; }
 .mix { display: grid; gap: 10px; }
 .mixLabel { display: flex; justify-content: space-between; font-size: 13px; font-weight: 650; }
 .mixTrack { height: 7px; margin-top: 4px; border-radius: 99px; background: #dbe6ff; }
-.mixTrack span { display: block; height: 100%; border-radius: 99px; background: #4175e8; }
+.mixTrack span { display: block; height: 100%; border-radius: 99px; background: var(--vestera-blue); }
 
 /* Trade and help dialogs */
 .modalBack { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; padding: 18px; background: rgba(30, 36, 78, .35); }
@@ -254,7 +254,7 @@ button.moneyLabel:hover { color: #fff; }
 .modalRows span { color: #4E5678; }
 .presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 8px; }
 .presets button { min-height: 34px; border: 1px solid #C5D0EA; border-radius: 8px; background: #fff; color: #1b2850; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
-.presets .presetOn { border-color: #4175e8; background: #F4F7FE; }
+.presets .presetOn { border-color: var(--vestera-blue); background: #F4F7FE; }
 .amountInput { margin-bottom: 12px; font-weight: 700; }
 .helpText { margin: 0 0 14px; color: #4E5678; line-height: 1.55; }
 

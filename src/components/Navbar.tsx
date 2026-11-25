@@ -6,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import VesteraLogo from './VesteraLogo';
 import { UserAvatar } from './UserAvatar';
 
+const organizationLinks = [{ href: '/about', label: 'About' }, { href: '/programs', label: 'Programs' }, { href: '/sponsors', label: 'Sponsors' }];
+
 const SELF_NAV = ['/trade', '/learn'];
 const NO_REDIRECT = ['/setup-username', '/settings', '/login', '/register'];
 
@@ -84,6 +86,9 @@ export default function Navbar() {
                             <Link href="/stats" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
                             <Link href="/learn" style={{ ...linkStyle('/learn'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Academy</Link>
                             <Link href="/games" style={{ ...linkStyle('/games'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Games</Link>
+                            {organizationLinks.map(({ href, label }) => (
+                                <Link key={href} href={href} style={linkStyle(href)}>{label}</Link>
+                            ))}
 
                             <div style={{ width: 1, height: 20, background: 'var(--vt-border)', margin: '0 6px', flexShrink: 0 }} />
 
@@ -118,7 +123,9 @@ export default function Navbar() {
                             <Link href="/learn" style={{ ...linkStyle('/learn'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Learn</Link>
                             <Link href="/stats" style={{ ...linkStyle('/stats'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Rankings</Link>
                             <Link href="/games" style={{ ...linkStyle('/games'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Games</Link>
-                            <Link href="/partners" style={{ ...linkStyle('/partners'), textDecoration: 'none', padding: '7px 14px', borderRadius: 12, fontSize: 14, transition: 'all 0.18s' }}>Partners</Link>
+                            {organizationLinks.map(({ href, label }) => (
+                                <Link key={href} href={href} style={linkStyle(href)}>{label}</Link>
+                            ))}
                             <Link
                                 href="/login"
                                 style={{ textDecoration: 'none', padding: '7px 16px', borderRadius: 12, fontSize: 14, fontWeight: 700, color: 'var(--vt-text2)', fontFamily: "'Nunito', sans-serif", transition: 'all 0.18s' }}
@@ -158,6 +165,9 @@ export default function Navbar() {
                         <Link href="/stats" className="nav-mobile-link" onClick={close} data-active={isActive('/stats') ? 'true' : 'false'}>Rankings</Link>
                         <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={isActive('/learn') ? 'true' : 'false'}>Academy</Link>
                         <Link href="/games" className="nav-mobile-link" onClick={close} data-active={isActive('/games') ? 'true' : 'false'}>Games</Link>
+                        {organizationLinks.map(({ href, label }) => (
+                            <Link key={href} href={href} className="nav-mobile-link" onClick={close}>{label}</Link>
+                        ))}
                         <div className="nav-mobile-divider" />
                         <Link href="/settings" className="nav-mobile-link" onClick={close} data-active={isActive('/settings') ? 'true' : 'false'}>Profile</Link>
                         <button className="nav-mobile-link nav-mobile-logout" onClick={() => { handleLogout(); close(); }}>Logout</button>
@@ -170,7 +180,9 @@ export default function Navbar() {
                         <div className="nav-mobile-divider" />
                         <Link href="/learn" className="nav-mobile-link" onClick={close} data-active={isActive('/learn') ? 'true' : 'false'}>Academy</Link>
                         <Link href="/games" className="nav-mobile-link" onClick={close} data-active={isActive('/games') ? 'true' : 'false'}>Games</Link>
-                        <Link href="/partners" className="nav-mobile-link" onClick={close} data-active={isActive('/partners') ? 'true' : 'false'}>Partners</Link>
+                        {organizationLinks.map(({ href, label }) => (
+                            <Link key={href} href={href} className="nav-mobile-link" onClick={close}>{label}</Link>
+                        ))}
                         <div className="nav-mobile-divider" />
                         <Link href="/login" className="nav-mobile-link" onClick={close}>Log In</Link>
                         <Link href="/register" className="nav-mobile-link nav-mobile-cta" onClick={close}>Get Started Free →</Link>

@@ -33,7 +33,7 @@
 .ring {
     position: absolute;
     border-radius: 18px;
-    border: 2.5px solid #4175e8;
+    border: 2.5px solid var(--vestera-blue);
     box-shadow: 0 0 0 4px rgba(65,117,232,0.25);
     animation: ringPulse 1.8s ease-in-out infinite;
     pointer-events: none;
@@ -102,11 +102,11 @@
     background: #DDE5F5;
     transition: background 0.25s, width 0.25s;
 }
-.dotActive { background: #4175e8; width: 20px; border-radius: 4px; }
+.dotActive { background: var(--vestera-blue); width: 20px; border-radius: 4px; }
 .dotDone { background: #B7CBF6; }
 
 .title {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 19px;
     font-weight: 800;
     color: #1b2850;
@@ -114,7 +114,7 @@
     line-height: 1.25;
 }
 .body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 14px;
     font-weight: 500;
     color: #5c628a;
@@ -131,9 +131,9 @@
 .clusterCentered .actions { justify-content: center; }
 
 .primaryBtn {
-    background: #4175e8;
+    background: var(--vestera-blue);
     color: #fff;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 14px;
     font-weight: 800;
     border: none;
@@ -165,7 +165,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 13px;
     font-weight: 800;
     color: var(--vt-vblue);
@@ -185,7 +185,7 @@
     background: none;
     border: none;
     color: #8b90b0;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;

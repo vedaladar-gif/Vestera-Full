@@ -1,0 +1,70 @@
+.org-site {background:#f7f8fa;color:#17212e}
+.org-head {position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid #d3ddd7}
+.org-bar {max-width:var(--page-width);margin:auto;height:64px;padding:0 var(--page-gutter);display:flex;align-items:center;gap:28px}
+.org-bar nav,.org-bar nav.expanded {display:flex;align-items:center;gap:24px;margin-left:auto}
+.org-bar a,.org-bar button,.org-foot a {text-decoration:none;color:inherit;font:600 14px/1.45 Inter,sans-serif}
+.org-bar button {border:0;background:transparent;cursor:pointer;padding:8px 0}
+.org-bar button:hover,.org-bar nav a:hover {color:var(--vestera-blue)}
+.org-group {position:relative}
+.org-dropdown {position:absolute;top:100%;min-width:245px;padding:8px;background:white;border:1px solid #d3ddd7;box-shadow:0 8px 20px #17393418}
+.org-dropdown a {display:block;padding:12px}
+.org-site a.org-launch {display:inline-block;background:var(--vestera-blue);color:white;text-decoration:none;padding:11px 18px;border-radius:999px;font-weight:650}
+.org-site a.org-launch:hover {background:var(--vestera-blue)}
+.org-toggle {display:none}
+.org-page {max-width:var(--page-width);margin:auto;padding:0 var(--page-gutter) 65px}
+.org-page header {padding:clamp(52px,7vw,100px) 0 52px}
+.org-page section {border-top:1px solid #bdcec5;padding:42px 0 20px;scroll-margin-top:74px}
+.org-page h1,.org-page h2 {font-family:var(--interface-font);font-weight:700;color:#17212e;letter-spacing:-.045em}
+.org-page h1 {font-size:clamp(43px,6vw,78px);line-height:1.03;max-width:800px;margin:15px 0 22px}
+.org-page h1 em {color:var(--vestera-blue)}
+.org-page h2 {font-size:clamp(30px,4vw,46px);margin:0}
+.org-page p,.org-foot p {line-height:1.65;max-width:660px;color:#475569;margin:15px 0 23px}
+.org-page .org-caption {font-size:13px;color:var(--vestera-blue);font-weight:700}
+.org-page a {color:var(--vestera-blue);font-weight:650}
+.org-portraits {display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.org-portraits figure {margin:0}
+.org-portraits img {width:100%;height:auto;aspect-ratio:4/4.4;object-fit:cover;object-position:center 30%}
+.org-portraits figcaption {font:26px Georgia,serif;margin:10px 0}
+.org-portraits small {display:block;font:14px Inter,sans-serif;margin-top:4px}
+.org-directory {margin:22px 0}
+.org-directory>div {padding:18px 0;border-bottom:1px solid #cfdbd3;display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.org-foot {background:#f7f8fa;color:#17212e;display:grid;grid-template-columns:1.4fr .8fr 1fr;gap:6%;padding:48px max(5%,calc((100% - 1120px)/2))}
+.org-foot p,.org-foot small,.org-foot a {color:#475569;font-size:14px}
+.org-foot strong,.org-foot a {display:block;margin:0 0 10px}
+.org-foot a:hover {text-decoration:underline}
+.org-site .approved-home .primary-button {background:var(--vestera-blue)}
+.org-site .approved-home .hero h1 em {color:var(--vestera-blue)}
+.org-site .approved-home .eyebrow {text-transform:none;letter-spacing:.01em}
+@media(max-width:780px){
+.org-bar {gap:12px;padding:0 16px}
+.org-toggle {display:block;margin-left:auto}
+.org-bar nav {display:none}
+.org-bar nav.expanded {position:absolute;top:64px;left:0;right:0;display:grid;background:white;padding:18px;gap:10px;border-bottom:1px solid #ccd8d1}
+.org-dropdown {position:static;box-shadow:none;border:none;border-left:2px solid var(--vestera-blue)}
+.org-foot {grid-template-columns:1fr;gap:25px}
+.org-portraits {gap:10px}
+.org-directory>div {grid-template-columns:1fr;gap:4px}
+}
+
+.org-story .org-portraits { margin-top: 28px; }
+.org-spread, .org-page .sponsor-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: clamp(28px, 6vw, 84px);
+  align-items: start;
+}
+.org-page .sponsor-intro { align-items: end; }
+.org-spread h3 { margin-top: 32px; }
+.org-spread .org-caption, .org-spread > div > p:first-child { margin-top: 0; }
+.session-plan { margin: 0; padding-left: 26px; }
+.session-plan li { padding: 0 0 15px 10px; }
+.session-plan li::marker { color: var(--vestera-blue); font-weight: 700; }
+.session-plan li p { margin: 6px 0 12px; }
+.support-list { margin: 26px 0 0; }
+.support-list div { display: grid; grid-template-columns: 1fr 2fr; padding: 22px 0; gap: 20px; border-top: 1px solid #d7dee6; }
+.support-list dt { font-weight: 700; }
+.support-list dd { margin: 0; color: #475569; line-height: 1.65; }
+@media(max-width:700px) {
+  .org-spread, .org-page .sponsor-intro, .support-list div { grid-template-columns: 1fr; gap: 12px; }
+  .org-portraits figcaption { font-size: 20px; }
+}

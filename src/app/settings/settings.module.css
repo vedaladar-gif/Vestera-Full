@@ -1,7 +1,7 @@
 .wrap {
     min-height: 100vh;
     background: #f8faff;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     color: #1b2850;
     margin: -48px -24px 0;
     padding: 0;
@@ -12,12 +12,12 @@
 
 .inner {
     position: relative; z-index: 1;
-    max-width: 1000px; margin: 0 auto;
+    max-width: var(--page-width); margin: 0 auto;
     padding: 32px 40px 100px;
 }
 
 .heading {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--interface-font);
     font-size: 28px; font-weight: 800;
     color: #1b2850;
     letter-spacing: -0.5px;
@@ -58,7 +58,7 @@
     width: 100%; padding: 10px 12px; border-radius: 8px;
     background: none; border: none; cursor: pointer;
     font-size: 13px; font-weight: 600; color: #8b90b0;
-    font-family: 'Inter', sans-serif; text-align: left;
+    font-family: var(--interface-font); text-align: left;
     transition: color 0.15s, background 0.15s;
 }
 .nav-btn:hover { color: #1b2850; background: #f3f6ff; }
@@ -91,17 +91,17 @@
     font-size: 14px; font-family: inherit; outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
 }
-.field input:focus { border: 1.5px solid #4175e8; box-shadow: 0 0 0 3px rgba(65,117,232,0.1); }
+.field input:focus { border: 1.5px solid var(--vestera-blue); box-shadow: 0 0 0 3px rgba(65,117,232,0.1); }
 .field input.valid { border: 1.5px solid rgba(60,167,135,0.5); }
 .field input.invalid { border: 1.5px solid rgba(224,99,122,0.5); }
 .field .hint { font-size: 12px; color: #8b90b0; }
 .field .hint.err { color: #E0637A; }
-.field .hint.ok { color: #4175e8; }
+.field .hint.ok { color: var(--vestera-blue); }
 
 .btn-row { display: flex; gap: 10px; margin-top: 6px; }
 .btn-primary {
     padding: 11px 24px;
-    background: linear-gradient(135deg, #4175e8 0%, #315fd1 100%);
+    background: linear-gradient(135deg, var(--vestera-blue) 0%, #315fd1 100%);
     color: #fff;
     border: none; border-radius: 8px; font-size: 13px; font-weight: 700;
     cursor: pointer; font-family: inherit; transition: filter 0.15s, transform 0.15s;
@@ -164,7 +164,7 @@
     display: flex; align-items: center; gap: 5px;
 }
 .theme-btn.active {
-    background: linear-gradient(135deg, #4175e8 0%, #315fd1 100%);
+    background: linear-gradient(135deg, var(--vestera-blue) 0%, #315fd1 100%);
     color: #fff;
     box-shadow: 0 3px 10px rgba(65,117,232,0.3);
 }
@@ -185,7 +185,7 @@
     background: var(--vt-border); cursor: pointer;
     position: relative; transition: background 0.2s; flex-shrink: 0;
 }
-.toggle.on { background: linear-gradient(135deg, #4175e8 0%, #315fd1 100%); }
+.toggle.on { background: linear-gradient(135deg, var(--vestera-blue) 0%, #315fd1 100%); }
 .toggle-thumb {
     width: 18px; height: 18px; border-radius: 50%;
     background: #fff; position: absolute;

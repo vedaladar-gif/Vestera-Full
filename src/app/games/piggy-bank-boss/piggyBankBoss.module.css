@@ -22,7 +22,7 @@
     font-weight: 700;
     text-decoration: none;
 }
-.back:hover { color: #4175e8; }
+.back:hover { color: var(--vestera-blue); }
 
 .card {
     padding: 28px 24px 24px;
@@ -41,7 +41,7 @@
     letter-spacing: -.03em;
 }
 .card h1 { font-size: clamp(30px, 6vw, 38px); }
-.card h1 em { color: #4175e8; font-style: normal; }
+.card h1 em { color: var(--vestera-blue); font-style: normal; }
 .card h2 { margin-top: 20px; font-size: 22px; }
 .card > h2:first-child { margin-top: 0; }
 
@@ -54,13 +54,13 @@
 
 .eyebrow {
     margin: 0 0 6px;
-    color: #4175e8;
+    color: var(--vestera-blue);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .08em;
     text-transform: uppercase;
 }
-.card p.eyebrow { margin-bottom: 6px; color: #4175e8; font-size: 11px; line-height: 1.4; }
+.card p.eyebrow { margin-bottom: 6px; color: var(--vestera-blue); font-size: 11px; line-height: 1.4; }
 
 .footnote {
     margin: 14px 0 0;
@@ -82,7 +82,7 @@
 .hud { display: grid; gap: 14px; margin-bottom: 4px; }
 .progress span { display: block; margin-bottom: 8px; color: #4E5678; font-size: 13px; font-weight: 700; }
 .track { height: 6px; overflow: hidden; background: #dbe6ff; border-radius: 999px; }
-.track i { display: block; height: 100%; background: #4175e8; border-radius: 999px; transition: width .3s ease; }
+.track i { display: block; height: 100%; background: var(--vestera-blue); border-radius: 999px; transition: width .3s ease; }
 
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 4px; }
 .stat { padding: 12px 14px; background: #F7F9FD; border: 1px solid #dbe6ff; border-radius: 10px; }
@@ -111,7 +111,7 @@
     min-height: 46px;
     margin-top: 18px;
     padding: 0 20px;
-    background: #4175e8;
+    background: var(--vestera-blue);
     border: 0;
     border-radius: 8px;
     color: #fff;
@@ -157,7 +157,7 @@
 .vestaName {
     display: block;
     margin-bottom: 2px;
-    color: #4175e8;
+    color: var(--vestera-blue);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .08em;
@@ -231,7 +231,7 @@
     letter-spacing: .04em;
     text-transform: uppercase;
 }
-.cardBtn:hover:not(:disabled) { border-color: #4175e8; background: #F7F9FD; }
+.cardBtn:hover:not(:disabled) { border-color: var(--vestera-blue); background: #F7F9FD; }
 .cardRisky em { background: #FDECEC; color: #C24545; }
 .card .cardBtn:disabled { opacity: .5; cursor: not-allowed; }
 
@@ -251,7 +251,7 @@
 .recap .events { margin: 6px 0 0; border-top: 0; }
 .recap .ev { padding: 8px 0; font-size: 14px; }
 .card .recap p.recapTip { margin: 8px 0 0; font-size: 13px; line-height: 1.5; }
-.recapTip b { color: #4175e8; }
+.recapTip b { color: var(--vestera-blue); }
 
 .stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 8px; }
 
@@ -269,7 +269,7 @@
 .intentLabel { color: #7B849E; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .intent strong { color: #1b2850; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
 .intent span:last-child { color: #4E5678; font-size: 13px; font-weight: 600; line-height: 1.45; }
-.intent_hit { border-left-color: #4175e8; }
+.intent_hit { border-left-color: var(--vestera-blue); }
 .intent_big { border-left-color: #C24545; background: #FDF3F3; }
 .intent_count { border-left-color: #1C8C5A; background: #F0F9F4; }
 
@@ -288,12 +288,12 @@
 }
 .moveBtn strong { font-size: 15px; font-weight: 800; }
 .moveBtn span { font-size: 12px; font-weight: 600; line-height: 1.35; opacity: .9; }
-.move_attack { background: #4175e8; }
+.move_attack { background: var(--vestera-blue); }
 .move_attack:hover:not(:disabled) { background: #315fd1; }
 .move_strike { background: #1b2850; }
 .move_strike:hover:not(:disabled) { background: #2C3468; }
 .move_guard { background: #fff; border-color: #C5D0EA; color: #1b2850; }
-.move_guard:hover:not(:disabled) { border-color: #4175e8; }
+.move_guard:hover:not(:disabled) { border-color: var(--vestera-blue); }
 .card .moveBtn:disabled { opacity: .45; cursor: not-allowed; }
 
 /* floating damage numbers */
@@ -319,13 +319,13 @@
 .scoreTable > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #dbe6ff; color: #4E5678; font-size: 14px; font-weight: 600; }
 .scoreTable b { color: #1b2850; font-weight: 800; }
 .scoreTable .scoreTotal { color: #1b2850; font-size: 16px; font-weight: 800; }
-.scoreTotal b { color: #4175e8; font-size: 20px; }
+.scoreTotal b { color: var(--vestera-blue); font-size: 20px; }
 .card p.bestLine { margin: 6px 0 0; color: #315AB8; font-size: 13px; font-weight: 700; }
 .bestLine:empty { display: none; }
 
 .endButtons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .card .ghost { background: #fff; border: 1px solid #C5D0EA; color: #1b2850; }
-.card .ghost:hover { border-color: #4175e8; background: #F7F9FD; }
+.card .ghost:hover { border-color: var(--vestera-blue); background: #F7F9FD; }
 
 @media (max-width: 640px) {
     .page { padding: 24px 14px 40px; }

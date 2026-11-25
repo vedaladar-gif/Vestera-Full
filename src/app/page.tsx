@@ -7,8 +7,6 @@ import './approved-home.css';
 const markup = `
 <main id="top">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-art" role="img" aria-label="Students exploring a colorful town filled with places to learn about money"></div>
-        <div class="hero-shade"></div>
         <div class="hero-content page-width">
           <div class="eyebrow"><span class="spark">✦</span> Money skills for real life</div>
           <h1 id="hero-title">Grow smart with <em>money.</em></h1>

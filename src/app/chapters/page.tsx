@@ -7,36 +7,7 @@ export const metadata: Metadata = {
     description: 'Bring Vestera to your school by starting a student-led chapter.',
 };
 
-const CHAPTERS = [
-    {
-        name: 'Green Level High School',
-        location: 'Cary, NC',
-        presidentLabel: 'Co-Founders',
-        president: 'Sourish, Kiaan, and Vedant',
-        leaderCount: 3,
-        founded: '2026',
-        initials: 'GL',
-        isFounding: true,
-    },
-    {
-        name: 'John Fraser Secondary School',
-        location: 'Mississauga, ON',
-        presidentLabel: 'President',
-        president: 'Anton Park',
-        leaderCount: 1,
-        founded: '2026',
-        initials: 'JF',
-    },
-    {
-        name: 'Independence High School',
-        location: 'Frisco, TX',
-        presidentLabel: 'President',
-        president: 'Priyansh M',
-        leaderCount: 1,
-        founded: '2026',
-        initials: 'IH',
-    },
-];
+import { CHAPTERS } from '@/lib/chapterDirectory';
 
 const SCHOOL_COUNT = CHAPTERS.length;
 const LEADER_COUNT = CHAPTERS.reduce((sum, c) => sum + c.leaderCount, 0);

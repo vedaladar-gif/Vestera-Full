@@ -1,6 +1,6 @@
 .shell {
     --navy: #1b2850;
-    --blue: #4175e8;
+    --blue: var(--vestera-blue);
     --gold: #E2B043;
     --ink: #1b2850;
     --paper: #F7F4EC;

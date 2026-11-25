@@ -1,0 +1,30 @@
+export const CHAPTERS = [
+    {
+        name: 'Green Level High School',
+        location: 'Cary, NC',
+        presidentLabel: 'Co-Founders',
+        president: 'Sourish, Kiaan, and Vedant',
+        leaderCount: 3,
+        founded: '2026',
+        initials: 'GL',
+        isFounding: true,
+    },
+    {
+        name: 'John Fraser Secondary School',
+        location: 'Mississauga, ON',
+        presidentLabel: 'President',
+        president: 'Anton Park',
+        leaderCount: 1,
+        founded: '2026',
+        initials: 'JF',
+    },
+    {
+        name: 'Independence High School',
+        location: 'Frisco, TX',
+        presidentLabel: 'President',
+        president: 'Priyansh M',
+        leaderCount: 1,
+        founded: '2026',
+        initials: 'IH',
+    },
+];
