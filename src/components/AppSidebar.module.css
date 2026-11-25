@@ -274,3 +274,11 @@
     .mobileOverlay { display: block; }
     .topBar { padding: 0 16px; }
 }
+
+.mobileLogin,.guestLink {color:inherit;font-size:14px;font-weight:600;text-decoration:none;padding:8px}
+.mobileLogin {color:white}
+.mobileLogin:hover,.guestLink:hover {text-decoration:underline}
+@media(max-width:960px) {
+    .shellRoot {flex-direction:column}
+    .organizationTopBar {display:none}
+}

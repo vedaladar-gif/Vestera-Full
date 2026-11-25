@@ -12,7 +12,7 @@
  * authenticated page in one place.
  */
 
-import OrganizationFrame, { SiteHeader } from './OrganizationFrame';
+import OrganizationFrame, { OrganizationFooter, SiteHeader } from './OrganizationFrame';
 import { platformLinks } from './platformLinks';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -46,8 +46,6 @@ const NAV_ITEMS: Array<{ href: string; label: string; icon: React.ComponentType<
     { href: '/about', label: 'About', icon: PartnersIcon },
     { href: '/programs', label: 'Programs', icon: ChaptersIcon },
     { href: '/sponsors', label: 'Sponsors', icon: PartnersIcon },
-    { href: '/chapters', label: 'Chapters', icon: ChaptersIcon },
-    { href: '/partners', label: 'Partners', icon: PartnersIcon },
 ];
 
 interface Me {
@@ -70,6 +68,7 @@ function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () 
                     key={href}
                     href={href}
                     onClick={onNavigate}
+                    aria-current={isActive(href) ? 'page' : undefined}
                     className={`${styles.navItem} ${isActive(href) ? styles.navItemActive : ''}`}
                 >
                     <Icon size={17} />
@@ -109,6 +108,7 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
     const [drawerOpen, setDrawerOpen] = useState(false);
     const profileRef = useRef<HTMLDivElement>(null);
 
+    const organizationSidebar = ['/about', '/programs', '/sponsors'].includes(pathname);
     const organizationPage = ['/', '/about', '/programs', '/sponsors', '/partners', '/chapters', '/privacy', '/terms'].includes(pathname);
     const noShell = NO_SHELL_PREFIXES.some(p => pathname === p || pathname.startsWith(p + '/'));
 
@@ -156,10 +156,10 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
     };
 
     // Onboarding/auth screens render their own complete layout.
-    if (organizationPage) return <OrganizationFrame authenticated={authenticated}>{children}</OrganizationFrame>;
+    if (organizationPage && !organizationSidebar) return <OrganizationFrame authenticated={authenticated}>{children}</OrganizationFrame>;
     if (noShell) return <>{children}</>;
 
-    if (!authenticated) {
+    if (!authenticated && !organizationSidebar) {
         return (
             <>
                 <SiteHeader authenticated={authenticated}/>
@@ -177,12 +177,12 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
                     <VesteraLogo height={27} light />
                 </Link>
                 <div className={styles.sidebarDivider} />
-                <nav className={styles.sidebarNav}>
+                <nav className={styles.sidebarNav} aria-label="Main navigation">
                     <NavLinks pathname={pathname} />
                 </nav>
-                <div className={styles.sidebarBottom}>
+                {authenticated && <div className={styles.sidebarBottom}>
                     <BottomLinks pathname={pathname} />
-                </div>
+                </div>}
             </aside>
 
             {/* ── Mobile top bar ── */}
@@ -200,35 +200,36 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
                 <Link href="/" className={styles.mobileBrand}>
                     <VesteraLogo height={25} light />
                 </Link>
-                <Link href="/settings" className={styles.mobileIconBtn} aria-label="Profile">
+                {authenticated ? <Link href="/settings" className={styles.mobileIconBtn} aria-label="Profile">
                     <UserAvatar size={26} avatarUrl={me.avatarUrl} avatarColor={me.avatarColor} username={me.username} displayName={me.displayName} borderRadius={7} />
-                </Link>
+                </Link> : <Link href="/login" className={styles.mobileLogin}>Log in</Link>}
             </div>
             <div
                 className={`${styles.mobileOverlay} ${drawerOpen ? styles.mobileOverlayShow : ''}`}
                 onClick={() => setDrawerOpen(false)}
                 aria-hidden="true"
             />
-            <div className={`${styles.mobileDrawer} ${drawerOpen ? styles.mobileDrawerOpen : ''}`} aria-hidden={!drawerOpen}>
+            <div className={`${styles.mobileDrawer} ${drawerOpen ? styles.mobileDrawerOpen : ''}`} aria-hidden={!drawerOpen} inert={!drawerOpen}>
                 <div className={styles.sidebarBrand}>
                     <VesteraLogo height={27} light />
                 </div>
                 <div className={styles.sidebarDivider} />
-                <nav className={styles.sidebarNav}>
+                <nav className={styles.sidebarNav} aria-label="Main navigation">
                     <NavLinks pathname={pathname} onNavigate={() => setDrawerOpen(false)} />
                 </nav>
-                <div className={styles.sidebarBottom}>
+                {authenticated ? <div className={styles.sidebarBottom}>
                     <BottomLinks pathname={pathname} onNavigate={() => setDrawerOpen(false)} />
                     <button type="button" className={styles.navItemButton} onClick={handleLogout}>
                         <LogoutIcon size={17} />
                         Logout
                     </button>
-                </div>
+                </div> : <Link href="/register" className={styles.navItem}>Get started</Link>}
             </div>
 
             {/* ── Content column ── */}
             <div className={styles.contentCol}>
-                <div className={styles.topBar}>
+                <div className={`${styles.topBar} ${organizationSidebar ? styles.organizationTopBar : ''}`}>
+                    {authenticated ? <>
                     <button type="button" className={styles.iconBtn} aria-label="Notifications">
                         <BellIcon size={18} />
                     </button>
@@ -256,11 +257,12 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
                             </div>
                         )}
                     </div>
+                    </> : <><Link href="/login" className={styles.guestLink}>Log in</Link><Link href="/register" className={styles.guestLink}>Get started</Link></>}
                 </div>
-                <div className={styles.contentInner}>
+                <div className={`${styles.contentInner} ${organizationSidebar ? 'org-site org-with-sidebar' : ''}`}>
                     {children}
                 </div>
-                {footer}
+                {organizationSidebar ? <OrganizationFooter/> : footer}
             </div>
         </div>
     );
