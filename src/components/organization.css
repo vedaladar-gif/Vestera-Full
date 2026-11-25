@@ -1,4 +1,4 @@
-.org-site {background:#f7f8fa;color:#17212e}
+.org-site {--public-header-height:105px;background:#f7f8fa;color:#17212e}
 .org-head {position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid #d3ddd7}
 .org-bar {max-width:var(--page-width);margin:auto;height:64px;padding:0 var(--page-gutter);display:flex;align-items:center;gap:28px}
 .org-bar nav {display:flex;align-items:center;gap:24px;margin-left:auto}
@@ -8,8 +8,8 @@
 .org-group {position:relative}
 .org-dropdown {position:absolute;top:100%;min-width:245px;padding:8px;background:white;border:1px solid #d3ddd7;box-shadow:0 8px 20px #17393418}
 .org-dropdown a {display:block;padding:12px}
-.org-site a.org-launch {display:inline-block;background:var(--vestera-blue);color:white;text-decoration:none;padding:11px 18px;border-radius:999px;font-weight:650}
-.org-site a.org-launch:hover {background:var(--vestera-blue)}
+.org-head a.org-launch {display:inline-block;background:var(--vestera-blue);color:white;text-decoration:none;padding:11px 18px;border-radius:999px;font-weight:650}
+.org-head a.org-launch:hover {background:var(--vestera-blue)}
 .org-group {display:flex;align-items:center}
 .org-group button {min-width:26px}
 .org-bar nav a[aria-current="page"] {color:#315fc7;text-decoration:underline;text-underline-offset:5px}
@@ -44,7 +44,7 @@
 .org-bar nav {grid-column:1/-1;grid-row:2;width:100%;display:flex;justify-content:space-between;gap:4px;margin:4px 0 0;min-height:40px}
 .org-bar nav a {font-size:13px}
 .org-bar nav .org-group:nth-child(2) .org-dropdown {left:50%;transform:translateX(-50%)}
-.org-site {--public-header-height:100px}
+.org-site {--public-header-height:140px}
 .org-foot {grid-template-columns:1fr;gap:25px}
 .org-portraits {gap:10px}
 .org-directory>div {grid-template-columns:1fr;gap:4px}
@@ -120,4 +120,20 @@
   .org-form,.benefits,.workshop-gallery,.org-page .sponsor-feature {grid-template-columns:1fr}
   .approved-home .impact-strip {grid-template-columns:1fr 1fr;row-gap:20px}
   .program-tabs a {font-size:12px;padding:8px}
+}
+
+.org-head {color:#17212e}
+.platform-tabs {border-top:1px solid #e5e7eb}
+.platform-tabs > div {display:flex;align-items:center;gap:clamp(16px,2.4vw,32px);max-width:var(--page-width);height:40px;margin:auto;padding:0 var(--page-gutter);overflow-x:auto;white-space:nowrap}
+.platform-tabs a {display:inline-flex;align-items:center;height:36px;color:#475569;text-decoration:none;font:600 14px/1.3 var(--interface-font)}
+.platform-tabs a:hover,.platform-tabs a[aria-current] {color:#315fc7;text-decoration:underline;text-underline-offset:5px}
+.platform-tabs a:focus-visible {outline-offset:-2px}
+.account-tabs {margin-left:auto;display:flex;gap:18px}
+.org-page .mission-intro {display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:clamp(28px,4vw,56px);row-gap:14px;align-items:baseline;padding-block:clamp(36px,5vw,72px)}
+.mission-intro .org-caption {grid-column:1/-1}
+.org-page .mission-intro p,.org-page .mission-intro h1 {margin:0}
+.org-page .mission-intro h1 {font-size:clamp(36px,4vw,56px);line-height:1.08;text-wrap:balance}
+@media(max-width:800px) {
+  .org-page .mission-intro {grid-template-columns:1fr;max-width:64ch}
+  .org-page .mission-intro h1 {max-width:24ch}
 }

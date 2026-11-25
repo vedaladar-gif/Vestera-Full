@@ -12,20 +12,14 @@
  * authenticated page in one place.
  */
 
-import OrganizationFrame from './OrganizationFrame';
+import OrganizationFrame, { SiteHeader } from './OrganizationFrame';
+import { platformLinks } from './platformLinks';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import VesteraLogo from '@/components/VesteraLogo';
 import { UserAvatar } from '@/components/UserAvatar';
 import {
-    TradeIcon,
-    PortfolioIcon,
-    LearnIcon,
-    GamesIcon,
-    LeaderboardIcon,
-    ForecastIcon,
     ChaptersIcon,
     PartnersIcon,
     AiAssistantIcon,
@@ -43,18 +37,15 @@ const NO_SHELL_PREFIXES = [
     '/setup-username',
     '/check-email',
     '/reset-password',
-    '/restricted',
     '/admin',
     '/games/wall-street-challenge',
 ];
 
 const NAV_ITEMS: Array<{ href: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }> = [
-    { href: '/trade', label: 'Trade', icon: TradeIcon },
-    { href: '/portfolio', label: 'Portfolio', icon: PortfolioIcon },
-    { href: '/learn', label: 'Learn', icon: LearnIcon },
-    { href: '/games', label: 'Games', icon: GamesIcon },
-    { href: '/stats', label: 'Leaderboard', icon: LeaderboardIcon },
-    { href: '/ai-forecast', label: 'AI Forecast', icon: ForecastIcon },
+    ...platformLinks,
+    { href: '/about', label: 'About', icon: PartnersIcon },
+    { href: '/programs', label: 'Programs', icon: ChaptersIcon },
+    { href: '/sponsors', label: 'Sponsors', icon: PartnersIcon },
     { href: '/chapters', label: 'Chapters', icon: ChaptersIcon },
     { href: '/partners', label: 'Partners', icon: PartnersIcon },
 ];
@@ -122,10 +113,15 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
     const noShell = NO_SHELL_PREFIXES.some(p => pathname === p || pathname.startsWith(p + '/'));
 
     useEffect(() => {
-        if (organizationPage || noShell) return;
+        if (noShell) return;
+        let current = true;
         fetch('/api/auth/me', { credentials: 'same-origin' })
             .then(r => r.json())
             .then(data => {
+                if (!current) return;
+                if (data.authenticated && data.needsUsername && !organizationPage && pathname !== '/settings') {
+                    router.replace('/setup-username');
+                }
                 setAuthenticated(Boolean(data.authenticated));
                 if (data.authenticated) {
                     setMe({
@@ -136,8 +132,9 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
                     });
                 }
             })
-            .catch(() => setAuthenticated(false));
-    }, [pathname, noShell, organizationPage]);
+            .catch(() => { if (current) setAuthenticated(false); });
+        return () => { current = false; };
+    }, [pathname, noShell, organizationPage, router]);
 
     useEffect(() => { setDrawerOpen(false); setProfileOpen(false); }, [pathname]);
 
@@ -159,20 +156,13 @@ export default function AppFrame({ children, footer }: { children: React.ReactNo
     };
 
     // Onboarding/auth screens render their own complete layout.
-    if (organizationPage) return <OrganizationFrame>{children}</OrganizationFrame>;
+    if (organizationPage) return <OrganizationFrame authenticated={authenticated}>{children}</OrganizationFrame>;
     if (noShell) return <>{children}</>;
 
-    // The marketing homepage is always its own full-width page with the public
-    // navbar — never wrapped in the app sidebar, even when logged in. Clicking
-    // the Vestera logo anywhere in the app always lands here.
-    const isLanding = pathname === '/';
-
-    // Auth state not resolved yet, logged out, or on the homepage — keep the
-    // public marketing navbar instead of the app sidebar.
-    if (!authenticated || isLanding) {
+    if (!authenticated) {
         return (
             <>
-                <div className="nav-float-shell"><Navbar /></div>
+                <SiteHeader authenticated={authenticated}/>
                 {children}
                 {footer}
             </>

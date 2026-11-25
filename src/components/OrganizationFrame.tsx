@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
 import VesteraLogo from './VesteraLogo';
+import { useGuestMode } from '@/hooks/useGuestMode';
+import { platformLinks } from './platformLinks';
 import './organization.css';
 
 const groups = [
@@ -11,14 +13,13 @@ const groups = [
 ];
 const quick = [['Mission & Team','/about#team'],['Impact & Gallery','/about#impact'],['Partner Schools','/programs#partners'],['Start a Chapter','/programs#chapters'],['Sponsors','/sponsors']];
 
-export default function OrganizationFrame({children}: {children: React.ReactNode}) {
-  const instagram = 'vesteratrading';
+export function SiteHeader({authenticated}: {authenticated: boolean | null}) {
+  const { isGuest, clearGuestMode } = useGuestMode();
   const pathname = usePathname();
   const [open, setOpen] = useState('');
   const header = useRef<HTMLElement>(null);
   const close = () => setOpen('');
-  return <div className="org-site">
-    <header ref={header} className="org-head" onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) close();}} onKeyDown={e => {
+  return <header ref={header} className="org-head" onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) close();}} onKeyDown={e => {
       if (e.key === 'Escape' && open) {
         header.current?.querySelector<HTMLButtonElement>('[data-dropdown][aria-expanded=true]')?.focus();
         close();
@@ -35,7 +36,22 @@ export default function OrganizationFrame({children}: {children: React.ReactNode
         </div>)}
         <Link href="/sponsors" aria-current={pathname === '/sponsors' ? 'page' : undefined} onClick={close}>Sponsors</Link>
       </nav><Link className="org-launch" href="/games" onClick={close}>Launch App →</Link></div>
-    </header>
+      <nav aria-label="Learning platform" className="platform-tabs">
+        <div>{platformLinks.map(({href, label}) => <Link key={href} href={href}
+          aria-current={pathname === href || pathname.startsWith(href + '/') ? 'page' : undefined}>{label}</Link>)}
+          <span className="account-tabs">
+            {authenticated ? <Link href="/settings">Profile</Link> : <><Link href="/login">Log in</Link><Link href="/register">Get started</Link></>}
+            {isGuest && pathname === '/learn' && <Link href="/" onClick={clearGuestMode}>Exit preview</Link>}
+          </span>
+        </div>
+      </nav>
+    </header>;
+}
+
+export default function OrganizationFrame({children, authenticated}: {children: React.ReactNode; authenticated: boolean | null}) {
+  const instagram = 'vesteratrading';
+  return <div className="org-site">
+    <SiteHeader authenticated={authenticated}/>
     {children}
     <footer className="org-foot"><div><VesteraLogo height={31}/><p>A student-led financial literacy organization equipping elementary and middle school students with real-world money and investing skills.</p><small>© {new Date().getFullYear()} Vestera</small></div>
       <div><strong>Quick links</strong>{quick.map(([name,href]) => <Link key={href} href={href}>{name}</Link>)}</div>

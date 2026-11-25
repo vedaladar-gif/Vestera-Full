@@ -6,7 +6,9 @@ export const metadata = { title: 'About Vestera | Mission & Leadership' };
 
 export default function About() {
   return <main className="org-page org-story">
-    <header id="team" className="org-spread"><div><p className="org-caption">Our mission</p><h1>Bridging the financial literacy gap before high school.</h1></div>
+    <header id="team" className="mission-intro">
+      <p className="org-caption">Our mission</p>
+      <h1>Bridging the financial literacy gap before high school.</h1>
       <p>Most students graduate high school without ever learning how compound interest, budgeting, or investing actually work. Vestera pairs trained high school mentors with local elementary schools and youth programs to teach foundational financial literacy through interactive simulations, games, and hands-on workshops—completely free of charge.</p>
     </header>
     <section>

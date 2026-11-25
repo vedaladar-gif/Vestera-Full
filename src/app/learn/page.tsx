@@ -1,11 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import DashNav from '@/components/DashNav';
 import UpgradeModal from '@/components/UpgradeModal';
 import { useAuthState } from '@/hooks/useAuthState';
-import { useGuestMode } from '@/hooks/useGuestMode';
 import { ACADEMY_RANKS, journeyProgress, rankById } from '@/lib/academy/ranks';
 import type { AcademyRankId, AcademyUserState, LessonCatalogItem } from '@/lib/academy/types';
 import styles from './learn.module.css';
@@ -161,9 +158,7 @@ function openVesta(message: string, lesson?: { id: number; title: string; excerp
 }
 
 export default function LearningDashboard() {
-    const router = useRouter();
     const { authenticated, loading: authLoading } = useAuthState();
-    const { isGuest, clearGuestMode } = useGuestMode();
     const [upgradeOpen, setUpgradeOpen] = useState(false);
     const [view, setView] = useState<View>({ kind: 'home' });
     const [state, setState] = useState<AcademyUserState | null>(null);
@@ -546,15 +541,6 @@ export default function LearningDashboard() {
     return (
         <div className={styles.learnWrap}>
             <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
-            {/* Authenticated users get nav from the global sidebar (AppFrame) — this
-                header is only needed for the logged-out guest preview flow. */}
-            {!authenticated && (
-                <DashNav
-                    onLogout={() => router.push('/')}
-                    previewMode
-                    onExitPreview={isGuest ? () => { clearGuestMode(); router.push('/'); } : undefined}
-                />
-            )}
             <div className={styles.content}>
                 {loading && <div className={styles.centerState}>Loading Academy…</div>}
                 {error && <p className={styles.centerState}>{error}</p>}
