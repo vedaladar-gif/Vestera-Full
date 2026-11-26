@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
-import VesteraLogo from './VesteraLogo';
+import VesteraLogo, { VesteraMark } from './VesteraLogo';
 import { useGuestMode } from '@/hooks/useGuestMode';
 import { platformLinks } from './platformLinks';
 import './organization.css';
@@ -66,6 +66,25 @@ export function SiteHeader({authenticated}: {authenticated: boolean | null}) {
 }
 
 export default function OrganizationFrame({children, authenticated}: {children: React.ReactNode; authenticated: boolean | null}) {
+  const pathname = usePathname();
+  if (pathname === '/') return <div className="home-shell">
+    <header className="home-header"><div className="home-bar">
+      <Link className="home-brand" href="/" aria-label="Vestera home"><VesteraMark size={34}/>Vestera</Link>
+      <nav aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a><a href="#games">Games</a>
+        <a href="#teachers">For teachers &amp; clubs</a><Link href="/about">About</Link>
+      </nav>
+      <div className="home-account">{authenticated ? <Link className="join" href="/settings">Profile</Link> :
+        <><Link href="/login">Log in</Link><Link className="join" href="/register">Start free</Link></>}</div>
+    </div></header>
+    {children}
+    <footer className="home-footer"><div className="home-bar">
+      <div className="home-credit"><Link href="/" aria-label="Vestera home"><VesteraMark size={26}/></Link>
+        <span>© 2026 Vestera · Student-led in North Carolina</span></div>
+      <nav aria-label="Footer navigation"><Link href="/about">About</Link><a href="mailto:vesteratrading@gmail.com">Contact</a>
+        <Link href="/privacy">Privacy</Link><Link href="/programs#schools">For parents</Link></nav>
+    </div></footer>
+  </div>;
   return <div className="org-site">
     <SiteHeader authenticated={authenticated}/>
     {children}

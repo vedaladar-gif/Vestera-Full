@@ -1,254 +1,112 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { ArrowRight, BookOpen, ChartNoAxesColumn, Check, CircleDollarSign, CreditCard, Sparkles, Star, Target, TrendingUp, Trophy, Users } from 'lucide-react';
 import { startTour } from '@/lib/onboarding';
 import './approved-home.css';
 
-const markup = `
-<main id="top">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-content page-width">
-          <div class="eyebrow"><span class="spark">✦</span> Student-Led Financial Literacy · Wake &amp; Chatham County, NC</div>
-          <h1 id="hero-title">Grow smart with <em>money.</em></h1>
-          <p class="hero-copy">Learn how money works through stories, challenges, and games built for curious minds—not finance experts.</p>
-          <div class="hero-actions">
-            <a class="primary-button" href="/learn">Start exploring <span aria-hidden="true">→</span></a>
-            <button class="watch-button" type="button" data-scroll="#path">
-              <span class="play" aria-hidden="true">▶</span>
-              See how it works
-            </button>
-          </div>
-          <button class="demo-link" type="button" data-demo-tour>Try the guided trading demo →</button>
-          <div class="proof">
-            <div class="avatars" aria-hidden="true">
-              <span>AM</span><span>JL</span><span>SK</span>
-            </div>
-            <p><strong>Built for real decisions</strong><br />Made for every learner</p>
-          </div>
-        </div>
+const impact = [
+  { value: '150+', label: 'Students taught (team estimate)' },
+  { value: '7', label: 'Schools and youth organizations in our outreach' },
+  { value: '4', label: 'Sessions in the after-school curriculum' },
+  { value: '$0', label: 'Workshop cost for schools and families' },
+];
 
-        <aside class="weekly-card" aria-label="Weekly learning progress">
-          <div class="weekly-head">
-            <span>Example week</span>
-            <span class="streak">🔥 4 day streak</span>
-          </div>
-          <div class="weekly-score">
-            <strong>3</strong><span>of 5<br />missions</span>
-          </div>
-          <div class="progress-track"><i></i></div>
-          <div class="next-up">
-            <span class="next-icon">$</span>
-            <span><small>Up next</small><strong>Build a smart budget</strong></span>
-            <span aria-hidden="true">→</span>
-          </div>
-        </aside>
-      </section>
+const steps = [
+  { icon: BookOpen, title: 'Read a money story', text: 'Follow an everyday decision about earning, budgeting, or saving and choose what you would do.' },
+  { icon: Target, title: 'Take on a challenge', text: 'Put what you learned to work in a quick quiz or a real-life money scenario.' },
+  { icon: TrendingUp, title: 'Trade with practice cash', text: 'Buy and sell stocks in the simulator with pretend money and see how prices change.' },
+];
 
-      <section class="impact-strip" aria-label="Community impact">
-        <div><strong>7</strong>Partner schools &amp; youth organizations</div>
-        <div><strong>4-part</strong>Interactive investing &amp; money curriculum</div>
-        <div><strong>100%</strong>Free for schools, PTAs &amp; families</div>
-        <div><strong>Wake &amp; Chatham</strong>Active regional footprint</div>
-      </section>
-      <section class="trust-strip" aria-label="Vestera learning benefits">
-        <div class="page-width trust-grid">
-          <p>One learning world.<br /><strong>Skills that grow with you.</strong></p>
-          <div><span>01</span><strong>Learn it</strong><small>Short, clear lessons</small></div>
-          <div><span>02</span><strong>Try it</strong><small>Decisions that matter</small></div>
-          <div><span>03</span><strong>Play it</strong><small>Games with a purpose</small></div>
-        </div>
-      </section>
+const games = [
+  { icon: TrendingUp, title: 'Wall Street Challenge', text: 'Manage a portfolio through eight rounds of market news.', href: '/games/wall-street-challenge' },
+  { icon: CreditCard, title: 'Bank Rush', text: 'Help customers decide what to spend, save, and deposit.', href: '/games/bank-rush' },
+  { icon: CircleDollarSign, title: 'Piggy Bank Boss', text: 'Make a savings plan and keep it going when surprises hit.', href: '/games/piggy-bank-boss' },
+  { icon: Trophy, title: 'Leaderboard', text: 'See how you rank alongside other Vestera learners.', href: '/stats' },
+];
 
-      <section class="learning-section page-width" id="learn">
-        <div class="section-kicker"><span>01</span> Your learning world</div>
-        <div class="section-heading">
-          <h2>Learn by making<br /><em>real choices.</em></h2>
-          <p>Every path turns a big money idea into a story you can understand, a choice you can make, and a skill you can use.</p>
-        </div>
+const classroom = [
+  { icon: Users, title: 'Student-led workshops', text: 'High school mentors lead hands-on sessions at your school or club.' },
+  { icon: BookOpen, title: 'Ready-to-use lessons', text: 'Explore budgeting, banking, and investing with stories and worksheets.' },
+  { icon: ChartNoAxesColumn, title: 'Class competitions', text: 'Practice making trades as a group, then compare decisions.' },
+];
 
-        <div class="lesson-grid" id="path">
-          <article class="lesson-card sky">
-            <div class="card-top"><span>Start here</span><span>6 lessons</span></div>
-            <div class="lesson-art wallet-art" aria-hidden="true">
-              <div class="money-in-card">
-                <span>Money in</span>
-                <strong>+$20</strong>
-                <small>Weekend job</small>
-              </div>
-              <div class="flow-branch"><i></i><b></b><b></b></div>
-              <div class="money-choice save-choice">
-                <span><i>↓</i> Save</span>
-                <strong>$8</strong>
-                <small>Future goal</small>
-              </div>
-              <div class="money-choice spend-choice">
-                <span><i>→</i> Spend</span>
-                <strong>$12</strong>
-                <small>Today</small>
-              </div>
-              <div class="money-rule">Every dollar has a job <span>✓</span></div>
-            </div>
-            <div class="card-copy">
-              <span class="number">01</span>
-              <h3>Money basics</h3>
-              <p>Earn, save, spend, and understand where money goes.</p>
-              <a href="/learn">Explore the path <span>→</span></a>
-            </div>
-          </article>
-
-          <article class="lesson-card green">
-            <div class="card-top"><span>Next step</span><span>8 lessons</span></div>
-            <div class="lesson-art goal-art" aria-hidden="true">
-              <div class="goal-summary">
-                <span>Saving for</span>
-                <strong>My first big goal</strong>
-                <div class="goal-meter"><i></i></div>
-                <small><b>$84</b> of $120 saved</small>
-              </div>
-              <div class="goal-jar">
-                <div class="jar-lid"></div>
-                <div class="jar-shine"></div>
-                <div class="jar-fill"><i>$</i><i>¢</i><i>$</i><i>¢</i></div>
-                <strong>70%</strong>
-              </div>
-              <div class="milestone-line"><i></i><span class="done">✓</span><span class="done">✓</span><span>★</span></div>
-            </div>
-            <div class="card-copy">
-              <span class="number">02</span>
-              <h3>Goals & saving</h3>
-              <p>Make a plan, handle tradeoffs, and reach something meaningful.</p>
-              <a href="/learn">Explore the path <span>→</span></a>
-            </div>
-          </article>
-
-          <article class="lesson-card gold">
-            <div class="card-top"><span>Level up</span><span>7 lessons</span></div>
-            <div class="lesson-art growth-art" aria-hidden="true">
-              <div class="growth-dashboard">
-                <div class="growth-heading"><span>Compound growth</span><b>↗ 18%</b></div>
-                <svg viewBox="0 0 300 125" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#4175e8" stop-opacity=".38" />
-                      <stop offset="1" stop-color="#4175e8" stop-opacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <path class="growth-area" d="M0,112 C42,105 54,92 82,93 C116,94 121,70 155,68 C191,65 194,48 226,43 C255,38 268,17 300,8 L300,125 L0,125 Z" />
-                  <path class="growth-line" d="M0,112 C42,105 54,92 82,93 C116,94 121,70 155,68 C191,65 194,48 226,43 C255,38 268,17 300,8" />
-                  <circle cx="82" cy="93" r="4" /><circle cx="155" cy="68" r="4" /><circle cx="226" cy="43" r="4" /><circle cx="300" cy="8" r="5" />
-                </svg>
-                <div class="growth-years"><span>Today</span><span>Year 5</span><span>Year 10</span></div>
-              </div>
-              <div class="growth-coins"><span><i></i></span><span><i></i><i></i></span><span><i></i><i></i><i></i></span></div>
-            </div>
-            <div class="card-copy">
-              <span class="number">03</span>
-              <h3>Growing money</h3>
-              <p>Meet investing, risk, and the quiet power of time.</p>
-              <a href="/learn">Explore the path <span>→</span></a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="game-section" id="games">
-        <div class="page-width game-grid">
-          <div class="game-copy">
-            <div class="section-kicker light"><span>02</span> Games that teach</div>
-            <h2>Make the call.<br /><em>See what happens.</em></h2>
-            <p>Vestera games turn financial choices into missions. The answer is not always obvious—and that is the point.</p>
-            <a class="cream-button" href="/games">Enter the arcade <span>→</span></a>
-          </div>
-
-          <div class="game-browser" id="game-preview">
-            <div class="browser-bar"><i></i><i></i><i></i><span>vestera / games</span></div>
-            <div class="game-screen">
-              <div class="game-score"><span>LEVEL 2</span><strong>720 <small>XP</small></strong></div>
-              <div class="game-title"><small>Bank Rush</small><strong>Which account<br />should Emma use?</strong></div>
-              <div class="account-row">
-                <button type="button" class="account active"><span>Everyday</span><strong>$39</strong><small>For spending</small></button>
-                <button type="button" class="account"><span>Savings</span><strong>$85</strong><small>For later</small></button>
-              </div>
-              <div class="game-footer"><span>Think about what the money is for.</span><a href="/games/bank-rush" class="game-play-link">Play Bank Rush →</a></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="progress-section page-width" id="progress">
-        <div class="progress-intro">
-          <div class="section-kicker"><span>03</span> Progress you can feel</div>
-          <h2>A path that grows<br /><em>with every win.</em></h2>
-          <p>No confusing charts. Students see the skill they gained, why it matters, and what they are ready to try next.</p>
-        </div>
-
-        <div class="progress-panel">
-          <div class="profile-line">
-            <div class="profile-avatar">K</div>
-            <div><small>Example learning path</small><strong>Money Explorer</strong></div>
-            <span class="level-chip">Level 4</span>
-          </div>
-          <div class="skill-ring-wrap">
-            <div class="skill-ring"><span><strong>68%</strong>complete</span></div>
-            <div class="skill-copy">
-              <small>Strongest skill</small>
-              <strong>Smart spending</strong>
-              <p>You compare choices before you buy.</p>
-            </div>
-          </div>
-          <div class="skill-bars">
-            <div><span>Saving</span><i><b style="width: 82%"></b></i><strong>82</strong></div>
-            <div><span>Budgeting</span><i><b style="width: 66%"></b></i><strong>66</strong></div>
-            <div><span>Investing</span><i><b style="width: 41%"></b></i><strong>41</strong></div>
-          </div>
-          <a class="panel-button" href="/stats">View full progress <span>↗</span></a>
-        </div>
-      </section>
-
-      <section class="family-section" id="families">
-        <div class="page-width family-card">
-          <div class="family-copy">
-            <span class="mini-label">For families & educators</span>
-            <h2>Money conversations<br />start right here.</h2>
-            <p>Give young people a safe place to practice before the choices become real.</p>
-            <a href="/partners">Bring Vestera home <span>→</span></a>
-          </div>
-          <div class="family-quote">
-            <span class="quote-mark">✦</span>
-            <p>Practice together, then talk through the choices that matter.</p>
-            <div><strong>For families</strong><span>A shared starting point</span></div>
-          </div>
-        </div>
-      </section>
-      <section class="partner-wall page-width"><h2>Proudly partnering with local schools &amp; community leaders</h2>
-      <ul><li>Winnie Beach CPA <small>Founding community sponsor</small></li><li>YMCA of the Triangle</li><li>Apex Elementary School</li><li>Southeast Raleigh Elementary</li><li>Alston Ridge Elementary</li><li>Davis Drive Elementary</li><li>Wakefield Elementary</li></ul>
-      <p>Want to bring Vestera to your school or sponsor a chapter? <a href="/programs#schools">Partner with us →</a></p></section>
-    </main>
-`;
+function PracticePortfolio() {
+  const [answer, setAnswer] = useState<'up' | 'down'>();
+  return <aside className="practice" aria-label="Example practice portfolio">
+    <span className="streak"><Star size={13} fill="currentColor" aria-hidden="true"/> 5-day streak</span>
+    <div className="practice-top"><strong>Practice portfolio</strong><span>Level 3 · Investor</span></div>
+    <strong className="balance">$10,482.15</strong>
+    <p className="gain">+$482.15 (4.8%) this week</p>
+    <svg className="price-chart" viewBox="0 0 350 94" preserveAspectRatio="none" role="img" aria-label="Illustrative practice portfolio trending upward over the week">
+      <path d="M0 75L35 68L70 72L105 56L140 60L175 45L210 49L245 30L280 36L315 20L350 12V94H0Z" fill="#e7edfc"/>
+      <path d="M0 75L35 68L70 72L105 56L140 60L175 45L210 49L245 30L280 36L315 20L350 12" fill="none" stroke="#416ae5" strokeWidth="2.5"/>
+    </svg>
+    <div className="holding"><span>SNAK</span><div><strong>Sunny Snacks Co.</strong><small>12 shares</small></div><b>$1,284.00</b></div>
+    <div className="quiz"><strong>Chapter 3 · Why do prices move?</strong>
+      <p>Sunny Snacks just launched a new flavor that’s selling out. What happens to the stock?</p>
+      <div>{(['up','down'] as const).map(choice => <button type="button" key={choice} aria-pressed={choice === answer} onClick={() => setAnswer(choice)}>It goes {choice}</button>)}</div>
+      <p role="status" className="quiz-feedback">{answer === 'up' ? 'It could. Strong sales can lift expectations for profits.' : answer === 'down' ? 'It could fall if investors expected even stronger sales. A popular product alone doesn’t decide the price.' : ''}</p>
+    </div>
+  </aside>;
+}
 
 export default function Home() {
-  const [demoLoading, setDemoLoading] = useState(false);
-  useEffect(() => {
-    const onClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (target.closest('[data-demo-tour]')) {
-        if (demoLoading) return;
-        setDemoLoading(true);
-        void fetch('/api/auth/demo-login', { method: 'POST', credentials: 'same-origin' })
-          .catch(() => undefined)
-          .finally(() => { startTour(); window.location.assign('/trade'); });
-        return;
-      }
-      const button = target.closest<HTMLButtonElement>('[data-scroll]');
-      if (button) document.querySelector(button.dataset.scroll || '')?.scrollIntoView({ behavior: 'smooth' });
-      const account = target.closest<HTMLButtonElement>('.account');
-      if (account) {
-        account.parentElement?.querySelectorAll('.account').forEach(item => item.classList.remove('active'));
-        account.classList.add('active');
-      }
-    };
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
-  }, [demoLoading]);
-  return <div className="approved-home" dangerouslySetInnerHTML={{ __html: markup }} />;
+  const [demoState, setDemoState] = useState<'idle'|'loading'|'error'>('idle');
+  async function demo() {
+    if (demoState === 'loading') return;
+    setDemoState('loading');
+    try {
+      const response = await fetch('/api/auth/demo-login', { method:'POST', credentials:'same-origin' });
+      if (!response.ok) throw new Error();
+      startTour();
+      window.location.assign('/trade');
+    } catch { setDemoState('error'); }
+  }
+  function actions(inHero: boolean) {
+    return <><div className="home-actions">
+      <Link href="/learn" className="action primary">Start learning free {inHero && <ArrowRight aria-hidden="true" size={16}/>}</Link>
+      <button type="button" className="action secondary" disabled={demoState === 'loading'} onClick={demo}>
+        {inHero && <TrendingUp aria-hidden="true" size={16}/>} {demoState === 'loading' ? 'Opening demo…' : 'Try the trading demo'}
+      </button>
+    </div>{demoState === 'error' && <p role="alert">The demo couldn’t open. Please try again.</p>}</>;
+  }
+  return <main className="approved-home" id="top">
+    <section className="home-hero"><div className="home-wrap split">
+      <div><p className="origin"><Sparkles size={15} aria-hidden="true"/>Student-led financial literacy · Wake &amp; Chatham County, NC</p>
+        <h1>Grow smart<br/>with <span>money.</span></h1>
+        <p className="intro">Learn how money works through stories, challenges, and a stock market simulator with practice cash. Made for curious minds of every age, not finance experts.</p>
+        {actions(true)}
+        <ul className="checks">{['Free to start','No real money, ever','Built by students'].map(text=><li key={text}><Check aria-hidden="true" size={14}/>{text}</li>)}</ul>
+      </div>
+      <PracticePortfolio/>
+    </div></section>
+    <section className="numbers" aria-label="Vestera in numbers"><dl className="home-wrap">
+      {impact.map(({ value, label }) =>
+        <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
+    </dl></section>
+    <section className="how band" id="how-it-works"><div className="home-wrap">
+      <p className="kicker">How it works</p><h2>From your first dollar to<br/> your first trade.</h2>
+      <ol className="steps">{steps.map(({icon:Icon,title,text},i)=><li key={title}><div><Icon aria-hidden="true" className="tile-icon"/><span>0{i+1}</span></div><h3>{title}</h3><p>{text}</p></li>)}</ol>
+    </div></section>
+    <section className="games-band band" id="games"><div className="home-wrap split">
+      <div><p className="kicker">Games</p><h2>Play your way to<br/> money smarts.</h2><p>Earn badges, build your streak, and see how you rank on the leaderboard.</p><Link className="text-link" href="/games">See all games <ArrowRight aria-hidden="true" size={16}/></Link></div>
+      <div className="game-tiles">{games.map(({icon:Icon,title,text,href})=><Link href={href} key={href}><Icon aria-hidden="true" size={22}/><h3>{title}</h3><p>{text}</p></Link>)}</div>
+    </div></section>
+    <section className="story band"><div className="home-wrap split">
+      <div><p className="kicker">Made by students, for everyone</p><h2>We built the class we wish school had.</h2>
+        <p>Vestera started with high school students in North Carolina. We bring the money decisions we’re learning to make into games, stories, and free after-school workshops.</p></div>
+      <figure className="review"><p>Few groups in the area offer after-school programs like Vestera’s for free. Families usually pay for similar activities.</p>
+        <figcaption><span className="review-avatar"><Users aria-hidden="true" size={20}/></span><div><strong>Principal, Apex Elementary School</strong><small>Paraphrased from feedback shared with Vestera</small></div></figcaption></figure>
+    </div></section>
+    <section className="teachers band" id="teachers"><div className="home-wrap split">
+      <div><p className="kicker">For teachers &amp; clubs</p><h2>Bring Vestera to your classroom.</h2>
+        <p>We partner with schools and clubs across Wake and Chatham counties to make financial literacy hands-on.</p>
+        <Link className="action school-link" href="/programs#schools">Partner with us <ArrowRight aria-hidden="true" size={16}/></Link></div>
+      <ul>{classroom.map(({icon:Icon,title,text})=><li key={title}><Icon aria-hidden="true" className="tile-icon"/><div><h3>{title}</h3><p>{text}</p></div></li>)}</ul>
+    </div></section>
+    <section className="closing"><div className="home-wrap"><h2>Your money story starts today.</h2>
+      <p>Make your first trade with practice cash.<br/> No sign-up needed to try the demo.</p>{actions(false)}</div></section>
+  </main>;
 }
